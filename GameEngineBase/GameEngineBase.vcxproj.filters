@@ -25,6 +25,12 @@
     <ClInclude Include="GameEngineDebug.h">
       <Filter>Debug</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineSoundPlayer.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineSoundManager.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -51,6 +57,12 @@
     <ClCompile Include="GameEngineDebug.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineSoundPlayer.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSoundManager.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
@@ -70,6 +82,9 @@
     </Filter>
     <Filter Include="PreCompileHeader">
       <UniqueIdentifier>{6038bb73-46ee-4717-abcf-ec990985223a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{113f50ed-771b-445a-a3a9-a285224500fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
