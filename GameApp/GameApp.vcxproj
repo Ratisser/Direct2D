@@ -164,9 +164,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
+    <ClCompile Include="Game.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PreCompile.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PreCompile.h" />
   </ItemGroup>
   <ItemGroup>

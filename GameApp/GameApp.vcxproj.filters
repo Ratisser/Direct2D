@@ -5,15 +5,24 @@
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompileHeader</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompileHeader">
       <UniqueIdentifier>{a1a2924b-9b8d-4256-8bb1-a2aeeb5ae00d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{802ec109-f81f-46b7-a4dd-b81bd98549ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompileHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

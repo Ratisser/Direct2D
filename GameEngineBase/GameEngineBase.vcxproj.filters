@@ -10,18 +10,6 @@
     <ClInclude Include="GameEngineObjectNameBase.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="GameEnginePath.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineDirectroy.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineFile.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineTime.h">
-      <Filter>Time</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineDebug.h">
       <Filter>Debug</Filter>
     </ClInclude>
@@ -30,6 +18,18 @@
     </ClInclude>
     <ClInclude Include="GameEngineSoundManager.h">
       <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDirectroy.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePath.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTimer.h">
+      <Filter>Time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +42,15 @@
     <ClCompile Include="GameEngineObjectNameBase.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineDebug.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSoundPlayer.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSoundManager.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
     <ClCompile Include="GameEngineDirectroy.cpp">
       <Filter>IO</Filter>
     </ClCompile>
@@ -51,17 +60,8 @@
     <ClCompile Include="GameEnginePath.cpp">
       <Filter>IO</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineTime.cpp">
+    <ClCompile Include="GameEngineTimer.cpp">
       <Filter>Time</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineDebug.cpp">
-      <Filter>Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineSoundPlayer.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineSoundManager.cpp">
-      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,5 +86,16 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{113f50ed-771b-445a-a3a9-a285224500fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound\FMOD">
+      <UniqueIdentifier>{e361c144-1d92-409c-a3c9-f198330454b8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\FMOD\lib\x64\fmod.dll">
+      <Filter>Sound\FMOD</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="..\ThirdParty\FMOD\lib\x64\fmod_vc.lib">
+      <Filter>Sound\FMOD</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

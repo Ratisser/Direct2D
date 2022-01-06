@@ -31,13 +31,13 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEnginePath.h" />
-    <ClInclude Include="GameEngineTime.h" />
     <ClInclude Include="PreCompile.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineSoundManager.h" />
     <ClInclude Include="GameEngineSoundPlayer.h" />
+    <ClInclude Include="GameEngineTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp" />
@@ -52,7 +52,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEnginePath.cpp" />
-    <ClCompile Include="GameEngineTime.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <SubType>
       </SubType>
@@ -63,6 +62,17 @@
     </ClCompile>
     <ClCompile Include="GameEngineSoundManager.cpp" />
     <ClCompile Include="GameEngineSoundPlayer.cpp" />
+    <ClCompile Include="GameEngineTimer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\FMOD\lib\x64\fmod.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\FMOD\lib\x64\fmod_vc.lib">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

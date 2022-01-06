@@ -16,7 +16,8 @@ public:
 
 	void Initialize();
 	void Run();
-	
+	void Release();
+
 protected:
 	virtual void loadResources() = 0;
 	virtual void release() = 0;
