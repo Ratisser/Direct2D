@@ -37,6 +37,9 @@
     <ClInclude Include="GameEngineSoundManager.h">
       <Filter>Media</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineString.h">
+      <Filter>String</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -75,6 +78,9 @@
     <ClCompile Include="GameEngineSoundPlayer.cpp">
       <Filter>Media</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineString.cpp">
+      <Filter>String</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
@@ -103,6 +109,9 @@
     </Filter>
     <Filter Include="Media">
       <UniqueIdentifier>{4499bfe8-02ae-49c8-b5e0-e5377144a1e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="String">
+      <UniqueIdentifier>{58f1148c-2c45-41c7-8a73-a96a334c4ff1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
