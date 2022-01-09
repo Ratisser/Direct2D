@@ -1,10 +1,6 @@
 #pragma once
 #include "GameEnginePath.h"
 #include <iostream>
-#include <string>
-#include <map>
-#include <list>
-#include <vector>
 
 // 분류 :
 // 용도 :
@@ -17,6 +13,9 @@ private:
 
 public:		
 	GameEngineFile(); // default constructer 디폴트 생성자
+
+	GameEngineFile(const std::filesystem::path& _Path); // default constructer 디폴트 생성자
+
 	GameEngineFile(const std::string& _Path); // default constructer 디폴트 생성자
 
 	GameEngineFile(const std::string& _Path, const std::string& _Mode); // default constructer 디폴트 생성자
