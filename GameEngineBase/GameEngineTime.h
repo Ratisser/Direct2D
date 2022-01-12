@@ -2,16 +2,16 @@
 
 #include <Windows.h>
 
-class GameEngineTimer
+class GameEngineTime
 {
 public:
-	GameEngineTimer(const GameEngineTimer& _other) = delete;
-	GameEngineTimer(const GameEngineTimer&& _other) = delete;
+	GameEngineTime(const GameEngineTime& _other) = delete;
+	GameEngineTime(const GameEngineTime&& _other) = delete;
 
-	GameEngineTimer& operator=(const GameEngineTimer& _other) = delete;
-	GameEngineTimer& operator=(const GameEngineTimer&& _other) = delete;
+	GameEngineTime& operator=(const GameEngineTime& _other) = delete;
+	GameEngineTime& operator=(const GameEngineTime&& _other) = delete;
 
-	static GameEngineTimer& GetInstance()
+	static GameEngineTime& GetInst()
 	{
 		return *instance_;
 	}
@@ -40,7 +40,7 @@ public:
 	}
 
 private:
-	GameEngineTimer()
+	GameEngineTime()
 		: deltaTime_(0.0f)
 	{
 		bool bSupportHighResolution = QueryPerformanceFrequency(&queryPerfomanceFrequency_);
@@ -48,12 +48,12 @@ private:
 		updatedCount_ = currentCount_;
 	}
 
-	~GameEngineTimer()
+	~GameEngineTime()
 	{
 	}
 
 private:
-	static GameEngineTimer* instance_;
+	static GameEngineTime* instance_;
 	LARGE_INTEGER queryPerfomanceFrequency_;
 	LARGE_INTEGER currentCount_;
 	LARGE_INTEGER updatedCount_;

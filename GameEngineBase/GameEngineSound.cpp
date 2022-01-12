@@ -1,18 +1,18 @@
 #include "PreCompile.h"
-#include "GameEngineSoundManager.h"
+#include "GameEngineSound.h"
 #include "GameEngineDebug.h"
 
 #include <Windows.h>
 
-GameEngineSoundManager* GameEngineSoundManager::instance_ = new GameEngineSoundManager;
+GameEngineSound* GameEngineSound::instance_ = new GameEngineSound;
 
-GameEngineSoundManager::GameEngineSoundManager()
+GameEngineSound::GameEngineSound()
 	: system_(nullptr)
 	, channel_(nullptr)
 {
 }
 
-FMOD::Sound* GameEngineSoundManager::getSound(const std::string& _name)
+FMOD::Sound* GameEngineSound::getSound(const std::string& _name)
 {
 	std::unordered_map<std::string, FMOD::Sound*>::iterator findIter = allSounds_.find(_name);
 	std::unordered_map<std::string, FMOD::Sound*>::iterator endIter = allSounds_.end();
@@ -26,7 +26,7 @@ FMOD::Sound* GameEngineSoundManager::getSound(const std::string& _name)
 	return findIter->second;
 }
 
-GameEngineSoundManager::~GameEngineSoundManager()
+GameEngineSound::~GameEngineSound()
 {
 	std::unordered_map<std::string, FMOD::Sound*>::iterator startIter = allSounds_.begin();
 	std::unordered_map<std::string, FMOD::Sound*>::iterator endIter = allSounds_.end();
@@ -43,7 +43,7 @@ GameEngineSoundManager::~GameEngineSoundManager()
 	system_->release();
 }
 
-void GameEngineSoundManager::Initialize()
+void GameEngineSound::Initialize()
 {
 	FMOD_RESULT result;
 
@@ -60,7 +60,7 @@ void GameEngineSoundManager::Initialize()
 	}
 }
 
-void GameEngineSoundManager::Update()
+void GameEngineSound::Update()
 {
 	if (nullptr == system_)
 	{
@@ -70,7 +70,7 @@ void GameEngineSoundManager::Update()
 	system_->update();
 }
 
-void GameEngineSoundManager::CreateSound(const std::string& _name, const std::string& _path, bool _bLoop)
+void GameEngineSound::CreateSound(const std::string& _name, const std::string& _path, bool _bLoop)
 {
 	std::unordered_map<std::string, FMOD::Sound*>::iterator findIter = allSounds_.find(_name);
 	std::unordered_map<std::string, FMOD::Sound*>::iterator endIter = allSounds_.end();
@@ -99,7 +99,7 @@ void GameEngineSoundManager::CreateSound(const std::string& _name, const std::st
 	allSounds_[_name] = newSound;
 }
 
-void GameEngineSoundManager::PlaySoundByName(const std::string& _name)
+void GameEngineSound::PlaySoundByName(const std::string& _name)
 {
 	std::unordered_map<std::string, FMOD::Sound*>::iterator findIter = allSounds_.find(_name);
 	std::unordered_map<std::string, FMOD::Sound*>::iterator endIter = allSounds_.end();
@@ -112,16 +112,16 @@ void GameEngineSoundManager::PlaySoundByName(const std::string& _name)
 	system_->playSound(findIter->second, 0, false, &channel_);
 }
 
-void GameEngineSoundManager::SetVolume(unsigned int _volume)
+void GameEngineSound::SetVolume(unsigned int _volume)
 {
 }
 
-void GameEngineSoundManager::StopSound()
+void GameEngineSound::StopSound()
 {
 	channel_->stop();
 }
 
-void GameEngineSoundManager::Destroy()
+void GameEngineSound::Destroy()
 {
 
 	if (nullptr != instance_)

@@ -5,7 +5,7 @@ GameEngineSoundPlayer::GameEngineSoundPlayer(const std::string& _soundName)
 	: sound_(nullptr)
 	, channel_(nullptr)
 {
-	sound_ = GameEngineSoundManager::GetInstance().getSound(_soundName);
+	sound_ = GameEngineSound::GetInst().getSound(_soundName);
 }
 
 GameEngineSoundPlayer::~GameEngineSoundPlayer()
@@ -14,12 +14,12 @@ GameEngineSoundPlayer::~GameEngineSoundPlayer()
 
 void GameEngineSoundPlayer::ChangeSound(const std::string& _soundName)
 {
-	sound_ = GameEngineSoundManager::GetInstance().getSound(_soundName);
+	sound_ = GameEngineSound::GetInst().getSound(_soundName);
 }
 
 void GameEngineSoundPlayer::Play()
 {
-	GameEngineSoundManager::GetInstance().system_->playSound(sound_, nullptr, false, &channel_);
+	GameEngineSound::GetInst().system_->playSound(sound_, nullptr, false, &channel_);
 }
 
 void GameEngineSoundPlayer::Stop()

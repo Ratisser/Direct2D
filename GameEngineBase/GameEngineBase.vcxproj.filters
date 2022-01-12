@@ -13,7 +13,7 @@
     <ClInclude Include="GameEngineDebug.h">
       <Filter>Debug</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineTimer.h">
+    <ClInclude Include="GameEngineTime.h">
       <Filter>Time</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineMath.h">
@@ -34,7 +34,7 @@
     <ClInclude Include="GameEngineSoundPlayer.h">
       <Filter>Media</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineSoundManager.h">
+    <ClInclude Include="GameEngineSound.h">
       <Filter>Media</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineString.h">
@@ -54,7 +54,7 @@
     <ClCompile Include="GameEngineDebug.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineTimer.cpp">
+    <ClCompile Include="GameEngineTime.cpp">
       <Filter>Time</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineMath.cpp">
@@ -72,7 +72,7 @@
     <ClCompile Include="GameEngineFile.cpp">
       <Filter>IO</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineSoundManager.cpp">
+    <ClCompile Include="GameEngineSound.cpp">
       <Filter>Media</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineSoundPlayer.cpp">

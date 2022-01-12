@@ -13,19 +13,19 @@
 #include <unordered_map>
 
 class GameEngineSoundPlayer;
-class GameEngineSoundManager
+class GameEngineSound
 {
 	friend GameEngineSoundPlayer;
 public:
-	~GameEngineSoundManager();
+	~GameEngineSound();
 
-	GameEngineSoundManager(const GameEngineSoundManager& _other) = delete;
-	GameEngineSoundManager(GameEngineSoundManager&& _other) = delete;
+	GameEngineSound(const GameEngineSound& _other) = delete;
+	GameEngineSound(GameEngineSound&& _other) = delete;
 
-	GameEngineSoundManager& operator=(const GameEngineSoundManager& _other) = delete;
-	GameEngineSoundManager& operator=(const GameEngineSoundManager&& _other) = delete;
+	GameEngineSound& operator=(const GameEngineSound& _other) = delete;
+	GameEngineSound& operator=(const GameEngineSound&& _other) = delete;
 
-	static GameEngineSoundManager& GetInstance() { return *instance_; }
+	static GameEngineSound& GetInst() { return *instance_; }
 	static void Destroy();
 
 	void Initialize();
@@ -38,12 +38,12 @@ public:
 	void StopSound();
 
 private:
-	GameEngineSoundManager();
+	GameEngineSound();
 
 	FMOD::Sound* getSound(const std::string& _name);
 
 private:
-	static GameEngineSoundManager* instance_;
+	static GameEngineSound* instance_;
 
 private:
 	FMOD::System* system_;

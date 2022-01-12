@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEnginePath.h"
 #include <iostream>
+#include <map>
 
 // 분류 :
 // 용도 :

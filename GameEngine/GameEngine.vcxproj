@@ -23,6 +23,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineWindow.h" />
     <ClInclude Include="PreCompile.h">
       <SubType>
       </SubType>
@@ -33,6 +34,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineWindow.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <SubType>
       </SubType>

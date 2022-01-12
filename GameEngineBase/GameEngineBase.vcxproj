@@ -38,9 +38,9 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineSoundManager.h" />
+    <ClInclude Include="GameEngineSound.h" />
     <ClInclude Include="GameEngineSoundPlayer.h" />
-    <ClInclude Include="GameEngineTimer.h" />
+    <ClInclude Include="GameEngineTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp" />
@@ -66,9 +66,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="GameEngineSoundManager.cpp" />
+    <ClCompile Include="GameEngineSound.cpp" />
     <ClCompile Include="GameEngineSoundPlayer.cpp" />
-    <ClCompile Include="GameEngineTimer.cpp" />
+    <ClCompile Include="GameEngineTime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\ThirdParty\FMOD\lib\x64\fmod.dll">

@@ -5,7 +5,7 @@
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompileHeader</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
+    <ClCompile Include="UserGame.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -21,7 +21,7 @@
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompileHeader</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
+    <ClInclude Include="UserGame.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameEngineSoundManager.h"
+#include "GameEngineSound.h"
 
 class GameEngineSoundPlayer
 {

@@ -1,48 +1,42 @@
 #include "PreCompile.h"
 #include "GameEngineCore.h"
+#include "GameEngineWindow.h"
 
-#include <GameEngineBase/GameEngineSoundManager.h>
-#include <GameEngineBase/GameEngineSoundPlayer.h>
-#include <GameEngineBase/GameEngineTimer.h>
+GameEngineCore* GameEngineCore::MainCore = nullptr;
 
-GameEngineCore::GameEngineCore()
+GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자
 {
 
 }
 
-GameEngineCore::~GameEngineCore()
+GameEngineCore::~GameEngineCore() // default destructer 디폴트 소멸자
 {
 
 }
 
-void GameEngineCore::Initialize()
+GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
 {
-	GameEngineTimer::GetInstance().UpdateTime();
-	GameEngineSoundManager::GetInstance().Initialize();
 
-	loadResources();
 }
 
-void GameEngineCore::Run()
+void GameEngineCore::MainLoop() 
 {
-	while (false == IsDeath())
-	{
-		GameEngineTimer::GetInstance().UpdateTime();
-		GameEngineSoundManager::GetInstance().Update();
-		GameEngineSoundManager::GetInstance().Update();
-
-		static GameEngineSoundPlayer player("stage1-1.mid");
-
-		if (false == player.IsPlaying())
-		{
-			player.Play();
-		}
-	}
+	MainCore->GameLoop();
 }
 
-void GameEngineCore::Release()
+void GameEngineCore::WindowCreate() 
 {
-	release();
-	GameEngineSoundManager::Destroy();
-	GameEngineTimer::Destroy();
+	GameEngineWindow::GetInst().CreateMainWindow("MainWindow", { 1280, 720 }, {0, 0});
+}
+
+void GameEngineCore::Loop() 
+{
+	GameEngineWindow::GetInst().Loop(&GameEngineCore::MainLoop);
+}
+
+
+
+void GameEngineCore::EngineDestroy() 
+{
+	Death();
 }
