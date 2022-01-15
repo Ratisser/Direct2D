@@ -1,13 +1,88 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="PreCompile.h" />
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineWindow.h" />
+    <ClInclude Include="PreCompile.h">
+      <Filter>preCompileHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingPipeLine.h">
+      <Filter>RenderingPipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBuffer.h">
+      <Filter>Resources\00Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineIndexBuffer.h">
+      <Filter>Resources\00Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexShader.h">
+      <Filter>Resources\01Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTexture.h">
+      <Filter>Resources\02Image</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBufferManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexShaderManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineIndexBufferManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PreCompile.cpp" />
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineWindow.cpp" />
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>preCompileHeader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingPipeLine.cpp">
+      <Filter>RenderingPipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBuffer.cpp">
+      <Filter>Resources\00Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineIndexBuffer.cpp">
+      <Filter>Resources\00Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexShader.cpp">
+      <Filter>Resources\01Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTexture.cpp">
+      <Filter>Resources\02Image</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBufferManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexShaderManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineIndexBufferManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="preCompileHeader">
+      <UniqueIdentifier>{fb781c9e-5525-4db5-ade8-c72ab4e63b03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingPipeLine">
+      <UniqueIdentifier>{41f5ca50-a77c-4a03-9f1c-1df466a37e12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{80b21cae-3cf1-4f3e-a67e-4b85a4df5763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\00Buffer">
+      <UniqueIdentifier>{f1318b98-deb1-4441-b47e-8b91a2df1042}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\01Shader">
+      <UniqueIdentifier>{fd3bec6b-d066-412d-8237-73d0146bcea3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\02Image">
+      <UniqueIdentifier>{9ddfd953-d148-4316-a4e6-6862c7bb15aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager">
+      <UniqueIdentifier>{138dc0d2-85f4-4b25-9d92-55ac21dc3ea9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

@@ -2,6 +2,10 @@
 #include "UserGame.h"
 #include <conio.h>
 
+#include <GameEngineBase/GameEngineTime.h>
+#include <GameEngine/GameEngineWindow.h>
+#include <GameEngine/GameEngineRenderingPipeLine.h>
+
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
 
@@ -25,6 +29,9 @@ void UserGame::Initialize()
 	GameEngineSound::GetInst().Initialize();
 	return;
 }
+
+float RotAngle = 0.0f;
+float4 BoxPos = { 0.0f, 0.0f, 0.0f };
 
 void UserGame::ResourcesLoad() 
 {
@@ -52,6 +59,14 @@ void UserGame::Release()
 
 void UserGame::GameLoop()
 {
-	int a = 0;
+	GameEngineRenderingPipeLine Pipe;
 
+	Pipe.SetInputAssembler1("Rect");
+	Pipe.SetVertexShader("TestShader");
+	Pipe.SetInputAssembler2("Rect");
+
+	RotAngle += 360.0f * GameEngineTime::GetInst().GetDeltaTime();
+	BoxPos.y += 10.0f * GameEngineTime::GetInst().GetDeltaTime();
+
+	Pipe.Rendering();
 }

@@ -150,9 +150,6 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
     {
         if (0 != PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
-            GameEngineTime::GetInst().UpdateTime();
-            GameEngineSound::GetInst().Update();
-
             if (nullptr == _loopFunc)
             {
                 GameEngineDebug::AssertFalse();
@@ -172,9 +169,6 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
         }
         else 
         {
-            GameEngineTime::GetInst().UpdateTime();
-            GameEngineSound::GetInst().Update();
-
             if (nullptr == _loopFunc)
             {
                 GameEngineDebug::AssertFalse();
