@@ -4,11 +4,7 @@
 
 #include "../ThirdParty/FMOD/inc/fmod.hpp"
 
-#ifdef WIN32
-#pragma comment(lib, "../ThirdParty/FMOD/lib/Win32/fmod_vc.lib")
-#else
 #pragma comment(lib, "../ThirdParty/FMOD/lib/x64/fmod_vc.lib")
-#endif
 
 #include <unordered_map>
 

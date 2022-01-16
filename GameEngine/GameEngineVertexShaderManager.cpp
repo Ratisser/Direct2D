@@ -2,6 +2,8 @@
 #include "GameEngineVertexShaderManager.h"
 #include "GameEngineVertexShader.h"
 
+GameEngineVertexShaderManager* GameEngineVertexShaderManager::Inst = new GameEngineVertexShaderManager();
+
 GameEngineVertexShaderManager::GameEngineVertexShaderManager() // default constructer 디폴트 생성자
 {
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 // Ό³Έν : 
 class GameEngineVertexShader;
 class GameEngineVertexShaderManager
