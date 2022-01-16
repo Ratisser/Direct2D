@@ -28,7 +28,7 @@ UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy construct
 
 void UserGame::Initialize() 
 {
-
+	GameEngineDebug::LeakCheckOn();
 	GameEngineSound::GetInst().Initialize();
 	return;
 }
@@ -168,7 +168,13 @@ void UserGame::ResourcesLoad()
 
 void UserGame::Release() 
 {
+	GameEngineVertexBufferManager::Destroy();
+	GameEngineIndexBufferManager::Destroy();
+	GameEngineVertexShaderManager::Destroy();
+
 	GameEngineSound::Destroy();
+	GameEngineWindow::Destroy();
+	GameEngineTime::Destroy();
 }
 
 void UserGame::GameLoop()
