@@ -2,8 +2,6 @@
 #include "GameEngineCore.h"
 #include "GameEngineWindow.h"
 
-
-
 GameEngineCore* GameEngineCore::MainCore = nullptr;
 
 GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자
@@ -30,8 +28,6 @@ void GameEngineCore::initializeEngine()
 
 	GameEngineSound::GetInst().Initialize();
 	GameEngineWindow::GetInst().CreateMainWindow("MainWindow", { 1280, 720 }, {0, 0});
-
-
 }
 
 void GameEngineCore::run() 
@@ -46,4 +42,5 @@ void GameEngineCore::releaseEngine()
 	GameEngineManagerHelper::ManagerRelase();
 	GameEngineWindow::Destroy();
 	GameEngineSound::Destroy();
+	GameEngineTime::Destroy();
 }

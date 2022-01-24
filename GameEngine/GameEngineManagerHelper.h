@@ -19,9 +19,9 @@ class GameEngineManagerHelper
 public:
 	static void ManagerRelase()
 	{
-		GameEngineIndexBufferManager::Destroy();
-		GameEngineVertexShaderManager::Destroy();
 		GameEngineVertexBufferManager::Destroy();
+		GameEngineVertexShaderManager::Destroy();
+		GameEngineIndexBufferManager::Destroy();
 		//GameEngineReasterizerManager::Destroy();
 		GameEngineTextureManager::Destroy();
 		GameEngineSound::Destroy();

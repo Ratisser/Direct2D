@@ -34,11 +34,11 @@
     <ClInclude Include="GameEngineWindow.h">
       <Filter>GameEngineCore</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineManagerHelper.h">
-      <Filter>Resources\99Manager</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineTextureManager.h">
       <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineManagerHelper.h">
+      <Filter>Resources\99Manager\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -103,6 +103,9 @@
     </Filter>
     <Filter Include="GameEngineCore">
       <UniqueIdentifier>{daa8c8f1-bc70-4565-b233-c37d7bb48556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager\Helper">
+      <UniqueIdentifier>{a1466b50-cb57-49a1-a8f7-6703dba717dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
