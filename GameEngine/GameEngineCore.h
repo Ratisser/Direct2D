@@ -1,58 +1,54 @@
 #pragma once
-#include <GameEngineBase/GameEngineObjectBase.h>
 
-// 분류 : 
-// 용도 : 
-// 설명 : 
+#include <GameEngineBase/GameEngineObjectBase.h>
+#include "GameEngineManagerHelper.h"
+
+// static class for Game
 class GameEngineCore : public GameEngineObjectBase
 {
-public:
-	void EngineDestroy();
-
 protected:
-	GameEngineCore(); // default constructer 디폴트 생성자
-	~GameEngineCore(); // default destructer 디폴트 소멸자
+	GameEngineCore();
+	~GameEngineCore();
 
-protected:		// delete constructer
-	GameEngineCore(const GameEngineCore& _other) = delete; // default Copy constructer 디폴트 복사생성자
-	GameEngineCore(GameEngineCore&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
+	GameEngineCore(const GameEngineCore& _other) = delete; 
+	GameEngineCore(GameEngineCore&& _other) = delete; 
 
-private:		//delete operator
-	GameEngineCore& operator=(const GameEngineCore& _other) = delete; // default Copy operator 디폴트 대입 연산자
-	GameEngineCore& operator=(const GameEngineCore&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
-
-private:
-	static GameEngineCore* MainCore;
-
-private:
-	static void WindowCreate();
-	static void Loop();
-	static void MainLoop();
+	GameEngineCore& operator=(const GameEngineCore& _other) = delete; 
+	GameEngineCore& operator=(const GameEngineCore&& _other) = delete;
 
 public:
 	template<typename UserGameType>
-	static void Start() 
+	static void Start()
 	{
-		WindowCreate();
+		initializeEngine();
 
 		UserGameType NewUserGame;
 
 		NewUserGame.Initialize();
-		NewUserGame.ResourcesLoad();
+		NewUserGame.LoadResource();
 
 		MainCore = &NewUserGame;
 
-		Loop();
+		run();
 
 		NewUserGame.Release();
+		releaseEngine();
 	}
 
-protected:
+public:
 	virtual void Initialize() = 0;
-	virtual void ResourcesLoad() = 0;
+	virtual void LoadResource() = 0;
 	virtual void GameLoop() = 0;
 	virtual void Release() = 0;
 
-public:
+
+protected:
+	static void initializeEngine();
+	static void run();
+	static void mainLoop();
+	static void releaseEngine();
+
+private:
+	static GameEngineCore* MainCore;
 };
 

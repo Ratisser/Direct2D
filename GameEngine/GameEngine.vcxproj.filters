@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="GameEngineCore.h" />
-    <ClInclude Include="GameEngineWindow.h" />
     <ClInclude Include="PreCompile.h">
       <Filter>preCompileHeader</Filter>
     </ClInclude>
@@ -30,10 +28,20 @@
     <ClInclude Include="GameEngineIndexBufferManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineCore.h">
+      <Filter>GameEngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineWindow.h">
+      <Filter>GameEngineCore</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineManagerHelper.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTextureManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameEngineCore.cpp" />
-    <ClCompile Include="GameEngineWindow.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <Filter>preCompileHeader</Filter>
     </ClCompile>
@@ -61,6 +69,15 @@
     <ClCompile Include="GameEngineIndexBufferManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineCore.cpp">
+      <Filter>GameEngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineWindow.cpp">
+      <Filter>GameEngineCore</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTextureManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="preCompileHeader">
@@ -83,6 +100,9 @@
     </Filter>
     <Filter Include="Resources\99Manager">
       <UniqueIdentifier>{138dc0d2-85f4-4b25-9d92-55ac21dc3ea9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngineCore">
+      <UniqueIdentifier>{daa8c8f1-bc70-4565-b233-c37d7bb48556}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

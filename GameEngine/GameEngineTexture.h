@@ -1,6 +1,7 @@
 #pragma once
 
-class GameEngineTexture
+
+class GameEngineTexture : public GameEngineObjectNameBase
 {
 public:
 	GameEngineTexture(); 

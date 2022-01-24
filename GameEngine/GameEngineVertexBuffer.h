@@ -12,8 +12,9 @@ public:
 	GameEngineVertexBuffer& operator=(const GameEngineVertexBuffer& _other) = delete;
 	GameEngineVertexBuffer& operator=(const GameEngineVertexBuffer&& _other) = delete;
 
-	void Create(const std::vector<float4>& _vertices);
-	const std::vector<float4>& GetVertices();
+
+	void						Create(const std::vector<float4>& _vertices);
+	const std::vector<float4>&	GetVertices();
 
 private:
 	std::vector<float4> vertices_;
