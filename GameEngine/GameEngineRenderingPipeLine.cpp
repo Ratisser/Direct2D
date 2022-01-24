@@ -68,36 +68,31 @@ void GameEngineRenderingPipeLine::SetInputAssembler2(const std::string& _Name)
 
 void GameEngineRenderingPipeLine::Rendering()
 {
-	// input어셈블러 단계
+	// Input Assembler 1
 	std::vector<float4> CopyVertex;
+	CopyVertex = VertexBuffer_->GetVertices();
+
+	// Vertex Shader
+	for (size_t i = 0; i < CopyVertex.size(); i++)
 	{
-		CopyVertex = VertexBuffer_->GetVertices();
+		CopyVertex[i] = VertexShader_->GetShaderFunction()((CopyVertex[i]));
 	}
 
+	// Input Assembler 2
+	const std::vector<int>& Index = IndexBuffer_->GetIndices();
+
+	POINT ArrTri[3];
+	for (size_t TriCount = 0; TriCount < Index.size() / 3; TriCount++)
 	{
-		for (size_t i = 0; i < CopyVertex.size(); i++)
+		for (size_t i = 0; i < 3; i++)
 		{
-			CopyVertex[i] = VertexShader_->GetShaderFunction()((CopyVertex[i]));
+			int CurIndex = Index[(TriCount * 3) + i];
+
+			ArrTri[i] = CopyVertex[CurIndex].GetWindowPoint();
 		}
+
+		// 이게 픽셀 쉐이더 단계라고 볼수 있다.
+		Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
 	}
 
-	// 그린다.
-	{
-		const std::vector<int>& Index = IndexBuffer_->GetIndices();
-
-		POINT ArrTri[3];
-
-		for (size_t TriCount = 0; TriCount < Index.size() / 3; TriCount++)
-		{
-			for (size_t i = 0; i < 3; i++)
-			{
-				int CurIndex = Index[(TriCount * 3) + i];
-
-				ArrTri[i] = CopyVertex[CurIndex].GetWindowPoint();
-			}
-
-			// 이게 픽셀 쉐이더 단계라고 볼수 있다.
-			Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
-		}
-	}
 }

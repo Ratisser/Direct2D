@@ -1,9 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineCore.h>
 
-// 분류 : 
-// 용도 : 
-// 설명 : 
 class UserGame : public GameEngineCore
 {
 public:

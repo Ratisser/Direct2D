@@ -17,3 +17,5 @@
 #include <cmath>
 
 #include <filesystem>
+
+#include <DirectXPackedVector.h>
