@@ -4,14 +4,16 @@
 #include "GameEngineVertexBufferManager.h"
 #include "GameEngineVertexShaderManager.h"
 #include "GameEngineIndexBufferManager.h"
-//#include "GameEngineReasterizerManager.h"
+#include "GameEngineRasterizerManager.h"
 #include "GameEngineTextureManager.h"
+#include "GameEngineRenderTargetManager.h"
 
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
 #include "GameEngineIndexBuffer.h"
 #include "GameEngineTexture.h"
-//#include "GameEngineReasterizer.h"
+#include "GameEngineRasterizer.h"
+#include "GameEngineRenderTarget.h"
 
 
 class GameEngineManagerHelper
@@ -22,7 +24,8 @@ public:
 		GameEngineVertexBufferManager::Destroy();
 		GameEngineVertexShaderManager::Destroy();
 		GameEngineIndexBufferManager::Destroy();
-		//GameEngineReasterizerManager::Destroy();
+		GameEngineRasterizerManager::Destroy();
+		GameEngineRenderTargetManager::Destroy();
 		GameEngineTextureManager::Destroy();
 		GameEngineSound::Destroy();
 	}

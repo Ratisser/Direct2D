@@ -1,4 +1,5 @@
 #pragma once
+#include "GameEngineDirectXDevice.h"
 
 // 설명 : 
 class GameEngineTexture;
@@ -27,7 +28,8 @@ private:	// member Var
 
 public:
 	// 직접 만들수 있다.
-	GameEngineTexture* Create(const std::string& _Name);
+	GameEngineTexture* Create(const std::string& _Name, ID3D11Texture2D* _Texture2D);
+
 	// 파일에서 로드
 	GameEngineTexture* Load(const std::string& _Path);
 	// 이름 직접 지정

@@ -19,6 +19,13 @@ public:
 	static const float4 UP;
 	static const float4 DOWN;
 
+	static const float4 RED;
+	static const float4 BLUE;
+	static const float4 GREEN;
+	static const float4 WHITE;
+	static const float4 BLACK;
+	static const float4 NONE;
+
 public:
 	// 1 0 0 0 
 	// 0 1 0 0 

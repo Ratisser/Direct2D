@@ -29,21 +29,19 @@ GameEngineTextureManager::GameEngineTextureManager(GameEngineTextureManager&& _o
 
 
 
-GameEngineTexture* GameEngineTextureManager::Create(const std::string& _Name)
+GameEngineTexture* GameEngineTextureManager::Create(const std::string& _Name, ID3D11Texture2D* _Texture2D)
 {
 	GameEngineTexture* FindRes = Find(_Name);
 
 	if (nullptr != FindRes)
 	{
-		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
+		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Create");
 	}
 
 
 	GameEngineTexture* NewRes = new GameEngineTexture();
 	NewRes->SetName(_Name);
-
-	// 그리고 뭘할거냐?
-
+	NewRes->Create(_Texture2D);
 	ResourcesMap.insert(std::map<std::string, GameEngineTexture*>::value_type(_Name, NewRes));
 	return NewRes;
 }
@@ -64,8 +62,6 @@ GameEngineTexture* GameEngineTextureManager::Load(const std::string& _Name, cons
 
 	GameEngineTexture* NewRes = new GameEngineTexture();
 	NewRes->SetName(_Name);
-
-
 	ResourcesMap.insert(std::map<std::string, GameEngineTexture*>::value_type(_Name, NewRes));
 	return NewRes;
 }

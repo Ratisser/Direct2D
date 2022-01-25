@@ -40,6 +40,7 @@ void GameEngineCore::run()
 void GameEngineCore::releaseEngine()
 {
 	GameEngineManagerHelper::ManagerRelase();
+	GameEngineDirectXDevice::Destroy();
 	GameEngineWindow::Destroy();
 	GameEngineSound::Destroy();
 	GameEngineTime::Destroy();

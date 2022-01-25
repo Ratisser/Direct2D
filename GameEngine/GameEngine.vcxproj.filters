@@ -40,6 +40,21 @@
     <ClInclude Include="GameEngineManagerHelper.h">
       <Filter>Resources\99Manager\Helper</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineDirectXDevice.h">
+      <Filter>RenderingPipeLine\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderTarget.h">
+      <Filter>Resources\02Image</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderTargetManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRasterizer.h">
+      <Filter>Resources\03Setting</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRasterizerManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -78,6 +93,21 @@
     <ClCompile Include="GameEngineTextureManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineDirectXDevice.cpp">
+      <Filter>RenderingPipeLine\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTarget.cpp">
+      <Filter>Resources\02Image</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderTargetManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRasterizer.cpp">
+      <Filter>Resources\03Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRasterizerManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="preCompileHeader">
@@ -106,6 +136,15 @@
     </Filter>
     <Filter Include="Resources\99Manager\Helper">
       <UniqueIdentifier>{a1466b50-cb57-49a1-a8f7-6703dba717dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingPipeLine\Device">
+      <UniqueIdentifier>{b26e9ec9-b601-4b13-a78d-059d8f6f555a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingPipeLine\Shader">
+      <UniqueIdentifier>{8969eec8-faf1-4a22-9d1b-f09bfb33ca31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\03Setting">
+      <UniqueIdentifier>{67fdf059-686c-482b-aa6a-fb7d9e8656e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
