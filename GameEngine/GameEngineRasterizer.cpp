@@ -21,7 +21,7 @@ void GameEngineRasterizer::RasterizerUpdate(float4& _pos)
 	_pos.x /= _pos.w;
 	_pos.y /= _pos.w;
 	_pos.z /= _pos.w;
-	_pos.w /= 1.f;
+	_pos.w = 1.f;
 
 	_pos *= viewport_;
 }

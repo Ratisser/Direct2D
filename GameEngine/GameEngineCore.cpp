@@ -28,6 +28,7 @@ void GameEngineCore::initializeEngine()
 
 	GameEngineSound::GetInst().Initialize();
 	GameEngineWindow::GetInst().CreateMainWindow("MainWindow", { 1280, 720 }, {0, 0});
+	GameEngineDirectXDevice::GetInst().Initialize();
 }
 
 void GameEngineCore::run() 

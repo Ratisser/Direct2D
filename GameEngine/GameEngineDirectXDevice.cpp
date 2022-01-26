@@ -198,6 +198,5 @@ void GameEngineDirectXDevice::RenderStart()
 
 void GameEngineDirectXDevice::RenderEnd()
 {
-	// È­¸é¿¡ »Ñ·Á¶ó
-	// BackBufferTarget_;
+	SwapChain_->Present(0, 0);
 }

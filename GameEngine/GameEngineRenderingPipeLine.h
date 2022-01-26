@@ -7,6 +7,7 @@
 class GameEngineIndexBuffer;
 class GameEngineVertexBuffer;
 class GameEngineVertexShader;
+class GameEngineRasterizer;
 class GameEngineRenderingPipeLine
 {
 private:	// member Var
@@ -14,6 +15,7 @@ private:	// member Var
 	GameEngineVertexShader* VertexShader_;
 
 	GameEngineIndexBuffer* IndexBuffer_;
+	GameEngineRasterizer* Rasterizer_;
 
 public:
 	void SetInputAssembler1(const std::string& _Name);
@@ -22,6 +24,7 @@ public:
 
 	void SetInputAssembler2(const std::string& _Name);
 
+	void SetRasterizer(const std::string& _Name);
 public:
 	void Rendering();
 
