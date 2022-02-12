@@ -28,26 +28,6 @@ GameEngineVertexBufferManager::GameEngineVertexBufferManager(GameEngineVertexBuf
 }
 
 
-
-GameEngineVertexBuffer* GameEngineVertexBufferManager::Create(const std::string& _Name, const std::vector<float4>& _vertices)
-{
-	GameEngineVertexBuffer* FindRes = Find(_Name);
-
-	if (nullptr != FindRes)
-	{
-		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
-	}
-
-
-	GameEngineVertexBuffer* NewRes = new GameEngineVertexBuffer();
-	NewRes->SetName(_Name);
-	
-	NewRes->Create(_vertices);
-
-	ResourcesMap.insert(std::map<std::string, GameEngineVertexBuffer*>::value_type(_Name, NewRes));
-	return NewRes;
-}
-
 GameEngineVertexBuffer* GameEngineVertexBufferManager::Load(const std::string& _Path)
 {
 	return Load(GameEnginePath::GetFileName(_Path), _Path);

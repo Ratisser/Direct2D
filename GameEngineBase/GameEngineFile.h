@@ -1,7 +1,6 @@
 #pragma once
 #include "GameEnginePath.h"
 #include <iostream>
-#include <map>
 
 // 분류 :
 // 용도 :
@@ -34,6 +33,10 @@ public:		//delete operator
 public:		//member Func
 	void Open(const std::string& _Mode);
 	void Close();
+
+	uintmax_t GetFileSize();
+
+	std::string FileName();
 
 public:
 	void Write(const void* _Data, size_t _Size);
@@ -148,6 +151,6 @@ public:
 		}
 	}
 
-
+	std::string GetString();
 };
 

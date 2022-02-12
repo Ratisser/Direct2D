@@ -139,3 +139,21 @@ void GameEngineFile::Read(int& _Data)
 {
 	Read(&_Data, sizeof(int), sizeof(int));
 }
+
+uintmax_t GameEngineFile::GetFileSize() 
+{
+	return std::filesystem::file_size(path_);
+}
+
+std::string GameEngineFile::GetString() 
+{
+	std::string AllString = std::string();
+	AllString.resize(GetFileSize());
+	Read(&AllString[0], AllString.size(), AllString.size());
+	return AllString;
+}
+
+std::string GameEngineFile::FileName() 
+{
+	return path_.filename().string();
+}

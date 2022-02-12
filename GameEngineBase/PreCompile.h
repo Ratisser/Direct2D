@@ -4,18 +4,25 @@
 
 #include <Windows.h>
 
+// data struct
 #include <vector>
 #include <list>
 #include <map>
+
+// std::
 #include <string>
+#include <functional>
 
 #include <io.h>
 #include <assert.h>
 #include <crtdbg.h>
 
+// Math
+#include <math.h>
 #include <random>
-#include <cmath>
 
-#include <filesystem>
-
+// 마소에서 제공하는 simd 연산용 함수들을 사용할수 있다.
 #include <DirectXPackedVector.h>
+
+// io
+#include <filesystem>

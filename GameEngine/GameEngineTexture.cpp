@@ -23,7 +23,7 @@ GameEngineTexture::~GameEngineTexture() // default destructer 디폴트 소멸자
 	}
 }
 
-void GameEngineTexture::Create(ID3D11Texture2D* _Texture2D)
+void GameEngineTexture::Create(ID3D11Texture2D* _Texture2D) 
 {
 	if (nullptr == _Texture2D)
 	{
@@ -41,11 +41,11 @@ ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 	{
 		GameEngineDebug::MsgBoxError("RenderTargetView OverLap Create Error");
 	}
-
-	if (S_OK != GameEngineDirectXDevice::GetDevcie()->CreateRenderTargetView(Texture2D_, nullptr, &RenderTargetView_))
+	
+	if (S_OK != GameEngineDevice::GetDevice()->CreateRenderTargetView(Texture2D_, nullptr, &RenderTargetView_))
 	{
 		GameEngineDebug::MsgBoxError("RenderTargetView Create Error");
 	}
-
+	
 	return RenderTargetView_;
 }

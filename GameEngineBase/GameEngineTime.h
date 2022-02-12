@@ -1,62 +1,63 @@
 #pragma once
-
 #include <Windows.h>
+// #include <chrono>
 
+// 분류 :
+// 용도 :
+// 설명 :
 class GameEngineTime
 {
+
+private:
+	static GameEngineTime* Inst;
+
 public:
-	GameEngineTime(const GameEngineTime& _other) = delete;
-	GameEngineTime(const GameEngineTime&& _other) = delete;
-
-	GameEngineTime& operator=(const GameEngineTime& _other) = delete;
-	GameEngineTime& operator=(const GameEngineTime&& _other) = delete;
-
 	static GameEngineTime& GetInst()
 	{
-		return *instance_;
+		return *Inst;
 	}
 
 	static void Destroy()
 	{
-		if (nullptr != instance_)
+		if (nullptr != Inst)
 		{
-			delete instance_;
-			instance_ = nullptr;
+			delete Inst;
+			Inst = nullptr;
 		}
 	}
 
-public:
-	void UpdateTime()
-	{
-		QueryPerformanceCounter(&currentCount_);
-		deltaTime_ = static_cast<float>(currentCount_.QuadPart - updatedCount_.QuadPart) / static_cast<float>(queryPerfomanceFrequency_.QuadPart);
-		updatedCount_ = currentCount_;
-	}
+private:
+	LARGE_INTEGER timeCount_;
+	LARGE_INTEGER startCheck_;
+	LARGE_INTEGER endCheck_;
+	double deltaTime_;
 
-	// 마지막으로 UpdateTime이 호출된 후 지난 시간 구하기
-	float GetDeltaTime()
+public:
+	// 여기에 이렇게 헤더에 구현한 이유
+	// 리턴하는게 기본자료형이어서
+	double GetDeltaTimeD()
 	{
 		return deltaTime_;
 	}
 
-private:
-	GameEngineTime()
-		: deltaTime_(0.0f)
+	float GetDeltaTime()
 	{
-		bool bSupportHighResolution = QueryPerformanceFrequency(&queryPerfomanceFrequency_);
-		QueryPerformanceCounter(&currentCount_);
-		updatedCount_ = currentCount_;
+		return static_cast<float>(deltaTime_);
 	}
+public:
+	GameEngineTime(); // default constructer 디폴트 생성자
+	~GameEngineTime(); // default destructer 디폴트 소멸자
 
-	~GameEngineTime()
-	{
-	}
+public:		// delete constructer
+	GameEngineTime(const GameEngineTime& _Other) = delete; // default Copy constructer 디폴트 복사생성자
+	GameEngineTime(const GameEngineTime&& _Other); // default RValue Copy constructer 디폴트 RValue 복사생성자
 
-private:
-	static GameEngineTime* instance_;
-	LARGE_INTEGER queryPerfomanceFrequency_;
-	LARGE_INTEGER currentCount_;
-	LARGE_INTEGER updatedCount_;
-	float deltaTime_;
+public:		//delete operator
+	GameEngineTime& operator=(const GameEngineTime& _Other) = delete; // default Copy operator 디폴트 대입 연산자
+	GameEngineTime& operator=(const GameEngineTime&& _Other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+
+public:		//member Func
+	void TimeCheckReset();
+	void TimeCheck();
 };
 

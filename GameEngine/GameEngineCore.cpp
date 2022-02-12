@@ -1,8 +1,10 @@
 #include "PreCompile.h"
 #include "GameEngineCore.h"
 #include "GameEngineWindow.h"
+#include "GameEngineResourcesManager.h"
+#include "GameEngineDevice.h"
 
-GameEngineCore* GameEngineCore::MainCore = nullptr;
+GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 
 GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자
 {
@@ -14,35 +16,51 @@ GameEngineCore::~GameEngineCore() // default destructer 디폴트 소멸자
 
 }
 
-void GameEngineCore::mainLoop() 
+GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
 {
-	GameEngineTime::GetInst().UpdateTime();
-	GameEngineSound::GetInst().Update();
 
-	MainCore->GameLoop();
+
 }
 
-void GameEngineCore::initializeEngine()
-{
-	GameEngineDebug::LeakCheckOn();
+/// <summary>
+/// /////////////////////////// member
+/// </summary>
 
-	GameEngineSound::GetInst().Initialize();
-	GameEngineWindow::GetInst().CreateMainWindow("MainWindow", { 1280, 720 }, {0, 0});
-	GameEngineDirectXDevice::GetInst().Initialize();
-}
-
-void GameEngineCore::run() 
+void GameEngineCore::EngineInitialize() 
 {
-	GameEngineWindow::GetInst().Loop(&GameEngineCore::mainLoop);
+	GameEngineSoundManager::GetInst().Initialize();
 }
 
 
-
-void GameEngineCore::releaseEngine()
+void GameEngineCore::EngineDestroy()
 {
-	GameEngineManagerHelper::ManagerRelase();
-	GameEngineDirectXDevice::Destroy();
-	GameEngineWindow::Destroy();
-	GameEngineSound::Destroy();
+	GameEngineManagerHelper::ManagerRelease();
 	GameEngineTime::Destroy();
+	GameEngineDevice::Destroy();
+	GameEngineWindow::Destroy();
+}
+
+/// <summary>
+/// /////////////////////////// static
+/// </summary>
+
+void GameEngineCore::MainLoop() 
+{
+	GameEngineTime::GetInst().TimeCheck();
+	GameEngineSoundManager::GetInst().SoundUpdate();
+	MainCore_->GameLoop();
+}
+
+void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)
+{
+	GameEngineWindow::GetInst().CreateMainWindow("MainWindow", _RuntimeCore.StartWindowSize(), _RuntimeCore.StartWindowPos());
+
+	// 디바이스가 만들어져야 합니다.
+	// HWND 윈도우에서 제공하는 3D 라이브러리니까 WINDOW API를 기반으로 처리되어 있습니다.
+	GameEngineDevice::GetInst().Initialize();
+}
+
+void GameEngineCore::Loop() 
+{
+	GameEngineWindow::GetInst().Loop(&GameEngineCore::MainLoop);
 }

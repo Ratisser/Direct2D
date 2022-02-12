@@ -5,13 +5,13 @@
 // 용도 : 메모리관리 메세지 출력 로그
 // 설명 : 모든 디버깅 관련 기능은 여기에 모아놓는다.
 class GameEngineDebug
-{
+{ 
 private:	// member Var
 
 public:
 	static void LeakCheckOn();
 
-protected:
+protected:		
 	GameEngineDebug(); // default constructer 디폴트 생성자
 	~GameEngineDebug(); // default destructer 디폴트 소멸자
 
@@ -27,6 +27,7 @@ public:		//member Func
 	static void MsgBoxError(const std::string& _Text);
 	static void AssertFalse();
 	static void OutPutDebugString(const std::string& _Text);
+	static void MsgBox(const std::string& _Ptr);
 
 
 };

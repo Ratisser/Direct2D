@@ -1,6 +1,6 @@
 #pragma once
 
-class GameEngineMath
+class GameEngineMath 
 {
 public:
 	static const float PI;
@@ -10,7 +10,7 @@ public:
 };
 
 class float4x4;
-class float4
+class float4 
 {
 public:
 	static const float4 ZERO;
@@ -32,7 +32,7 @@ public:
 	// 0 0 1 0
 	// 0 0 0 1 
 
-	static float4 Cross3D(float4 _Left, float4 _Right)
+	static float4 Cross3D(float4 _Left , float4 _Right)
 	{
 		return DirectX::XMVector3Cross(_Left.DirectVector, _Right.DirectVector);
 	}
@@ -106,9 +106,9 @@ public:
 public:
 	// unnamed union을 선언하면 
 	// 내부의 메모리를 구조를 union 방식으로 구성해준다.
-	union
+	union 
 	{
-		struct
+		struct 
 		{
 			float x;
 			float y;
@@ -123,6 +123,8 @@ public:
 			float b;
 			float a;
 		};
+
+		float Arr1D[4];
 
 		DirectX::XMFLOAT3 DxXmfloat3;
 		DirectX::XMFLOAT4 DxXmfloat4;
@@ -150,7 +152,7 @@ public:
 
 	float4 operator*(const float _value) const
 	{
-		float4 CalVector = { _value , _value , _value , 1.0f };
+		float4 CalVector = { _value , _value , _value , 1.0f};
 		return DirectX::XMVectorMultiply(DirectVector, CalVector.DirectVector);
 	}
 
@@ -174,7 +176,7 @@ public:
 		return *this;
 	}
 
-	float4& operator-=(const float4 _value)
+	float4& operator-=(const float4 _value) 
 	{
 		DirectVector = DirectX::XMVectorSubtract(DirectVector, _value.DirectVector);
 		return *this;
@@ -201,7 +203,7 @@ public:
 	}
 
 	// 대입연산자
-	float4& operator=(const float4& _value)
+	float4& operator=(const float4& _value) 
 	{
 		DirectVector = DirectX::XMVectorSet(_value.x, _value.y, _value.z, _value.w);
 		return *this;
@@ -258,7 +260,7 @@ public:
 
 	float4 halffloat4() const
 	{
-		return { hx(), hy(), hz() };
+		return {hx(), hy(), hz()};
 	}
 
 	int ihx() const
@@ -276,7 +278,7 @@ public:
 		return static_cast<int>(hz());
 	}
 
-	float Len3D()
+	float Len3D() 
 	{
 		float4 Len = DirectX::XMVector3Length(DirectVector);
 		return Len.x;
@@ -287,12 +289,12 @@ public:
 		return DirectX::XMVector3Normalize(DirectVector);
 	}
 
-	void Normalize3D()
+	void Normalize3D() 
 	{
 		DirectVector = DirectX::XMVector3Normalize(DirectVector);
 	}
 
-	POINT GetWindowPoint()
+	POINT GetWindowPoint() 
 	{
 		return { ix(), iy() };
 	}
@@ -317,7 +319,7 @@ public:
 
 
 public:
-	float4()
+	float4() 
 		: x(0.0f), y(0.0f), z(0.0f), w(1.0f)
 	{
 	}
@@ -345,7 +347,7 @@ public:
 	}
 
 public:		// delete constructer
-	float4(const float4& _value)
+	float4(const float4& _value) 
 		: x(_value.x), y(_value.y), z(_value.z), w(_value.w)
 	{
 
@@ -353,7 +355,7 @@ public:		// delete constructer
 
 };
 
-class int4
+class int4 
 {
 	union
 	{
@@ -364,7 +366,7 @@ class int4
 			float z;
 			float w;
 		};
-		struct
+		struct 
 		{
 			__int64 HighValue;
 			__int64 LowValue;
@@ -400,7 +402,7 @@ public:
 		return pos_.y + size_.hx();
 	}
 
-	int iLeft()
+	int iLeft() 
 	{
 		return pos_.ix() - size_.ihx();
 	}
@@ -442,7 +444,7 @@ public:
 
 
 public:
-	Figure(float4 _Pos, float4 _Size)
+	Figure(float4 _Pos, float4 _Size) 
 		: pos_(_Pos), size_(_Size)
 	{
 
@@ -570,7 +572,7 @@ public:
 		Arr2D[3][0] = _StartX + Arr2D[0][0];
 		Arr2D[3][1] = _ScreenY * 0.5f + _StartY;
 		Arr2D[3][2] = _MinZ;
-
+		
 	}
 
 	void ViewAtLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
@@ -664,7 +666,7 @@ public:
 		float _Height,
 		float _NearZ,
 		float _FarZ
-	)
+	) 
 	{
 		PerspectiveFovLH(_FovAngleY * GameEngineMath::DegreeToRadian, _Width / _Height, _NearZ, _FarZ);
 	}
@@ -674,7 +676,7 @@ public:
 		float _AspectRatio,
 		float _NearZ,
 		float _FarZ
-	)
+		)
 	{
 		// _AspectRatio 1280 / 720
 
@@ -682,7 +684,7 @@ public:
 		//float    CosFov;
 		//XMScalarSinCos(&SinFov, &CosFov, 0.5f * FovAngleY);
 
-
+		
 		// 0.5 == 높이 / 밑변
 		// 100
 		// 50
@@ -740,12 +742,16 @@ public:
 		DirectMatrix = DirectX::XMMatrixOrthographicLH(_Width, _Height, _Near, _Far);
 	}
 
-	float4x4 operator*(const float4x4& _value)
+	float4x4 operator*(const float4x4& _value) 
 	{
 		return DirectX::XMMatrixMultiply(DirectMatrix, _value.DirectMatrix);
 	}
 
-
+	float4x4& operator=(const float4x4& _value)
+	{
+		DirectMatrix = _value.DirectMatrix;
+		return *this;
+	}
 
 };
 

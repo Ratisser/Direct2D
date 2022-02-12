@@ -3,29 +3,44 @@
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
     <ClCompile Include="PreCompile.cpp">
-      <Filter>PreCompileHeader</Filter>
+      <Filter>Precom</Filter>
     </ClCompile>
     <ClCompile Include="UserGame.cpp">
-      <Filter>Game</Filter>
+      <Filter>UserCore</Filter>
+    </ClCompile>
+    <ClCompile Include="UserGame_Resources.cpp">
+      <Filter>UserCore</Filter>
+    </ClCompile>
+    <ClCompile Include="UserGame_Resources_Shader.cpp">
+      <Filter>UserCore\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="PreCompileHeader">
-      <UniqueIdentifier>{a1a2924b-9b8d-4256-8bb1-a2aeeb5ae00d}</UniqueIdentifier>
+    <Filter Include="Precom">
+      <UniqueIdentifier>{0d0b75c7-5726-42b1-aa92-879451e131c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game">
-      <UniqueIdentifier>{802ec109-f81f-46b7-a4dd-b81bd98549ba}</UniqueIdentifier>
+    <Filter Include="UserCore">
+      <UniqueIdentifier>{ae1c99fc-5ae2-4958-9205-8018fcb509b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CustomVertex">
+      <UniqueIdentifier>{16842167-2534-42db-8026-796a267ad72b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserCore\Resources">
+      <UniqueIdentifier>{097aabc9-6df0-4d53-a9ed-77681a8002e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
-      <Filter>PreCompileHeader</Filter>
+      <Filter>Precom</Filter>
     </ClInclude>
     <ClInclude Include="UserGame.h">
-      <Filter>Game</Filter>
+      <Filter>UserCore</Filter>
     </ClInclude>
-    <ClInclude Include="Macro.h">
-      <Filter>Game</Filter>
+    <ClInclude Include="CustomVertex.h">
+      <Filter>CustomVertex</Filter>
+    </ClInclude>
+    <ClInclude Include="UserGame_Resources_Shader.h">
+      <Filter>UserCore\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

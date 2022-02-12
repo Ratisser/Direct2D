@@ -1,9 +1,17 @@
 #include "PreCompile.h"
 
+#include <conio.h>
+#include <GameEngine/GameEngineCore.h>
 #include "UserGame.h"
 
-int __stdcall wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PWSTR pCmdLine, _In_ int nCmdShow)
+
+
+int WinMain(
+	HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,
+	LPSTR     lpCmdLine,
+	int       nShowCmd
+)
 {
 	GameEngineCore::Start<UserGame>();
-	return 0;
 }

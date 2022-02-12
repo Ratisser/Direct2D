@@ -1,26 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Precom">
+      <UniqueIdentifier>{9146e208-b40e-42f9-82ff-a88e07acb456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingPipeLine">
+      <UniqueIdentifier>{eb13eb89-be63-4e00-a889-728dc0e3dfd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingPipeLine\Shader">
+      <UniqueIdentifier>{a346d989-05ec-46ed-900b-34eef56810a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{fa4b97cb-7bcf-4645-830a-6809cdcc5515}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\99Manager">
+      <UniqueIdentifier>{b11e4bb5-b419-4203-8b25-36b88e679943}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\02Image">
+      <UniqueIdentifier>{2b2d0fc2-fd87-4646-a498-9d592b5dd430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\01Shader">
+      <UniqueIdentifier>{fc50d58b-f695-40e8-a13c-0d2c8af1e8bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\00Buffer">
+      <UniqueIdentifier>{0ebde810-706b-4c89-8938-724e46dd1d0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\03Setting">
+      <UniqueIdentifier>{2c1ce062-7ff8-41ec-8521-84f90f5cc2a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RenderingPipeLine\Device">
+      <UniqueIdentifier>{864e4601-aa46-4b78-aff5-53c6845348ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderCode">
+      <UniqueIdentifier>{ed819453-a98d-4f7a-9523-f3c902b28f7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\01Shader\ShaderResources">
+      <UniqueIdentifier>{60e4344d-c0fb-41d3-80cf-b2e81f971a6c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="PreCompile.h">
-      <Filter>preCompileHeader</Filter>
+      <Filter>Precom</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineCore.h" />
+    <ClInclude Include="GameEngineWindow.h" />
     <ClInclude Include="GameEngineRenderingPipeLine.h">
       <Filter>RenderingPipeLine</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineVertexBuffer.h">
-      <Filter>Resources\00Buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineIndexBuffer.h">
-      <Filter>Resources\00Buffer</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineVertexShader.h">
       <Filter>Resources\01Shader</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineTexture.h">
-      <Filter>Resources\02Image</Filter>
+    <ClInclude Include="GameEngineIndexBuffer.h">
+      <Filter>Resources\00Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineVertexBuffer.h">
+      <Filter>Resources\00Buffer</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineVertexBufferManager.h">
       <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTexture.h">
+      <Filter>Resources\02Image</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineVertexShaderManager.h">
       <Filter>Resources\99Manager</Filter>
@@ -28,19 +68,16 @@
     <ClInclude Include="GameEngineIndexBufferManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineCore.h">
-      <Filter>GameEngineCore</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEngineWindow.h">
-      <Filter>GameEngineCore</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineTextureManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineManagerHelper.h">
-      <Filter>Resources\99Manager\Helper</Filter>
+    <ClInclude Include="GameEngineRasterizerManager.h">
+      <Filter>Resources\99Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineDirectXDevice.h">
+    <ClInclude Include="GameEngineResourcesManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineDevice.h">
       <Filter>RenderingPipeLine\Device</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineRenderTarget.h">
@@ -49,34 +86,60 @@
     <ClInclude Include="GameEngineRenderTargetManager.h">
       <Filter>Resources\99Manager</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineRenderingPipeLineManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineMesh.h">
+      <Filter>Resources\00Buffer</Filter>
+    </ClInclude>
     <ClInclude Include="GameEngineRasterizer.h">
       <Filter>Resources\03Setting</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineRasterizerManager.h">
+    <ClInclude Include="GameEnginePixelShader.h">
+      <Filter>Resources\01Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineShader.h">
+      <Filter>Resources\01Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEnginePixelShaderManager.h">
       <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineConstantBuffer.h">
+      <Filter>Resources\01Shader\ShaderResources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineConstantBufferManager.h">
+      <Filter>Resources\99Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingSettingData.h">
+      <Filter>RenderingPipeLine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineShaderResHelper.h">
+      <Filter>RenderingPipeLine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
-      <Filter>preCompileHeader</Filter>
+      <Filter>Precom</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineCore.cpp" />
+    <ClCompile Include="GameEngineWindow.cpp" />
     <ClCompile Include="GameEngineRenderingPipeLine.cpp">
       <Filter>RenderingPipeLine</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineVertexBuffer.cpp">
-      <Filter>Resources\00Buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineIndexBuffer.cpp">
-      <Filter>Resources\00Buffer</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineVertexShader.cpp">
       <Filter>Resources\01Shader</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineTexture.cpp">
-      <Filter>Resources\02Image</Filter>
+    <ClCompile Include="GameEngineIndexBuffer.cpp">
+      <Filter>Resources\00Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineVertexBuffer.cpp">
+      <Filter>Resources\00Buffer</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineVertexBufferManager.cpp">
       <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTexture.cpp">
+      <Filter>Resources\02Image</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineVertexShaderManager.cpp">
       <Filter>Resources\99Manager</Filter>
@@ -84,16 +147,13 @@
     <ClCompile Include="GameEngineIndexBufferManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineCore.cpp">
-      <Filter>GameEngineCore</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineWindow.cpp">
-      <Filter>GameEngineCore</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineTextureManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineDirectXDevice.cpp">
+    <ClCompile Include="GameEngineRasterizerManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineDevice.cpp">
       <Filter>RenderingPipeLine\Device</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRenderTarget.cpp">
@@ -102,49 +162,40 @@
     <ClCompile Include="GameEngineRenderTargetManager.cpp">
       <Filter>Resources\99Manager</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineRenderingPipeLineManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineMesh.cpp">
+      <Filter>Resources\00Buffer</Filter>
+    </ClCompile>
     <ClCompile Include="GameEngineRasterizer.cpp">
       <Filter>Resources\03Setting</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineRasterizerManager.cpp">
+    <ClCompile Include="GameEnginePixelShader.cpp">
+      <Filter>Resources\01Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineShader.cpp">
+      <Filter>Resources\01Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEnginePixelShaderManager.cpp">
       <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineConstantBuffer.cpp">
+      <Filter>Resources\01Shader\ShaderResources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineConstantBufferManager.cpp">
+      <Filter>Resources\99Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingSettingData.cpp">
+      <Filter>RenderingPipeLine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineShaderResHelper.cpp">
+      <Filter>RenderingPipeLine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="preCompileHeader">
-      <UniqueIdentifier>{fb781c9e-5525-4db5-ade8-c72ab4e63b03}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="RenderingPipeLine">
-      <UniqueIdentifier>{41f5ca50-a77c-4a03-9f1c-1df466a37e12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{80b21cae-3cf1-4f3e-a67e-4b85a4df5763}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources\00Buffer">
-      <UniqueIdentifier>{f1318b98-deb1-4441-b47e-8b91a2df1042}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources\01Shader">
-      <UniqueIdentifier>{fd3bec6b-d066-412d-8237-73d0146bcea3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources\02Image">
-      <UniqueIdentifier>{9ddfd953-d148-4316-a4e6-6862c7bb15aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources\99Manager">
-      <UniqueIdentifier>{138dc0d2-85f4-4b25-9d92-55ac21dc3ea9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameEngineCore">
-      <UniqueIdentifier>{daa8c8f1-bc70-4565-b233-c37d7bb48556}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources\99Manager\Helper">
-      <UniqueIdentifier>{a1466b50-cb57-49a1-a8f7-6703dba717dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="RenderingPipeLine\Device">
-      <UniqueIdentifier>{b26e9ec9-b601-4b13-a78d-059d8f6f555a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="RenderingPipeLine\Shader">
-      <UniqueIdentifier>{8969eec8-faf1-4a22-9d1b-f09bfb33ca31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources\03Setting">
-      <UniqueIdentifier>{67fdf059-686c-482b-aa6a-fb7d9e8656e3}</UniqueIdentifier>
-    </Filter>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>ShaderCode</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

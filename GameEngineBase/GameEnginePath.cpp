@@ -49,3 +49,15 @@ std::string GameEnginePath::GetFullPath()
 {
 	return path_.string();
 }
+
+std::string GameEnginePath::GetFileName() 
+{
+	return path_.filename().string();
+}
+
+std::string GameEnginePath::GetFileNameWithOutExtension()
+{
+	std::string Ex = path_.extension().string();
+	std::string FileName = path_.filename().string();
+	return FileName.erase(FileName.size() - Ex.size(), Ex.size());
+}

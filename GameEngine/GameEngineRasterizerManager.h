@@ -1,4 +1,5 @@
 #pragma once
+#include <GameEngine/GameEngineDevice.h>
 
 // 설명 : 
 class GameEngineRasterizer;
@@ -27,7 +28,7 @@ private:	// member Var
 
 public:
 	// 직접 만들수 있다.
-	GameEngineRasterizer* Create(const std::string& _Name);
+	GameEngineRasterizer* Create(const std::string& _Name, const D3D11_RASTERIZER_DESC& _RasterizerDesc);
 	// 파일에서 로드
 	GameEngineRasterizer* Load(const std::string& _Path);
 	// 이름 직접 지정

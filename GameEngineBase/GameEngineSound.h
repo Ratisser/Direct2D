@@ -1,50 +1,35 @@
 #pragma once
+#include "GameEngineSoundManager.h"
+#include "GameEngineObjectNameBase.h"
 
-#pragma warning(disable:26812)
-
-#include "../ThirdParty/FMOD/inc/fmod.hpp"
-
-#pragma comment(lib, "../ThirdParty/FMOD/lib/x64/fmod_vc.lib")
-
-#include <unordered_map>
-
+// 분류 :
+// 용도 :
+// 설명 :
 class GameEngineSoundPlayer;
-class GameEngineSound
+class GameEngineSound : public GameEngineObjectNameBase
 {
+	friend GameEngineSoundManager;
 	friend GameEngineSoundPlayer;
+
+private:	// member Var
+	FMOD::Sound* sound_;
+
 public:
-	~GameEngineSound();
+	bool Load(const std::string& _Path);
 
-	GameEngineSound(const GameEngineSound& _other) = delete;
-	GameEngineSound(GameEngineSound&& _other) = delete;
 
-	GameEngineSound& operator=(const GameEngineSound& _other) = delete;
-	GameEngineSound& operator=(const GameEngineSound&& _other) = delete;
+private:		
+	GameEngineSound(); // default constructer 디폴트 생성자
+	~GameEngineSound(); // default destructer 디폴트 소멸자
 
-	static GameEngineSound& GetInst() { return *instance_; }
-	static void Destroy();
+public:		// delete constructer
+	GameEngineSound(const GameEngineSound& _other) = delete; // default Copy constructer 디폴트 복사생성자
+	GameEngineSound(GameEngineSound&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
 
-	void Initialize();
-	void Update();
+public:		//delete operator
+	GameEngineSound& operator=(const GameEngineSound& _other) = delete; // default Copy operator 디폴트 대입 연산자
+	GameEngineSound& operator=(const GameEngineSound&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
 
-	void CreateSound(const std::string& _name, const std::string& _path, bool _bLoop = false);
-	
-	void PlaySoundByName(const std::string& _name);
-	void SetVolume(unsigned int _volume);
-	void StopSound();
-
-private:
-	GameEngineSound();
-
-	FMOD::Sound* getSound(const std::string& _name);
-
-private:
-	static GameEngineSound* instance_;
-
-private:
-	FMOD::System* system_;
-	FMOD::Channel* channel_;
-
-	std::unordered_map<std::string, FMOD::Sound*> allSounds_;
+public:		//member Func
 };
 

@@ -7,12 +7,17 @@ class GameEngineObjectBase
 {
 private:	// member Var
 	// true라고 하는순간 메모리적으로 파괴될겁니다.
-	bool isDeath_;
-	bool isUpdate_;
+	bool isDeath_; // 죽는기능이 아닙니다. 죽었는지 확인할수 있는기능
+	bool isUpdate_; // 이게 업데이트되는 기능이 아니고 업데이트를 해야
 	bool isDebug_; // 디버깅 기능 이거 true로 해놓고 f9 걸어 놓으면 
 	GameEngineObjectBase* parent_;
 
 public:
+	bool IsNull() 
+	{
+		return nullptr == this;
+	}
+
 	void SetParent(GameEngineObjectBase* _parent)
 	{
 		parent_ = _parent;
@@ -33,10 +38,12 @@ public:
 	{
 		if (nullptr == parent_)
 		{
-			return isUpdate_;
+			return false == IsDeath() && isUpdate_;
 		}
 
-		return true == isUpdate_ && parent_->isUpdate_;
+		return false == IsDeath() &&  // 나는 안죽었고
+			true == isUpdate_ &&  // 내가 켜져있고
+			parent_->isUpdate_; // 부모도 켜져있어야
 	}
 
 

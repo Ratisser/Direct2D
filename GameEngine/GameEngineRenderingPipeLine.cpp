@@ -4,21 +4,25 @@
 #include "GameEngineVertexShaderManager.h"
 #include "GameEngineIndexBufferManager.h"
 #include "GameEngineRasterizerManager.h"
-
+#include "GameEnginePixelShaderManager.h"
 
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
 #include "GameEngineIndexBuffer.h"
-#include "GameEngineWindow.h"
 #include "GameEngineRasterizer.h"
+#include "GameEnginePixelShader.h"
+#include "GameEngineConstantBuffer.h"
+
+
+#include "GameEngineWindow.h"
 
 GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() // default constructer 디폴트 생성자
 	: VertexBuffer_(nullptr)
+	, InputLayOutVertexShader_(nullptr)
 	, VertexShader_(nullptr)
 	, IndexBuffer_(nullptr)
-	, Rasterizer_(nullptr)
+	, Topology_(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
-
 }
 
 GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() // default destructer 디폴트 소멸자
@@ -30,12 +34,11 @@ GameEngineRenderingPipeLine::GameEngineRenderingPipeLine(GameEngineRenderingPipe
 	: VertexBuffer_(_other.VertexBuffer_)
 	, VertexShader_(_other.VertexShader_)
 	, IndexBuffer_(_other.IndexBuffer_)
-	, Rasterizer_(_other.Rasterizer_)
 {
 
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler1(const std::string& _Name)
+void GameEngineRenderingPipeLine::SetInputAssembler1VertexBufferSetting(const std::string& _Name)
 {
 	VertexBuffer_ = GameEngineVertexBufferManager::GetInst().Find(_Name);
 
@@ -47,6 +50,34 @@ void GameEngineRenderingPipeLine::SetInputAssembler1(const std::string& _Name)
 
 }
 
+void GameEngineRenderingPipeLine::SetInputAssembler1InputLayOutSetting(const std::string& _Name) 
+{
+	InputLayOutVertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
+
+	if (nullptr == InputLayOutVertexShader_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 버퍼를 세팅하려고 했습니다.");
+		return;
+	}
+}
+
+void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std::string& _Name) 
+{
+	IndexBuffer_ = GameEngineIndexBufferManager::GetInst().Find(_Name);
+
+	if (nullptr == IndexBuffer_)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 버퍼를 세팅하려고 했습니다.");
+		return;
+	}
+}
+
+void GameEngineRenderingPipeLine::SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY _Topology) 
+{
+	Topology_ = _Topology;
+}
+
+
 void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 {
 	VertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
@@ -56,20 +87,11 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
 		return;
 	}
+
+	ShaderHelper.ShaderResourcesCheck(VertexShader_);
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler2(const std::string& _Name)
-{
-	IndexBuffer_ = GameEngineIndexBufferManager::GetInst().Find(_Name);
-
-	if (nullptr == VertexShader_)
-	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
-		return;
-	}
-}
-
-void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
+void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name) 
 {
 	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
 
@@ -80,64 +102,82 @@ void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 	}
 }
 
-
-void GameEngineRenderingPipeLine::Rendering()
+void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name) 
 {
-	// Input Assembler 1
-	std::vector<float4> CopyVertex;
-	CopyVertex = VertexBuffer_->GetVertices();
+	PixelShader_ = GameEnginePixelShaderManager::GetInst().Find(_Name);
 
-	// Vertex Shader
-	for (size_t i = 0; i < CopyVertex.size(); i++)
+	if (nullptr == PixelShader_)
 	{
-		CopyVertex[i] = VertexShader_->GetShaderFunction()((CopyVertex[i]));
+		GameEngineDebug::MsgBoxError("존재하지 않는 픽셀 쉐이더를 세팅을 세팅하려고 했습니다.");
+		return;
 	}
 
-	// Input Assembler 2
-	const std::vector<int>& Index = IndexBuffer_->GetIndices();
+	ShaderHelper.ShaderResourcesCheck(PixelShader_);
 
+}
 
-	std::vector<std::vector<float4>> TriVector;
-	// 그린다.
+void GameEngineRenderingPipeLine::SetOutputMerger(const std::string& _Name) 
+{
+	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
+
+	if (nullptr == Rasterizer_)
 	{
-		const std::vector<int>& Index = IndexBuffer_->GetIndices();
-
-
-		TriVector.resize(Index.size() / 3);
-
-
-		for (size_t TriCount = 0; TriCount < Index.size() / 3; TriCount++)
-		{
-			TriVector[TriCount].resize(3);
-
-			int CurIndex0 = Index[(TriCount * 3) + 0];
-			int CurIndex1 = Index[(TriCount * 3) + 1];
-			int CurIndex2 = Index[(TriCount * 3) + 2];
-
-			TriVector[TriCount][0] = CopyVertex[CurIndex0];
-			TriVector[TriCount][1] = CopyVertex[CurIndex1];
-			TriVector[TriCount][2] = CopyVertex[CurIndex2];
-		}
-	}
-
-	for (size_t Tri = 0; Tri < TriVector.size(); Tri++)
-	{
-		for (size_t i = 0; i < TriVector[Tri].size(); i++)
-		{
-			Rasterizer_->RasterizerUpdate(TriVector[Tri][i]);
-		}
-	}
-
-	for (size_t Tri = 0; Tri < TriVector.size(); Tri++)
-	{
-
-		POINT ArrTri[3];
-
-		ArrTri[0] = TriVector[Tri][0].GetWindowPoint();
-		ArrTri[1] = TriVector[Tri][1].GetWindowPoint();
-		ArrTri[2] = TriVector[Tri][2].GetWindowPoint();
-
-		Polygon(GameEngineWindow::GetInst().GetWindowDC(), &ArrTri[0], 3);
+		GameEngineDebug::MsgBoxError("존재하지 않는 레이터라이저 세팅을 세팅하려고 했습니다.");
+		return;
 	}
 
 }
+
+void GameEngineRenderingPipeLine::InputAssembler1() 
+{
+	VertexBuffer_->Setting();
+	InputLayOutVertexShader_->InputLayOutSetting();
+}
+
+void GameEngineRenderingPipeLine::InputAssembler2() 
+{
+	IndexBuffer_->Setting();
+	GameEngineDevice::GetContext()->IASetPrimitiveTopology(Topology_);
+}
+
+void GameEngineRenderingPipeLine::VertexShader() 
+{
+	VertexShader_->Setting();
+}
+
+void GameEngineRenderingPipeLine::Rasterizer()
+{
+	Rasterizer_->Setting();
+	Rasterizer_->SettingViewPort();
+}
+
+
+void GameEngineRenderingPipeLine::PixelShader()
+{
+	PixelShader_->Setting();
+}
+
+void GameEngineRenderingPipeLine::RenderingPipeLineSetting() 
+{
+	// input어셈블러 단계
+	InputAssembler1();
+
+	InputAssembler2();
+
+	VertexShader();
+
+	Rasterizer();
+
+	PixelShader();
+}
+
+void GameEngineRenderingPipeLine::Rendering() 
+{
+	RenderingPipeLineSetting();
+
+	ShaderHelper.Setting();
+
+	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
+}
+
+

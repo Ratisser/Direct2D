@@ -1,6 +1,5 @@
 #pragma once
 #include "GameEngineObjectBase.h"
-#include <string>
 
 // 분류 : 
 // 용도 : 

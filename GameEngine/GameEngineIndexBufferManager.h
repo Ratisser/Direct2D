@@ -1,4 +1,6 @@
 #pragma once
+#include <Windows.h>
+#include <GameEngine/GameEngineDevice.h>
 
 // 설명 : 
 class GameEngineIndexBuffer;
@@ -27,7 +29,7 @@ private:	// member Var
 
 public:
 	// 직접 만들수 있다.
-	GameEngineIndexBuffer* Create(const std::string& _Name, const std::vector<int>& _indices);
+	GameEngineIndexBuffer* Create(const std::string& _Name, const std::vector<unsigned int>& _Index, D3D11_USAGE _Usage);
 	// 파일에서 로드
 	GameEngineIndexBuffer* Load(const std::string& _Path);
 	// 이름 직접 지정

@@ -15,5 +15,7 @@ private:		//delete operator
 
 public:
 	static void toupper(std::string& Text);
+
+	static void StringToWString(const std::string& Text, std::wstring& _Out);
 };
 

@@ -12,7 +12,7 @@ const float GameEngineMath::RadianToDegree = 180.0f / GameEngineMath::PI;
 
 const float4 float4::ZERO = { 0.0f, 0.0f };
 
-const float4 float4::LEFT = { -1.0f, 0.0f };
+const float4 float4::LEFT = {-1.0f, 0.0f};
 const float4 float4::RIGHT = { 1.0f, 0.0f };
 const float4 float4::UP = { 0.0f, 1.0f };
 const float4 float4::DOWN = { 0.0f, -1.0f };
@@ -38,7 +38,7 @@ float4 float4::RotateXRadian(float4 _OriginVector, float _Radian)
 	return _OriginVector * Rot;
 }
 
-float4 float4::RotateZRadian(float4 _OriginVector, float _Radian)
+float4 float4::RotateZRadian(float4 _OriginVector, float _Radian) 
 {
 	float4x4 Rot;
 	Rot.RotationZRad(_Radian);
