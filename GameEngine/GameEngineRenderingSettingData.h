@@ -52,6 +52,11 @@ public:
 	GameEngineConstantBufferSetting()
 		: SettingData_(nullptr)
 		, Mode_(SettingMode::MAX)
+		, IsSet_(false)
+		, Res_(nullptr)
+		, SettingDataSize_(0)
+		, SettingIndex_(0)
+		, Shader(nullptr)
 	{
 
 	}

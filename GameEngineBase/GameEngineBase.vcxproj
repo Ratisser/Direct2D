@@ -40,7 +40,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineSoundManager.h" />
-    <ClInclude Include="GameEngineSound.h" />
     <ClInclude Include="GameEngineSoundPlayer.h" />
     <ClInclude Include="GameEngineTime.h" />
     <ClInclude Include="PreCompile.h">
@@ -74,7 +73,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineSoundManager.cpp" />
-    <ClCompile Include="GameEngineSound.cpp" />
     <ClCompile Include="GameEngineSoundPlayer.cpp" />
     <ClCompile Include="GameEngineTime.cpp" />
     <ClCompile Include="PreCompile.cpp">

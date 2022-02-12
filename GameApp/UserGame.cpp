@@ -58,7 +58,7 @@ void UserGame::GameLoop()
 {
 	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
 	{
-		Pos.x += 0.001f;
+		Pos.x += 0.1f * GameEngineTime::GetInst().GetDeltaTime();
 		TransData.World.Translation(Pos);
 
 

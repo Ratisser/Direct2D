@@ -28,7 +28,7 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 void GameEngineCore::EngineInitialize() 
 {
-	GameEngineSoundManager::GetInst().Initialize();
+	GameEngineSoundManager::GetInstance().Initialize();
 }
 
 
@@ -47,7 +47,7 @@ void GameEngineCore::EngineDestroy()
 void GameEngineCore::MainLoop() 
 {
 	GameEngineTime::GetInst().TimeCheck();
-	GameEngineSoundManager::GetInst().SoundUpdate();
+	GameEngineSoundManager::GetInstance().Update();
 	MainCore_->GameLoop();
 }
 

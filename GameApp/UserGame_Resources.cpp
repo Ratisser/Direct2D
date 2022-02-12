@@ -8,15 +8,15 @@ void UserGame::ResourcesLoad()
 {
 	{
 		GameEngineDirectory SoundDir;
-		SoundDir.MoveParent("AR38");
+		SoundDir.MoveParent("Direct2D");
 		SoundDir.MoveChild("Resources");
 		SoundDir.MoveChild("Sound");
 
-		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile("mp3");
+		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile();
 
 		for (size_t i = 0; i < AllFile.size(); i++)
 		{
-			GameEngineSoundManager::GetInst().LoadSound(AllFile[i].GetFullPath());
+			GameEngineSoundManager::GetInstance().CreateSound(AllFile[i].FileName(), AllFile[i].GetFullPath());
 		}
 	}
 
