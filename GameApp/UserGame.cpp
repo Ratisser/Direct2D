@@ -30,7 +30,8 @@ struct TransformData
 	float4x4 Proj;
 };
 
-float4 Pos;
+float4 pos;
+float4 rot;
 TransformData TransData;
 
 void UserGame::Initialize()
@@ -53,14 +54,26 @@ void UserGame::Release()
 }
 
 
-
 void UserGame::GameLoop()
 {
 	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
 	{
-		Pos.x += 0.1f * GameEngineTime::GetInst().GetDeltaTime();
-		TransData.World.Translation(Pos);
+		float deltaTime = GameEngineTime::GetInst().GetDeltaTime();
+		//pos.x += deltaTime * 20;
+		rot.x += deltaTime * 3;
+		rot.y += deltaTime * 2;
+		rot.z += deltaTime * 3;
 
+		float4x4 s;
+		s.Scaling({ 20.f, 20.f, 20.f });
+		float4x4 r;
+		r.RotationDeg(rot * GameEngineMath::RadianToDegree);
+		float4x4 t;
+		t.Translation(pos);
+
+		TransData.World = s * r * t;
+		TransData.View.ViewToLH({ 0.f,0.f,-100.f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f });
+		TransData.Proj.PerspectiveFovLH(GameEngineMath::DegreeToRadian * 90.f, 1280.f / 720.f, 0.001f, 1000.f);
 
 		// 랜더링 파이프라인이 하나가 돌고
 		// 이안에 세팅정보가 존재하겠죠?
