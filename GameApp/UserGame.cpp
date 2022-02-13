@@ -35,7 +35,7 @@ TransformData TransData;
 
 void UserGame::Initialize()
 {
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
 	// cpu의 데이터와 상수버퍼를 연결한다.
 	Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
 
@@ -56,7 +56,7 @@ void UserGame::Release()
 
 void UserGame::GameLoop()
 {
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("ColorRendering");
+	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
 	{
 		Pos.x += 0.1f * GameEngineTime::GetInst().GetDeltaTime();
 		TransData.World.Translation(Pos);

@@ -17,22 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03App", "03App", "{8850DD1F
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine", "GameEngine\GameEngine.vcxproj", "{14A5D990-A9BB-4D11-A0A1-83D80A9DDF75}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01BaseFile", "01BaseFile", "{DE031FC5-3169-47C6-ACD6-8C027AFA457F}"
-	ProjectSection(SolutionItems) = preProject
-		AClassDefault.zip = AClassDefault.zip
-		AClassDefaultManager.zip = AClassDefaultManager.zip
-		LibProjectBase.zip = LibProjectBase.zip
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00DOC", "00DOC", "{7C2E2425-9DAF-41F1-A903-AF591E3CC2E3}"
-	ProjectSection(SolutionItems) = preProject
-		DirectX개념파악.txt = DirectX개념파악.txt
-		꼭 알아야하는 사항들.txt = 꼭 알아야하는 사항들.txt
-		랜파.jpg = 랜파.jpg
-		용어정리.txt = 용어정리.txt
-		행렬.txt = 행렬.txt
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Level0", "Level0", "{A19D16BA-CE41-4391-B14A-7081F9A7891A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Level1", "Level1", "{6499AE55-D0B9-4632-BF22-888FE7557FD7}"
