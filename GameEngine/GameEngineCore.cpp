@@ -5,6 +5,9 @@
 #include "GameEngineDevice.h"
 
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
+std::map<std::string, GameEngineLevel*> GameEngineCore::allLevels_ = std::map<std::string, GameEngineLevel*>();
+GameEngineLevel* GameEngineCore::nextLevel_ = nullptr;
+GameEngineLevel* GameEngineCore::currentLevel_ = nullptr;
 
 GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자
 {
@@ -26,7 +29,7 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 /// /////////////////////////// member
 /// </summary>
 
-void GameEngineCore::EngineInitialize() 
+void GameEngineCore::EngineInitialize()
 {
 	GameEngineSoundManager::GetInstance().Initialize();
 }
@@ -44,11 +47,26 @@ void GameEngineCore::EngineDestroy()
 /// /////////////////////////// static
 /// </summary>
 
-void GameEngineCore::MainLoop() 
+void GameEngineCore::MainLoop()
 {
 	GameEngineTime::GetInst().TimeCheck();
 	GameEngineSoundManager::GetInstance().Update();
-	MainCore_->GameLoop();
+
+	if (nullptr != nextLevel_)
+	{
+		if (nullptr != currentLevel_)
+		{
+			currentLevel_->LevelChangeEndEvent();
+		}
+
+		nextLevel_->LevelChangeStartEvent();
+		currentLevel_ = nextLevel_;
+	}
+
+	if (nullptr == currentLevel_)
+	{
+		GameEngineDebug::MsgBoxError("현재 레벨이 존재하지 않습니다.");
+	}
 }
 
 void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)
@@ -60,7 +78,20 @@ void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)
 	GameEngineDevice::GetInst().Initialize();
 }
 
-void GameEngineCore::Loop() 
+void GameEngineCore::Loop()
 {
 	GameEngineWindow::GetInst().Loop(&GameEngineCore::MainLoop);
+}
+
+
+void GameEngineCore::ChangeLevel(const std::string& _levelName)
+{
+	std::map<std::string, GameEngineLevel*>::iterator findIter = allLevels_.find(_levelName);
+	
+	if (findIter == allLevels_.end())
+	{
+		GameEngineDebug::MsgBoxError("There is no level named \"" + _levelName + "\"");
+	}
+
+	nextLevel_ = findIter->second;
 }

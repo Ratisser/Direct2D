@@ -1,9 +1,8 @@
 #pragma once
 #include <GameEngineBase/GameEngineObjectBase.h>
 
-// 분류 : 
-// 용도 : 
-// 설명 : 
+#include "GameEngineLevel.h"
+
 class GameEngineCore : public GameEngineObjectBase
 {
 private:
@@ -59,11 +58,31 @@ public:
 protected:
 	virtual void Initialize() = 0;
 	virtual void ResourcesLoad() = 0;
-	virtual void GameLoop() = 0;
 	virtual void Release() = 0;
 
 public:
 	virtual float4 StartWindowSize() = 0;
 	virtual float4 StartWindowPos() = 0;
+
+private:
+	static std::map<std::string, GameEngineLevel*> allLevels_;
+	static GameEngineLevel* nextLevel_;
+	static GameEngineLevel* currentLevel_;
+
+public:
+	template <typename T>
+	static void CreateLevel(const std::string& _levelName)
+	{
+		GameEngineLevel* newLevel = new T;
+		newLevel->SetName(_levelName);
+		
+		auto result = allLevels_.insert(std::pair<std::string, GameEngineLevel*>(_levelName, newLevel));
+		if (false == result.second)
+		{
+			GameEngineDebug::MsgBoxError("중복된 이름의 Level을 만들려고 했습니다. : " + _levelName);
+		}
+	}
+
+	static void ChangeLevel(const std::string& _levelName);
 };
 
