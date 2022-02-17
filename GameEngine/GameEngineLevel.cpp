@@ -9,14 +9,24 @@ GameEngineLevel::GameEngineLevel()
 
 GameEngineLevel::~GameEngineLevel()
 {
-
+	for (std::pair<int, std::list<GameEngineActor*>> pair : allActors_)
+	{
+		for (GameEngineActor* actor : pair.second)
+		{
+			if (nullptr != actor)
+			{
+				delete actor;
+				actor = nullptr;
+			}
+		}
+	}
 }
 
-void GameEngineLevel::Update(float _deltaTime)
+void GameEngineLevel::ActorUpdate(float _deltaTime)
 {
-	for (std::pair<int, std::list<GameEngineActor*>> pairList : allActors_)
+	for (std::pair<int, std::list<GameEngineActor*>> pair : allActors_)
 	{
-		for (GameEngineActor* actor : pairList.second)
+		for (GameEngineActor* actor : pair.second)
 		{
 			if (actor->IsUpdate())
 			{

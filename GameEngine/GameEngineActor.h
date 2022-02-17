@@ -17,6 +17,7 @@ public:
 	GameEngineActor& operator=(const GameEngineActor&& _other) = delete;
 
 public:
+	virtual void Start() = 0;
 	virtual void Update(float _deltaTime) = 0;
 
 protected:

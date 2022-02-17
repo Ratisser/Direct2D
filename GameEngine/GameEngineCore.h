@@ -70,19 +70,22 @@ private:
 	static GameEngineLevel* currentLevel_;
 
 public:
+	static void ChangeLevel(const std::string& _levelName);
+
 	template <typename T>
 	static void CreateLevel(const std::string& _levelName)
 	{
-		GameEngineLevel* newLevel = new T;
-		newLevel->SetName(_levelName);
-		
-		auto result = allLevels_.insert(std::pair<std::string, GameEngineLevel*>(_levelName, newLevel));
-		if (false == result.second)
+		if (allLevels_.end() != allLevels_.find(_levelName))
 		{
 			GameEngineDebug::MsgBoxError("중복된 이름의 Level을 만들려고 했습니다. : " + _levelName);
 		}
+
+		GameEngineLevel* newLevel = new T;
+		newLevel->SetName(_levelName);
+		newLevel->LevelStart();
+		
+		allLevels_.insert(std::pair<std::string, GameEngineLevel*>(_levelName, newLevel));
 	}
 
-	static void ChangeLevel(const std::string& _levelName);
 };
 

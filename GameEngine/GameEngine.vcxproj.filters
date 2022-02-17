@@ -40,6 +40,9 @@
     <Filter Include="Object">
       <UniqueIdentifier>{ddd6831f-407f-4378-b635-0b23f4ea6a00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Transform">
+      <UniqueIdentifier>{bfff0c05-2fdb-4de7-a5a9-3e330dfab4a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

@@ -5,6 +5,9 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngine/GameEngineWindow.h>
 #include <GameEngine/GameEngineRenderingPipeLine.h>
+#include <GameApp/TitleLevel.h>
+#include <GameApp/TitleLevel.h>
+#include <GameApp/PlayLevel.h>
 
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
@@ -15,13 +18,6 @@ UserGame::~UserGame() // default destructer 디폴트 소멸자
 {
 
 }
-
-UserGame::UserGame(UserGame&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
-{
-
-}
-
-
 
 struct TransformData
 {
@@ -36,14 +32,16 @@ TransformData TransData;
 
 void UserGame::Initialize()
 {
-	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
-	// cpu의 데이터와 상수버퍼를 연결한다.
-	Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
+	//GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
+	//// cpu의 데이터와 상수버퍼를 연결한다.
+	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
 
 
 	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData222", TransData);
 	// cpu의 데이터와 상수버퍼를 한번 복사한다.
 	// Pipe->ShaderHelper.SettingConstantBufferSet("TransformData", TransData);
+
+	loadLevel();
 
 	return;
 }
@@ -51,6 +49,13 @@ void UserGame::Initialize()
 void UserGame::Release()
 {
 
+}
+
+void UserGame::loadLevel()
+{
+	CreateLevel<TitleLevel>("TitleLevel");
+	CreateLevel<PlayLevel>("PlayLevel");
+	ChangeLevel("TitleLevel");
 }
 
 

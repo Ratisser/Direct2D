@@ -18,22 +18,22 @@ public:
 public:
 	virtual void LevelChangeEndEvent() = 0;
 	virtual void LevelChangeStartEvent() = 0;
+	virtual void LevelStart() = 0;
+	virtual void LevelUpdate(float _deltaTime) = 0;
 
 public:
-	void Update(float _deltaTime);
+	void ActorUpdate(float _deltaTime);
 
 public:
 
-	template<typename T>
+	template<typename ActorType>
 	void CreateActor(int _updateOrder = 0, int _renderOrder = 0)
 	{
-		GameEngineActor* newActor = new T();
+		GameEngineActor* newActor = new ActorType();
 
 		newActor->SetLevel(this);
 
-		std::list<GameEngineActor*>& actorList = allActors_[_updateOrder];
-
-		actorList.push_back(newActor);
+		allActors_[_updateOrder].push_back(newActor);
 	}
 
 

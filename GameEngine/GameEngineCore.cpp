@@ -37,6 +37,15 @@ void GameEngineCore::EngineInitialize()
 
 void GameEngineCore::EngineDestroy()
 {
+	for (std::pair<const std::string, GameEngineLevel*>& p : allLevels_)
+	{
+		if (nullptr != p.second)
+		{
+			delete p.second;
+			p.second = nullptr;
+		}
+	}
+
 	GameEngineManagerHelper::ManagerRelease();
 	GameEngineTime::Destroy();
 	GameEngineDevice::Destroy();
@@ -61,12 +70,16 @@ void GameEngineCore::MainLoop()
 
 		nextLevel_->LevelChangeStartEvent();
 		currentLevel_ = nextLevel_;
+		GameEngineTime::GetInst().TimeCheck();
 	}
 
 	if (nullptr == currentLevel_)
 	{
 		GameEngineDebug::MsgBoxError("현재 레벨이 존재하지 않습니다.");
 	}
+
+	currentLevel_->LevelUpdate(GameEngineTime::GetInst().GetDeltaTime());
+	currentLevel_->ActorUpdate(GameEngineTime::GetInst().GetDeltaTime());
 }
 
 void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)
