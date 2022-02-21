@@ -3,6 +3,8 @@
 #include "GameEngineLevel.h"
 
 GameEngineActor::GameEngineActor()
+	: transform_(std::make_unique<GameEngineTransform>())
+	, level_(nullptr)
 {
 
 }
@@ -12,7 +14,7 @@ GameEngineActor::~GameEngineActor()
 
 }
 
-GameEngineLevel* GameEngineActor::GetLevel() const
+GameEngineLevel* GameEngineActor::GetLevel()
 {
 	return level_;
 }

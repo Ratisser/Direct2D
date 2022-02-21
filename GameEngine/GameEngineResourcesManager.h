@@ -10,7 +10,7 @@
 #include "GameEngineRenderTargetManager.h"
 #include "GameEngineTextureManager.h"
 
-#include "GameEngineRenderingPipeLineManager.h"
+#include "GameEngineRenderingPipelineManager.h"
 
 #include "GameEngineConstantBuffer.h"
 #include "GameEngineVertexBuffer.h"
@@ -21,7 +21,7 @@
 #include "GameEngineRasterizer.h"
 #include "GameEngineTexture.h"
 
-#include "GameEngineRenderingPipeLine.h"
+#include "GameEngineRenderingPipeline.h"
 
 
 class GameEngineManagerHelper 
@@ -31,7 +31,7 @@ public:
 	{
 		GameEngineSoundManager::Destroy();
 
-		GameEngineRenderingPipeLineManager::Destroy();
+		GameEngineRenderingPipelineManager::Destroy();
 
 		GameEngineConstantBufferManager::Destroy();
 		GameEngineIndexBufferManager::Destroy();

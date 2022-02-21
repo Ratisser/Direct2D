@@ -1,12 +1,13 @@
 #include "PreCompile.h"
 #include "GameEngineTransformComponent.h"
+#include "GameEngineTransform.h"
 
-GameEngineTransformComponent::GameEngineTransformComponent(GameEngineActor* _actor)
-	: GameEngineComponent(_actor)
+GameEngineTransformComponent::GameEngineTransformComponent()
+	: transform_(new GameEngineTransform)
 {
 }
 
 GameEngineTransformComponent::~GameEngineTransformComponent()
 {
-
+	delete transform_;
 }

@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "GameEngineRenderingPipeLine.h"
+#include "GameEngineRenderingPipeline.h"
 #include "GameEngineVertexBufferManager.h"
 #include "GameEngineVertexShaderManager.h"
 #include "GameEngineIndexBufferManager.h"
@@ -16,29 +16,24 @@
 
 #include "GameEngineWindow.h"
 
-GameEngineRenderingPipeLine::GameEngineRenderingPipeLine() // default constructer 디폴트 생성자
+GameEngineRenderingPipeline::GameEngineRenderingPipeline() // default constructer 디폴트 생성자
 	: VertexBuffer_(nullptr)
 	, InputLayOutVertexShader_(nullptr)
 	, VertexShader_(nullptr)
 	, IndexBuffer_(nullptr)
+	, PixelShader_(nullptr)
+	, Rasterizer_(nullptr)
+	, RenderTarget_(nullptr)
 	, Topology_(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
 }
 
-GameEngineRenderingPipeLine::~GameEngineRenderingPipeLine() // default destructer 디폴트 소멸자
+GameEngineRenderingPipeline::~GameEngineRenderingPipeline() // default destructer 디폴트 소멸자
 {
 
 }
 
-GameEngineRenderingPipeLine::GameEngineRenderingPipeLine(GameEngineRenderingPipeLine&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
-	: VertexBuffer_(_other.VertexBuffer_)
-	, VertexShader_(_other.VertexShader_)
-	, IndexBuffer_(_other.IndexBuffer_)
-{
-
-}
-
-void GameEngineRenderingPipeLine::SetInputAssembler1VertexBufferSetting(const std::string& _Name)
+void GameEngineRenderingPipeline::SetInputAssembler1VertexBufferSetting(const std::string& _Name)
 {
 	VertexBuffer_ = GameEngineVertexBufferManager::GetInst().Find(_Name);
 
@@ -50,7 +45,7 @@ void GameEngineRenderingPipeLine::SetInputAssembler1VertexBufferSetting(const st
 
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler1InputLayOutSetting(const std::string& _Name) 
+void GameEngineRenderingPipeline::SetInputAssembler1InputLayOutSetting(const std::string& _Name) 
 {
 	InputLayOutVertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
 
@@ -61,7 +56,7 @@ void GameEngineRenderingPipeLine::SetInputAssembler1InputLayOutSetting(const std
 	}
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std::string& _Name) 
+void GameEngineRenderingPipeline::SetInputAssembler2IndexBufferSetting(const std::string& _Name) 
 {
 	IndexBuffer_ = GameEngineIndexBufferManager::GetInst().Find(_Name);
 
@@ -72,13 +67,13 @@ void GameEngineRenderingPipeLine::SetInputAssembler2IndexBufferSetting(const std
 	}
 }
 
-void GameEngineRenderingPipeLine::SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY _Topology) 
+void GameEngineRenderingPipeline::SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY _Topology) 
 {
 	Topology_ = _Topology;
 }
 
 
-void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
+void GameEngineRenderingPipeline::SetVertexShader(const std::string& _Name)
 {
 	VertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
 
@@ -91,7 +86,7 @@ void GameEngineRenderingPipeLine::SetVertexShader(const std::string& _Name)
 	ShaderHelper.ShaderResourcesCheck(VertexShader_);
 }
 
-void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name) 
+void GameEngineRenderingPipeline::SetRasterizer(const std::string& _Name) 
 {
 	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
 
@@ -102,7 +97,7 @@ void GameEngineRenderingPipeLine::SetRasterizer(const std::string& _Name)
 	}
 }
 
-void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name) 
+void GameEngineRenderingPipeline::SetPixelShader(const std::string& _Name) 
 {
 	PixelShader_ = GameEnginePixelShaderManager::GetInst().Find(_Name);
 
@@ -116,7 +111,7 @@ void GameEngineRenderingPipeLine::SetPixelShader(const std::string& _Name)
 
 }
 
-void GameEngineRenderingPipeLine::SetOutputMerger(const std::string& _Name) 
+void GameEngineRenderingPipeline::SetOutputMerger(const std::string& _Name) 
 {
 	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
 
@@ -128,36 +123,36 @@ void GameEngineRenderingPipeLine::SetOutputMerger(const std::string& _Name)
 
 }
 
-void GameEngineRenderingPipeLine::InputAssembler1() 
+void GameEngineRenderingPipeline::InputAssembler1() 
 {
 	VertexBuffer_->Setting();
 	InputLayOutVertexShader_->InputLayOutSetting();
 }
 
-void GameEngineRenderingPipeLine::InputAssembler2() 
+void GameEngineRenderingPipeline::InputAssembler2() 
 {
 	IndexBuffer_->Setting();
 	GameEngineDevice::GetContext()->IASetPrimitiveTopology(Topology_);
 }
 
-void GameEngineRenderingPipeLine::VertexShader() 
+void GameEngineRenderingPipeline::VertexShader() 
 {
 	VertexShader_->Setting();
 }
 
-void GameEngineRenderingPipeLine::Rasterizer()
+void GameEngineRenderingPipeline::Rasterizer()
 {
 	Rasterizer_->Setting();
 	Rasterizer_->SettingViewPort();
 }
 
 
-void GameEngineRenderingPipeLine::PixelShader()
+void GameEngineRenderingPipeline::PixelShader()
 {
 	PixelShader_->Setting();
 }
 
-void GameEngineRenderingPipeLine::RenderingPipeLineSetting() 
+void GameEngineRenderingPipeline::RenderingPipeLineSetting() 
 {
 	// input어셈블러 단계
 	InputAssembler1();
@@ -171,7 +166,7 @@ void GameEngineRenderingPipeLine::RenderingPipeLineSetting()
 	PixelShader();
 }
 
-void GameEngineRenderingPipeLine::Rendering() 
+void GameEngineRenderingPipeline::Rendering() 
 {
 	RenderingPipeLineSetting();
 

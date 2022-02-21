@@ -496,6 +496,21 @@ public:
 
 	}
 
+	static float4x4 ScalingMatrixFromVector(const float4 _vector)
+	{
+		return DirectX::XMMatrixScalingFromVector(_vector.DirectVector);
+	}
+
+	static float4x4 RotationMatrixFromVector(const float4 _vector)
+	{
+		return DirectX::XMMatrixRotationRollPitchYawFromVector(_vector.DirectVector);
+	}
+
+	static float4x4 TranslationMatrixFromVector(const float4 _vector)
+	{
+		return DirectX::XMMatrixTranslationFromVector(_vector.DirectVector);
+	}
+
 	void Scaling2D(const float _Value)
 	{
 		DirectMatrix = DirectX::XMMatrixScalingFromVector(float4(_Value, _Value, 1.0f).DirectVector);

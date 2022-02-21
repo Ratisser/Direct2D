@@ -40,8 +40,26 @@
     <Filter Include="Object">
       <UniqueIdentifier>{ddd6831f-407f-4378-b635-0b23f4ea6a00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Transform">
+    <Filter Include="Object\Componenets">
+      <UniqueIdentifier>{6f77b1a3-570f-4088-9e43-96914d4b2783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Componenets\Transform">
       <UniqueIdentifier>{bfff0c05-2fdb-4de7-a5a9-3e330dfab4a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor">
+      <UniqueIdentifier>{e3cef78b-46cc-489d-b9ea-b71a667be8f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level">
+      <UniqueIdentifier>{c03c7f3a-bceb-4a47-95a5-1430bef19182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Componenets\Camera">
+      <UniqueIdentifier>{e2f6c9b4-ee3e-4937-bbc4-58b7064bf8ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Componenets\Rendering">
+      <UniqueIdentifier>{664d6363-d489-4c36-acde-7e71c0871fe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Componenets\Abstract">
+      <UniqueIdentifier>{dca4b00b-0be9-4fa7-82d6-bda79c7b42b8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,7 +68,7 @@
     </ClInclude>
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineWindow.h" />
-    <ClInclude Include="GameEngineRenderingPipeLine.h">
+    <ClInclude Include="GameEngineRenderingPipeline.h">
       <Filter>RenderingPipeLine</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineVertexShader.h">
@@ -122,11 +140,26 @@
     <ClInclude Include="GameEngineShaderResHelper.h">
       <Filter>RenderingPipeLine</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineTransform.h">
+      <Filter>Object\Componenets\Transform</Filter>
+    </ClInclude>
     <ClInclude Include="GameEngineActor.h">
-      <Filter>Object</Filter>
+      <Filter>Object\Actor</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineLevel.h">
-      <Filter>Object</Filter>
+      <Filter>Object\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineCameraComponent.h">
+      <Filter>Object\Componenets\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderingComponent.h">
+      <Filter>Object\Componenets\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineComponent.h">
+      <Filter>Object\Componenets\Abstract</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineTransformComponent.h">
+      <Filter>Object\Componenets\Abstract</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +168,7 @@
     </ClCompile>
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineWindow.cpp" />
-    <ClCompile Include="GameEngineRenderingPipeLine.cpp">
+    <ClCompile Include="GameEngineRenderingPipeline.cpp">
       <Filter>RenderingPipeLine</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineVertexShader.cpp">
@@ -204,11 +237,26 @@
     <ClCompile Include="GameEngineShaderResHelper.cpp">
       <Filter>RenderingPipeLine</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineTransform.cpp">
+      <Filter>Object\Componenets\Transform</Filter>
+    </ClCompile>
     <ClCompile Include="GameEngineActor.cpp">
-      <Filter>Object</Filter>
+      <Filter>Object\Actor</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineLevel.cpp">
-      <Filter>Object</Filter>
+      <Filter>Object\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCameraComponent.cpp">
+      <Filter>Object\Componenets\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderingComponent.cpp">
+      <Filter>Object\Componenets\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineComponent.cpp">
+      <Filter>Object\Componenets\Abstract</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineTransformComponent.cpp">
+      <Filter>Object\Componenets\Abstract</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

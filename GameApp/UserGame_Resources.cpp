@@ -193,7 +193,7 @@ void UserGame::ResourcesLoad()
 
 
 	{
-		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("ColorRendering");
+		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("ColorRendering");
 
 		// 이런 기본적인 vertex들이 있다.
 		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
@@ -227,7 +227,7 @@ void UserGame::ResourcesLoad()
 	}
 
 	{
-		GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Create("BoxRendering");
+		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("BoxRendering");
 
 		// 이런 기본적인 vertex들이 있다.
 		Pipe->SetInputAssembler1VertexBufferSetting("Box");

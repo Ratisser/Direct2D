@@ -3,10 +3,11 @@
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 
 class GameEngineActor;
+class GameEngineLevel;
 class GameEngineComponent : public GameEngineObjectNameBase
 {
 public:
-	GameEngineComponent(GameEngineActor* _actor); 
+	GameEngineComponent(); 
 	~GameEngineComponent();
 
 	GameEngineComponent(const GameEngineComponent& _other) = delete; 
@@ -15,9 +16,18 @@ public:
 	GameEngineComponent& operator=(const GameEngineComponent& _other) = delete;
 	GameEngineComponent& operator=(const GameEngineComponent&& _other) = delete;
 
+public:
+	virtual void Start() = 0;
+	virtual void Update() = 0;
+
+public:
+	void InitComponent(GameEngineActor* _actor);
+
 	GameEngineActor* GetActor() const;
+	GameEngineLevel* GetLevel() const;
 
 protected:
 	GameEngineActor* actor_;
+	GameEngineLevel* level_;
 };
 

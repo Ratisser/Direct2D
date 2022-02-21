@@ -4,7 +4,7 @@
 
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngine/GameEngineWindow.h>
-#include <GameEngine/GameEngineRenderingPipeLine.h>
+#include <GameEngine/GameEngineRenderingPipeline.h>
 #include <GameApp/TitleLevel.h>
 #include <GameApp/TitleLevel.h>
 #include <GameApp/PlayLevel.h>
@@ -32,7 +32,7 @@ TransformData TransData;
 
 void UserGame::Initialize()
 {
-	//GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
+	//GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Find("BoxRendering");
 	//// cpu의 데이터와 상수버퍼를 연결한다.
 	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
 
@@ -61,7 +61,7 @@ void UserGame::loadLevel()
 
 //void UserGame::GameLoop()
 //{
-//	GameEngineRenderingPipeLine* Pipe = GameEngineRenderingPipeLineManager::GetInst().Find("BoxRendering");
+//	GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Find("BoxRendering");
 //	{
 //		float deltaTime = GameEngineTime::GetInst().GetDeltaTime();
 //		//pos.x += deltaTime * 20;

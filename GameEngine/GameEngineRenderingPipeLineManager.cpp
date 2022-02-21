@@ -1,17 +1,17 @@
 #include "PreCompile.h"
-#include "GameEngineRenderingPipeLineManager.h"
-#include "GameEngineRenderingPipeLine.h"
+#include "GameEngineRenderingPipelineManager.h"
+#include "GameEngineRenderingPipeline.h"
 
-GameEngineRenderingPipeLineManager* GameEngineRenderingPipeLineManager::Inst = new GameEngineRenderingPipeLineManager();
+GameEngineRenderingPipelineManager* GameEngineRenderingPipelineManager::Inst = new GameEngineRenderingPipelineManager();
 
-GameEngineRenderingPipeLineManager::GameEngineRenderingPipeLineManager() // default constructer 디폴트 생성자
+GameEngineRenderingPipelineManager::GameEngineRenderingPipelineManager() // default constructer 디폴트 생성자
 {
 
 }
 
-GameEngineRenderingPipeLineManager::~GameEngineRenderingPipeLineManager() // default destructer 디폴트 소멸자
+GameEngineRenderingPipelineManager::~GameEngineRenderingPipelineManager() // default destructer 디폴트 소멸자
 {
-	for (const std::pair<std::string, GameEngineRenderingPipeLine*>& Res : ResourcesMap)
+	for (const std::pair<std::string, GameEngineRenderingPipeline*>& Res : ResourcesMap)
 	{
 		if (nullptr != Res.second)
 		{
@@ -22,16 +22,16 @@ GameEngineRenderingPipeLineManager::~GameEngineRenderingPipeLineManager() // def
 	ResourcesMap.clear();
 }
 
-GameEngineRenderingPipeLineManager::GameEngineRenderingPipeLineManager(GameEngineRenderingPipeLineManager&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
+GameEngineRenderingPipelineManager::GameEngineRenderingPipelineManager(GameEngineRenderingPipelineManager&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
 {
 
 }
 
 
 
-GameEngineRenderingPipeLine* GameEngineRenderingPipeLineManager::Create(const std::string& _Name)
+GameEngineRenderingPipeline* GameEngineRenderingPipelineManager::Create(const std::string& _Name)
 {
-	GameEngineRenderingPipeLine* FindRes = Find(_Name);
+	GameEngineRenderingPipeline* FindRes = Find(_Name);
 
 	if (nullptr != FindRes)
 	{
@@ -39,40 +39,40 @@ GameEngineRenderingPipeLine* GameEngineRenderingPipeLineManager::Create(const st
 	}
 
 
-	GameEngineRenderingPipeLine* NewRes = new GameEngineRenderingPipeLine();
+	GameEngineRenderingPipeline* NewRes = new GameEngineRenderingPipeline();
 	NewRes->SetName(_Name);
 
 	// 그리고 뭘할거냐?
 
-	ResourcesMap.insert(std::map<std::string, GameEngineRenderingPipeLine*>::value_type(_Name, NewRes));
+	ResourcesMap.insert(std::map<std::string, GameEngineRenderingPipeline*>::value_type(_Name, NewRes));
 	return NewRes;
 }
 
-GameEngineRenderingPipeLine* GameEngineRenderingPipeLineManager::Load(const std::string& _Path)
+GameEngineRenderingPipeline* GameEngineRenderingPipelineManager::Load(const std::string& _Path)
 {
 	return Load(GameEnginePath::GetFileName(_Path), _Path);
 }
 
-GameEngineRenderingPipeLine* GameEngineRenderingPipeLineManager::Load(const std::string& _Name, const std::string& _Path)
+GameEngineRenderingPipeline* GameEngineRenderingPipelineManager::Load(const std::string& _Name, const std::string& _Path)
 {
-	GameEngineRenderingPipeLine* FindRes = Find(_Name);
+	GameEngineRenderingPipeline* FindRes = Find(_Name);
 
 	if (nullptr != FindRes)
 	{
 		GameEngineDebug::MsgBoxError(_Name + " Is Overlap Load");
 	}
 
-	GameEngineRenderingPipeLine* NewRes = new GameEngineRenderingPipeLine();
+	GameEngineRenderingPipeline* NewRes = new GameEngineRenderingPipeline();
 	NewRes->SetName(_Name);
 
 
-	ResourcesMap.insert(std::map<std::string, GameEngineRenderingPipeLine*>::value_type(_Name, NewRes));
+	ResourcesMap.insert(std::map<std::string, GameEngineRenderingPipeline*>::value_type(_Name, NewRes));
 	return NewRes;
 }
 
-GameEngineRenderingPipeLine* GameEngineRenderingPipeLineManager::Find(const std::string& _Name)
+GameEngineRenderingPipeline* GameEngineRenderingPipelineManager::Find(const std::string& _Name)
 {
-	std::map<std::string, GameEngineRenderingPipeLine*>::iterator FindIter = ResourcesMap.find(_Name);
+	std::map<std::string, GameEngineRenderingPipeline*>::iterator FindIter = ResourcesMap.find(_Name);
 
 	if (FindIter != ResourcesMap.end())
 	{
