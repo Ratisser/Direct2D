@@ -8,7 +8,7 @@ class GameEngineTransformComponent : public GameEngineComponent
 {
 public:
 	GameEngineTransformComponent(); 
-	~GameEngineTransformComponent();
+	virtual ~GameEngineTransformComponent();
 
 	GameEngineTransformComponent(const GameEngineTransformComponent& _other) = delete; 
 	GameEngineTransformComponent(GameEngineTransformComponent&& _other) = delete; 

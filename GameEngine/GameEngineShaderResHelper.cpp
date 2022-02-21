@@ -9,7 +9,7 @@ GameEngineShaderResHelper::GameEngineShaderResHelper()
 GameEngineShaderResHelper::~GameEngineShaderResHelper() 
 {
 
-	for (auto& Setting : AllSettingData_)
+	for (auto& Setting : AllConstantBuffers_)
 	{
 		if (nullptr != Setting.second)
 		{
@@ -32,7 +32,7 @@ void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
 		SettingData->Shader = _Shader;
 		SettingData->Res_ = ConstantBuffer.second;
 		SettingData->SettingIndex_ = ConstantBuffer.first;
-		auto Result = AllSettingData_.insert(std::make_pair(ConstantBuffer.second->GetName(), SettingData));
+		auto Result = AllConstantBuffers_.insert(std::make_pair(ConstantBuffer.second->GetName(), SettingData));
 
 		if (false == Result.second)
 		{
@@ -44,10 +44,22 @@ void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
 void GameEngineShaderResHelper::Setting() 
 {
 	// 정보가 다 있으니까.
-	for (auto& Setting : AllSettingData_)
+	for (auto& Setting : AllConstantBuffers_)
 	{
 		Setting.second->ChangeData();
 		Setting.second->ShaderSetting();
 	}
 
+}
+
+bool GameEngineShaderResHelper::IsValidConstantBuffer(const std::string& _name)
+{
+	std::map<std::string, GameEngineConstantBufferSetting*>::iterator findIter = AllConstantBuffers_.find(_name);
+
+	if (findIter == AllConstantBuffers_.end())
+	{
+		return false;
+	}
+
+	return true;
 }

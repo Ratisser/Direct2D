@@ -15,9 +15,15 @@ public:
 	GameEngineRenderingComponent& operator=(const GameEngineRenderingComponent& _other) = delete;
 	GameEngineRenderingComponent& operator=(const GameEngineRenderingComponent&& _other) = delete;
 
-	void SetRenderingPipeline(const std::string& _name);
+	virtual void Start() override;
+	virtual void Update() override;
 
+	void SetRenderingPipeline(const std::string& _name);
+	void Render();
 protected:
 	GameEngineRenderingPipeline* pipe_;
+
+	// GameEngineTransformComponent을(를) 통해 상속됨
+
 };
 

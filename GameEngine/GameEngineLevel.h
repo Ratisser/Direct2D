@@ -3,6 +3,7 @@
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 
 class GameEngineActor;
+class GameEngineRenderingComponent;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
 public:
@@ -39,6 +40,6 @@ public:
 
 private:
 	std::map<int, std::list<GameEngineActor*>> allActors_;
-
+	std::map<int, std::list<GameEngineRenderingComponent*>> allRenderer_;
 };
 

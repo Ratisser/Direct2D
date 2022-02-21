@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngineLevel.h"
 #include "GameEngineActor.h"
+#include "GameEngineComponent.h"
 
 GameEngineLevel::GameEngineLevel()
 {

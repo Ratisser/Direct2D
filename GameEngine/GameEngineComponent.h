@@ -8,7 +8,7 @@ class GameEngineComponent : public GameEngineObjectNameBase
 {
 public:
 	GameEngineComponent(); 
-	~GameEngineComponent();
+	virtual ~GameEngineComponent();
 
 	GameEngineComponent(const GameEngineComponent& _other) = delete; 
 	GameEngineComponent(GameEngineComponent&& _other) = delete; 

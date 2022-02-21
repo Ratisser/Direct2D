@@ -18,15 +18,26 @@ void GameEngineRenderingComponent::SetRenderingPipeline(const std::string& _name
 {
 	pipe_ = GameEngineRenderingPipelineManager::GetInst().Find(_name);
 
-	pipe_ = GameEngineRenderingPipelineManager::GetInst().Find("Color");
-
-	if (true == pipe_->ShaderHelper.IsConstantBuffer("TransformData"))
+	if (true == pipe_->ShaderHelper.IsValidConstantBuffer("TransformData"))
 	{
 		pipe_->ShaderHelper.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());
 	}
 
 	if (nullptr == pipe_)
 	{
-		GameEngineDebug::MsgBoxError("unavailable pipeline named \"" + _name + "\"");
+		GameEngineDebug::MsgBoxError("invalid pipeline name  \"" + _name + "\"");
 	}
+}
+
+void GameEngineRenderingComponent::Render()
+{
+	pipe_->Rendering();
+}
+
+void GameEngineRenderingComponent::Start()
+{
+}
+
+void GameEngineRenderingComponent::Update()
+{
 }

@@ -61,6 +61,9 @@
     <Filter Include="Object\Componenets\Abstract">
       <UniqueIdentifier>{dca4b00b-0be9-4fa7-82d6-bda79c7b42b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\SubActor">
+      <UniqueIdentifier>{c886ad4c-e0ae-40c7-b79f-421085d61864}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

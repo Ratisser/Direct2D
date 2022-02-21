@@ -70,6 +70,7 @@ void GameEngineCore::MainLoop()
 
 		nextLevel_->LevelChangeStartEvent();
 		currentLevel_ = nextLevel_;
+		nextLevel_ = nullptr;
 		GameEngineTime::GetInst().TimeCheck();
 	}
 

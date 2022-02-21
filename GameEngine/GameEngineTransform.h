@@ -2,8 +2,6 @@
 
 #include <GameEngineBase/GameEngineMath.h>
 
-#include "GameEngineComponent.h"
-
 class TransformData
 {
 public:

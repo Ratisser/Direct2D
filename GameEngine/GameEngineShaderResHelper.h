@@ -24,6 +24,8 @@ public:
 	void ShaderResourcesCheck(GameEngineShader* _Shader);
 	void Setting();
 
+	bool IsValidConstantBuffer(const std::string& _name);
+
 	template<typename T>
 	void SettingConstantBufferLink(const std::string& _SettingName, T& _Data);
 
@@ -33,7 +35,7 @@ public:
 	void SettingConstantBufferSet(const std::string& _SettingName, const T& _Data);
 
 private:
-	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBuffer_;
+	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBuffers_;
 
 };
 
@@ -43,9 +45,9 @@ private:
 template<typename T>
 inline void GameEngineShaderResHelper::SettingConstantBufferLink(const std::string& _SettingName, T& _Data)
 {
-	std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBuffer_.find(_SettingName);
+	std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBuffers_.find(_SettingName);
 
-	if (FindIter == AllConstantBuffer_.end())
+	if (FindIter == AllConstantBuffers_.end())
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + _SettingName);
 		return;
@@ -61,9 +63,9 @@ inline void GameEngineShaderResHelper::SettingConstantBufferLink(const std::stri
 template<typename T>
 inline void GameEngineShaderResHelper::SettingConstantBufferSet(const std::string& _SettingName, const T& _Data)
 {
-	std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBuffer_.find(_SettingName);
+	std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBuffers_.find(_SettingName);
 
-	if (FindIter == AllConstantBuffer_.end())
+	if (FindIter == AllConstantBuffers_.end())
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + _SettingName);
 		return;
@@ -72,17 +74,17 @@ inline void GameEngineShaderResHelper::SettingConstantBufferSet(const std::strin
 	GameEngineConstantBufferSetting* SettingData = FindIter->second;
 
 	// 최초세팅이라면 지워준다.
-	//if (SettingData->Mode_ == SettingMode::MAX)
-	//{
-	//	SettingData->Clear();
-	//}
+	if (SettingData->Mode_ == SettingMode::MAX)
+	{
+		SettingData->Clear();
+	}
 
 	SettingData->Mode_ = SettingMode::Set;
 	SettingData->SettingDataSize_ = sizeof(_Data);
 
 	if (nullptr != SettingData->SettingData_)
 	{
-		delete[] SettingData->SettingData_
+		delete[] SettingData->SettingData_;
 	}
 
 	SettingData->SettingData_ = new char[sizeof(_Data)];
