@@ -64,6 +64,15 @@
     <Filter Include="Object\Actor\SubActor">
       <UniqueIdentifier>{c886ad4c-e0ae-40c7-b79f-421085d61864}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{f0e91a99-d9c8-4b0f-8ff6-ef3c80521449}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\lib">
+      <UniqueIdentifier>{cd77981c-e0d8-432e-9074-222fd4f5b7e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{0cb5ffe9-abb2-41e3-9867-8b5296eec51e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -167,6 +176,9 @@
     <ClInclude Include="GameEngineTransformComponent.h">
       <Filter>Object\Componenets\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineInput.h">
+      <Filter>Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -267,10 +279,18 @@
     <ClCompile Include="GameEngineTransformComponent.cpp">
       <Filter>Object\Componenets\Transform</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineInput.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
       <Filter>ShaderCode</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
+      <Filter>ThirdParty\lib</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

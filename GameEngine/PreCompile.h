@@ -8,3 +8,7 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineBase/GameEngineSoundManager.h>
 #include <GameEngineBase/GameEngineMath.h>
+
+#include <map>
+#include <string>
+#include <Windows.h>

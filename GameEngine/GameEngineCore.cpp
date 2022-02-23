@@ -3,6 +3,7 @@
 #include "GameEngineWindow.h"
 #include "GameEngineResourcesManager.h"
 #include "GameEngineDevice.h"
+#include "GameEngineInput.h"
 
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 std::map<std::string, GameEngineLevel*> GameEngineCore::allLevels_ = std::map<std::string, GameEngineLevel*>();
@@ -32,6 +33,7 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 void GameEngineCore::EngineInitialize()
 {
 	GameEngineSoundManager::GetInstance().Initialize();
+	GameEngineInput::GetInstance();
 }
 
 
@@ -49,6 +51,7 @@ void GameEngineCore::EngineDestroy()
 	GameEngineManagerHelper::ManagerRelease();
 	GameEngineTime::Destroy();
 	GameEngineDevice::Destroy();
+	GameEngineInput::Destroy();
 	GameEngineWindow::Destroy();
 }
 
@@ -60,6 +63,7 @@ void GameEngineCore::MainLoop()
 {
 	GameEngineTime::GetInst().TimeCheck();
 	GameEngineSoundManager::GetInstance().Update();
+	GameEngineInput::GetInstance().update();
 
 	if (nullptr != nextLevel_)
 	{
