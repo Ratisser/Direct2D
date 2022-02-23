@@ -2,6 +2,7 @@
 
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 
+class GameEngineCore;
 class GameEngineInput : public GameEngineObjectNameBase
 {
 	friend GameEngineCore;

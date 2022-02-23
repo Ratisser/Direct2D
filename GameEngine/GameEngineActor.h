@@ -6,10 +6,9 @@
 #include "GameEngineComponent.h"
 #include "GameEngineTransformComponent.h"
 
-class GameEngineLevel;
 class GameEngineActor : public GameEngineObjectNameBase
 {
-	friend GameEngineLevel;
+	friend class GameEngineLevel;
 public:
 	GameEngineActor();
 	virtual ~GameEngineActor();
