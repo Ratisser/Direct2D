@@ -82,6 +82,7 @@ public:
 
 		GameEngineLevel* newLevel = new T;
 		newLevel->SetName(_levelName);
+		newLevel->init();
 		newLevel->LevelStart();
 		
 		allLevels_.insert(std::pair<std::string, GameEngineLevel*>(_levelName, newLevel));

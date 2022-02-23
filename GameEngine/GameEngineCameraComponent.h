@@ -8,7 +8,7 @@ enum class ProjectionMode
 	Orthographic
 };
 
-class GameEngineCameraComponent : GameEngineTransformComponent
+class GameEngineCameraComponent : public GameEngineTransformComponent
 {
 public:
 	GameEngineCameraComponent(); 

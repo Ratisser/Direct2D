@@ -107,6 +107,11 @@ float4 GameEngineTransform::GetLocation()
 	return location_;
 }
 
+float4 GameEngineTransform::GetWorldLocation()
+{
+	return location_ * transformData_.Wolrd;
+}
+
 void GameEngineTransform::UpdateTransform()
 {
 	if (nullptr == parent_)
@@ -116,9 +121,9 @@ void GameEngineTransform::UpdateTransform()
 		transformData_.Wolrd = transformData_.Wolrd * float4x4::RotationMatrixFromVector(rotation_);
 		transformData_.Wolrd = transformData_.Wolrd * float4x4::TranslationMatrixFromVector(location_);
 
-		for (size_t i = 0; i < childs_.size(); i++)
+		for (GameEngineTransform* child : childs_)
 		{
-			UpdateTransformByParent();
+			child->UpdateTransformByParent();
 		}
 	}
 }
@@ -132,9 +137,9 @@ void GameEngineTransform::UpdateTransformByParent()
 	transformData_.Wolrd = transformData_.Wolrd * parent_->transformData_.Wolrd;
 
 	// TODO : 스택 오버플로우 위험이 있음. 개선 필요.
-	for (size_t i = 0; i < childs_.size(); i++)
+	for (GameEngineTransform* child : childs_)
 	{
-		UpdateTransformByParent();
+		child->UpdateTransformByParent();
 	}
 }
 

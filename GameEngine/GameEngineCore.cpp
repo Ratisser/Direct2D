@@ -79,8 +79,10 @@ void GameEngineCore::MainLoop()
 		GameEngineDebug::MsgBoxError("현재 레벨이 존재하지 않습니다.");
 	}
 
+
 	currentLevel_->LevelUpdate(GameEngineTime::GetInst().GetDeltaTime());
 	currentLevel_->ActorUpdate(GameEngineTime::GetInst().GetDeltaTime());
+	currentLevel_->Render();
 }
 
 void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)

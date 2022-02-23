@@ -680,9 +680,9 @@ public:
 		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
 	}
 
-	void ViewToLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
+	void ViewToLH(const float4& _EyePos, const float4& _EyeDirection, const float4& _EyeUp)
 	{
-		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
+		DirectMatrix = DirectX::XMMatrixLookToLH(_EyePos.DirectVector, _EyeDirection.DirectVector, _EyeUp.DirectVector);
 	}
 
 	void PerspectiveFovLH(
@@ -703,62 +703,6 @@ public:
 		float _FarZ
 		)
 	{
-		// _AspectRatio 1280 / 720
-
-		//float    SinFov;
-		//float    CosFov;
-		//XMScalarSinCos(&SinFov, &CosFov, 0.5f * FovAngleY);
-
-		
-		// 0.5 == 높이 / 밑변
-		// 100
-		// 50
-		// 100 50
-		// 
-
-		// 각도가 세타일때의 tan((_FovAngleY * 0.5f))
-		// 높이 / 밑변
-		// 1 / 높이 / 밑변 * 밑변 
-		// 그걸 다시 x y곱하면 
-
-		// 월드 => 뷰
-		// 도형의 0 x y z
-		// 도형의 1 x y z
-		// 도형의 2 x y z
-
-		// x * (50)
-
-		//float Height = 1.0f / tan((_FovAngleY * 0.5f))  
-		//float Width =  Height / _AspectRatio;
-		//float fRange = _FarZ / (_FarZ - _NearZ);
-
-		// Width * x / z
-		// Height * y / z
-
-		// Z
-
-		//XMMATRIX M;
-		//M.m[0][0] = Width; / Z
-		//M.m[0][1] = 0.0f;
-		//M.m[0][2] = 0.0f;
-		//M.m[0][3] = 0.0f;
-
-		//M.m[1][0] = 0.0f;
-		//M.m[1][1] = Height;
-		//M.m[1][2] = 0.0f;
-		//M.m[1][3] = 0.0f;
-
-		//M.m[2][0] = 0.0f;
-		//M.m[2][1] = 0.0f;
-		//M.m[2][2] = fRange;
-		//M.m[2][3] = 1.0f;
-
-		//M.m[3][0] = 0.0f;
-		//M.m[3][1] = 0.0f;
-		//M.m[3][2] = -fRange * NearZ;
-		//M.m[3][3] = 0.0f;
-		//return M;
-
 		DirectMatrix = DirectX::XMMatrixPerspectiveFovLH(_FovAngleY, _AspectRatio, _NearZ, _FarZ);
 	}
 

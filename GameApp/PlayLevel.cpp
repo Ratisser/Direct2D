@@ -2,6 +2,8 @@
 #include "PlayLevel.h"
 #include "Player.h"
 
+#include <GameEngine/GameEngineCameraComponent.h>
+
 PlayLevel::PlayLevel()
 {
 
@@ -22,7 +24,10 @@ void PlayLevel::LevelChangeStartEvent()
 
 void PlayLevel::LevelStart()
 {
-	CreateActor<Player>();
+	CreateActor<Player>("Player");
+
+	mainCamera_->GetTransform()->SetLocation(0.0f, 0.0f, -100.f);
+	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 }
 
 void PlayLevel::LevelUpdate(float _deltaTime)

@@ -4,6 +4,8 @@
 #include "GameEngineActor.h"
 
 GameEngineComponent::GameEngineComponent()
+	: actor_(nullptr)
+	, level_(nullptr)
 {
 
 }

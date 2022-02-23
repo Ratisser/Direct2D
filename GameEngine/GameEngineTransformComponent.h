@@ -18,6 +18,6 @@ public:
 
 	GameEngineTransform* GetTransform() { return transform_; }
 
-private:
+protected:
 	GameEngineTransform* transform_;
 };

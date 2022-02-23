@@ -28,7 +28,6 @@ public:
 	void MultiplyScale(float _scale);
 	void MultiplyScale(float _x, float _y, float _z = 1.0f);
 
-
 	void SetRotation(const float4& _rotation);
 	void SetRotation(float _x, float _y, float _z = 0.0f);
 	void AddRotation(float _x, float _y, float _z = 0.0f);
@@ -40,6 +39,7 @@ public:
 	float4 GetScale();
 	float4 GetRotation();
 	float4 GetLocation();
+	float4 GetWorldLocation();
 
 	void UpdateTransform();
 	void UpdateTransformByParent();

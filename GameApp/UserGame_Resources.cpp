@@ -240,21 +240,25 @@ void UserGame::ResourcesLoad()
 		Pipe->SetInputAssembler2IndexBufferSetting("Box");
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		// 헐 테셀레이션 도메인 지오메트리는 있으면 적용되고 없어도 필수는 아니다. 
-		// vertex을 더 쪼갤건데 준비를 하겠다. 
-		// 헐
-		// 
-		// 헐에서 정한대로 vertex를 더 쪼갠다.
-		// 테셀레이션 
-		// 
-		// 그 더 쪼갠 vertex들을 수정하겠다.
-		// 도메인 
-		// 
-		// 지오메트리 완전히 새로운 vertex들을 또 만들겠다.
-		// 애는 게임에서 좀 많이 쓸모있음.
+		Pipe->SetRasterizer("EngineBaseRasterizer");
 
-		// 그리리기한 면혹은 선 등등에 겹치는 모니터의 픽셀들을 추출하겠다. 
-		// 레스터라이터라이저
+		Pipe->SetPixelShader("Color_PS");
+	}
+
+	{
+		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("BoxRendering2");
+
+		// 이런 기본적인 vertex들이 있다.
+		Pipe->SetInputAssembler1VertexBufferSetting("Box");
+		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");
+
+		// 그 vertex을 이렇게 위치시키겠다.
+		Pipe->SetVertexShader("Color_VS");
+
+		// 그 vertex을 3개 묶어서 면으로 그리겠다. 순서는 인덱스 버퍼의 순서대로
+		Pipe->SetInputAssembler2IndexBufferSetting("Box");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 		Pipe->SetRasterizer("EngineBaseRasterizer");
 
 		Pipe->SetPixelShader("Color_PS");

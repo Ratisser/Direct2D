@@ -146,9 +146,6 @@
     <ClInclude Include="GameEngineTransform.h">
       <Filter>Object\Componenets\Transform</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineActor.h">
-      <Filter>Object\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineLevel.h">
       <Filter>Object\Level</Filter>
     </ClInclude>
@@ -161,8 +158,14 @@
     <ClInclude Include="GameEngineComponent.h">
       <Filter>Object\Componenets\Abstract</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineActor.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineCamera.h">
+      <Filter>Object\Actor\SubActor</Filter>
+    </ClInclude>
     <ClInclude Include="GameEngineTransformComponent.h">
-      <Filter>Object\Componenets\Abstract</Filter>
+      <Filter>Object\Componenets\Transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -243,9 +246,6 @@
     <ClCompile Include="GameEngineTransform.cpp">
       <Filter>Object\Componenets\Transform</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineActor.cpp">
-      <Filter>Object\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineLevel.cpp">
       <Filter>Object\Level</Filter>
     </ClCompile>
@@ -258,8 +258,14 @@
     <ClCompile Include="GameEngineComponent.cpp">
       <Filter>Object\Componenets\Abstract</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineActor.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCamera.cpp">
+      <Filter>Object\Actor\SubActor</Filter>
+    </ClCompile>
     <ClCompile Include="GameEngineTransformComponent.cpp">
-      <Filter>Object\Componenets\Abstract</Filter>
+      <Filter>Object\Componenets\Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

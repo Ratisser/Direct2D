@@ -2,16 +2,22 @@
 
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 
+#include "GameEngineCamera.h"
+
 class GameEngineActor;
 class GameEngineRenderingComponent;
+class GameEngineCamera;
+class GameEngineCore;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
+	friend GameEngineCore;
+	friend GameEngineRenderingComponent;
 public:
-	GameEngineLevel(); 
+	GameEngineLevel();
 	~GameEngineLevel();
 
-	GameEngineLevel(const GameEngineLevel& _other) = delete; 
-	GameEngineLevel(GameEngineLevel&& _other) = delete; 
+	GameEngineLevel(const GameEngineLevel& _other) = delete;
+	GameEngineLevel(GameEngineLevel&& _other) = delete;
 
 	GameEngineLevel& operator=(const GameEngineLevel& _other) = delete;
 	GameEngineLevel& operator=(const GameEngineLevel&& _other) = delete;
@@ -24,22 +30,55 @@ public:
 
 public:
 	void ActorUpdate(float _deltaTime);
+	void Render();
+
+	GameEngineCamera* GetMainCameraActor();
+	GameEngineCameraComponent* GetMainCameraComponent();
 
 public:
+	template<typename ActorType>
+	ActorType* CreateActor(int _updateOrder = 0);
 
 	template<typename ActorType>
-	void CreateActor(int _updateOrder = 0, int _renderOrder = 0)
-	{
-		GameEngineActor* newActor = new ActorType();
+	ActorType* CreateActor(const std::string& _name, int _updateOrder = 0);
 
-		newActor->SetLevel(this);
+private:
+	void init();
+	void pushRenderingComponent(GameEngineRenderingComponent* _renderingComponent);
 
-		allActors_[_updateOrder].push_back(newActor);
-	}
-
+protected:
+	GameEngineCamera* mainCamera_;
 
 private:
 	std::map<int, std::list<GameEngineActor*>> allActors_;
-	std::map<int, std::list<GameEngineRenderingComponent*>> allRenderer_;
+	std::list<GameEngineRenderingComponent*> allRenderer_;
 };
 
+
+
+
+template<typename ActorType>
+ActorType* GameEngineLevel::CreateActor(int _updateOrder)
+{
+	GameEngineActor* newActor = new ActorType();
+
+	newActor->SetName("unnamed");
+	newActor->SetLevel(this);
+	newActor->Start();
+
+	allActors_[_updateOrder].push_back(newActor);
+	return dynamic_cast<ActorType*>(newActor);
+}
+
+template<typename ActorType>
+ActorType* GameEngineLevel::CreateActor(const std::string& _name, int _updateOrder)
+{
+	GameEngineActor* newActor = new ActorType();
+
+	newActor->SetName(_name);
+	newActor->SetLevel(this);
+	newActor->Start();
+
+	allActors_[_updateOrder].push_back(newActor);
+	return dynamic_cast<ActorType*>(newActor);
+}

@@ -19,28 +19,8 @@ UserGame::~UserGame() // default destructer 디폴트 소멸자
 
 }
 
-struct TransformData
-{
-	float4x4 World;
-	float4x4 View;
-	float4x4 Proj;
-};
-
-float4 pos;
-float4 rot;
-TransformData TransData;
-
 void UserGame::Initialize()
 {
-	//GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Find("BoxRendering");
-	//// cpu의 데이터와 상수버퍼를 연결한다.
-	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData", TransData);
-
-
-	//Pipe->ShaderHelper.SettingConstantBufferLink("TransformData222", TransData);
-	// cpu의 데이터와 상수버퍼를 한번 복사한다.
-	// Pipe->ShaderHelper.SettingConstantBufferSet("TransformData", TransData);
-
 	loadLevel();
 
 	return;
@@ -55,7 +35,7 @@ void UserGame::loadLevel()
 {
 	CreateLevel<TitleLevel>("TitleLevel");
 	CreateLevel<PlayLevel>("PlayLevel");
-	ChangeLevel("TitleLevel");
+	ChangeLevel("PlayLevel");
 }
 
 
