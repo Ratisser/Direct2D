@@ -19,33 +19,17 @@ public:
 	GameEnginePixelShader& operator=(const GameEnginePixelShader& _Other) = delete;
 	GameEnginePixelShader& operator=(GameEnginePixelShader&& _Other) noexcept = delete;
 
-	bool Create(
-		const std::string& _ShaderCode,
-		const std::string& _EntryPoint,
-		UINT _VersionHigh = 5,
-		UINT _VersionLow = 0
-	);
+public:
+	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+	virtual void SetTexture(const GameEngineTextureSetting* _setting) override;
 
-	bool Load(
-		const std::string& _Path,
-		const std::string& _EntryPoint,
-		UINT _VersionHigh = 5,
-		UINT _VersionLow = 0
-	);
-
+	bool Create(const std::string& _ShaderCode, const std::string& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
+	bool Load(const std::string& _Path, const std::string& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
 	bool StringCompile();
-
 	bool FileCompile(const std::string& _Path);
-
 	void Setting();
 
-protected:
-
 private:
-	ID3D11PixelShader* Shader_;
-
-	void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
-
-	
+	ID3D11PixelShader* Shader_;	
 };
 

@@ -62,6 +62,7 @@ GameEngineTexture* GameEngineTextureManager::Load(const std::string& _Name, cons
 
 	GameEngineTexture* NewRes = new GameEngineTexture();
 	NewRes->SetName(_Name);
+	NewRes->Load(_Path);
 	ResourcesMap.insert(std::map<std::string, GameEngineTexture*>::value_type(_Name, NewRes));
 	return NewRes;
 }

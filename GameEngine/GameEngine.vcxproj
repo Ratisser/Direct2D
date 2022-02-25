@@ -23,6 +23,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineBlender.h" />
+    <ClInclude Include="GameEngineBlenderManager.h" />
     <ClInclude Include="GameEngineCamera.h">
       <SubType>
       </SubType>
@@ -100,6 +102,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineSampler.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineSamplerManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineShader.h">
       <SubType>
       </SubType>
@@ -113,6 +123,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineTextureManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineTextureSetting.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -138,12 +152,12 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineWindow.h" />
-    <ClInclude Include="GameEngineResourcesManager.h" />
+    <ClInclude Include="GameEngineManagerHelper.h" />
     <ClInclude Include="PreCompile.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineRenderingSettingData.h">
+    <ClInclude Include="GameEngineConstantBufferSetting.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -154,6 +168,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineBlender.cpp" />
+    <ClCompile Include="GameEngineBlenderManager.cpp" />
     <ClCompile Include="GameEngineCamera.cpp">
       <SubType>
       </SubType>
@@ -231,6 +247,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineSampler.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineSamplerManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineShader.cpp">
       <SubType>
       </SubType>
@@ -244,6 +268,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineTextureManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineTextureSetting.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -277,7 +305,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="GameEngineRenderingSettingData.cpp">
+    <ClCompile Include="GameEngineConstantBufferSetting.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -302,6 +330,13 @@
   <ItemGroup>
     <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">
       <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\DirectXTex\DirectXTex.lib">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </CopyFileToFolders>
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -16,7 +16,7 @@ GameEngineActor::~GameEngineActor()
 		delete component;
 		component = nullptr;
 	}
-	
+
 	allComponents_.clear();
 
 	for (GameEngineTransformComponent* component : allTransformComponents_)
@@ -33,12 +33,27 @@ void GameEngineActor::transformUpdate()
 
 void GameEngineActor::updateComponent()
 {
-	for (GameEngineTransformComponent* tc : allTransformComponents_)
 	{
-		tc->Update();
-		tc->GetTransform()->UpdateTransform();
-	}
+		auto iter = allTransformComponents_.begin();
+		auto endIter = allTransformComponents_.end();
 
+		while (iter != endIter)
+		{
+			GameEngineTransformComponent* tc = *iter;
+			if (tc->IsUpdate())
+			{
+				tc->Update();
+				tc->GetTransform()->UpdateTransform();
+				iter++;
+			}
+			else
+			{
+				delete tc;
+				tc = nullptr;
+
+			}
+		}
+	}
 	for (GameEngineComponent* c : allComponents_)
 	{
 		c->Update();

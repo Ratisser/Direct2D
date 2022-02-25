@@ -3,7 +3,8 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include "GameEngineRenderingSettingData.h"
+#include "GameEngineConstantBufferSetting.h"
+#include "GameEngineTextureSetting.h"
 #include "GameEngine/GameEngineShader.h"
 
 
@@ -29,8 +30,6 @@ public:
 	template<typename T>
 	void SettingConstantBufferLink(const std::string& _SettingName, T& _Data);
 
-	// 동적할당을 해서 같은 크기의 복사본을 만들어 냅니다.
-	// 한번 세팅해주면 세팅해준 순간의 값으로 고정되는겁니다.
 	template<typename T>
 	void SettingConstantBufferSet(const std::string& _SettingName, const T& _Data);
 

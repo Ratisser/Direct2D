@@ -5,6 +5,7 @@
 
 GameEnginePixelShader::GameEnginePixelShader()
 	: GameEngineShader(ShaderType::PS)
+	, Shader_(nullptr)
 {
 }
 
@@ -165,4 +166,10 @@ void GameEnginePixelShader::SetConstantBuffers(const GameEngineConstantBufferSet
 {
 	// 한번에 여러개 세팅가능합니다.
 	GameEngineDevice::GetContext()->PSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
+}
+
+void GameEnginePixelShader::SetTexture(const GameEngineTextureSetting* _setting)
+{
+	ID3D11ShaderResourceView* srv = _setting->Res_->GetSRV();
+	GameEngineDevice::GetContext()->VSSetShaderResources(_setting->SettingIndex_, 1, &srv);
 }

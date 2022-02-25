@@ -8,7 +8,7 @@
 //	// 포지션
 //	// 텍스처 비율
 //	float4 Texcoord;
-//	float4 Postion;
+//	float4 Position;
 //	float4 Color;
 //}
 
@@ -18,8 +18,8 @@ struct GameEngineVertex
 public:
 	// 포지션
 	// 텍스처 비율
-	float4 Postion;
-	float4 Texcoord;
+	float4 Position;
+	float4 TexCoord;
 	float4 Color;
 	//float4 Normal0;
 	//float4 Normal1;

@@ -1,30 +1,40 @@
-// #include "CbufferHeader.fx"
-// b32 까지 가능했던걸로 아는데
-// 그냥 생각하지 맙시다.
+#include "CbufferHeader.fx"
 
-// 512바이트 가 최대일겁니다.
-
-
-cbuffer TransformData : register(b0)
+struct VS_INPUT
 {
-    float4x4 World;
-    float4x4 View;
-    float4x4 Projection;
+    float4 Position : POSITION;
+    float4 TexCoord : TEXCOORD;
 };
 
-float4 Texture_VS(float4 pos : POSITION) : SV_POSITION
+struct PS_INPUT
 {
+    float4 Position : SV_POSITION;
+    float4 TexCoord : TEXCOORD;
+};
+
+PS_INPUT Texture_VS(VS_INPUT _in)
+{
+    PS_INPUT output;
+    output.Position = _in.Position;
+
     // pos *= World;
-    pos = mul(pos, World);
+    output.Position = mul(output.Position, World);
+    output.Position = mul(output.Position, View);
+    output.Position = mul(output.Position, Projection);
 
-    return pos;
+    output.TexCoord = _in.TexCoord;
+
+    return output;
 }
 
-float4 Texture_PS(float4 pos : SV_POSITION) : SV_Target0
+Texture2D tex : register(t0);
+SamplerState sample : register(s0);
+
+float4 Texture_PS(PS_INPUT _in) : SV_Target0
 {
-    pos = mul(pos, World);
-
-	return float4(1.0f, 0.0f, 0.0f, 1.0f);
+    float4 color = tex.Sample(sample, float2(_in.TexCoord.xy));
+    return color;
 }
+
 
 

@@ -5,6 +5,9 @@
 
 GameEngineVertexShader::GameEngineVertexShader() // default constructer 디폴트 생성자
 	: GameEngineShader(ShaderType::VS)
+	, Shader_(nullptr)
+	, LayOutOffset_(0)
+	, LayOut_(nullptr)
 {
 
 }
@@ -187,7 +190,7 @@ void GameEngineVertexShader::AddInputLayOut(
 	D3D11_INPUT_ELEMENT_DESC LayOutDesc = {0,};
 
 	// https://docs.microsoft.com/ko-kr/windows/win32/direct3dhlsl/dx-graphics-hlsl-semantics
-	//                         "POSTION"
+	//                         "POSITION"
 	LayOutDesc.SemanticName = _SemanticName;
 	//                          0
 	LayOutDesc.SemanticIndex = _Index;
@@ -459,4 +462,10 @@ void GameEngineVertexShader::Setting()
 void GameEngineVertexShader::SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) 
 {
 	GameEngineDevice::GetContext()->VSSetConstantBuffers(_Setting->SettingIndex_, 1, &_Setting->Res_->GetBuffer());
+}
+
+void GameEngineVertexShader::SetTexture(const GameEngineTextureSetting* _setting)
+{
+	ID3D11ShaderResourceView* srv = _setting->Res_->GetSRV();
+	GameEngineDevice::GetContext()->VSSetShaderResources(_setting->SettingIndex_, 1, &srv);
 }

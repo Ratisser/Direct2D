@@ -2,10 +2,13 @@
 #include "GameEngineShader.h"
 #include "GameEngineConstantBufferManager.h"
 
+#include "GameEngineManagerHelper.h"
+
 GameEngineShader::GameEngineShader(ShaderType _Type)
 	: VersionHigh_(5)
 	, VersionLow_(0)
 	, Type_(_Type)
+	, CodeBlob_(nullptr)
 {
 }
 
@@ -108,6 +111,38 @@ void GameEngineShader::ResCheck()
 			ConstanceBuffer_.insert(std::make_pair(ResInfo.BindPoint, NewBuffer));
 			break;
 		}
+		case D3D_SIT_TEXTURE:
+		{
+			Textures_.insert(std::make_pair(ResInfo.BindPoint, Name));
+		}
+		break;
+		case D3D_SIT_SAMPLER:
+		{
+			D3D11_SAMPLER_DESC Smp_Decs = {};
+
+			memset(&Smp_Decs, 0, sizeof(D3D11_SAMPLER_DESC));
+
+			// 뭉개라.
+			// Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+			// 딱딱 도트처럼 만들어라
+			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+
+			Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+			Smp_Decs.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+			Smp_Decs.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+
+			Smp_Decs.MipLODBias = 0.0f;
+			Smp_Decs.MaxAnisotropy = 1;
+			Smp_Decs.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+			Smp_Decs.MinLOD = -FLT_MAX;
+			Smp_Decs.MaxLOD = FLT_MAX;
+			// Smp_Decs.BorderColor;
+			// Smp_Decs.MaxAnisotropy;
+
+			GameEngineSampler* NewRes = GameEngineSamplerManager::GetInst().Create(Name, Smp_Decs);
+			Samplers_.insert(std::make_pair(ResInfo.BindPoint, NewRes));
+		}
+		break;
 		default:
 			GameEngineDebug::MsgBoxError("처리하지 못하는 타입의 쉐이더 리소스가 발견되었습니다");
 			break;

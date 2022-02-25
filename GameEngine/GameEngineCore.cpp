@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "GameEngineCore.h"
 #include "GameEngineWindow.h"
-#include "GameEngineResourcesManager.h"
+#include "GameEngineManagerHelper.h"
 #include "GameEngineDevice.h"
 #include "GameEngineInput.h"
 

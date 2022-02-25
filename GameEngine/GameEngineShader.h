@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 #include "GameEngineDevice.h"
 #include "GameEngine/GameEngineConstantBuffer.h"
+#include "GameEngine/GameEngineSampler.h"
 
 enum class ShaderType
 {
@@ -14,6 +15,7 @@ enum class ShaderType
 
 // Ό³Έν :
 class GameEngineConstantBufferSetting;
+class GameEngineTextureSetting;
 class GameEngineShader : public GameEngineObjectNameBase 
 {
 public:
@@ -49,10 +51,13 @@ public:
 	{
 		return static_cast<unsigned int>(Type_);
 	}
+
 	void ResCheck();
 
 private:
 	std::map<unsigned int, GameEngineConstantBuffer*> ConstanceBuffer_;
+	std::map<unsigned int, GameEngineSampler*> Samplers_;
+	std::map<unsigned int, std::string> Textures_;
 
 public:
 	std::map<unsigned int, GameEngineConstantBuffer*>& GetConstantBuffers() 
@@ -61,6 +66,7 @@ public:
 	}
 
 	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
+	virtual void SetTexture(const GameEngineTextureSetting* _setting) = 0;
 
 };
 
