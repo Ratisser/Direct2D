@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameEngineTransformComponent.h"
+#include "GameEngineShaderResHelper.h"
 
 class GameEngineRenderingPipeline;
 class GameEngineRenderingComponent : public GameEngineTransformComponent
@@ -19,11 +20,14 @@ public:
 	virtual void Update() override;
 
 	void SetRenderingPipeline(const std::string& _name);
+	void SetTextureByValue(const std::string& _valueName, const std::string& _textureName, bool bSrcScale);
+	void SetTexture(const std::string& _textureName, bool bSrcScale);
+	void SetBlender(const std::string& _blenderName);
 	void Render();
+
 protected:
 	GameEngineRenderingPipeline* pipe_;
-
-	// GameEngineTransformComponent을(를) 통해 상속됨
+	GameEngineShaderResHelper ShaderHelper_;
 
 };
 

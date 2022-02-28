@@ -19,11 +19,19 @@ GameEngineBlender::~GameEngineBlender()
 
 void GameEngineBlender::Create(const D3D11_BLEND_DESC& _desc)
 {
-	desc_ = _desc;
 
-	if (S_OK != GameEngineDevice::GetDevice()->CreateBlendState(&desc_, &state_))
+	ID3D11BlendState* state;
+	if (S_OK != GameEngineDevice::GetDevice()->CreateBlendState(&_desc, &state))
 	{
 		GameEngineDebug::MsgBox("블렌더 생성에 실패했습니다.");
 		return;
 	}
+
+	desc_ = _desc;
+	state_ = state;
+}
+
+void GameEngineBlender::Setting()
+{
+	GameEngineDevice::GetContext()->OMSetBlendState(state_, nullptr, 0xffffffff);
 }

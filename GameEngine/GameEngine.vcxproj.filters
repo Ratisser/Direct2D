@@ -227,6 +227,9 @@
     <ClInclude Include="GameEngineBlenderManager.h">
       <Filter>Resources\02Texture\Blender</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineSamplerSetting.h">
+      <Filter>Resources\01Shader\ShaderResources\ShaderResrouceHelper\SettingData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -344,6 +347,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineBlenderManager.cpp">
       <Filter>Resources\02Texture\Blender</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSamplerSetting.cpp">
+      <Filter>Resources\01Shader\ShaderResources\ShaderResrouceHelper\SettingData</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

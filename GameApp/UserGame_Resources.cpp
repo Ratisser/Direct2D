@@ -280,22 +280,63 @@ void UserGame::ResourcesLoad()
 	}
 
 	{
-		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("BoxRendering2");
+		D3D11_BLEND_DESC bd;
 
-		// 이런 기본적인 vertex들이 있다.
+		bd.AlphaToCoverageEnable = false;
+		bd.IndependentBlendEnable = false;
+
+		bd.RenderTarget[0].BlendEnable = true;
+		bd.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		bd.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+
+		bd.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+		bd.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		bd.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+		bd.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		bd.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		GameEngineBlenderManager::GetInst().Create("AlphaBlend", bd);
+	}
+
+	{
+		D3D11_BLEND_DESC bd;
+
+		bd.AlphaToCoverageEnable = false;
+		bd.IndependentBlendEnable = false;
+
+		bd.RenderTarget[0].BlendEnable = false;
+		bd.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		bd.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+
+		bd.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+		bd.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		bd.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+		bd.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		bd.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		GameEngineBlenderManager::GetInst().Create("DefaultBlend", bd);
+	}
+
+	{
+		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("TextureBox");
+
 		Pipe->SetInputAssembler1VertexBufferSetting("Box");
-		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");
+		Pipe->SetInputAssembler1InputLayOutSetting("Texture_VS");
+		Pipe->SetVertexShader("Texture_VS");
+		Pipe->SetPixelShader("Texture_PS");
 
-		// 그 vertex을 이렇게 위치시키겠다.
-		Pipe->SetVertexShader("Color_VS");
-
-		// 그 vertex을 3개 묶어서 면으로 그리겠다. 순서는 인덱스 버퍼의 순서대로
 		Pipe->SetInputAssembler2IndexBufferSetting("Box");
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		Pipe->SetRasterizer("EngineBaseRasterizer");
+		
+		Pipe->SetOutputMergerBlend("AlphaBlend");
 
-		Pipe->SetPixelShader("Color_PS");
 	}
+
 
 }

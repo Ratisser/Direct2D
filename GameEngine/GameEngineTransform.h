@@ -41,6 +41,10 @@ public:
 	float4 GetLocation();
 	float4 GetWorldLocation();
 
+	float4 GetForward();
+	float4 GetUp();
+	float4 GetRight();
+
 	void UpdateTransform();
 	void UpdateTransformByParent();
 	TransformData& GetTransformData();

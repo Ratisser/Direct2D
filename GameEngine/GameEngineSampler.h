@@ -16,6 +16,7 @@ public:
 	GameEngineSampler& operator=(const GameEngineSampler&& _other) = delete;
 public:
 	void Create(const D3D11_SAMPLER_DESC& _desc);
+	ID3D11SamplerState* GetSamplerState();
 
 private:
 	D3D11_SAMPLER_DESC desc_;

@@ -23,6 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Level1", "Level1", "{6499AE
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ShaderProject", "Resources\Shader\ShaderProject.vcxproj", "{4C1C6377-1B69-4398-B712-DDB840A0CA12}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00Doc", "00Doc", "{E6BD60C1-66D4-4E78-846B-9B5920153814}"
+	ProjectSection(SolutionItems) = preProject
+		렌더링파이프라인.jpg = 렌더링파이프라인.jpg
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

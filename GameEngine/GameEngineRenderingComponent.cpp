@@ -4,6 +4,8 @@
 #include "GameEngineRenderingPipeline.h"
 #include "GameEngineActor.h"
 #include "GameEngineLevel.h"
+#include "GameEngineVertexShader.h"
+#include "GameEnginePixelShader.h"
 
 GameEngineRenderingComponent::GameEngineRenderingComponent()
 	: pipe_(nullptr)
@@ -26,9 +28,12 @@ void GameEngineRenderingComponent::SetRenderingPipeline(const std::string& _name
 		return;
 	}
 
-	if (true == pipe_->ShaderHelper.IsValidConstantBuffer("TransformData"))
+	ShaderHelper_.ShaderResourcesCheck(pipe_->GetVertexShader());
+	ShaderHelper_.ShaderResourcesCheck(pipe_->GetPixelShader());
+
+	if (true == ShaderHelper_.IsValidConstantBuffer("TransformData"))
 	{
-		pipe_->ShaderHelper.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());
+		ShaderHelper_.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());
 	}
 
 	if (nullptr == pipe_)
@@ -37,8 +42,34 @@ void GameEngineRenderingComponent::SetRenderingPipeline(const std::string& _name
 	}
 }
 
+void GameEngineRenderingComponent::SetTextureByValue(const std::string& _valueName, const std::string& _textureName, bool bSrcScale)
+{
+	GameEngineTexture* tex = ShaderHelper_.SettingTexture(_valueName, _textureName);
+	if (bSrcScale)
+	{
+		float4 size = tex->GetSize();
+		transform_->SetScale(size.x, size.y);
+	}
+}
+
+void GameEngineRenderingComponent::SetTexture(const std::string& _textureName, bool bSrcScale)
+{
+	GameEngineTexture* tex = ShaderHelper_.SettingTexture("Tex", _textureName);
+	if (bSrcScale)
+	{
+		float4 size = tex->GetSize();
+		transform_->SetScale(size.x, size.y);
+	}
+}
+
+void GameEngineRenderingComponent::SetBlender(const std::string& _blenderName)
+{
+	pipe_->SetOutputMergerBlend(_blenderName);
+}
+
 void GameEngineRenderingComponent::Render()
 {
+	ShaderHelper_.Setting();
 	pipe_->Rendering();
 }
 

@@ -22,7 +22,9 @@ public:
 public:
 	virtual void SetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
 	virtual void SetTexture(const GameEngineTextureSetting* _setting) override;
+	virtual void SetSampler(const GameEngineSamplerSetting* _setting) override;
 
+public:
 	bool Create(const std::string& _ShaderCode, const std::string& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
 	bool Load(const std::string& _Path, const std::string& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
 	bool StringCompile();

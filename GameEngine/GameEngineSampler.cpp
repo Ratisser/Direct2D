@@ -19,11 +19,18 @@ GameEngineSampler::~GameEngineSampler()
 
 void GameEngineSampler::Create(const D3D11_SAMPLER_DESC& _desc)
 {
-	desc_ = _desc;
-
-	if (S_OK != GameEngineDevice::GetDevice()->CreateSamplerState(&desc_, &state_))
+	ID3D11SamplerState* state;
+	if (S_OK != GameEngineDevice::GetDevice()->CreateSamplerState(&_desc, &state))
 	{
-		GameEngineDebug::MsgBox("샘플러 생성에 실패했습니다.");
+		GameEngineDebug::MsgBoxError("샘플러 생성에 실패했습니다.");
 		return;
 	}
+
+	desc_ = _desc;
+	state_ = state;
+}
+
+ID3D11SamplerState* GameEngineSampler::GetSamplerState()
+{
+	return state_;
 }

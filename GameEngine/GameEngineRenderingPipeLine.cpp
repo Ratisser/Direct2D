@@ -5,6 +5,7 @@
 #include "GameEngineIndexBufferManager.h"
 #include "GameEngineRasterizerManager.h"
 #include "GameEnginePixelShaderManager.h"
+#include <GameEngine/GameEngineBlenderManager.h>
 
 #include "GameEngineVertexBuffer.h"
 #include "GameEngineVertexShader.h"
@@ -12,6 +13,7 @@
 #include "GameEngineRasterizer.h"
 #include "GameEnginePixelShader.h"
 #include "GameEngineConstantBuffer.h"
+#include "GameEngineBlender.h"
 
 
 #include "GameEngineWindow.h"
@@ -24,6 +26,7 @@ GameEngineRenderingPipeline::GameEngineRenderingPipeline() // default constructe
 	, PixelShader_(nullptr)
 	, Rasterizer_(nullptr)
 	, RenderTarget_(nullptr)
+	, Blender_(nullptr)
 	, Topology_(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
 }
@@ -83,7 +86,7 @@ void GameEngineRenderingPipeline::SetVertexShader(const std::string& _Name)
 		return;
 	}
 
-	ShaderHelper.ShaderResourcesCheck(VertexShader_);
+
 }
 
 void GameEngineRenderingPipeline::SetRasterizer(const std::string& _Name) 
@@ -106,21 +109,27 @@ void GameEngineRenderingPipeline::SetPixelShader(const std::string& _Name)
 		GameEngineDebug::MsgBoxError("존재하지 않는 픽셀 쉐이더를 세팅을 세팅하려고 했습니다.");
 		return;
 	}
-
-	ShaderHelper.ShaderResourcesCheck(PixelShader_);
-
 }
 
-void GameEngineRenderingPipeline::SetOutputMerger(const std::string& _Name) 
+void GameEngineRenderingPipeline::SetOutputMergerBlend(const std::string& _Name) 
 {
-	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
+	Blender_ = GameEngineBlenderManager::GetInst().Find(_Name);
 
-	if (nullptr == Rasterizer_)
+	if (nullptr == Blender_)
 	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 레이터라이저 세팅을 세팅하려고 했습니다.");
+		GameEngineDebug::MsgBoxError("존재하지 않는 블렌드를 세팅을 세팅하려고 했습니다.");
 		return;
 	}
+}
 
+GameEngineVertexShader* GameEngineRenderingPipeline::GetVertexShader() const
+{
+	return VertexShader_;
+}
+
+GameEnginePixelShader* GameEngineRenderingPipeline::GetPixelShader() const
+{
+	return PixelShader_;
 }
 
 void GameEngineRenderingPipeline::InputAssembler1() 
@@ -152,7 +161,12 @@ void GameEngineRenderingPipeline::PixelShader()
 	PixelShader_->Setting();
 }
 
-void GameEngineRenderingPipeline::RenderingPipeLineSetting() 
+void GameEngineRenderingPipeline::OutputMerger()
+{
+	Blender_->Setting();
+}
+
+void GameEngineRenderingPipeline::RenderingPipeLineSetting()
 {
 	// input어셈블러 단계
 	InputAssembler1();
@@ -164,13 +178,13 @@ void GameEngineRenderingPipeline::RenderingPipeLineSetting()
 	Rasterizer();
 
 	PixelShader();
+
+	OutputMerger();
 }
 
 void GameEngineRenderingPipeline::Rendering() 
 {
 	RenderingPipeLineSetting();
-
-	ShaderHelper.Setting();
 
 	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
 }

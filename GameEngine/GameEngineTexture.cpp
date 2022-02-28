@@ -105,3 +105,8 @@ ID3D11ShaderResourceView* GameEngineTexture::GetSRV()
 {
 	return shaderResourceView_;
 }
+
+float4 GameEngineTexture::GetSize()
+{
+	return float4(static_cast<float>(textureDesc_.Width), static_cast<float>(textureDesc_.Height));
+}

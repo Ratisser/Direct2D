@@ -15,6 +15,7 @@ class GameEngineVertexBuffer;
 class GameEngineVertexShader;
 class GameEnginePixelShader;
 class GameEngineRasterizer;
+class GameEngineBlender;
 class GameEngineRenderingPipeline : public GameEngineObjectNameBase
 {
 private:	// member Var
@@ -34,6 +35,7 @@ private:	// member Var
 	GameEnginePixelShader* PixelShader_;
 	// OM
 	GameEngineRenderTarget* RenderTarget_;
+	GameEngineBlender* Blender_;
 
 public:
 	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);
@@ -50,7 +52,10 @@ public:
 
 	void SetPixelShader(const std::string& _Name);
 
-	void SetOutputMerger(const std::string& _Name);
+	void SetOutputMergerBlend(const std::string& _Name);
+
+	GameEngineVertexShader* GetVertexShader() const;
+	GameEnginePixelShader* GetPixelShader() const;
 
 	void RenderingPipeLineSetting();
 
@@ -74,9 +79,6 @@ private:		//delete operator
 	void VertexShader();
 	void Rasterizer();
 	void PixelShader();
-
-public:
-	GameEngineShaderResHelper ShaderHelper;
-
+	void OutputMerger();
 };
 

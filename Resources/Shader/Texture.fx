@@ -27,12 +27,12 @@ PS_INPUT Texture_VS(VS_INPUT _in)
     return output;
 }
 
-Texture2D tex : register(t0);
-SamplerState sample : register(s0);
+Texture2D Tex : register(t0);
+SamplerState Sample : register(s0);
 
 float4 Texture_PS(PS_INPUT _in) : SV_Target0
 {
-    float4 color = tex.Sample(sample, float2(_in.TexCoord.xy));
+    float4 color = Tex.Sample(Sample, float2(_in.TexCoord.xy));
     return color;
 }
 

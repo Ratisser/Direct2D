@@ -16,6 +16,7 @@ public:
 	GameEngineBlender& operator=(const GameEngineBlender&& _other) = delete;
 public:
 	void Create(const D3D11_BLEND_DESC& _desc);
+	void Setting();
 
 private:
 	D3D11_BLEND_DESC desc_;

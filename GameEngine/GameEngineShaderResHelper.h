@@ -3,13 +3,13 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include "GameEngineShader.h"
 #include "GameEngineConstantBufferSetting.h"
 #include "GameEngineTextureSetting.h"
-#include "GameEngine/GameEngineShader.h"
+#include "GameEngineSamplerSetting.h"
 
-
-
-class GameEngineShader;
+class GameEngineTexture;
+class GameEngineSampler;
 class GameEngineConstantBuffer;
 class GameEngineShaderResHelper
 {
@@ -22,9 +22,12 @@ public:
 	GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper& _Other) = delete;
 	GameEngineShaderResHelper& operator=(GameEngineShaderResHelper&& _Other) noexcept = delete;
 
+	// 매개변수로 전달된 셰이더 개체 내부에 사용된 리소스를 체크하고 해당 리소스의 세팅 데이터를 셰이더 헬퍼 개체에 추가하는 함수
 	void ShaderResourcesCheck(GameEngineShader* _Shader);
-	void Setting();
 
+	// 현재 리소스 정보를 렌더링 파이프라인에 세팅
+	void Setting();
+	
 	bool IsValidConstantBuffer(const std::string& _name);
 
 	template<typename T>
@@ -33,10 +36,20 @@ public:
 	template<typename T>
 	void SettingConstantBufferSet(const std::string& _SettingName, const T& _Data);
 
+	GameEngineTexture* SettingTexture(const std::string& _settingName, const std::string& _textureName);
+
+	GameEngineTexture* SettingTexture(const std::string& _textureName);
+
 private:
-	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBuffers_;
+	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBufferSettings_;
+	std::map<std::string, GameEngineTextureSetting*> AllTextureSettings_;
+	std::map<std::string, GameEngineSamplerSetting*> AllSamplerSettings_;
 
 };
+
+
+
+
 
 
 
@@ -44,9 +57,9 @@ private:
 template<typename T>
 inline void GameEngineShaderResHelper::SettingConstantBufferLink(const std::string& _SettingName, T& _Data)
 {
-	std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBuffers_.find(_SettingName);
+	std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferSettings_.find(_SettingName);
 
-	if (FindIter == AllConstantBuffers_.end())
+	if (FindIter == AllConstantBufferSettings_.end())
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + _SettingName);
 		return;
@@ -62,9 +75,9 @@ inline void GameEngineShaderResHelper::SettingConstantBufferLink(const std::stri
 template<typename T>
 inline void GameEngineShaderResHelper::SettingConstantBufferSet(const std::string& _SettingName, const T& _Data)
 {
-	std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBuffers_.find(_SettingName);
+	std::map<std::string, GameEngineConstantBufferSetting*>::iterator FindIter = AllConstantBufferSettings_.find(_SettingName);
 
-	if (FindIter == AllConstantBuffers_.end())
+	if (FindIter == AllConstantBufferSettings_.end())
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 상수버퍼를 세팅하려고 했습니다." + _SettingName);
 		return;

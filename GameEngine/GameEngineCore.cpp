@@ -4,6 +4,8 @@
 #include "GameEngineManagerHelper.h"
 #include "GameEngineDevice.h"
 #include "GameEngineInput.h"
+#include <GameEngineBase/GameEngineDirectory.h>
+#include <GameEngineBase/GameEngineFile.h>
 
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 std::map<std::string, GameEngineLevel*> GameEngineCore::allLevels_ = std::map<std::string, GameEngineLevel*>();
@@ -32,6 +34,20 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 void GameEngineCore::EngineInitialize()
 {
+	{
+		GameEngineDirectory EngineTextureDir;
+		EngineTextureDir.MoveParent("Direct2D");
+		EngineTextureDir.MoveChild("EngineResources");
+		EngineTextureDir.MoveChild("Texture");
+
+		std::vector<GameEngineFile> AllFile = EngineTextureDir.GetAllFile();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
 	GameEngineSoundManager::GetInstance().Initialize();
 	GameEngineInput::GetInstance();
 }

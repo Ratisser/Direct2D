@@ -42,7 +42,27 @@ void GameEngineShader::SetEntryPoint(const std::string& _EntryPoint)
 	EntryPoint_ = _EntryPoint;
 }
 
-void GameEngineShader::ResCheck() 
+std::map<unsigned int, GameEngineConstantBuffer*>& GameEngineShader::GetConstantBuffers()
+{
+	return ConstanceBuffer_;
+}
+
+std::map<unsigned int, std::string>& GameEngineShader::GetTextures()
+{
+	return Textures_;
+}
+
+std::map<unsigned int, GameEngineSampler*>& GameEngineShader::GetSamplers()
+{
+	return Samplers_;
+}
+
+unsigned int GameEngineShader::GetTypeIndex()
+{
+	return static_cast<unsigned int>(Type_);
+}
+
+void GameEngineShader::ResCheck()
 {
 
 	if (nullptr == CodeBlob_)
@@ -125,6 +145,7 @@ void GameEngineShader::ResCheck()
 			// ¹¶°³¶ó.
 			// Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 			// µüµü µµÆ®Ã³·³ ¸¸µé¾î¶ó
+			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 
 			Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;

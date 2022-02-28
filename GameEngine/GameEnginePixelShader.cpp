@@ -171,5 +171,11 @@ void GameEnginePixelShader::SetConstantBuffers(const GameEngineConstantBufferSet
 void GameEnginePixelShader::SetTexture(const GameEngineTextureSetting* _setting)
 {
 	ID3D11ShaderResourceView* srv = _setting->Res_->GetSRV();
-	GameEngineDevice::GetContext()->VSSetShaderResources(_setting->SettingIndex_, 1, &srv);
+	GameEngineDevice::GetContext()->PSSetShaderResources(_setting->SettingIndex_, 1, &srv);
+}
+
+void GameEnginePixelShader::SetSampler(const GameEngineSamplerSetting* _setting)
+{
+	ID3D11SamplerState* samplerState = _setting->Res_->GetSamplerState();
+	GameEngineDevice::GetContext()->PSSetSamplers(_setting->SettingIndex_, 1, &samplerState);
 }

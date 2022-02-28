@@ -469,3 +469,9 @@ void GameEngineVertexShader::SetTexture(const GameEngineTextureSetting* _setting
 	ID3D11ShaderResourceView* srv = _setting->Res_->GetSRV();
 	GameEngineDevice::GetContext()->VSSetShaderResources(_setting->SettingIndex_, 1, &srv);
 }
+
+void GameEngineVertexShader::SetSampler(const GameEngineSamplerSetting* _setting)
+{
+	ID3D11SamplerState* samplerState = _setting->Res_->GetSamplerState();
+	GameEngineDevice::GetContext()->VSSetSamplers(_setting->SettingIndex_, 1, &samplerState);
+}

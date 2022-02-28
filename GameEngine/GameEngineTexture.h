@@ -20,6 +20,8 @@ public:
 	ID3D11RenderTargetView* CreateRenderTargetView();
 	ID3D11ShaderResourceView* GetSRV();
 
+	float4 GetSize();
+
 private:	// member Var
 	ID3D11Texture2D* Texture2D_;
 	D3D11_TEXTURE2D_DESC textureDesc_;

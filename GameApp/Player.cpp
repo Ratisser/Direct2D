@@ -19,15 +19,15 @@ Player::~Player()
 void Player::Start()
 {
 	{
-		GameEngineRenderingComponent* rp = CreateTransformComponent<GameEngineRenderingComponent>(GetTransform());
-		rp->SetRenderingPipeline("BoxRendering");
-		rp->GetTransform()->SetScale(50.f);
+		GameEngineRenderingComponent* rc = CreateTransformComponent<GameEngineRenderingComponent>(GetTransform());
+		rc->SetRenderingPipeline("TextureBox");
+		rc->SetTexture("errorTexture.png", true);
 	}
 	{
-		GameEngineRenderingComponent* rp = CreateTransformComponent<GameEngineRenderingComponent>(GetTransform());
-		rp->SetRenderingPipeline("BoxRendering2");
-		rp->GetTransform()->SetScale(10.f);
-		rp->GetTransform()->SetLocation(0.0f, 100.f, 0.0f);
+		GameEngineRenderingComponent* rc = CreateTransformComponent<GameEngineRenderingComponent>(GetTransform());
+		rc->SetRenderingPipeline("TextureBox");
+		rc->SetTexture("Char.png", true);
+		rc->GetTransform()->SetLocation(0.0f, 100.f, 0.0f);
 	}
 
 	GameEngineInput::GetInstance().CreateKey("w", 'W');
@@ -39,7 +39,7 @@ void Player::Start()
 
 void Player::Update(float _deltaTime)
 {
-	transform_->AddRotation(3 * -_deltaTime, 0.0f, 6 * -_deltaTime);
+	//transform_->AddRotation(3 * -_deltaTime, 0.0f, 6 * -_deltaTime);
 	//transform_->SetLocation(50.f, 0.0f, 0.0f);
 
 	if (GameEngineInput::GetInstance().IsKeyPress("w"))

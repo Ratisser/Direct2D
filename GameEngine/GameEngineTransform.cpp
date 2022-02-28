@@ -112,6 +112,21 @@ float4 GameEngineTransform::GetWorldLocation()
 	return location_ * transformData_.Wolrd;
 }
 
+float4 GameEngineTransform::GetForward()
+{
+	return transformData_.Wolrd.vz.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetUp()
+{
+	return transformData_.Wolrd.vy.NormalizeReturn3D();
+}
+
+float4 GameEngineTransform::GetRight()
+{
+	return transformData_.Wolrd.vx.NormalizeReturn3D();
+}
+
 void GameEngineTransform::UpdateTransform()
 {
 	if (nullptr == parent_)
