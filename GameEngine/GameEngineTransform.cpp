@@ -151,7 +151,7 @@ void GameEngineTransform::UpdateTransformByParent()
 
 	transformData_.Wolrd = transformData_.Wolrd * parent_->transformData_.Wolrd;
 
-	// TODO : 스택 오버플로우 위험이 있음. 개선 필요.
+	// TODO : 스택 오버플로우 위험이 있음. 이유는 recursive call 때문. 개선 필요.
 	for (GameEngineTransform* child : childs_)
 	{
 		child->UpdateTransformByParent();
