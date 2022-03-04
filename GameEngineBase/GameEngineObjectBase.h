@@ -7,9 +7,9 @@ class GameEngineObjectBase
 {
 private:	// member Var
 	// true라고 하는순간 메모리적으로 파괴될겁니다.
-	bool isDeath_; // 죽는기능이 아닙니다. 죽었는지 확인할수 있는기능
-	bool isUpdate_; // 이게 업데이트되는 기능이 아니고 업데이트를 해야
-	bool isDebug_; // 디버깅 기능 이거 true로 해놓고 f9 걸어 놓으면 
+	bool bRelease_;
+	bool bUpdate_;
+	bool bDebuging_;
 	GameEngineObjectBase* parent_;
 	int order_;
 
@@ -29,53 +29,51 @@ public:
 	{
 		if (nullptr == parent_)
 		{
-			return isDeath_;
+			return bRelease_;
 		}
 
-		return true == isDeath_ || parent_->isDeath_;
+		return true == bRelease_ || parent_->bRelease_;
 	}
 
 	bool IsUpdate()
 	{
 		if (nullptr == parent_)
 		{
-			return false == IsDeath() && isUpdate_;
+			return false == IsDeath() && bUpdate_;
 		}
 
-		return false == IsDeath() &&  // 나는 안죽었고
-			true == isUpdate_ &&  // 내가 켜져있고
-			parent_->isUpdate_; // 부모도 켜져있어야
+		return false == IsDeath() && true == bUpdate_ && parent_->bUpdate_;
 	}
 
 
 	void Death()
 	{
-		isDeath_ = true;
+		bRelease_ = true;
 	}
 
 	void On()
 	{
-		isUpdate_ = true;
+		bUpdate_ = true;
 	}
 
 	void Off()
 	{
-		isUpdate_ = false;
+		bUpdate_ = false;
 	}
 
 	void DebugOn()
 	{
-		isDebug_ = true;
+		bDebuging_ = true;
 	}
 
 	void DebugOff()
 	{
-		isDebug_ = false;
+		bDebuging_ = false;
 	}
 
 	void IsDebugCheck()
 	{
-		if (true == isDebug_)
+		if (true == bDebuging_)
 		{
 			int a = 0;
 		}

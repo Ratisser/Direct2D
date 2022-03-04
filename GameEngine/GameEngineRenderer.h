@@ -4,17 +4,17 @@
 #include "GameEngineShaderResHelper.h"
 
 class GameEngineRenderingPipeline;
-class GameEngineRenderingComponent : public GameEngineTransformComponent
+class GameEngineRenderer : public GameEngineTransformComponent
 {
 public:
-	GameEngineRenderingComponent(); 
-	~GameEngineRenderingComponent();
+	GameEngineRenderer(); 
+	~GameEngineRenderer();
 
-	GameEngineRenderingComponent(const GameEngineRenderingComponent& _other) = delete; 
-	GameEngineRenderingComponent(GameEngineRenderingComponent&& _other) = delete; 
+	GameEngineRenderer(const GameEngineRenderer& _other) = delete; 
+	GameEngineRenderer(GameEngineRenderer&& _other) = delete; 
 
-	GameEngineRenderingComponent& operator=(const GameEngineRenderingComponent& _other) = delete;
-	GameEngineRenderingComponent& operator=(const GameEngineRenderingComponent&& _other) = delete;
+	GameEngineRenderer& operator=(const GameEngineRenderer& _other) = delete;
+	GameEngineRenderer& operator=(const GameEngineRenderer&& _other) = delete;
 
 	virtual void Start() override;
 	virtual void Update() override;

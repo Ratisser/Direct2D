@@ -136,7 +136,7 @@ void GameEngineTransform::UpdateTransform()
 		transformData_.Wolrd = transformData_.Wolrd * float4x4::RotationMatrixFromVector(rotation_);
 		transformData_.Wolrd = transformData_.Wolrd * float4x4::TranslationMatrixFromVector(location_);
 
-		for (GameEngineTransform* child : childs_)
+		for (GameEngineTransform* child : children_)
 		{
 			child->UpdateTransformByParent();
 		}
@@ -151,8 +151,8 @@ void GameEngineTransform::UpdateTransformByParent()
 
 	transformData_.Wolrd = transformData_.Wolrd * parent_->transformData_.Wolrd;
 
-	// TODO : 스택 오버플로우 위험이 있음. 이유는 recursive call 때문. 개선 필요.
-	for (GameEngineTransform* child : childs_)
+	// TODO : 스택 오버플로우 위험이 있음.
+	for (GameEngineTransform* child : children_)
 	{
 		child->UpdateTransformByParent();
 	}
@@ -185,10 +185,15 @@ void GameEngineTransform::UnsetParent()
 
 void GameEngineTransform::AddChild(GameEngineTransform* _child)
 {
-	childs_.push_back(_child);
+	children_.push_back(_child);
 }
 
 void GameEngineTransform::RemoveChild(GameEngineTransform* _child)
 {
-	childs_.remove(_child);
+	children_.remove(_child);
+}
+
+std::list<GameEngineTransform*>& GameEngineTransform::GetChildren()
+{
+	return children_;
 }

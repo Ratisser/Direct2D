@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "GameEngineRenderingComponent.h"
+#include "GameEngineRenderer.h"
 #include "GameEngineRenderingPipelineManager.h"
 #include "GameEngineRenderingPipeline.h"
 #include "GameEngineActor.h"
@@ -7,18 +7,18 @@
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
 
-GameEngineRenderingComponent::GameEngineRenderingComponent()
+GameEngineRenderer::GameEngineRenderer()
 	: pipe_(nullptr)
 {
 
 }
 
-GameEngineRenderingComponent::~GameEngineRenderingComponent()
+GameEngineRenderer::~GameEngineRenderer()
 {
 
 }
 
-void GameEngineRenderingComponent::SetRenderingPipeline(const std::string& _name)
+void GameEngineRenderer::SetRenderingPipeline(const std::string& _name)
 {
 	pipe_ = GameEngineRenderingPipelineManager::GetInst().Find(_name);
 
@@ -42,7 +42,7 @@ void GameEngineRenderingComponent::SetRenderingPipeline(const std::string& _name
 	}
 }
 
-void GameEngineRenderingComponent::SetTextureByValue(const std::string& _valueName, const std::string& _textureName, bool bSrcScale)
+void GameEngineRenderer::SetTextureByValue(const std::string& _valueName, const std::string& _textureName, bool bSrcScale)
 {
 	GameEngineTexture* tex = ShaderHelper_.SettingTexture(_valueName, _textureName);
 	if (bSrcScale)
@@ -52,7 +52,7 @@ void GameEngineRenderingComponent::SetTextureByValue(const std::string& _valueNa
 	}
 }
 
-void GameEngineRenderingComponent::SetTexture(const std::string& _textureName, bool bSrcScale)
+void GameEngineRenderer::SetTexture(const std::string& _textureName, bool bSrcScale)
 {
 	GameEngineTexture* tex = ShaderHelper_.SettingTexture("Tex", _textureName);
 	if (bSrcScale)
@@ -62,22 +62,22 @@ void GameEngineRenderingComponent::SetTexture(const std::string& _textureName, b
 	}
 }
 
-void GameEngineRenderingComponent::SetBlender(const std::string& _blenderName)
+void GameEngineRenderer::SetBlender(const std::string& _blenderName)
 {
 	pipe_->SetOutputMergerBlend(_blenderName);
 }
 
-void GameEngineRenderingComponent::Render()
+void GameEngineRenderer::Render()
 {
 	ShaderHelper_.Setting();
 	pipe_->Rendering();
 }
 
-void GameEngineRenderingComponent::Start()
+void GameEngineRenderer::Start()
 {
 	actor_->GetLevel()->pushRenderingComponent(this);
 }
 
-void GameEngineRenderingComponent::Update()
+void GameEngineRenderer::Update()
 {
 }

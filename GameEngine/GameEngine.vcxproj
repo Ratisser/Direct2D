@@ -82,7 +82,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineRenderingComponent.h">
+    <ClInclude Include="GameEngineRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -231,7 +231,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameEngineRenderingComponent.cpp">
+    <ClCompile Include="GameEngineRenderer.cpp">
       <SubType>
       </SubType>
     </ClCompile>

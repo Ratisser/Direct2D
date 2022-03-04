@@ -3,7 +3,7 @@
 #include "GameEngineLevel.h"
 #include "GameEngineActor.h"
 #include "GameEngineComponent.h"
-#include "GameEngineRenderingComponent.h"
+#include "GameEngineRenderer.h"
 #include "GameEngineCamera.h"
 
 GameEngineLevel::GameEngineLevel()
@@ -35,9 +35,20 @@ void GameEngineLevel::ActorUpdate(float _deltaTime)
 		{
 			if (actor->IsUpdate())
 			{
-				actor->transformUpdate();
-				actor->updateComponent();
 				actor->Update(_deltaTime);
+				actor->updateComponent();
+			}
+		}
+	}
+
+	// 업데이트를 전부 수행한 후 트랜스폼 업데이트를 수행한다.
+	for (std::pair<int, std::list<GameEngineActor*>> pair : allActors_)
+	{
+		for (GameEngineActor* actor : pair.second)
+		{
+			if (actor->IsUpdate())
+			{
+				actor->transformUpdate();
 			}
 		}
 	}
@@ -50,7 +61,7 @@ void GameEngineLevel::Render()
 	float4x4 viewMatrix = mainCamera_->getViewMatrix();
 	float4x4 projectionMatrix = mainCamera_->getProjectionMatrix();
 
-	for (GameEngineRenderingComponent* obj : allRenderer_)
+	for (GameEngineRenderer* obj : allRenderer_)
 	{
 		if (obj->IsUpdate())
 		{
@@ -62,6 +73,17 @@ void GameEngineLevel::Render()
 
 
 	GameEngineDevice::GetInst().RenderEnd();
+}
+
+void GameEngineLevel::ActorReleaseUpdate()
+{
+	std::map<int, std::list<GameEngineActor*>>::iterator mapStartIter = allActors_.begin();
+	std::map<int, std::list<GameEngineActor*>>::iterator mapEndIter = allActors_.end();
+
+	for (; mapStartIter != mapEndIter; ++mapStartIter)
+	{
+
+	}
 }
 
 GameEngineCamera* GameEngineLevel::GetMainCameraActor()
@@ -79,7 +101,7 @@ void GameEngineLevel::init()
 	mainCamera_ = CreateActor<GameEngineCamera>("MainCamera");
 }
 
-void GameEngineLevel::pushRenderingComponent(GameEngineRenderingComponent* _renderingComponent)
+void GameEngineLevel::pushRenderingComponent(GameEngineRenderer* _renderingComponent)
 {
 	allRenderer_.push_back(_renderingComponent);
 }

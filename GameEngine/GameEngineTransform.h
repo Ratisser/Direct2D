@@ -22,6 +22,7 @@ public:
 	GameEngineTransform& operator=(const GameEngineTransform& _other) = delete;
 	GameEngineTransform& operator=(const GameEngineTransform&& _other) = delete;
 
+public:
 	void SetScale(const float4& _scale);
 	void SetScale(float _scale);
 	void SetScale(float _x, float _y, float _z = 1.0f);
@@ -54,6 +55,8 @@ public:
 	void AddChild(GameEngineTransform* _child);
 	void RemoveChild(GameEngineTransform* _child);
 
+	std::list<GameEngineTransform*>& GetChildren();
+
 protected:
 	TransformData transformData_;
 
@@ -62,6 +65,6 @@ protected:
 	float4 location_;
 
 	GameEngineTransform* parent_;
-	std::list<GameEngineTransform*> childs_;
+	std::list<GameEngineTransform*> children_;
 };
 

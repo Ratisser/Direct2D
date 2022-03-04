@@ -137,7 +137,7 @@
     <ClInclude Include="GameEngineCameraComponent.h">
       <Filter>Object\Componenets\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineRenderingComponent.h">
+    <ClInclude Include="GameEngineRenderer.h">
       <Filter>Object\Componenets\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineComponent.h">
@@ -261,7 +261,7 @@
     <ClCompile Include="GameEngineCameraComponent.cpp">
       <Filter>Object\Componenets\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineRenderingComponent.cpp">
+    <ClCompile Include="GameEngineRenderer.cpp">
       <Filter>Object\Componenets\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineComponent.cpp">

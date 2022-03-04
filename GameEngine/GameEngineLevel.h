@@ -5,13 +5,13 @@
 #include "GameEngineCamera.h"
 
 class GameEngineActor;
-class GameEngineRenderingComponent;
+class GameEngineRenderer;
 class GameEngineCamera;
 class GameEngineCore;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
 	friend GameEngineCore;
-	friend GameEngineRenderingComponent;
+	friend GameEngineRenderer;
 public:
 	GameEngineLevel();
 	~GameEngineLevel();
@@ -31,6 +31,7 @@ public:
 public:
 	void ActorUpdate(float _deltaTime);
 	void Render();
+	void ActorReleaseUpdate();
 
 	GameEngineCamera* GetMainCameraActor();
 	GameEngineCameraComponent* GetMainCameraComponent();
@@ -44,14 +45,14 @@ public:
 
 private:
 	void init();
-	void pushRenderingComponent(GameEngineRenderingComponent* _renderingComponent);
+	void pushRenderingComponent(GameEngineRenderer* _renderingComponent);
 
 protected:
 	GameEngineCamera* mainCamera_;
 
 private:
 	std::map<int, std::list<GameEngineActor*>> allActors_;
-	std::list<GameEngineRenderingComponent*> allRenderer_;
+	std::list<GameEngineRenderer*> allRenderer_;
 };
 
 
