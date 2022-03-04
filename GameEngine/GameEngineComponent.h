@@ -18,7 +18,7 @@ public:
 
 public:
 	virtual void Start() = 0;
-	virtual void Update() = 0;
+	virtual void Update(float _deltaTime) = 0;
 
 public:
 	void InitComponent(GameEngineActor* _actor);

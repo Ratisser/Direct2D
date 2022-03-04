@@ -33,7 +33,7 @@ void GameEngineRenderer::SetRenderingPipeline(const std::string& _name)
 
 	if (true == ShaderHelper_.IsValidConstantBuffer("TransformData"))
 	{
-		ShaderHelper_.SettingConstantBufferLink("TransformData", GetTransform()->GetTransformData());
+		ShaderHelper_.SettingConstantBufferLink("TransformData", GetTransformData());
 	}
 
 	if (nullptr == pipe_)
@@ -48,7 +48,7 @@ void GameEngineRenderer::SetTextureByValue(const std::string& _valueName, const 
 	if (bSrcScale)
 	{
 		float4 size = tex->GetSize();
-		transform_->SetScale(size.x, size.y);
+		SetScale(size.x, size.y);
 	}
 }
 
@@ -58,7 +58,7 @@ void GameEngineRenderer::SetTexture(const std::string& _textureName, bool bSrcSc
 	if (bSrcScale)
 	{
 		float4 size = tex->GetSize();
-		transform_->SetScale(size.x, size.y);
+		SetScale(size.x, size.y);
 	}
 }
 
@@ -78,6 +78,6 @@ void GameEngineRenderer::Start()
 	actor_->GetLevel()->pushRenderingComponent(this);
 }
 
-void GameEngineRenderer::Update()
+void GameEngineRenderer::Update(float _deltaTime)
 {
 }

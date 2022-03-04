@@ -3,7 +3,7 @@
 #include "GameEngineLevel.h"
 
 GameEngineActor::GameEngineActor()
-	: transform_(std::make_unique<GameEngineTransform>())
+	: transform_(std::make_unique<GameEngineTransformComponent>())
 	, level_(nullptr)
 {
 
@@ -31,7 +31,7 @@ void GameEngineActor::transformUpdate()
 	transform_->UpdateTransform();
 }
 
-void GameEngineActor::updateComponent()
+void GameEngineActor::updateComponent(float _deltaTime)
 {
 	{
 		auto iter = allTransformComponents_.begin();
@@ -42,8 +42,8 @@ void GameEngineActor::updateComponent()
 			GameEngineTransformComponent* tc = *iter;
 			if (tc->IsUpdate())
 			{
-				tc->Update();
-				tc->GetTransform()->UpdateTransform();
+				tc->Update(_deltaTime);
+				tc->UpdateTransform();
 				iter++;
 			}
 			else
@@ -56,7 +56,7 @@ void GameEngineActor::updateComponent()
 	}
 	for (GameEngineComponent* c : allComponents_)
 	{
-		c->Update();
+		c->Update(_deltaTime);
 	}
 }
 
@@ -70,7 +70,7 @@ void GameEngineActor::SetLevel(GameEngineLevel* _level)
 	level_ = _level;
 }
 
-GameEngineTransform* GameEngineActor::GetTransform()
+GameEngineTransformComponent* GameEngineActor::GetTransform()
 {
 	return transform_.get();
 }

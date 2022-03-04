@@ -17,7 +17,7 @@ public:
 	GameEngineRenderer& operator=(const GameEngineRenderer&& _other) = delete;
 
 	virtual void Start() override;
-	virtual void Update() override;
+	virtual void Update(float _deltaTime) override;
 
 	void SetRenderingPipeline(const std::string& _name);
 	void SetTextureByValue(const std::string& _valueName, const std::string& _textureName, bool bSrcScale);

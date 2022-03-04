@@ -2,7 +2,6 @@
 
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 
-#include "GameEngineTransform.h"
 #include "GameEngineComponent.h"
 #include "GameEngineTransformComponent.h"
 
@@ -27,23 +26,23 @@ public:
 	GameEngineLevel* GetLevel();
 	void SetLevel(GameEngineLevel* _level);
 
-	GameEngineTransform* GetTransform();
+	GameEngineTransformComponent* GetTransform();
 
 	template<typename ComponentType>
 	ComponentType* CreateComponent();
 
 	template<typename ComponentType>
-	ComponentType* CreateTransformComponent(GameEngineTransform* _parent);
+	ComponentType* CreateTransformComponent(GameEngineTransformComponent* _parent);
 
 protected:
 	GameEngineLevel* level_;
 
 private:
 	void transformUpdate();
-	void updateComponent();
+	void updateComponent(float _deltaTime);
 
 protected:
-	std::unique_ptr<GameEngineTransform> transform_;
+	std::unique_ptr<GameEngineTransformComponent> transform_;
 
 private:
 
@@ -65,7 +64,7 @@ ComponentType* GameEngineActor::CreateComponent()
 }
 
 template<typename ComponentType>
-ComponentType* GameEngineActor::CreateTransformComponent(GameEngineTransform* _parent)
+ComponentType* GameEngineActor::CreateTransformComponent(GameEngineTransformComponent* _parent)
 {
 	GameEngineTransformComponent* newComponent = new ComponentType();
 
@@ -73,7 +72,7 @@ ComponentType* GameEngineActor::CreateTransformComponent(GameEngineTransform* _p
 
 	if (nullptr != _parent)
 	{
-		newComponent->GetTransform()->SetParent(_parent);
+		newComponent->SetParent(_parent);
 	}
 
 

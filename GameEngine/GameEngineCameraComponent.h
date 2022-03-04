@@ -22,7 +22,7 @@ public:
 
 public:
 	virtual void Start() override;
-	virtual void Update() override;
+	virtual void Update(float _deltaTime) override;
 
 public:
 	void SetProjectionMode(ProjectionMode _mode);

@@ -25,25 +25,25 @@ void GameEngineCameraComponent::Start()
 {
 }
 
-void GameEngineCameraComponent::Update()
+void GameEngineCameraComponent::Update(float _deltaTime)
 {
-	float4 eyePosition = transform_->GetWorldLocation();
+	float4 eyePosition = GetWorldLocation();
 	
-	float4 eyeDirection = float4(0.0f, 0.0f, 1.0f, 0.0f) * transform_->GetTransformData().Wolrd;
+	float4 eyeDirection = float4(0.0f, 0.0f, 1.0f, 0.0f) * transformData_.Wolrd;
 	eyeDirection.Normalize3D();
-	float4 upDirection = float4(0.0f, 1.0f, 0.0f, 0.0f) * transform_->GetTransformData().Wolrd;
+	float4 upDirection = float4(0.0f, 1.0f, 0.0f, 0.0f) * transformData_.Wolrd;
 	upDirection.Normalize3D();
 
 
-	transform_->GetTransformData().View.ViewToLH(eyePosition, eyeDirection, upDirection);
+	transformData_.View.ViewToLH(eyePosition, eyeDirection, upDirection);
 
 	switch (projectionMode_)
 	{
 	case ProjectionMode::Perspective:
-		transform_->GetTransformData().Projection.PerspectiveFovLH(FieldOfViewAngleY_, cameraSize_.x, cameraSize_.y, nearZ_, farZ_);
+		transformData_.Projection.PerspectiveFovLH(FieldOfViewAngleY_, cameraSize_.x, cameraSize_.y, nearZ_, farZ_);
 		break;
 	case ProjectionMode::Orthographic:
-		transform_->GetTransformData().Projection.OrthographicLH(cameraSize_.x, cameraSize_.y, nearZ_, farZ_);
+		transformData_.Projection.OrthographicLH(cameraSize_.x, cameraSize_.y, nearZ_, farZ_);
 		break;
 	default:
 		break;

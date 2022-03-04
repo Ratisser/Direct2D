@@ -27,7 +27,7 @@ void Player::Start()
 		GameEngineRenderer* rc = CreateTransformComponent<GameEngineRenderer>(GetTransform());
 		rc->SetRenderingPipeline("TextureBox");
 		rc->SetTexture("Char.png", true);
-		rc->GetTransform()->SetLocation(0.0f, 100.f, 0.0f);
+		rc->SetLocation(0.0f, 100.f, 0.0f);
 	}
 
 	GameEngineInput::GetInstance().CreateKey("W", 'W');

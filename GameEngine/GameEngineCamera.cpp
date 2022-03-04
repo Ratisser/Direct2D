@@ -30,10 +30,10 @@ GameEngineCameraComponent* GameEngineCamera::GetCamera()
 
 float4x4 GameEngineCamera::getViewMatrix()
 {
-	return camera_->GetTransform()->GetTransformData().View;
+	return camera_->GetTransformData().View;
 }
 
 float4x4 GameEngineCamera::getProjectionMatrix()
 {
-	return camera_->GetTransform()->GetTransformData().Projection;
+	return camera_->GetTransformData().Projection;
 }

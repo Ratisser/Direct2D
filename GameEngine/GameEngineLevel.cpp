@@ -36,7 +36,7 @@ void GameEngineLevel::ActorUpdate(float _deltaTime)
 			if (actor->IsUpdate())
 			{
 				actor->Update(_deltaTime);
-				actor->updateComponent();
+				actor->updateComponent(_deltaTime);
 			}
 		}
 	}
@@ -65,8 +65,8 @@ void GameEngineLevel::Render()
 	{
 		if (obj->IsUpdate())
 		{
-			obj->GetTransform()->GetTransformData().View = viewMatrix;
-			obj->GetTransform()->GetTransformData().Projection = projectionMatrix;
+			obj->GetTransformData().View = viewMatrix;
+			obj->GetTransformData().Projection = projectionMatrix;
 			obj->Render();
 		}
 	}
