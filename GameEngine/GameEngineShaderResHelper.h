@@ -37,8 +37,8 @@ public:
 	void SettingConstantBufferSet(const std::string& _SettingName, const T& _Data);
 
 	GameEngineTexture* SettingTexture(const std::string& _settingName, const std::string& _textureName);
-
 	GameEngineTexture* SettingTexture(const std::string& _textureName);
+	GameEngineTexture* SettingTexture(const std::string& _textureName, GameEngineTexture* _texture);
 
 private:
 	std::map<std::string, GameEngineConstantBufferSetting*> AllConstantBufferSettings_;

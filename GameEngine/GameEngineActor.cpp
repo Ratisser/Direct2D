@@ -1,10 +1,13 @@
 #include "PreCompile.h"
 #include "GameEngineActor.h"
 #include "GameEngineLevel.h"
+#include "GameEngineRenderer.h"
 
 GameEngineActor::GameEngineActor()
 	: transform_(std::make_unique<GameEngineTransformComponent>())
 	, level_(nullptr)
+	, bDestroyed_(false)
+	, aliveTime_(-1.f)
 {
 
 }
@@ -57,6 +60,105 @@ void GameEngineActor::updateComponent(float _deltaTime)
 	for (GameEngineComponent* c : allComponents_)
 	{
 		c->Update(_deltaTime);
+	}
+}
+
+void GameEngineActor::Release(float _delay)
+{
+	if (0.0f >= _delay)
+	{
+		Death();
+	}
+	else
+	{
+		bDestroyed_ = true;
+		aliveTime_ = _delay;
+	}
+}
+
+void GameEngineActor::ReleaseComponent()
+{
+	{
+		std::list<GameEngineComponent*>::iterator startIter = allComponents_.begin();
+		std::list<GameEngineComponent*>::iterator endIter = allComponents_.end();
+
+		while (startIter != endIter)
+		{
+			GameEngineComponent* component = *startIter;
+			if (component->IsDeath())
+			{
+				delete component;
+				component = nullptr;
+				startIter = allComponents_.erase(startIter);
+			}
+			else
+			{
+				++startIter;
+			}
+		}
+	}
+
+
+	// 자식 컴포넌트들을 같이 해제해 주기 위해 해제 준비를 한다.
+	{
+		for (GameEngineTransformComponent* transformComponent : allTransformComponents_)
+		{
+			if (transformComponent->IsDeath())
+			{
+				transformComponent->ReleaseReady();
+
+				GameEngineRenderer* renderer = dynamic_cast<GameEngineRenderer*>(transformComponent);
+				if (nullptr != renderer)
+				{
+					renderer->Death();
+					level_->popRenderer(renderer);
+				}
+			}
+		}
+
+		std::list<GameEngineTransformComponent*>::iterator startIter = allTransformComponents_.begin();
+		std::list<GameEngineTransformComponent*>::iterator endIter = allTransformComponents_.end();
+
+		while (startIter != endIter)
+		{
+			GameEngineTransformComponent* component = *startIter;
+			if (component->IsDeath())
+			{
+				delete component;
+				component = nullptr;
+				startIter = allTransformComponents_.erase(startIter);
+			}
+			else
+			{
+				++startIter;
+			}
+		}
+	}
+}
+
+void GameEngineActor::ReleaseUpdate(float _deltaTime)
+{
+	if (false == bDestroyed_)
+	{
+		return;
+	}
+
+	aliveTime_ -= _deltaTime;
+
+	if (0.0f >= aliveTime_)
+	{
+		ReleaseEvent();
+		Death();
+
+		for (GameEngineComponent* component : allComponents_)
+		{
+			component->Death();
+		}
+
+		for (GameEngineTransformComponent* transformComponent : allTransformComponents_)
+		{
+			transformComponent->Death();
+		}
 	}
 }
 

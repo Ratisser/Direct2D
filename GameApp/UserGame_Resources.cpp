@@ -34,6 +34,16 @@ void UserGame::ResourcesLoad()
 		}
 	}
 
+
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
+		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Dash"));
+	}
+
+
 	AppShaderLoad();
 
 	{
@@ -337,6 +347,5 @@ void UserGame::ResourcesLoad()
 		Pipe->SetOutputMergerBlend("AlphaBlend");
 
 	}
-
 
 }

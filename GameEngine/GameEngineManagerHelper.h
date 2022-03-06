@@ -9,6 +9,7 @@
 #include "GameEnginePixelShaderManager.h"
 #include "GameEngineRenderTargetManager.h"
 #include "GameEngineTextureManager.h"
+#include "GameEngineFolderTextureManager.h"
 #include "GameEngineSamplerManager.h"
 #include "GameEngineBlenderManager.h"
 
@@ -22,6 +23,7 @@
 #include "GameEnginePixelShader.h"
 #include "GameEngineRasterizer.h"
 #include "GameEngineTexture.h"
+#include "GameEngineFolderTexture.h"
 #include "GameEngineSampler.h"
 #include "GameEngineBlender.h"
 
@@ -44,6 +46,7 @@ public:
 		GameEngineRenderTargetManager::Destroy();
 		GameEnginePixelShaderManager::Destroy();
 		GameEngineTextureManager::Destroy();
+		GameEngineFolderTextureManager::Destroy();
 		GameEngineSamplerManager::Destroy();
 		GameEngineBlenderManager::Destroy();
 	}

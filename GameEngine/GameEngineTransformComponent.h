@@ -31,6 +31,8 @@ public:
 	void SetScale(const float4& _scale);
 	void SetScale(float _scale);
 	void SetScale(float _x, float _y, float _z = 1.0f);
+	void AddScale(float _scale);
+	void AddScale(float _x, float _y, float _z);
 	void MultiplyScale(float _scale);
 	void MultiplyScale(float _x, float _y, float _z = 1.0f);
 
@@ -53,6 +55,7 @@ public:
 
 	void UpdateTransform();
 	void UpdateTransformByParent();
+	void ReleaseReady();
 	TransformData& GetTransformData();
 
 	void SetParent(GameEngineTransformComponent* _parent);

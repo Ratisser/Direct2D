@@ -47,7 +47,7 @@ void GameEngineRenderer::SetTextureByValue(const std::string& _valueName, const 
 	GameEngineTexture* tex = ShaderHelper_.SettingTexture(_valueName, _textureName);
 	if (bSrcScale)
 	{
-		float4 size = tex->GetSize();
+		float4 size = tex->GetTextureSize();
 		SetScale(size.x, size.y);
 	}
 }
@@ -57,7 +57,7 @@ void GameEngineRenderer::SetTexture(const std::string& _textureName, bool bSrcSc
 	GameEngineTexture* tex = ShaderHelper_.SettingTexture("Tex", _textureName);
 	if (bSrcScale)
 	{
-		float4 size = tex->GetSize();
+		float4 size = tex->GetTextureSize();
 		SetScale(size.x, size.y);
 	}
 }
@@ -75,7 +75,7 @@ void GameEngineRenderer::Render()
 
 void GameEngineRenderer::Start()
 {
-	actor_->GetLevel()->pushRenderingComponent(this);
+	actor_->GetLevel()->pushRenderer(this);
 }
 
 void GameEngineRenderer::Update(float _deltaTime)

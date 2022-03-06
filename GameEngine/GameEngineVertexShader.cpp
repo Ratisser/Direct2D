@@ -466,7 +466,7 @@ void GameEngineVertexShader::SetConstantBuffers(const GameEngineConstantBufferSe
 
 void GameEngineVertexShader::SetTexture(const GameEngineTextureSetting* _setting)
 {
-	ID3D11ShaderResourceView* srv = _setting->Res_->GetSRV();
+	ID3D11ShaderResourceView* srv = _setting->Res_->GetShaderResourceView();
 	GameEngineDevice::GetContext()->VSSetShaderResources(_setting->SettingIndex_, 1, &srv);
 }
 

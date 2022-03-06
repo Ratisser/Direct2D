@@ -34,6 +34,22 @@ void GameEngineTransformComponent::SetScale(float _x, float _y, float _z)
 
 }
 
+void GameEngineTransformComponent::AddScale(float _scale)
+{
+	scale_.x += _scale;
+	scale_.y += _scale;
+	scale_.z += _scale;
+	scale_.w = 0.f;
+}
+
+void GameEngineTransformComponent::AddScale(float _x, float _y, float _z)
+{
+	scale_.x += _x;
+	scale_.y += _y;
+	scale_.z += _z;
+	scale_.w = 0.f;
+}
+
 void GameEngineTransformComponent::MultiplyScale(float _scale)
 {
 	scale_.x *= _scale;
@@ -155,6 +171,16 @@ void GameEngineTransformComponent::UpdateTransformByParent()
 	for (GameEngineTransformComponent* child : children_)
 	{
 		child->UpdateTransformByParent();
+	}
+}
+
+void GameEngineTransformComponent::ReleaseReady()
+{
+	UnsetParent();
+	for (GameEngineTransformComponent* child : children_)
+	{
+		child->ReleaseReady();
+		child->Death();
 	}
 }
 

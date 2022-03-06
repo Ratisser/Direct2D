@@ -227,6 +227,15 @@
     <ClInclude Include="GameEngineTransformComponent.h">
       <Filter>Object\Componenets\Transform</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineImageRenderer.h">
+      <Filter>Object\Componenets\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineFolderTexture.h">
+      <Filter>Resources\02Texture\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineFolderTextureManager.h">
+      <Filter>Resources\02Texture\Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -344,6 +353,15 @@
     </ClCompile>
     <ClCompile Include="GameEngineTransformComponent.cpp">
       <Filter>Object\Componenets\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineImageRenderer.cpp">
+      <Filter>Object\Componenets\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineFolderTexture.cpp">
+      <Filter>Resources\02Texture\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineFolderTextureManager.cpp">
+      <Filter>Resources\02Texture\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

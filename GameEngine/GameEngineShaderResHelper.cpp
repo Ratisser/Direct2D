@@ -163,6 +163,20 @@ GameEngineTexture* GameEngineShaderResHelper::SettingTexture(const std::string& 
 	return FindTexture;
 }
 
+GameEngineTexture* GameEngineShaderResHelper::SettingTexture(const std::string& _settingName, GameEngineTexture* _texture)
+{
+	std::map<std::string, GameEngineTextureSetting*>::iterator findIter = AllTextureSettings_.find(_settingName);
+	if (findIter == AllTextureSettings_.end())
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 리소스 이름입니다. Tex");
+		return nullptr;
+	}
+
+	findIter->second->Res_ = _texture;
+
+	return _texture;
+}
+
 bool GameEngineShaderResHelper::IsValidConstantBuffer(const std::string& _name)
 {
 	std::map<std::string, GameEngineConstantBufferSetting*>::iterator findIter = AllConstantBufferSettings_.find(_name);

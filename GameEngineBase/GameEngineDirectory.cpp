@@ -14,6 +14,11 @@ GameEngineDirectory::GameEngineDirectory()
 	path_ = std::filesystem::current_path();
 }
 
+GameEngineDirectory::GameEngineDirectory(const std::string& _path)
+{
+	path_ = _path;
+}
+
 GameEngineDirectory::GameEngineDirectory(const GameEngineDirectory& _other)
 	: GameEnginePath(_other)
 {
@@ -103,6 +108,11 @@ std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(const std::string& _
 
 	for (const std::filesystem::directory_entry& File : DirIter)
 	{
+		if (File.is_directory())
+		{
+			continue;
+		}
+
 		std::string Ext = File.path().extension().string();
 		GameEngineString::toupper(Ext);
 

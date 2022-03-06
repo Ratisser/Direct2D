@@ -12,17 +12,25 @@ struct PS_INPUT
     float4 TexCoord : TEXCOORD;
 };
 
+cbuffer TextureCutData : register(b1)
+{
+    // 0.0f 0.0f 
+    float2 TextureCutDataPos;
+    // 1 / 8 1 / 8
+    float2 TextureCutDataSize;
+};
+
 PS_INPUT Texture_VS(VS_INPUT _in)
 {
     PS_INPUT output;
     output.Position = _in.Position;
 
-    // pos *= World;
     output.Position = mul(output.Position, World);
     output.Position = mul(output.Position, View);
     output.Position = mul(output.Position, Projection);
 
-    output.TexCoord = _in.TexCoord;
+    output.TexCoord.x = (_in.TexCoord.x * TextureCutDataSize.x) + TextureCutDataPos.x;
+    output.TexCoord.y = (_in.TexCoord.y * TextureCutDataSize.y) + TextureCutDataPos.y;
 
     return output;
 }

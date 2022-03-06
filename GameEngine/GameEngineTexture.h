@@ -18,9 +18,15 @@ public:
 	void Load(const std::string& _path);
 	
 	ID3D11RenderTargetView* CreateRenderTargetView();
-	ID3D11ShaderResourceView* GetSRV();
+	ID3D11ShaderResourceView* GetShaderResourceView();
 
-	float4 GetSize();
+	float4 GetTextureSize();
+
+	bool IsCut();
+	void Cut(int _x, int _y);
+	void PushCutIndex(const float4& _Size, const float4& _Pos);
+	float4 GetCutData(int _Index);
+
 
 private:	// member Var
 	ID3D11Texture2D* Texture2D_;
@@ -29,5 +35,7 @@ private:	// member Var
 	ID3D11ShaderResourceView* shaderResourceView_;
 
 	DirectX::ScratchImage image_;
+
+	std::vector<float4> CutList_;
 };
 

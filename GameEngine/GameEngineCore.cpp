@@ -100,9 +100,12 @@ void GameEngineCore::MainLoop()
 	}
 
 
-	currentLevel_->LevelUpdate(GameEngineTime::GetInst().GetDeltaTime());
-	currentLevel_->ActorUpdate(GameEngineTime::GetInst().GetDeltaTime());
+	float deltaTime = GameEngineTime::GetInst().GetDeltaTime();
+
+	currentLevel_->LevelUpdate(deltaTime);
+	currentLevel_->ActorUpdate(deltaTime);
 	currentLevel_->Render();
+	currentLevel_->Release(deltaTime);
 }
 
 void GameEngineCore::WindowCreate(GameEngineCore& _RuntimeCore)

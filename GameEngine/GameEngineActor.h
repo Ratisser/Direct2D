@@ -21,18 +21,27 @@ public:
 public:
 	virtual void Start() = 0;
 	virtual void Update(float _deltaTime) = 0;
+	virtual void ReleaseEvent() {};
 
 public:
-	GameEngineLevel* GetLevel();
-	void SetLevel(GameEngineLevel* _level);
-
-	GameEngineTransformComponent* GetTransform();
-
 	template<typename ComponentType>
 	ComponentType* CreateComponent();
 
 	template<typename ComponentType>
 	ComponentType* CreateTransformComponent(GameEngineTransformComponent* _parent);
+
+public:
+	void Release(float _delay = 0.0f);
+	void ReleaseComponent();
+	void ReleaseUpdate(float _deltaTime);
+
+
+	GameEngineLevel* GetLevel();
+	void SetLevel(GameEngineLevel* _level);
+
+	GameEngineTransformComponent* GetTransform();
+
+
 
 protected:
 	GameEngineLevel* level_;
@@ -45,9 +54,11 @@ protected:
 	std::unique_ptr<GameEngineTransformComponent> transform_;
 
 private:
-
 	std::list<GameEngineComponent*> allComponents_;
 	std::list<GameEngineTransformComponent*> allTransformComponents_;
+
+	bool bDestroyed_;
+	float aliveTime_;
 };
 
 template<typename ComponentType>
@@ -74,7 +85,6 @@ ComponentType* GameEngineActor::CreateTransformComponent(GameEngineTransformComp
 	{
 		newComponent->SetParent(_parent);
 	}
-
 
 	newComponent->Start();
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <GameEngineBase/GameEngineObjectNameBase.h>
+#include <set>
 
 #include "GameEngineCamera.h"
 
@@ -12,6 +13,7 @@ class GameEngineLevel : public GameEngineObjectNameBase
 {
 	friend GameEngineCore;
 	friend GameEngineRenderer;
+	friend GameEngineActor;
 public:
 	GameEngineLevel();
 	~GameEngineLevel();
@@ -31,7 +33,7 @@ public:
 public:
 	void ActorUpdate(float _deltaTime);
 	void Render();
-	void ActorReleaseUpdate();
+	void Release(float _deltaTime);
 
 	GameEngineCamera* GetMainCameraActor();
 	GameEngineCameraComponent* GetMainCameraComponent();
@@ -45,14 +47,15 @@ public:
 
 private:
 	void init();
-	void pushRenderingComponent(GameEngineRenderer* _renderingComponent);
+	void pushRenderer(GameEngineRenderer* _renderingComponent);
+	void popRenderer(GameEngineRenderer* _renderingComponent);
 
 protected:
 	GameEngineCamera* mainCamera_;
 
 private:
 	std::map<int, std::list<GameEngineActor*>> allActors_;
-	std::list<GameEngineRenderer*> allRenderer_;
+	std::set<GameEngineRenderer*> allRenderer_;
 };
 
 
