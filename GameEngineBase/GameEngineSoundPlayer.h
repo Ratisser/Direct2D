@@ -8,13 +8,12 @@ public:
 	// SoundManager 에 로드된 사운드만 재생할 수 있습니다.
 	GameEngineSoundPlayer(const std::string& _soundName);
 	~GameEngineSoundPlayer();
-
 	GameEngineSoundPlayer(const GameEngineSoundPlayer& _other) = delete;
 	GameEngineSoundPlayer(GameEngineSoundPlayer&& _other) = delete;
-
 	GameEngineSoundPlayer& operator=(const GameEngineSoundPlayer& _other) = delete;
 	GameEngineSoundPlayer& operator=(const GameEngineSoundPlayer&& _other) = delete;
 
+public:
 	void ChangeSound(const std::string& _soundName);
 
 	void Play();

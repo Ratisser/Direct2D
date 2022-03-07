@@ -90,7 +90,7 @@ std::string GameEngineDirectory::PathToPlusFileName(const std::string& _FileName
 //opendir / readdir 함수를 사용하여 디렉토리의 파일 목록 가져 오기
 //std::filesystem::recursive_directory_iterator를 사용하여 모든 하위 디렉토리의 파일 목록을 가져옵니다
 
-std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(const std::string& _filter /*= "*"*/)
+std::vector<GameEngineFile> GameEngineDirectory::GetAllFileWithoutDirectory(const std::string& _filter /*= "*"*/)
 {
 	std::string Filter = "";
 	if (std::string::npos == _filter.find('.'))
@@ -126,5 +126,44 @@ std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(const std::string& _
 	}
 
 	
+	return Return;
+}
+
+std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(const std::string& _filter /*= "*"*/)
+{
+	std::string Filter = "";
+	if (std::string::npos == _filter.find('.'))
+	{
+		Filter = ".";
+	}
+
+	Filter += _filter;
+
+	GameEngineString::toupper(Filter);
+
+	std::vector<GameEngineFile> Return;
+
+	std::filesystem::directory_iterator DirIter = std::filesystem::directory_iterator(path_);
+
+	for (const std::filesystem::directory_entry& File : DirIter)
+	{
+		//if (File.is_directory())
+		//{
+		//	continue;
+		//}
+
+		std::string Ext = File.path().extension().string();
+		GameEngineString::toupper(Ext);
+
+		if (_filter != "*" && Filter != Ext)
+		{
+			continue;
+		}
+
+		Return.push_back(GameEngineFile(File.path()));
+
+	}
+
+
 	return Return;
 }

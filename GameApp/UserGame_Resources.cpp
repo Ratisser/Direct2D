@@ -26,7 +26,7 @@ void UserGame::ResourcesLoad()
 		SoundDir.MoveChild("Resources");
 		SoundDir.MoveChild("Image");
 
-		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile();
+		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFileWithoutDirectory();
 
 		for (size_t i = 0; i < AllFile.size(); i++)
 		{
@@ -40,7 +40,14 @@ void UserGame::ResourcesLoad()
 		TextureDir.MoveParent("Direct2D");
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
-		GameEngineFolderTextureManager::GetInst().Load(TextureDir.PathToPlusFileName("Dash"));
+		TextureDir.MoveChild("CupHead");
+
+		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
+		for (GameEngineFile& file : AllFile)
+		{
+			GameEngineFolderTextureManager::GetInst().Load(file.GetFullPath());
+		}
+
 	}
 
 
@@ -343,7 +350,7 @@ void UserGame::ResourcesLoad()
 		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		Pipe->SetRasterizer("EngineBaseRasterizer");
-		
+
 		Pipe->SetOutputMergerBlend("AlphaBlend");
 
 	}

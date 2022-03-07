@@ -51,7 +51,7 @@ public:
 
 	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
 
-	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop = true);
+	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.033f, bool _Loop = true);
 
 	void SetChangeAnimation(const std::string& _Name, bool _IsForce = false);
 

@@ -45,6 +45,7 @@ public:
 	// CAFDSA 안됨
 	// .
 	// * 모든 확장자
+	std::vector<GameEngineFile> GetAllFileWithoutDirectory(const std::string& _filter = "*");
 	std::vector<GameEngineFile> GetAllFile(const std::string& _filter = "*");
 };
 

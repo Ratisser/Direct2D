@@ -81,7 +81,10 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 	} else 
 	{
 		Renderer->CutData_ = float4(0,0,1,1);
-		Renderer->ShaderHelper_.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
+		GameEngineTexture* tex = Renderer->ShaderHelper_.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
+		float4 size = tex->GetTextureSize();
+		Renderer->SetScale(size);
+		Renderer->SetLocation(0.0f, size.y / 2.f);
 	}
 
 }

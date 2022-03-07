@@ -34,9 +34,9 @@ void Player::Start()
 
 	{
 		GameEngineImageRenderer* renderer = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-		renderer->CreateAnimationFolder("TestAnimation", "Dash", 0.1f);
+		renderer->CreateAnimationFolder("TestAnimation", "Intro", 0.033f);
 		renderer->SetChangeAnimation("TestAnimation");
-		renderer->SetScale(100.f, 100.f, 1.0f);
+		//renderer->SetScale(100.f, 100.f, 1.0f);
 	}
 	
 
