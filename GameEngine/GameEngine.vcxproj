@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="eCollisionType.h" />
     <ClInclude Include="GameEngineActor.h">
       <SubType>
       </SubType>
@@ -30,6 +31,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineCameraComponent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineCollision.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -178,6 +183,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineCameraComponent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineCollision.cpp">
       <SubType>
       </SubType>
     </ClCompile>

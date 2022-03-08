@@ -23,7 +23,6 @@ public:
 	GameEngineTransformComponent& operator=(const GameEngineTransformComponent&& _other) = delete;
 
 public:
-	// GameEngineComponent을(를) 통해 상속됨
 	virtual void Start() override;
 	virtual void Update(float _deltaTime) override;
 
@@ -48,6 +47,7 @@ public:
 	float4 GetRotation();
 	float4 GetLocation();
 	float4 GetWorldLocation();
+	float4 GetWorldScale();
 
 	float4 GetForward();
 	float4 GetUp();

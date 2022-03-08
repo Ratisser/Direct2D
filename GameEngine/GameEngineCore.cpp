@@ -6,6 +6,7 @@
 #include "GameEngineInput.h"
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
+#include <GameEngine/GameEngineCollision.h>
 
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 std::map<std::string, GameEngineLevel*> GameEngineCore::allLevels_ = std::map<std::string, GameEngineLevel*>();
@@ -47,6 +48,8 @@ void GameEngineCore::EngineInitialize()
 			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 		}
 	}
+
+	GameEngineCollision::init();
 
 	GameEngineSoundManager::GetInstance().Initialize();
 	GameEngineInput::GetInstance();

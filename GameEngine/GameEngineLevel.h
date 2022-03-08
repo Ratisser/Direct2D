@@ -1,18 +1,19 @@
 #pragma once
 
 #include <GameEngineBase/GameEngineObjectNameBase.h>
-#include <set>
 
 #include "GameEngineCamera.h"
 
 class GameEngineActor;
 class GameEngineRenderer;
+class GameEngineCollision;
 class GameEngineCamera;
 class GameEngineCore;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
 	friend GameEngineCore;
 	friend GameEngineRenderer;
+	friend GameEngineCollision;
 	friend GameEngineActor;
 public:
 	GameEngineLevel();
@@ -38,6 +39,8 @@ public:
 	GameEngineCamera* GetMainCameraActor();
 	GameEngineCameraComponent* GetMainCameraComponent();
 
+	std::list<GameEngineCollision*>& GetCollisionGroup(int _group);
+
 public:
 	template<typename ActorType>
 	ActorType* CreateActor(int _updateOrder = 0);
@@ -48,6 +51,8 @@ public:
 private:
 	void init();
 	void pushRenderer(GameEngineRenderer* _renderingComponent);
+	void pushCollision(int _group, GameEngineCollision* _collision);
+	void popCollision(int _group, GameEngineCollision* _collision);
 	void popRenderer(GameEngineRenderer* _renderingComponent);
 
 protected:
@@ -55,7 +60,8 @@ protected:
 
 private:
 	std::map<int, std::list<GameEngineActor*>> allActors_;
-	std::set<GameEngineRenderer*> allRenderer_;
+	std::map<int, std::list<GameEngineCollision*>> allCollisions_;
+	std::list<GameEngineRenderer*> allRenderer_;
 };
 
 

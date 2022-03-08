@@ -31,7 +31,6 @@ void GameEngineTransformComponent::SetScale(float _x, float _y, float _z)
 	scale_.y = _y;
 	scale_.z = _z;
 	scale_.w = 0.f;
-
 }
 
 void GameEngineTransformComponent::AddScale(float _scale)
@@ -128,6 +127,11 @@ float4 GameEngineTransformComponent::GetWorldLocation()
 	return location_ * transformData_.Wolrd;
 }
 
+float4 GameEngineTransformComponent::GetWorldScale()
+{
+	return scale_ * parent_->scale_;
+}
+
 float4 GameEngineTransformComponent::GetForward()
 {
 	return transformData_.Wolrd.vz.NormalizeReturn3D();
@@ -155,6 +159,7 @@ void GameEngineTransformComponent::UpdateTransform()
 		for (GameEngineTransformComponent* child : children_)
 		{
 			child->UpdateTransformByParent();
+			child->Update(0.0f);
 		}
 	}
 }
@@ -171,6 +176,7 @@ void GameEngineTransformComponent::UpdateTransformByParent()
 	for (GameEngineTransformComponent* child : children_)
 	{
 		child->UpdateTransformByParent();
+		child->Update(0.0f);
 	}
 }
 
@@ -226,6 +232,7 @@ std::list<GameEngineTransformComponent*>& GameEngineTransformComponent::GetChild
 
 void GameEngineTransformComponent::Start()
 {
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::Update(float _deltaTime)

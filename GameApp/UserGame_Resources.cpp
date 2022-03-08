@@ -277,24 +277,7 @@ void UserGame::ResourcesLoad()
 		Pipe->SetPixelShader("Color_PS");
 	}
 
-	{
-		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("BoxRendering");
 
-		// 이런 기본적인 vertex들이 있다.
-		Pipe->SetInputAssembler1VertexBufferSetting("Box");
-		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");
-
-		// 그 vertex을 이렇게 위치시키겠다.
-		Pipe->SetVertexShader("Color_VS");
-
-		// 그 vertex을 3개 묶어서 면으로 그리겠다. 순서는 인덱스 버퍼의 순서대로
-		Pipe->SetInputAssembler2IndexBufferSetting("Box");
-		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-		Pipe->SetRasterizer("EngineBaseRasterizer");
-
-		Pipe->SetPixelShader("Color_PS");
-	}
 
 	{
 		D3D11_BLEND_DESC bd;
@@ -317,6 +300,8 @@ void UserGame::ResourcesLoad()
 		GameEngineBlenderManager::GetInst().Create("AlphaBlend", bd);
 	}
 
+
+
 	{
 		D3D11_BLEND_DESC bd;
 
@@ -336,6 +321,23 @@ void UserGame::ResourcesLoad()
 		bd.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 		GameEngineBlenderManager::GetInst().Create("DefaultBlend", bd);
+	}
+
+	{
+		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("BoxRendering");
+
+		Pipe->SetInputAssembler1VertexBufferSetting("Box");
+		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");
+
+		Pipe->SetVertexShader("Color_VS");
+
+		Pipe->SetInputAssembler2IndexBufferSetting("Box");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+
+		Pipe->SetPixelShader("Color_PS");
+		Pipe->SetOutputMergerBlend("AlphaBlend");
 	}
 
 	{

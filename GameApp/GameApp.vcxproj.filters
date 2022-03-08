@@ -23,6 +23,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>GameObject\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>GameObject\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -67,6 +70,9 @@
       <Filter>GameObject\Level</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>GameObject\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
       <Filter>GameObject\Actor</Filter>
     </ClInclude>
   </ItemGroup>

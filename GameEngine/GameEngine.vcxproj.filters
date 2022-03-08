@@ -106,6 +106,9 @@
     <Filter Include="Resources\02Texture\Blender">
       <UniqueIdentifier>{f3c1a460-45ec-4236-aa19-3ebddb844db7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Componenets\Collision">
+      <UniqueIdentifier>{c02a6a69-8942-4f62-95d2-2dd30688c285}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -236,6 +239,12 @@
     <ClInclude Include="GameEngineFolderTextureManager.h">
       <Filter>Resources\02Texture\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineCollision.h">
+      <Filter>Object\Componenets\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="eCollisionType.h">
+      <Filter>Object\Componenets\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -362,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineFolderTextureManager.cpp">
       <Filter>Resources\02Texture\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCollision.cpp">
+      <Filter>Object\Componenets\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

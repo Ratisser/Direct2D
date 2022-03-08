@@ -1,0 +1,59 @@
+#pragma once
+
+#include <GameEngine\GameEngineTransformComponent.h>
+#include <GameEngine\eCollisionType.h>
+
+#include <functional>
+
+#include <DirectXCollision.h>
+#include <DirectXCollision.inl>
+
+class GameEngineCore;
+class GameEngineLevel;
+class GameEngineCollision : public GameEngineTransformComponent
+{
+	friend GameEngineCore;
+	friend GameEngineLevel;
+public:
+	GameEngineCollision();
+	~GameEngineCollision();
+
+	GameEngineCollision(const GameEngineCollision& _other) = delete;
+	GameEngineCollision(GameEngineCollision&& _other) = delete;
+
+	GameEngineCollision& operator=(const GameEngineCollision& _other) = delete;
+	GameEngineCollision& operator=(const GameEngineCollision&& _other) = delete;
+
+public:
+	virtual void Start();
+	virtual void Update(float _deltaTime);
+
+public:
+	GameEngineCollision* IsCollideOne(int _group);
+	std::list<GameEngineCollision*> IsCollide(int _group);
+
+	template<typename groupType>
+	void SetCollisionGroup(groupType _group);
+	void SetCollisionGroup(int _group);
+	void SetCollisionType(eCollisionType _collisionType);
+
+private:
+	static void init();
+	static bool CollisionCheckRectToRect(GameEngineCollision& _lhs, GameEngineCollision& _rhs);
+
+protected:
+	int collisionGroup_;
+	eCollisionType collisionType_;
+	DirectX::BoundingBox boundingBox_;
+	DirectX::BoundingSphere sphere_;
+
+private:
+	static std::function<bool(GameEngineCollision&, GameEngineCollision&)>
+		collisionCheckFunction_[static_cast<int>(eCollisionType::MAX)][static_cast<int>(eCollisionType::MAX)];
+};
+
+template<typename groupType>
+inline void GameEngineCollision::SetCollisionGroup(groupType _group)
+{
+	SetCollisionGroup(static_cast<int>(_group));
+}

@@ -169,6 +169,11 @@ GameEngineCameraComponent* GameEngineLevel::GetMainCameraComponent()
 	return mainCamera_->GetCamera();
 }
 
+std::list<GameEngineCollision*>& GameEngineLevel::GetCollisionGroup(int _group)
+{
+	return allCollisions_[_group];
+}
+
 void GameEngineLevel::init()
 {
 	mainCamera_ = CreateActor<GameEngineCamera>("MainCamera");
@@ -176,10 +181,20 @@ void GameEngineLevel::init()
 
 void GameEngineLevel::pushRenderer(GameEngineRenderer* _renderingComponent)
 {
-	allRenderer_.insert(_renderingComponent);
+	allRenderer_.push_back(_renderingComponent);
+}
+
+void GameEngineLevel::pushCollision(int _group, GameEngineCollision* _collision)
+{
+	allCollisions_[_group].push_back(_collision);
+}
+
+void GameEngineLevel::popCollision(int _group, GameEngineCollision* _collision)
+{
+	allCollisions_[_group].remove(_collision);
 }
 
 void GameEngineLevel::popRenderer(GameEngineRenderer* _renderingComponent)
 {
-	allRenderer_.erase(_renderingComponent);
+	allRenderer_.remove(_renderingComponent);
 }
