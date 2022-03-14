@@ -4,7 +4,12 @@
 
 #include "../ThirdParty/include/FMOD/fmod.hpp"
 
+#ifdef _DEBUG
+#pragma comment(lib, "../ThirdParty/x64/Debug/FMOD/fmodL_vc.lib")
+#else
 #pragma comment(lib, "../ThirdParty/x64/Release/FMOD/fmod_vc.lib")
+#endif
+
 
 #include <unordered_map>
 
