@@ -84,6 +84,7 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 		GameEngineTexture* tex = Renderer->ShaderHelper_.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
 		float4 size = tex->GetTextureSize();
 		Renderer->SetScale(size);
+		Renderer->MultiplyScale(-2.f * Renderer->bFlipHorizontal_ + 1.0f, -2.f * Renderer->bFlipVertical_ + 1.0f); // -1을 넣느냐 1을 넣느냐의 차이
 		Renderer->SetLocation(0.0f, size.y / 2.f);
 	}
 
@@ -208,7 +209,7 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));
 }
 
-void GameEngineImageRenderer::SetChangeAnimation(const std::string& _Name, bool _IsForce /*= false*/)
+void GameEngineImageRenderer::ChangeAnimation(const std::string& _Name, bool _IsForce /*= false*/)
 {
 	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
 
@@ -290,4 +291,10 @@ void GameEngineImageRenderer::SetFrameCallBack(const std::string& _Name, int _In
 	}
 
 	FindIter->second->FrameCallBack_[_Index].push_back(_CallBack);
+}
+
+void GameEngineImageRenderer::SetFlip(bool _bHorizon, bool _bVertical)
+{
+	bFlipHorizontal_ = _bHorizon;
+	bFlipVertical_ = _bVertical;
 }

@@ -53,15 +53,17 @@ public:
 
 	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.033f, bool _Loop = true);
 
-	void SetChangeAnimation(const std::string& _Name, bool _IsForce = false);
+	void ChangeAnimation(const std::string& _Name, bool _IsForce = false);
 
 	void SetStartCallBack(const std::string& _Name, std::function<void()> _CallBack);
 	void SetEndCallBack(const std::string& _Name, std::function<void()> _CallBack);
 	void SetFrameCallBack(const std::string& _Name, int _Index, std::function<void()> _CallBack);
 
+	void SetFlip(bool _bHorizon, bool _bVertical);
 
 protected:
 	void Update(float _DeltaTime) override;
+	void Start() override;
 
 private:
 	std::map<std::string, Animation2D*> AllAnimations_;
@@ -69,7 +71,9 @@ private:
 
 	float4 CutData_;
 	GameEngineTexture* CurTexture_;
-	void Start() override;
+
+	bool bFlipHorizontal_;
+	bool bFlipVertical_;
 
 };
 

@@ -74,6 +74,10 @@ void UserGame::ResourcesLoad()
 			RectVertex[5] = { float4::RotateXDegree(RectVertex[1].Position, 180.0f) };
 			RectVertex[6] = { float4::RotateXDegree(RectVertex[2].Position, 180.0f) };
 			RectVertex[7] = { float4::RotateXDegree(RectVertex[3].Position, 180.0f) };
+			//RectVertex[4] = { float4({ 0.5f, 0.5f, 0.5f }) };
+			//RectVertex[5] = { float4({ -0.5f, 0.5f, 0.5f }) };
+			//RectVertex[6] = { float4({ -0.5f, -0.5f, 0.5f }) };
+			//RectVertex[7] = { float4({ 0.5f, -0.5f, 0.5f }) };
 		}
 
 		{
@@ -102,6 +106,14 @@ void UserGame::ResourcesLoad()
 
 		for (int i = 0; i < 6; i++)
 		{
+			if (i == 1)
+			{
+				RectVertex[i * 4 + 0].TexCoord = float4(0.0f, 1.0f);
+				RectVertex[i * 4 + 1].TexCoord = float4(1.0f, 1.0f);
+				RectVertex[i * 4 + 2].TexCoord = float4(1.0f, 0.0f);
+				RectVertex[i * 4 + 3].TexCoord = float4(0.0f, 0.0f);
+				continue;
+			}
 			RectVertex[i * 4 + 0].TexCoord = float4(0.0f, 0.0f);
 			RectVertex[i * 4 + 1].TexCoord = float4(1.0f, 0.0f);
 			RectVertex[i * 4 + 2].TexCoord = float4(1.0f, 1.0f);

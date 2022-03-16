@@ -54,7 +54,7 @@ public:
 template<typename FSMType>
 class GameEngineFSM
 {
-	class State : public GameEngineNameBase
+	class State : public GameEngineObjectNameBase
 	{
 		// 이렇게 전방선언 할수도 있다.
 		friend class GameEngineFSM;

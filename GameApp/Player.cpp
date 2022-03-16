@@ -10,8 +10,11 @@
 #include <GameEngine\GameEngineCollision.h>
 
 Player::Player()
-	: collider_(nullptr)
+	: state_(this)
+	, collider_(nullptr)
 	, renderer_(nullptr)
+	, bLeft_(false)
+	, deltaTime_(0.0f)
 {
 
 }
@@ -23,6 +26,50 @@ Player::~Player()
 
 void Player::Start()
 {
+	initInput();
+	initRendererAndAnimation();
+	initState();
+	initCollision();
+}
+
+void Player::Update(float _deltaTime)
+{
+	deltaTime_ = _deltaTime;
+
+	state_.Update();
+
+	if (bLeft_)
+	{
+		renderer_->SetFlip(true, false);
+	}
+	else
+	{
+		renderer_->SetFlip(false, false);
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyDown("P"))
+	{
+		static bool temp = true;
+		if (temp)
+		{
+			level_->GetMainCameraComponent()->SetProjectionMode(ProjectionMode::Perspective);
+		}
+		else
+		{
+			level_->GetMainCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);
+		}
+		temp = !temp;
+	}
+}
+
+void Player::initRendererAndAnimation()
+{
+	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	renderer_->CreateAnimationFolder("Intro", "Intro");
+	renderer_->CreateAnimationFolder("Idle", "Idle", 0.067f);
+	renderer_->CreateAnimationFolder("Run", "Run");
+	renderer_->ChangeAnimation("Idle");
+
 	//{
 	//	GameEngineRenderer* rc = CreateTransformComponent<GameEngineRenderer>(GetTransform());
 	//	rc->SetRenderingPipeline("TextureBox");
@@ -35,6 +82,10 @@ void Player::Start()
 	//	rc->SetLocation(0.0f, 100.f, 0.0f);
 	//}
 
+}
+
+void Player::initInput()
+{
 	GameEngineInput::GetInstance().CreateKey("Left", VK_LEFT);
 	GameEngineInput::GetInstance().CreateKey("Right", VK_RIGHT);
 	GameEngineInput::GetInstance().CreateKey("Up", VK_UP);
@@ -50,93 +101,67 @@ void Player::Start()
 	GameEngineInput::GetInstance().CreateKey("X", 'X');
 
 	GameEngineInput::GetInstance().CreateKey("P", 'P');
-
-	rc_ = CreateTransformComponent<GameEngineRenderer>(GetTransform());
-	rc_->SetRenderingPipeline("BoxRendering");
-
-	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
-	renderer_->CreateAnimationFolder("TestAnimation", "Intro", 0.033f);
-	renderer_->SetChangeAnimation("TestAnimation");
-
-	rc_->SetParent(renderer_);
-
-	collider_ = CreateTransformComponent<GameEngineCollision>(renderer_);
-	collider_->SetCollisionType(eCollisionType::Rect);
-
-
-
-
-	GetTransform()->SetLocation(-100, -100);
 }
 
-void Player::Update(float _deltaTime)
+void Player::initCollision()
 {
-	//collider_->SetScale(renderer_->GetScale());
-	//rc_->SetScale(renderer_->GetScale());
-	//rc_->SetLocation(renderer_->GetLocation());
+	collider_ = CreateTransformComponent<GameEngineCollision>(renderer_);
+	collider_->SetCollisionType(eCollisionType::Rect);
+}
 
+void Player::initState()
+{
+	state_.CreateState("Idle", &Player::startIdle, &Player::updateIdle);
+	state_.CreateState("Run", &Player::startRun, &Player::updateRun);
+	state_.ChangeState("Idle");
+}
 
-	if (nullptr != collider_->IsCollideOne(1))
-	{
-		GameEngineDebug::OutPutDebugString("Ãæµ¹\n");
-	}
-	//transform_->AddRotation(3 * -_deltaTime, 0.0f, 6 * -_deltaTime);
-	//transform_->SetLocation(50.f, 0.0f, 0.0f);
+StateInfo Player::startIdle(StateInfo _state)
+{
+	renderer_->ChangeAnimation("Idle");
+	return StateInfo();
+}
 
-	if (GameEngineInput::GetInstance().IsKeyPress("Up"))
-	{
-		transform_->AddLocation(0.0f, 200.f * _deltaTime);
-	}
-	if (GameEngineInput::GetInstance().IsKeyPress("Down"))
-	{
-		transform_->AddLocation(0.0f, -200.f * _deltaTime);
-	}
+StateInfo Player::updateIdle(StateInfo _state)
+{
 	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 	{
-		transform_->AddLocation(-200.f * _deltaTime, 0.0f);
+		bLeft_ = true;
+		return "Run";
 	}
+	
 	if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 	{
-		transform_->AddLocation(200.f * _deltaTime, 0.0f);
+		bLeft_ = false;
+		return "Run";
 	}
+	return StateInfo();
+}
 
-	if (GameEngineInput::GetInstance().IsKeyPress("Q"))
+StateInfo Player::startRun(StateInfo _state)
+{
+	renderer_->ChangeAnimation("Run");
+	return StateInfo();
+}
+
+StateInfo Player::updateRun(StateInfo _state)
+{
+	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 	{
-		transform_->AddRotation(0.0f, 0.0f, 1.0f * _deltaTime);
+		transform_->AddLocation(-200.f * deltaTime_, 0.0f);
+		bLeft_ = true;
 	}
-
-	if (GameEngineInput::GetInstance().IsKeyPress("E"))
+	else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 	{
-		transform_->AddRotation(0.0f, 0.0f, -1.f * _deltaTime);
+		transform_->AddLocation(200.f * deltaTime_, 0.0f);
+		bLeft_ = false;
 	}
-
-	if (GameEngineInput::GetInstance().IsKeyPress("Z"))
+	else
 	{
-		transform_->AddScale(10.f * _deltaTime);
-	}
-
-	if (GameEngineInput::GetInstance().IsKeyPress("C"))
-	{
-		transform_->AddScale(-10.f * _deltaTime);
-	}
-
-	if (GameEngineInput::GetInstance().IsKeyPress("X"))
-	{
-		Release(3.f);
+		return "Idle";
 	}
 
 
-	if (GameEngineInput::GetInstance().IsKeyDown("P"))
-	{
-		static bool temp = true;
-		if (temp)
-		{
-			level_->GetMainCameraComponent()->SetProjectionMode(ProjectionMode::Perspective);
-		}
-		else
-		{
-			level_->GetMainCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);
-		}
-		temp = !temp;
-	}
+
+	return StateInfo();
 }
