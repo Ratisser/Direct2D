@@ -22,6 +22,7 @@
     <ClInclude Include="GameEngineDebug.h" />
     <ClInclude Include="GameEngineDirectory.h" />
     <ClInclude Include="GameEngineFile.h" />
+    <ClInclude Include="GameEngineFSM.h" />
     <ClInclude Include="GameEngineMath.h">
       <SubType>
       </SubType>
@@ -55,6 +56,7 @@
     <ClCompile Include="GameEngineDebug.cpp" />
     <ClCompile Include="GameEngineDirectory.cpp" />
     <ClCompile Include="GameEngineFile.cpp" />
+    <ClCompile Include="GameEngineFSM.cpp" />
     <ClCompile Include="GameEngineMath.cpp">
       <SubType>
       </SubType>

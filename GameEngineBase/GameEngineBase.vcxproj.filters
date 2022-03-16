@@ -38,6 +38,9 @@
     <ClInclude Include="GameEngineSoundPlayer.h">
       <Filter>Media</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineFSM.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -77,6 +80,9 @@
     <ClCompile Include="GameEngineSoundPlayer.cpp">
       <Filter>Media</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineFSM.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -115,6 +121,9 @@
     <Filter Include="Media">
       <UniqueIdentifier>{7e82b16e-2dc5-4f55-a1d4-e84fbbee7c9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Logic">
+      <UniqueIdentifier>{51ea7300-345a-4632-8f71-a2fc978ecc9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\ThirdParty\x64\Debug\FMOD\fmodL_vc.lib">
@@ -123,13 +132,7 @@
     <CopyFileToFolders Include="..\ThirdParty\x64\Release\FMOD\fmod_vc.lib">
       <Filter>Lib\FMOD\Release</Filter>
     </CopyFileToFolders>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\ThirdParty\x64\Debug\FMOD\fmodL.dll">
-      <Filter>Lib\FMOD\Debug</Filter>
-    </None>
-    <None Include="..\ThirdParty\x64\Release\FMOD\fmod.dll">
-      <Filter>Lib\FMOD\Release</Filter>
-    </None>
+    <CopyFileToFolders Include="..\ThirdParty\x64\Debug\FMOD\fmodL.dll" />
+    <CopyFileToFolders Include="..\ThirdParty\x64\Release\FMOD\fmod.dll" />
   </ItemGroup>
 </Project>
