@@ -9,9 +9,13 @@ private:
 	void EngineInitialize();
 	void EngineDestroy();
 
+	void loadEngineTexture();
+	void loadEngineShader();
+	void loadEngineResource();
+
 protected:
-	GameEngineCore(); // default constructer 디폴트 생성자
-	~GameEngineCore(); // default destructer 디폴트 소멸자
+	GameEngineCore();
+	~GameEngineCore();
 
 protected:		// delete constructer
 	GameEngineCore(const GameEngineCore& _other) = delete; // default Copy constructer 디폴트 복사생성자
@@ -35,9 +39,7 @@ public:
 	{
 		GameEngineDebug::LeakCheckOn();
 
-		// 신뢰의 릭.
 #ifdef _DEBUG
-		// 디버그때만 릭을 남길것이다.
 		new int();
 #endif
 		UserGameType NewUserGame;

@@ -4,12 +4,11 @@
 #include "GameEngineRenderer.h"
 
 GameEngineActor::GameEngineActor()
-	: transform_(std::make_unique<GameEngineTransformComponent>())
-	, level_(nullptr)
+	: level_(nullptr)
 	, bDestroyed_(false)
 	, aliveTime_(-1.f)
 {
-
+	transform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
 }
 
 GameEngineActor::~GameEngineActor()
@@ -174,5 +173,5 @@ void GameEngineActor::SetLevel(GameEngineLevel* _level)
 
 GameEngineTransformComponent* GameEngineActor::GetTransform()
 {
-	return transform_.get();
+	return transform_;
 }

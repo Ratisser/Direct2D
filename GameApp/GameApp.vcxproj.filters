@@ -8,23 +8,20 @@
     <ClCompile Include="UserGame.cpp">
       <Filter>UserCore</Filter>
     </ClCompile>
-    <ClCompile Include="UserGame_Resources.cpp">
-      <Filter>UserCore</Filter>
-    </ClCompile>
-    <ClCompile Include="UserGame_Resources_Shader.cpp">
-      <Filter>UserCore\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleLevel.cpp">
-      <Filter>GameObject\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>GameObject\Level</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>GameObject\Actor</Filter>
+      <Filter>GameObject\Level\Play\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
-      <Filter>GameObject\Actor</Filter>
+      <Filter>GameObject\Level\Play\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>GameObject\Level\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>GameObject\Level\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleActor.cpp">
+      <Filter>GameObject\Level\Title\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,19 +31,25 @@
     <Filter Include="UserCore">
       <UniqueIdentifier>{ae1c99fc-5ae2-4958-9205-8018fcb509b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CustomVertex">
-      <UniqueIdentifier>{16842167-2534-42db-8026-796a267ad72b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserCore\Resources">
-      <UniqueIdentifier>{097aabc9-6df0-4d53-a9ed-77681a8002e4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObject">
       <UniqueIdentifier>{898bd5b8-731c-4894-b0c9-3b13daf35cbb}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameObject\Level">
       <UniqueIdentifier>{9d5a936f-250a-403d-9216-e3eb7dbba189}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Actor">
+    <Filter Include="UserCore\CustomVertex">
+      <UniqueIdentifier>{16842167-2534-42db-8026-796a267ad72b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Level\Play">
+      <UniqueIdentifier>{98f387b7-b7d0-497e-a4a6-358910ffd1de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Level\Title">
+      <UniqueIdentifier>{aa09a621-7683-471f-b3ef-b26bac28af2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Level\Title\Actor">
+      <UniqueIdentifier>{42a2e9f2-724c-4f93-9426-eecc8eb145fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Level\Play\Actor">
       <UniqueIdentifier>{84dc2f1f-68b3-4cd2-918e-578b625d40c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -58,22 +61,22 @@
       <Filter>UserCore</Filter>
     </ClInclude>
     <ClInclude Include="CustomVertex.h">
-      <Filter>CustomVertex</Filter>
-    </ClInclude>
-    <ClInclude Include="UserGame_Resources_Shader.h">
-      <Filter>UserCore\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleLevel.h">
-      <Filter>GameObject\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>GameObject\Level</Filter>
+      <Filter>UserCore\CustomVertex</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>GameObject\Actor</Filter>
+      <Filter>GameObject\Level\Play\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
-      <Filter>GameObject\Actor</Filter>
+      <Filter>GameObject\Level\Play\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>GameObject\Level\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>GameObject\Level\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleActor.h">
+      <Filter>GameObject\Level\Title\Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

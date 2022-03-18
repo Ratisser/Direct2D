@@ -29,7 +29,7 @@ void Monster::Start()
 	collider_->SetCollisionGroup(1);
 	collider_->SetScale(100.f);
 
-	GetTransform()->SetLocation(100, 200, 0);
+	GetTransform()->SetLocation(100, 0, 0);
 	
 }
 

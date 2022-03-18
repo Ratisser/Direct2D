@@ -25,8 +25,8 @@ void PlayLevel::LevelChangeStartEvent()
 
 void PlayLevel::LevelStart()
 {
-	CreateActor<Player>("Player");
 	CreateActor<Monster>("Monster");
+	CreateActor<Player>("Player");
 	mainCamera_->GetTransform()->SetLocation(0.0f, 0.0f, -100.f);
 	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 }

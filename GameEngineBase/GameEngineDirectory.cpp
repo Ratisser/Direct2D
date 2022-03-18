@@ -78,6 +78,12 @@ bool GameEngineDirectory::MoveChild(const std::string& _DirName)
 	return true;
 }
 
+GameEngineDirectory& GameEngineDirectory::operator/(const std::string& _dirName)
+{
+	MoveChild(_dirName);
+	return *this;
+}
+
 std::string GameEngineDirectory::PathToPlusFileName(const std::string& _FileName)
 {
 	std::filesystem::path NewPath = path_;

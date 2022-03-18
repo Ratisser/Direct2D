@@ -36,6 +36,9 @@ public:		//member Func
 	bool MoveChild(const std::string& _DirName);
 
 public:
+	GameEngineDirectory& operator/(const std::string& _dirName);
+
+public:
 	// 내 폴더에 + 파일이름 경로를 리턴해주는 함수
 	std::string PathToPlusFileName(const std::string& _FileName);
 

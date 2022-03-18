@@ -245,6 +245,9 @@
     <ClInclude Include="eCollisionType.h">
       <Filter>Object\Componenets\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="eImagePivot.h">
+      <Filter>Object\Componenets\Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">

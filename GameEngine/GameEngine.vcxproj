@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="eCollisionType.h" />
+    <ClInclude Include="eImagePivot.h" />
     <ClInclude Include="GameEngineActor.h">
       <SubType>
       </SubType>

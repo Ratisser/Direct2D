@@ -28,6 +28,5 @@ public:
 protected:
 	GameEngineRenderingPipeline* pipe_;
 	GameEngineShaderResHelper ShaderHelper_;
-
 };
 

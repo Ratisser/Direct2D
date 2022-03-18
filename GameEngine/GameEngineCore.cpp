@@ -29,26 +29,9 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 }
 
-/// <summary>
-/// /////////////////////////// member
-/// </summary>
-
 void GameEngineCore::EngineInitialize()
 {
-	{
-		GameEngineDirectory EngineTextureDir;
-		EngineTextureDir.MoveParent("Direct2D");
-		EngineTextureDir.MoveChild("EngineResources");
-		EngineTextureDir.MoveChild("Texture");
-
-		std::vector<GameEngineFile> AllFile = EngineTextureDir.GetAllFile();
-
-		for (size_t i = 0; i < AllFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
-		}
-	}
-
+	loadEngineResource();
 	GameEngineCollision::init();
 
 	GameEngineSoundManager::GetInstance().Initialize();
@@ -74,9 +57,125 @@ void GameEngineCore::EngineDestroy()
 	GameEngineWindow::Destroy();
 }
 
-/// <summary>
-/// /////////////////////////// static
-/// </summary>
+void GameEngineCore::loadEngineTexture()
+{
+	GameEngineDirectory EngineTextureDir;
+	EngineTextureDir.MoveParent("Direct2D");
+	EngineTextureDir.MoveChild("EngineResources");
+	EngineTextureDir.MoveChild("Texture");
+
+	std::vector<GameEngineFile> AllFile = EngineTextureDir.GetAllFile();
+
+	for (size_t i = 0; i < AllFile.size(); i++)
+	{
+		GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	}
+}
+
+void GameEngineCore::loadEngineShader()
+{
+	GameEngineDirectory Dir;
+	Dir.MoveParent("Direct2D");
+	Dir.MoveChild("EngineResources");
+	Dir.MoveChild("Shader");
+
+	std::vector<GameEngineFile> AllShader = Dir.GetAllFile("fx");
+
+	for (auto& ShaderFile : AllShader)
+	{
+		ShaderFile.Open("rt");
+
+		std::string FileName = ShaderFile.GetFileNameWithOutExtension();
+		std::string AllCode = ShaderFile.GetString();
+
+		if (std::string::npos != AllCode.find(FileName + "_VS"))
+		{
+			GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Load(FileName + "_VS", ShaderFile.GetFullPath(), FileName + "_VS");
+		}
+
+		if (std::string::npos != AllCode.find(FileName + "_PS"))
+		{
+			GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Load(FileName + "_PS", ShaderFile.GetFullPath(), FileName + "_PS");
+		}
+
+	}
+}
+
+void GameEngineCore::loadEngineResource()
+{
+	{
+		D3D11_RASTERIZER_DESC Info = { D3D11_FILL_MODE::D3D11_FILL_SOLID, };
+
+		Info.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+
+		// 무조건그려라
+		// Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
+		// 시계반대방향으로 그려진것들을 그려라
+		Info.CullMode = D3D11_CULL_MODE::D3D11_CULL_BACK;
+		Info.AntialiasedLineEnable = true;
+		Info.MultisampleEnable = true;
+
+		//// 화면 바깥에 나간 면들을 잘라낸다.
+		// Info.FrontCounterClockwise = true;
+		//Info.ScissorEnable = true;
+		//Info.SlopeScaledDepthBias = 0;
+
+		//// 깊이관련은 추후 설명할겁니다.
+		//// 깊이버퍼를 설명하고 들어야 합니다.
+		//Info.DepthBias = 0;
+		//Info.DepthBiasClamp = 0;
+		//Info.DepthClipEnable = FALSE;
+		//Info.MultisampleEnable = TRUE;
+
+		GameEngineRasterizer* Ptr = GameEngineRasterizerManager::GetInst().Create("EngineBaseRasterizer", Info);
+		Ptr->SetViewPort(1280.0f, 720.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	}
+
+	{
+		D3D11_BLEND_DESC bd;
+
+		bd.AlphaToCoverageEnable = false;
+		bd.IndependentBlendEnable = false;
+
+		bd.RenderTarget[0].BlendEnable = true;
+		bd.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		bd.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+
+		bd.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+		bd.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		bd.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+		bd.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		bd.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		GameEngineBlenderManager::GetInst().Create("AlphaBlend", bd);
+	}
+
+
+
+	{
+		D3D11_BLEND_DESC bd;
+
+		bd.AlphaToCoverageEnable = true;
+		bd.IndependentBlendEnable = false;
+
+		bd.RenderTarget[0].BlendEnable = true;
+		bd.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		bd.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+
+		bd.RenderTarget[0].SrcBlend = D3D11_BLEND::D3D11_BLEND_SRC_ALPHA;
+		bd.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		bd.RenderTarget[0].DestBlend = D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA;
+		bd.RenderTarget[0].DestBlendAlpha = D3D11_BLEND::D3D11_BLEND_ONE;
+
+		bd.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		GameEngineBlenderManager::GetInst().Create("DefaultBlend", bd);
+	}
+
+}
 
 void GameEngineCore::MainLoop()
 {
@@ -129,7 +228,7 @@ void GameEngineCore::Loop()
 void GameEngineCore::ChangeLevel(const std::string& _levelName)
 {
 	std::map<std::string, GameEngineLevel*>::iterator findIter = allLevels_.find(_levelName);
-	
+
 	if (findIter == allLevels_.end())
 	{
 		GameEngineDebug::MsgBoxError("There is no level named \"" + _levelName + "\"");

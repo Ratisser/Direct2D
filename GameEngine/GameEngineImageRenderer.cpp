@@ -4,21 +4,21 @@
 #include "GameEngineFolderTextureManager.h"
 #include "GameEngineFolderTexture.h"
 
-void GameEngineImageRenderer::Animation2D::CallStart() 
+void GameEngineImageRenderer::Animation2D::CallStart()
 {
 	for (auto& CallBack : StartCallBack_)
 	{
 		CallBack();
 	}
 }
-void GameEngineImageRenderer::Animation2D::CallEnd() 
+void GameEngineImageRenderer::Animation2D::CallEnd()
 {
 	for (auto& CallBack : EndCallBack_)
 	{
 		CallBack();
 	}
 }
-void GameEngineImageRenderer::Animation2D::CallFrame() 
+void GameEngineImageRenderer::Animation2D::CallFrame()
 {
 	for (auto& CallBack : FrameCallBack_)
 	{
@@ -39,7 +39,7 @@ void GameEngineImageRenderer::Animation2D::CallFrame()
 	}
 }
 
-void GameEngineImageRenderer::Animation2D::Reset() 
+void GameEngineImageRenderer::Animation2D::Reset()
 {
 	IsEnd = false;
 	CurTime_ = InterTime_;
@@ -78,14 +78,20 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 	if (nullptr == FolderTextures_)
 	{
 		Renderer->SetIndex(CurFrame_);
-	} else 
+	}
+	else
 	{
-		Renderer->CutData_ = float4(0,0,1,1);
+		Renderer->CutData_ = float4(0, 0, 1, 1);
 		GameEngineTexture* tex = Renderer->ShaderHelper_.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
 		float4 size = tex->GetTextureSize();
 		Renderer->SetScale(size);
 		Renderer->MultiplyScale(-2.f * Renderer->bFlipHorizontal_ + 1.0f, -2.f * Renderer->bFlipVertical_ + 1.0f); // -1을 넣느냐 1을 넣느냐의 차이
-		Renderer->SetLocation(0.0f, size.y / 2.f);
+
+		if (Renderer->pivot_ == eImagePivot::BOTTOM)
+		{
+			Renderer->SetLocation(0.0f, size.y / 2.f);
+		}
+
 	}
 
 }
@@ -96,10 +102,13 @@ GameEngineImageRenderer::GameEngineImageRenderer()
 	: CutData_(0, 0, 1, 1)
 	, CurAnimation_(nullptr)
 	, CurTexture_(nullptr)
+	, pivot_(eImagePivot::BOTTOM)
+	, bFlipHorizontal_(false)
+	, bFlipVertical_(false)
 {
 }
 
-GameEngineImageRenderer::~GameEngineImageRenderer() 
+GameEngineImageRenderer::~GameEngineImageRenderer()
 {
 	for (auto& Animation : AllAnimations_)
 	{
@@ -122,7 +131,7 @@ void GameEngineImageRenderer::Start()
 	ShaderHelper_.SettingConstantBufferLink("TextureCutData", CutData_);
 }
 
-void GameEngineImageRenderer::SetIndex(const int Index) 
+void GameEngineImageRenderer::SetIndex(const int Index)
 {
 	if (nullptr == CurTexture_)
 	{
@@ -138,7 +147,7 @@ void GameEngineImageRenderer::SetIndex(const int Index)
 
 }
 
-void GameEngineImageRenderer::SetImage(const std::string& _ImageName) 
+void GameEngineImageRenderer::SetImage(const std::string& _ImageName)
 {
 	CurTexture_ = GameEngineTextureManager::GetInst().Find(_ImageName);
 
@@ -186,7 +195,7 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 	}
 
 	GameEngineFolderTexture* FolderTexture = GameEngineFolderTextureManager::GetInst().Find(_FolderTexName);
-	
+
 	if (nullptr == FolderTexture)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 폴더 텍스처를 세팅하려고 했습니다..");
@@ -227,7 +236,7 @@ void GameEngineImageRenderer::ChangeAnimation(const std::string& _Name, bool _Is
 	{
 		return;
 	}
-	
+
 	CurAnimation_ = FindIter->second;
 
 	CurAnimation_->Reset();

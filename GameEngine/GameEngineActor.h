@@ -51,7 +51,7 @@ private:
 	void updateComponent(float _deltaTime);
 
 protected:
-	std::unique_ptr<GameEngineTransformComponent> transform_;
+	GameEngineTransformComponent* transform_;
 
 private:
 	std::list<GameEngineComponent*> allComponents_;
@@ -60,6 +60,18 @@ private:
 	bool bDestroyed_;
 	float aliveTime_;
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 template<typename ComponentType>
 ComponentType* GameEngineActor::CreateComponent()

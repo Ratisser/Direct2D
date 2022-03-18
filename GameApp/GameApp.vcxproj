@@ -198,6 +198,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Precompile.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="TitleActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <SubType>
       </SubType>
@@ -206,11 +210,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UserGame_Resources.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="UserGame_Resources_Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomVertex.h" />
@@ -227,6 +226,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="TitleActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <SubType>
       </SubType>
@@ -235,7 +238,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UserGame_Resources_Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

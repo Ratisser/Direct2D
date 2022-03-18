@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineRenderer.h"
+#include <GameEngine\eImagePivot.h>
 
 
 // Ό³Έν :
@@ -7,9 +8,11 @@ class GameEngineTexture;
 class GameEngineFolderTexture;
 class GameEngineImageRenderer : public GameEngineRenderer
 {
+	friend class Animation2D;
 private:
 	struct Animation2D
 	{
+	public:
 		GameEngineFolderTexture* FolderTextures_;
 		float InterTime_;
 		float CurTime_;
@@ -75,5 +78,6 @@ private:
 	bool bFlipHorizontal_;
 	bool bFlipVertical_;
 
+	eImagePivot pivot_;
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <GameEngine/GameEngineCameraComponent.h>
 #include "GameEngineActor.h"
 
 class GameEngineCameraComponent;
