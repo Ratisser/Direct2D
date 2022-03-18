@@ -12,12 +12,17 @@ ID3D11Device* GameEngineDevice::Device_ = nullptr;
 ID3D11DeviceContext* GameEngineDevice::Context_ = nullptr;
 IDXGISwapChain* GameEngineDevice::SwapChain_ = nullptr;
 
-ID3D11Device* GameEngineDevice::GetDevice() 
+ID3D11Texture2D* GameEngineDevice::DepthBuffer_ = nullptr;
+ID3D11DepthStencilState* GameEngineDevice::DepthStencilState_ = nullptr;
+ID3D11DepthStencilView* GameEngineDevice::DepthStencilView_ = nullptr;
+
+
+ID3D11Device* GameEngineDevice::GetDevice()
 {
 	return Device_;
 }
 
-ID3D11DeviceContext* GameEngineDevice::GetContext() 
+ID3D11DeviceContext* GameEngineDevice::GetContext()
 {
 	return Context_;
 }
@@ -46,9 +51,28 @@ GameEngineDevice::~GameEngineDevice() // default destructer 디폴트 소멸자
 		Context_->Release();
 		Context_ = nullptr;
 	}
+
+	if (nullptr != DepthBuffer_)
+	{
+		DepthBuffer_->Release();
+		DepthBuffer_ = nullptr;
+	}
+
+	if (nullptr != DepthStencilState_)
+	{
+		DepthStencilState_->Release();
+		DepthStencilState_ = nullptr;
+
+	}
+
+	if (nullptr != DepthStencilView_)
+	{
+		DepthStencilView_->Release();
+		DepthStencilView_ = nullptr;
+	}
 }
 
-void GameEngineDevice::Initialize() 
+void GameEngineDevice::Initialize()
 {
 	if (nullptr == GameEngineWindow::GetInst().GetWindowHWND())
 	{
@@ -72,7 +96,7 @@ void GameEngineDevice::Initialize()
 
 	if (
 		S_OK != D3D11CreateDevice(
-			nullptr,  
+			nullptr,
 			D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
 			nullptr,
 			iFlag,
@@ -97,7 +121,7 @@ void GameEngineDevice::Initialize()
 
 void GameEngineDevice::CreateSwapChain()
 {
-	if (0 >= GameEngineWindow::GetInst().GetSize().x && 
+	if (0 >= GameEngineWindow::GetInst().GetSize().x &&
 		0 >= GameEngineWindow::GetInst().GetSize().y)
 	{
 		GameEngineDebug::MsgBoxError("Screen Size Zero");
@@ -167,7 +191,7 @@ void GameEngineDevice::CreateSwapChain()
 	{
 		GameEngineDebug::MsgBoxError("IDXGIFactory null");
 	}
-	
+
 	if (S_OK != pF->CreateSwapChain(Device_, &ScInfo, &SwapChain_))
 	{
 		GameEngineDebug::MsgBoxError("SwapChain Create Error");
@@ -185,6 +209,48 @@ void GameEngineDevice::CreateSwapChain()
 
 	GameEngineTextureManager::GetInst().Create("BackBuffer", BackBufferTexture);
 	BackBufferTarget_ = GameEngineRenderTargetManager::GetInst().Create("BackBuffer", "BackBuffer", float4::BLUE);
+
+	D3D11_TEXTURE2D_DESC descDepth;
+	ZeroMemory(&descDepth, sizeof(descDepth));
+	descDepth.Width = ScreenSize.ix();
+	descDepth.Height = ScreenSize.iy();
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = 0;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+
+	if (S_OK != Device_->CreateTexture2D(&descDepth, NULL, &DepthBuffer_))
+	{
+		GameEngineDebug::MsgBoxError("Depth stencil view create texture Error");
+		return;
+	}
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+	ZeroMemory(&descDSV, sizeof(descDSV));
+	descDSV.Format = descDepth.Format;
+	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	descDSV.Texture2D.MipSlice = 0;
+	if (S_OK != Device_->CreateDepthStencilView(DepthBuffer_, &descDSV, &DepthStencilView_))
+	{
+		GameEngineDebug::MsgBoxError("Depth stencil view create view Error");
+		return;
+	}
+
+	D3D11_DEPTH_STENCIL_DESC DepthInfo = { 0 };
+
+	DepthInfo.DepthEnable = true;
+	DepthInfo.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS;
+	DepthInfo.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+	DepthInfo.StencilEnable = false;
+
+	Device_->CreateDepthStencilState(&DepthInfo, &DepthStencilState_);
+
+	Context_->OMSetDepthStencilState(DepthStencilState_, 0);
 }
 
 void GameEngineDevice::RenderStart()
@@ -192,6 +258,7 @@ void GameEngineDevice::RenderStart()
 	// BackBufferTarget_ <= 여기에 그린 녀석만 나와.
 	// 지우고
 	BackBufferTarget_->Clear();
+	Context_->ClearDepthStencilView(DepthStencilView_, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	// 세팅하고
 	BackBufferTarget_->Setting();
 }

@@ -90,10 +90,6 @@ void Player::initInput()
 	GameEngineInput::GetInstance().CreateKey("Right", VK_RIGHT);
 	GameEngineInput::GetInstance().CreateKey("Up", VK_UP);
 	GameEngineInput::GetInstance().CreateKey("Down", VK_DOWN);
-	GameEngineInput::GetInstance().CreateKey("W", 'W');
-	GameEngineInput::GetInstance().CreateKey("A", 'A');
-	GameEngineInput::GetInstance().CreateKey("S", 'S');
-	GameEngineInput::GetInstance().CreateKey("D", 'D');
 	GameEngineInput::GetInstance().CreateKey("Q", 'Q');
 	GameEngineInput::GetInstance().CreateKey("E", 'E');
 	GameEngineInput::GetInstance().CreateKey("Z", 'Z');
@@ -135,6 +131,18 @@ StateInfo Player::updateIdle(StateInfo _state)
 		bLeft_ = false;
 		return "Run";
 	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("Q"))
+	{
+		transform_->AddLocation(0.0f, 0.0f, 100 * deltaTime_);
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("E"))
+	{
+		transform_->AddLocation(0.0f, 0.0f, -100 * deltaTime_);
+	}
+
+
 	return StateInfo();
 }
 

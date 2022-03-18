@@ -41,7 +41,7 @@ void TitleActor::Start()
 
     GameEngineTransformComponent* cupheadTransform = CreateTransformComponent<GameEngineTransformComponent>(GetTransform());
 
-    cupheadTransform->SetLocation(0.0f, -360.f);
+    cupheadTransform->SetLocation(0.0f, -360.f, -1.0f);
 
     GameEngineImageRenderer* cupheadRenderer = CreateTransformComponent<GameEngineImageRenderer>(cupheadTransform);
     cupheadRenderer->CreateAnimationFolder("Idle", "Cuphead");

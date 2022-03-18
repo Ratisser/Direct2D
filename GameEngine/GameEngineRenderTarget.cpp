@@ -49,10 +49,10 @@ void GameEngineRenderTarget::Setting(int _Index)
 
 	if (-1 == _Index)
 	{
-		GameEngineDevice::GetContext()->OMSetRenderTargets(static_cast<UINT>(RenderTargetViews_.size()), &RenderTargetViews_[0], nullptr);
+		GameEngineDevice::GetContext()->OMSetRenderTargets(static_cast<UINT>(RenderTargetViews_.size()), &RenderTargetViews_[0], GameEngineDevice::GetDepthStencilView());
 	}
 	else 
 	{
-		GameEngineDevice::GetContext()->OMSetRenderTargets(1, &RenderTargetViews_[_Index], nullptr);
+		GameEngineDevice::GetContext()->OMSetRenderTargets(1, &RenderTargetViews_[_Index], GameEngineDevice::GetDepthStencilView());
 	}
 }

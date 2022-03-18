@@ -19,6 +19,5 @@ public:
 
 	virtual void LevelStart() override;
 	virtual void LevelUpdate(float _deltaTime) override;
-
 };
 

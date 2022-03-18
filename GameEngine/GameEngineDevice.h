@@ -43,12 +43,20 @@ private:
 
 	static IDXGISwapChain* SwapChain_;
 
-	static GameEngineRenderTarget* BackBufferTarget_;
+	static GameEngineRenderTarget*	BackBufferTarget_;
+	static ID3D11Texture2D*			DepthBuffer_;
+	static ID3D11DepthStencilState*	DepthStencilState_;
+	static ID3D11DepthStencilView*	DepthStencilView_;
 
 
 public:
 	static ID3D11Device* GetDevice();
 	static ID3D11DeviceContext* GetContext();
+
+	inline static ID3D11DepthStencilView* GetDepthStencilView()
+	{
+		return DepthStencilView_;
+	}
 	// 메모리로서의 텍스처의 역할
 	// ID3D11Texture2D* BackBufferTexture_;
 
