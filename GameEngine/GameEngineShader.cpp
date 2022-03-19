@@ -145,8 +145,8 @@ void GameEngineShader::ResCheck()
 			// ¹¶°³¶ó.
 			// Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 			// µüµü µµÆ®Ã³·³ ¸¸µé¾î¶ó
-			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+			Smp_Decs.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
 
 			Smp_Decs.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
 			Smp_Decs.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
