@@ -28,6 +28,9 @@ public:
 	ComponentType* CreateComponent();
 
 	template<typename ComponentType>
+	ComponentType* CreateTransformComponent();
+
+	template<typename ComponentType>
 	ComponentType* CreateTransformComponent(GameEngineTransformComponent* _parent);
 
 public:
@@ -41,17 +44,17 @@ public:
 
 	GameEngineTransformComponent* GetTransform();
 
-
+protected:
+	virtual void levelChangeEndEvent() {}
+	virtual void levelChangeStartEvent() {}
 
 protected:
 	GameEngineLevel* level_;
+	GameEngineTransformComponent* transform_;
 
 private:
 	void transformUpdate();
 	void updateComponent(float _deltaTime);
-
-protected:
-	GameEngineTransformComponent* transform_;
 
 private:
 	std::list<GameEngineComponent*> allComponents_;
@@ -87,6 +90,19 @@ ComponentType* GameEngineActor::CreateComponent()
 }
 
 template<typename ComponentType>
+ComponentType* GameEngineActor::CreateTransformComponent()
+{
+	GameEngineTransformComponent* newComponent = new ComponentType();
+
+	newComponent->InitComponent(this);
+	newComponent->SetParent(this->transform_);
+	newComponent->Start();
+
+	allTransformComponents_.push_back(newComponent);
+	return dynamic_cast<ComponentType*>(newComponent);
+}
+
+template<typename ComponentType>
 ComponentType* GameEngineActor::CreateTransformComponent(GameEngineTransformComponent* _parent)
 {
 	GameEngineTransformComponent* newComponent = new ComponentType();
@@ -103,3 +119,4 @@ ComponentType* GameEngineActor::CreateTransformComponent(GameEngineTransformComp
 	allTransformComponents_.push_back(newComponent);
 	return dynamic_cast<ComponentType*>(newComponent);
 }
+

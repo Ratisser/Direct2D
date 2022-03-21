@@ -188,9 +188,11 @@ void GameEngineCore::MainLoop()
 		if (nullptr != currentLevel_)
 		{
 			currentLevel_->LevelChangeEndEvent();
+			currentLevel_->levelChangeEndActorEvent();
 		}
 
 		nextLevel_->LevelChangeStartEvent();
+		nextLevel_->levelChangeStartActorEvent();
 		currentLevel_ = nextLevel_;
 		nextLevel_ = nullptr;
 		GameEngineTime::GetInst().TimeCheck();

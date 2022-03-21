@@ -106,7 +106,7 @@ void GameEngineLevel::Release(float _deltaTime)
 
 	//			if (nullptr == ReleaseCollision)
 	//			{
-	//				GameEngineDebug::MsgBoxError("Release Actor Is Nullptr!!!!");
+	//				GameEngineDebug::MsgBoxError("Release actor Is Nullptr!!!!");
 	//			}
 
 	//			if (true == ReleaseCollision->IsDeath())
@@ -198,3 +198,30 @@ void GameEngineLevel::popRenderer(GameEngineRenderer* _renderingComponent)
 {
 	allRenderer_.remove(_renderingComponent);
 }
+
+void GameEngineLevel::levelChangeStartActorEvent()
+{
+	for (std::pair<int, std::list<GameEngineActor*>> pair : allActors_)
+	{
+		std::list<GameEngineActor*>& actors = pair.second;
+
+		for (GameEngineActor* actor : actors)
+		{
+			actor->levelChangeStartEvent();
+		}
+	}
+}
+
+void GameEngineLevel::levelChangeEndActorEvent()
+{
+	for (std::pair<int, std::list<GameEngineActor*>> pair : allActors_)
+	{
+		std::list<GameEngineActor*>& actors = pair.second;
+
+		for (GameEngineActor* actor : actors)
+		{
+			actor->levelChangeEndEvent();
+		}
+	}
+}
+

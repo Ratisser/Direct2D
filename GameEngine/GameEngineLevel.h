@@ -55,6 +55,9 @@ private:
 	void popCollision(int _group, GameEngineCollision* _collision);
 	void popRenderer(GameEngineRenderer* _renderingComponent);
 
+	void levelChangeStartActorEvent();
+	void levelChangeEndActorEvent();
+
 protected:
 	GameEngineCamera* mainCamera_;
 
@@ -63,6 +66,21 @@ private:
 	std::map<int, std::list<GameEngineCollision*>> allCollisions_;
 	std::list<GameEngineRenderer*> allRenderer_;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
