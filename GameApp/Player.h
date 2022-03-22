@@ -29,18 +29,17 @@ private:
 	void initState();
 
 private:
-	StateInfo startIdle(StateInfo _state);
-	StateInfo updateIdle(StateInfo _state);
+	void startIdle(float _deltaTime);
+	void updateIdle(float _deltaTime);
 
-	StateInfo startRun(StateInfo _state);
-	StateInfo updateRun(StateInfo _state);
+	void startRun(float _deltaTime);
+	void updateRun(float _deltaTime);
 
 private:
-	GameEngineFSM<Player> state_;
+	GameEngineFSM state_;
 	GameEngineImageRenderer* renderer_;
 	GameEngineCollision* collider_;
 
-	float deltaTime_;
 	bool bLeft_;
 };
 

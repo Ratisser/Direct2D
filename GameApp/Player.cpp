@@ -10,11 +10,9 @@
 #include <GameEngine\GameEngineCollision.h>
 
 Player::Player()
-	: state_(this)
-	, collider_(nullptr)
+	: collider_(nullptr)
 	, renderer_(nullptr)
 	, bLeft_(false)
-	, deltaTime_(0.0f)
 {
 
 }
@@ -34,9 +32,7 @@ void Player::Start()
 
 void Player::Update(float _deltaTime)
 {
-	deltaTime_ = _deltaTime;
-
-	state_.Update();
+	state_.Update(_deltaTime);
 
 	if (bLeft_)
 	{
@@ -107,69 +103,60 @@ void Player::initCollision()
 
 void Player::initState()
 {
-	state_.CreateState("Idle", &Player::startIdle, &Player::updateIdle);
-	state_.CreateState("Run", &Player::startRun, &Player::updateRun);
+	state_.CreateState("Idle", std::bind(&Player::startIdle, this, std::placeholders::_1), std::bind(&Player::updateIdle, this, std::placeholders::_1));
+	state_.CreateState("Run", std::bind(&Player::startRun, this, std::placeholders::_1), std::bind(&Player::updateRun, this, std::placeholders::_1));
 	state_.ChangeState("Idle");
 }
 
-StateInfo Player::startIdle(StateInfo _state)
+void Player::startIdle(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Idle");
-	return StateInfo();
 }
 
-StateInfo Player::updateIdle(StateInfo _state)
+void Player::updateIdle(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 	{
 		bLeft_ = true;
-		return "Run";
+		state_ << "Run";
 	}
 	
 	if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 	{
 		bLeft_ = false;
-		return "Run";
+		state_ << "Run";
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Q"))
 	{
-		transform_->AddLocation(0.0f, 0.0f, 100 * deltaTime_);
+		transform_->AddLocation(0.0f, 0.0f, 100 * _deltaTime);
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("E"))
 	{
-		transform_->AddLocation(0.0f, 0.0f, -100 * deltaTime_);
+		transform_->AddLocation(0.0f, 0.0f, -100 * _deltaTime);
 	}
-
-
-	return StateInfo();
 }
 
-StateInfo Player::startRun(StateInfo _state)
+void Player::startRun(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Run");
-	return StateInfo();
 }
 
-StateInfo Player::updateRun(StateInfo _state)
+void Player::updateRun(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 	{
-		transform_->AddLocation(-200.f * deltaTime_, 0.0f);
+		transform_->AddLocation(-200.f * _deltaTime, 0.0f);
 		bLeft_ = true;
 	}
 	else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 	{
-		transform_->AddLocation(200.f * deltaTime_, 0.0f);
+		transform_->AddLocation(200.f * _deltaTime, 0.0f);
 		bLeft_ = false;
 	}
 	else
 	{
-		return "Idle";
+		state_ << "Idle";
 	}
-
-
-
-	return StateInfo();
 }

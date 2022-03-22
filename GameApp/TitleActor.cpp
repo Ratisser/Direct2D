@@ -13,7 +13,6 @@
 TitleActor::TitleActor()
     : titleRenderer_(nullptr)
     , bgmPlayer_(nullptr)
-    , state_(this)
 {
 
 }
@@ -33,7 +32,7 @@ void TitleActor::Start()
     GameEngineInput::GetInstance().CreateKey("P", 'P');
 
     bgmPlayer_ = new GameEngineSoundPlayer("MUS_Intro_DontDealWithDevil_Vocal.wav");
-    state_.CreateState("Start", &TitleActor::startStart, &TitleActor::updateStart);
+    state_.CreateState("Start", std::bind(&TitleActor::startStart, this, std::placeholders::_1), std::bind(&TitleActor::updateStart, this, std::placeholders::_1));
     state_.ChangeState("Start");
 
     titleRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
@@ -50,22 +49,20 @@ void TitleActor::Start()
 
 void TitleActor::Update(float _deltaTime)
 {
-    state_.Update();
+    state_.Update(_deltaTime);
 }
 
-StateInfo TitleActor::startStart(StateInfo _state)
+void TitleActor::startStart(float _deltaTime)
 {
     bgmPlayer_->Play();
     bgmPlayer_->SetVolume(0.5f);
-    return StateInfo();
 }
 
-StateInfo TitleActor::updateStart(StateInfo _state)
+void TitleActor::updateStart(float _deltaTime)
 {
     if (GameEngineInput::GetInstance().IsKeyDown("P"))
     {
         bgmPlayer_->Stop();
         GameEngineCore::ChangeLevel("PlayLevel");
     }
-    return StateInfo();
 }

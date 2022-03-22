@@ -26,8 +26,6 @@ protected:
 
 	void levelChangeStartEvent() override;
 
-
-
 private:
 	static Map* currentMap;
 };

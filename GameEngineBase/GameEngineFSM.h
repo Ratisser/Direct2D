@@ -9,14 +9,14 @@ class GameEngineFSM
 	{
 		friend GameEngineFSM;
 	public:
-		State(std::function<void()> _start, std::function<void()> _update
-			, std::function<void()> _init = nullptr, std::function<void()> _end = nullptr);
+		State(const std::string& _stateName, std::function<void(float)> _start, std::function<void(float)> _update, std::function<void(float)> _end = nullptr);
 	private:
-		std::function<void()> init_;
-		std::function<void()> start_;
-		std::function<void()> update_;
-		std::function<void()> end_;
+		std::string stateName_;
+		std::function<void(float)> start_;
+		std::function<void(float)> update_;
+		std::function<void(float)> end_;
 	};
+
 public:
 	GameEngineFSM();
 	~GameEngineFSM();
@@ -26,16 +26,20 @@ public:
 	GameEngineFSM& operator=(const GameEngineFSM&& _other) = delete;
 
 public:
-	void CreateState(const std::string& _stateName
-		, std::function<void()> _start, std::function<void()> _update
-		, std::function<void()> _init = nullptr, std::function<void()> _end = nullptr);
+	inline void operator<<(const std::string& _rhs) { ChangeState(_rhs); }
 
-	void Update();
+public:
+	void CreateState(const std::string& _stateName, std::function<void(float)> _start, std::function<void(float)> _update, std::function<void(float)> _end = nullptr);
+
+	void ChangeState(const std::string& _stateName);
+
+	void Update(float _deltaTime);
+
 
 private:
 	std::map<std::string, GameEngineFSM::State*> allState_;
 
-	State* current_;
-	State* next_;
+	State* currentState_;
+	State* nextState_;
 };
 

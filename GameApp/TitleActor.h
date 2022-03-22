@@ -22,14 +22,14 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 private:
-	StateInfo startStart(StateInfo _state);
-	StateInfo updateStart(StateInfo _state);
+	void startStart(float  _deltaTime);
+	void updateStart(float  _deltaTime);
 
 private:
 	GameEngineImageRenderer* titleRenderer_;
 	GameEngineSoundPlayer* bgmPlayer_;
 
-	GameEngineFSM<TitleActor> state_;
+	GameEngineFSM state_;
 
 };
 

@@ -48,14 +48,15 @@ public:
 	GameEngineImageRenderer& operator=(const GameEngineImageRenderer& _Other) = delete;
 	GameEngineImageRenderer& operator=(GameEngineImageRenderer&& _Other) noexcept = delete;
 
-	void SetImage(const std::string& _ImageName);
+public:
+	inline GameEngineTexture* GetCurrentTexture() { return CurTexture_; }
 
+public:
+	void SetImage(const std::string& _ImageName);
 	void SetIndex(const int Index);
 
 	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
-
 	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.033f, bool _Loop = true);
-
 	void ChangeAnimation(const std::string& _Name, bool _IsForce = false);
 
 	void SetStartCallBack(const std::string& _Name, std::function<void()> _CallBack);

@@ -165,3 +165,41 @@ bool GameEngineTexture::IsCut()
 {
 	return CutList_.size() != 0;
 }
+
+float4 GameEngineTexture::GetPixel(int _x, int _y)
+{
+	if (0 > _x)
+	{
+		return float4::ZERO;
+	}
+
+	if (0 > _y)
+	{
+		return float4::ZERO;
+	}
+
+	if (image_.GetMetadata().width <= _x)
+	{
+		return float4::ZERO;
+	}
+
+	if (image_.GetMetadata().height <= _x)
+	{
+		return float4::ZERO;
+	}
+
+	DXGI_FORMAT Fmt = image_.GetMetadata().format;
+
+	uint8_t* Color = image_.GetImages()->pixels;
+	// int* ColorPtr = reinterpret_cast<int*>(Color);
+
+	int Index = _y * image_.GetMetadata().width + _x;
+	Color = Color + (Index * 4);
+
+	unsigned char R = Color[0];
+	unsigned char G = Color[1];
+	unsigned char B = Color[2];
+	unsigned char A = Color[3];
+
+	return float4(R / 255.0f, G / 255.0f, B / 255.0f, A / 255.0f);
+}

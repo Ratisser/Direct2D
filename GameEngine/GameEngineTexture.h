@@ -27,6 +27,7 @@ public:
 	void PushCutIndex(const float4& _Size, const float4& _Pos);
 	float4 GetCutData(int _Index);
 
+	float4 GetPixel(int _x, int _y);
 
 private:	// member Var
 	ID3D11Texture2D* Texture2D_;
