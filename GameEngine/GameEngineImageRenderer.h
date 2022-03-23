@@ -49,9 +49,6 @@ public:
 	GameEngineImageRenderer& operator=(GameEngineImageRenderer&& _Other) noexcept = delete;
 
 public:
-	inline GameEngineTexture* GetCurrentTexture() { return CurTexture_; }
-
-public:
 	void SetImage(const std::string& _ImageName);
 	void SetIndex(const int Index);
 
@@ -74,7 +71,6 @@ private:
 	Animation2D* CurAnimation_;
 
 	float4 CutData_;
-	GameEngineTexture* CurTexture_;
 
 	bool bFlipHorizontal_;
 	bool bFlipVertical_;

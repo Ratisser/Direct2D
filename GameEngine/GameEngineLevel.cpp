@@ -54,12 +54,19 @@ void GameEngineLevel::ActorUpdate(float _deltaTime)
 	}
 }
 
+bool ZSort(GameEngineRenderer* _lhs, GameEngineRenderer* _rhs)
+{
+	return _lhs->GetWorldLocation().z > _rhs->GetWorldLocation().z;
+}
+
 void GameEngineLevel::Render()
 {
 	GameEngineDevice::GetInst().RenderStart();
 
 	float4x4 viewMatrix = mainCamera_->getViewMatrix();
 	float4x4 projectionMatrix = mainCamera_->getProjectionMatrix();
+
+	allRenderer_.sort(ZSort);
 
 	for (GameEngineRenderer* obj : allRenderer_)
 	{

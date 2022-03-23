@@ -9,6 +9,7 @@
 
 GameEngineRenderer::GameEngineRenderer()
 	: pipe_(nullptr)
+	, CurTexture_(nullptr)
 {
 
 }
@@ -55,6 +56,7 @@ void GameEngineRenderer::SetTextureByValue(const std::string& _valueName, const 
 void GameEngineRenderer::SetTexture(const std::string& _textureName, bool bSrcScale)
 {
 	GameEngineTexture* tex = ShaderHelper_.SettingTexture("Tex", _textureName);
+	CurTexture_ = tex;
 	if (bSrcScale)
 	{
 		float4 size = tex->GetTextureSize();

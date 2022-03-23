@@ -107,42 +107,47 @@ void GameEngineTransformComponent::AddLocation(float _x, float _y, float _z)
 	location_.w = 1.0f;
 }
 
-float4 GameEngineTransformComponent::GetScale()
+void GameEngineTransformComponent::AddLocation(const float4& _location)
+{
+	location_ = _location;
+}
+
+float4 GameEngineTransformComponent::GetScale() const
 {
 	return scale_;
 }
 
-float4 GameEngineTransformComponent::GetRotation()
+float4 GameEngineTransformComponent::GetRotation() const
 {
 	return rotation_;
 }
 
-float4 GameEngineTransformComponent::GetLocation()
+float4 GameEngineTransformComponent::GetLocation() const
 {
 	return location_;
 }
 
-float4 GameEngineTransformComponent::GetWorldLocation()
+float4 GameEngineTransformComponent::GetWorldLocation() const
 {
 	return location_ * transformData_.Wolrd;
 }
 
-float4 GameEngineTransformComponent::GetWorldScale()
+float4 GameEngineTransformComponent::GetWorldScale() const
 {
 	return scale_ * parent_->scale_;
 }
 
-float4 GameEngineTransformComponent::GetForward()
+float4 GameEngineTransformComponent::GetForward() const
 {
 	return transformData_.Wolrd.vz.NormalizeReturn3D();
 }
 
-float4 GameEngineTransformComponent::GetUp()
+float4 GameEngineTransformComponent::GetUp() const
 {
 	return transformData_.Wolrd.vy.NormalizeReturn3D();
 }
 
-float4 GameEngineTransformComponent::GetRight()
+float4 GameEngineTransformComponent::GetRight() const
 {
 	return transformData_.Wolrd.vx.NormalizeReturn3D();
 }

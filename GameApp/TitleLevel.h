@@ -17,10 +17,8 @@ public:
 public:
 	virtual void LevelChangeEndEvent() override;
 	virtual void LevelChangeStartEvent() override;
-
 	virtual void LevelStart() override;
 	virtual void LevelUpdate(float _deltaTime) override;
-
 
 };
 

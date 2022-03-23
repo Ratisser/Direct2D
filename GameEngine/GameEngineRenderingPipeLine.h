@@ -61,7 +61,6 @@ public:
 
 	void Rendering();
 
-
 public:
 	GameEngineRenderingPipeline(); // default constructer 디폴트 생성자
 	~GameEngineRenderingPipeline(); // default destructer 디폴트 소멸자

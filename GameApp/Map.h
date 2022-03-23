@@ -1,7 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine\GameEngineImageRenderer.h>
 
-// Ό³Έν :
 class GameEngineImageRenderer;
 class Map : public GameEngineActor
 {
@@ -12,8 +12,6 @@ public:
 	Map(Map&& _Other) noexcept = delete;
 	Map& operator=(const Map& _Other) = delete;
 	Map& operator=(Map&& _Other) noexcept = delete;
-public:
-	void Start() override;
 
 public:
 	static float4 GetColor(GameEngineTransformComponent* _Ptr, bool YRevers = true);
@@ -23,7 +21,6 @@ public:
 	GameEngineImageRenderer* ImageRenderer;
 
 protected:
-
 	void levelChangeStartEvent() override;
 
 private:

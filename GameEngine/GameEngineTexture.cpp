@@ -183,7 +183,7 @@ float4 GameEngineTexture::GetPixel(int _x, int _y)
 		return float4::ZERO;
 	}
 
-	if (image_.GetMetadata().height <= _x)
+	if (image_.GetMetadata().height <= _y)
 	{
 		return float4::ZERO;
 	}
@@ -193,7 +193,7 @@ float4 GameEngineTexture::GetPixel(int _x, int _y)
 	uint8_t* Color = image_.GetImages()->pixels;
 	// int* ColorPtr = reinterpret_cast<int*>(Color);
 
-	int Index = _y * image_.GetMetadata().width + _x;
+	int Index = _y * static_cast<int>(image_.GetMetadata().width) + _x;
 	Color = Color + (Index * 4);
 
 	unsigned char R = Color[0];

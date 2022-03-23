@@ -42,16 +42,22 @@ public:
 	void SetLocation(const float4& _location);
 	void SetLocation(float _x, float _y, float _z = 0.0f);
 	void AddLocation(float _x, float _y, float _z = 0.0f);
+	void AddLocation(const float4& _location);
 
-	float4 GetScale();
-	float4 GetRotation();
-	float4 GetLocation();
-	float4 GetWorldLocation();
-	float4 GetWorldScale();
+	inline void SetLocationX(float _x) { location_.x = _x; }
+	inline void SetLocationY(float _y) { location_.y = _y; }
+	inline void SetLocationZ(float _z) { location_.z = _z; }
 
-	float4 GetForward();
-	float4 GetUp();
-	float4 GetRight();
+
+	float4 GetScale() const;
+	float4 GetRotation() const;
+	float4 GetLocation() const;
+	float4 GetWorldLocation() const;
+	float4 GetWorldScale() const;
+
+	float4 GetForward() const;
+	float4 GetUp() const;
+	float4 GetRight() const;
 
 	void UpdateTransform();
 	void UpdateTransformByParent();

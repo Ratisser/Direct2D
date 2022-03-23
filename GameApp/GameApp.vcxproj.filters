@@ -8,23 +8,32 @@
     <ClCompile Include="UserGame.cpp">
       <Filter>UserCore</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>GameObject\Level\Play\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Monster.cpp">
-      <Filter>GameObject\Level\Play\Actor</Filter>
+      <Filter>GameObject\Actor</Filter>
     </ClCompile>
-    <ClCompile Include="TitleLevel.cpp">
-      <Filter>GameObject\Level\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>GameObject\Level\Play</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleActor.cpp">
-      <Filter>GameObject\Level\Title\Actor</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameObject\Actor</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
+      <Filter>GameObject\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialLevel.cpp">
       <Filter>GameObject\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>GameObject\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>GameObject\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleActor.cpp">
+      <Filter>GameObject\Actor\TitleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldLevel.cpp">
+      <Filter>GameObject\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialMap.cpp">
+      <Filter>GameObject\Actor\TutorialLevel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,17 +52,17 @@
     <Filter Include="UserCore\CustomVertex">
       <UniqueIdentifier>{16842167-2534-42db-8026-796a267ad72b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Level\Play">
-      <UniqueIdentifier>{98f387b7-b7d0-497e-a4a6-358910ffd1de}</UniqueIdentifier>
+    <Filter Include="GameObject\Constant">
+      <UniqueIdentifier>{fbaab9ef-1081-4ee1-a8af-1f91bc456261}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Level\Title">
-      <UniqueIdentifier>{aa09a621-7683-471f-b3ef-b26bac28af2c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Level\Title\Actor">
+    <Filter Include="GameObject\Actor">
       <UniqueIdentifier>{42a2e9f2-724c-4f93-9426-eecc8eb145fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Level\Play\Actor">
-      <UniqueIdentifier>{84dc2f1f-68b3-4cd2-918e-578b625d40c8}</UniqueIdentifier>
+    <Filter Include="GameObject\Actor\TitleLevel">
+      <UniqueIdentifier>{bd13da0e-c7ef-42ac-8494-c6aa2425f89a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Actor\TutorialLevel">
+      <UniqueIdentifier>{4d4c17e6-c9c8-4ac2-ac0b-e6d4355c70c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -66,23 +75,35 @@
     <ClInclude Include="CustomVertex.h">
       <Filter>UserCore\CustomVertex</Filter>
     </ClInclude>
+    <ClInclude Include="eCollisionGroup.h">
+      <Filter>GameObject\Constant</Filter>
+    </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>GameObject\Level\Play\Actor</Filter>
+      <Filter>GameObject\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
-      <Filter>GameObject\Level\Play\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleLevel.h">
-      <Filter>GameObject\Level\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>GameObject\Level\Play</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleActor.h">
-      <Filter>GameObject\Level\Title\Actor</Filter>
+      <Filter>GameObject\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
+      <Filter>GameObject\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialLevel.h">
       <Filter>GameObject\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>GameObject\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>GameObject\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleActor.h">
+      <Filter>GameObject\Actor\TitleLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldLevel.h">
+      <Filter>GameObject\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialMap.h">
+      <Filter>GameObject\Actor\TutorialLevel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

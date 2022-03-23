@@ -210,13 +210,26 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TutorialLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TutorialMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UserGame.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WorldLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomVertex.h" />
+    <ClInclude Include="eCollisionGroup.h" />
     <ClInclude Include="Map.h">
       <SubType>
       </SubType>
@@ -242,7 +255,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TutorialLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TutorialMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UserGame.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WorldLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

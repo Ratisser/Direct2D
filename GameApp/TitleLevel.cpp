@@ -24,7 +24,6 @@ void TitleLevel::LevelChangeStartEvent()
 
 void TitleLevel::LevelStart()
 {
-	mainCamera_->GetTransform()->SetLocation(0.0f, 0.0f, -100.f);
 	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 
 	{

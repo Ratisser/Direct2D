@@ -8,6 +8,7 @@
 #include <GameApp/TitleLevel.h>
 #include <GameApp/TitleLevel.h>
 #include <GameApp/PlayLevel.h>
+#include <GameApp\TutorialLevel.h>
 
 #include <GameApp\CustomVertex.h>
 
@@ -34,7 +35,9 @@ void UserGame::loadLevel()
 {
 	CreateLevel<TitleLevel>("TitleLevel");
 	CreateLevel<PlayLevel>("PlayLevel");
-	ChangeLevel("TitleLevel");
+	CreateLevel<TutorialLevel>("TutorialLevel");
+	//ChangeLevel("TitleLevel");
+	ChangeLevel("TutorialLevel");
 }
 
 void UserGame::loadSound()
@@ -209,13 +212,6 @@ void UserGame::loadMesh()
 
 	// Rect
 	{
-		// 각자 물체가 각자의 크기와 회전값을 가진 세상
-		// 로컬스페이스
-
-		// 로컬세상에 있는 물체를 우리가 원하는 대로 변형하고
-		// 위치시키고 인식합니다.
-		// 월드스페이스
-
 		std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(4);
 
 		{
@@ -245,6 +241,40 @@ void UserGame::loadMesh()
 			RectIndex.push_back(3);
 
 			GameEngineIndexBufferManager::GetInst().Create("Rect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+		}
+	}
+
+	// DebugRect
+	{
+		std::vector<GameEngineVertex> RectVertex = std::vector<GameEngineVertex>(5);
+
+		{
+			// 앞면
+			RectVertex[0] = { float4(-0.5f, 0.5f, 0.0f) };
+			RectVertex[1] = { float4(0.5f, 0.5f, 0.0f) };
+			RectVertex[2] = { float4(0.5f, -0.5f, 0.0f) };
+			RectVertex[3] = { float4(-0.5f, -0.5f, 0.0f) };
+			RectVertex[4] = { float4(-0.5f, 0.5f, 0.0f) };
+
+			RectVertex[0].TexCoord = float4(0.0f, 0.0f);
+			RectVertex[1].TexCoord = float4(1.0f, 0.0f);
+			RectVertex[2].TexCoord = float4(1.0f, 1.0f);
+			RectVertex[3].TexCoord = float4(0.0f, 1.0f);
+			RectVertex[4].TexCoord = float4(0.0f, 0.0f);
+		}
+
+		GameEngineVertexBufferManager::GetInst().Create("DebugRect", RectVertex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
+
+		{
+			std::vector<UINT> RectIndex;
+
+			RectIndex.push_back(0);
+			RectIndex.push_back(1);
+			RectIndex.push_back(2);
+			RectIndex.push_back(3);
+			RectIndex.push_back(4);
+
+			GameEngineIndexBufferManager::GetInst().Create("DebugRect", RectIndex, D3D11_USAGE::D3D11_USAGE_DEFAULT);
 		}
 	}
 
@@ -294,19 +324,18 @@ void UserGame::loadMesh()
 
 void UserGame::loadPipeLine()
 {
+	// DebugRect
 	{
-		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("ColorRendering");
+		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("DebugRect");
 
 		// 이런 기본적인 vertex들이 있다.
-		Pipe->SetInputAssembler1VertexBufferSetting("Rect");
+		Pipe->SetInputAssembler1VertexBufferSetting("DebugRect");
 		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");
 
-		// 그 vertex을 이렇게 위치시키겠다.
+		Pipe->SetInputAssembler2IndexBufferSetting("DebugRect");
 		Pipe->SetVertexShader("Color_VS");
 
-		// 그 vertex을 3개 묶어서 면으로 그리겠다. 순서는 인덱스 버퍼의 순서대로
-		Pipe->SetInputAssembler2IndexBufferSetting("Rect");
-		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 		// 헐 테셀레이션 도메인 지오메트리는 있으면 적용되고 없어도 필수는 아니다. 
 		// vertex을 더 쪼갤건데 준비를 하겠다. 
@@ -323,11 +352,13 @@ void UserGame::loadPipeLine()
 
 		// 그리리기한 면혹은 선 등등에 겹치는 모니터의 픽셀들을 추출하겠다. 
 		// 레스터라이터라이저
-		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetRasterizer("NoCullRasterizer");
 
 		Pipe->SetPixelShader("Color_PS");
+		Pipe->SetOutputMergerBlend("AlphaBlend");
 	}
 
+	// BoxRendering
 	{
 		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("BoxRendering");
 
@@ -346,6 +377,25 @@ void UserGame::loadPipeLine()
 		//Pipe->SetOutputMergerBlend("DefaultBlend");
 	}
 
+	// FullRect
+	{
+		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("FullRect");
+
+		Pipe->SetInputAssembler1VertexBufferSetting("FullRect");
+		Pipe->SetInputAssembler1InputLayOutSetting("TextureNoCut_VS");
+		Pipe->SetVertexShader("TextureNoCut_VS");
+		Pipe->SetPixelShader("TextureNoCut_PS");
+
+		Pipe->SetInputAssembler2IndexBufferSetting("FullRect");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+
+		Pipe->SetOutputMergerBlend("AlphaBlend");
+		//Pipe->SetOutputMergerBlend("DefaultBlend");
+	}
+
+	// TextureBox
 	{
 		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("TextureBox");
 
