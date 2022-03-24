@@ -48,11 +48,15 @@ void GameEngineActor::updateComponent(float _deltaTime)
 				tc->UpdateTransform();
 				iter++;
 			}
-			else
+			else if (tc->IsDeath())
 			{
 				delete tc;
 				tc = nullptr;
-
+				iter = allTransformComponents_.erase(iter);
+			}
+			else
+			{
+				iter++;
 			}
 		}
 	}

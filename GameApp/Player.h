@@ -30,7 +30,9 @@ private:
 
 	void addGravity(float _deltaTime);
 
+	void changeToDuckIdle();
 private:
+	// PlayerState
 #pragma region PlayerState
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
@@ -49,6 +51,9 @@ private:
 
 	void startDuck(float _deltaTime);
 	void updateDuck(float _deltaTime);
+
+	void startDuckIdle(float _deltaTime);
+	void updateDuckIdle(float _deltaTime);
 
 	void startShoot(float _deltaTime);
 	void updateShoot(float _deltaTime);
@@ -73,7 +78,7 @@ private:
 private:
 	const float MOVE_SPEED = 500.f;
 	const float GRAVITY_POWER = 5000.f;
-	const float JUMP_POWER = 1000.f;
+	const float JUMP_POWER = 800.f;
 
 private:
 	GameEngineFSM state_;

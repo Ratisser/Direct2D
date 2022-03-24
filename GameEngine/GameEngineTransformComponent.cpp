@@ -129,7 +129,7 @@ float4 GameEngineTransformComponent::GetLocation() const
 
 float4 GameEngineTransformComponent::GetWorldLocation() const
 {
-	return location_ * transformData_.Wolrd;
+	return transformData_.Wolrd.vw;
 }
 
 float4 GameEngineTransformComponent::GetWorldScale() const

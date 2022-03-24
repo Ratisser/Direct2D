@@ -64,5 +64,5 @@ void TutorialLevel::LevelStart()
 void TutorialLevel::LevelUpdate(float _deltaTime)
 {
 	mainCamera_->GetTransform()->SetLocation(player_->GetTransform()->GetLocation());
-	mainCamera_->GetTransform()->SetLocationY(-450.f);
+	mainCamera_->GetTransform()->SetLocationY(-475.f);
 }
