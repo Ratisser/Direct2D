@@ -2,6 +2,7 @@
 
 #include <GameEngine/GameEngineLevel.h>
 
+
 class TutorialLevel : public GameEngineLevel
 {
 public:
@@ -20,5 +21,6 @@ public:
 
 private:
 	GameEngineActor* player_;
+	std::unique_ptr<GameEngineSoundPlayer> bgmPlayer_;
 };
 

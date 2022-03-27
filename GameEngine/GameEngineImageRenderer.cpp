@@ -41,7 +41,7 @@ void GameEngineImageRenderer::Animation2D::CallFrame()
 
 void GameEngineImageRenderer::Animation2D::Reset()
 {
-	IsEnd = false;
+	IsEnd_ = false;
 	CurTime_ = InterTime_;
 	CurFrame_ = StartFrame_;
 }
@@ -63,12 +63,12 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 		else if (false == Loop_
 			&& CurFrame_ > EndFrame_)
 		{
-			if (false == IsEnd)
+			if (false == IsEnd_)
 			{
 				CallEnd();
 			}
 
-			IsEnd = true;
+			IsEnd_ = true;
 
 			CurFrame_ = EndFrame_;
 		}
@@ -89,7 +89,7 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 
 		if (Renderer->pivot_ == eImagePivot::BOTTOM)
 		{
-			Renderer->SetLocation(0.0f, size.y / 2.f);
+			Renderer->SetLocationY(size.y / 2.f);
 		}
 
 	}
@@ -170,7 +170,7 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _Name, int _Sta
 
 	Animation2D* NewAnimation = new Animation2D();
 
-	NewAnimation->IsEnd = false;
+	NewAnimation->IsEnd_ = false;
 	NewAnimation->Loop_ = _Loop;
 	NewAnimation->InterTime_ = _InterTime;
 	NewAnimation->CurTime_ = _InterTime;
@@ -203,7 +203,7 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 
 	Animation2D* NewAnimation = new Animation2D();
 
-	NewAnimation->IsEnd = false;
+	NewAnimation->IsEnd_ = false;
 	NewAnimation->Loop_ = _Loop;
 	NewAnimation->InterTime_ = _InterTime;
 	NewAnimation->CurTime_ = _InterTime;
@@ -215,6 +215,11 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 	NewAnimation->Renderer = this;
 
 	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));
+}
+
+void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _FolderTexName, float _InterTime, bool _Loop)
+{
+	CreateAnimationFolder(_FolderTexName, _FolderTexName, _InterTime, _Loop);
 }
 
 void GameEngineImageRenderer::ChangeAnimation(const std::string& _Name, bool _IsForce /*= false*/)

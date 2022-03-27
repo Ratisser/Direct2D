@@ -17,7 +17,7 @@ private:
 		float InterTime_;
 		float CurTime_;
 
-		bool IsEnd;
+		bool IsEnd_;
 		bool Loop_;
 		int CurFrame_;
 		int StartFrame_;
@@ -53,8 +53,10 @@ public:
 	void SetIndex(const int Index);
 
 	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
-	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.033f, bool _Loop = true);
+	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true);
+	void CreateAnimationFolder(const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true);
 	void ChangeAnimation(const std::string& _Name, bool _IsForce = false);
+	Animation2D* GetCurrentAnimation() const { return CurAnimation_; }
 
 	void SetStartCallBack(const std::string& _Name, std::function<void()> _CallBack);
 	void SetEndCallBack(const std::string& _Name, std::function<void()> _CallBack);
