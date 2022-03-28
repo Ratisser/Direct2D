@@ -17,7 +17,7 @@ Player::Player()
 	: collider_(nullptr)
 	, renderer_(nullptr)
 	, bLeft_(false)
-	, bCanJumpDash_(false)
+	, bCanDash_(false)
 	, bGround_(false)
 	, bottomCenterCollision_(nullptr)
 	, groundCheckCollision_(nullptr)
@@ -122,6 +122,8 @@ void Player::initRendererAndAnimation()
 	renderer_->CreateAnimationFolder("SSGround_Down");
 	renderer_->CreateAnimationFolder("SSGround_DiagonalUp");
 	renderer_->CreateAnimationFolder("SSGround_DiagonalDown");
+
+	renderer_->CreateAnimationFolder("Duck_Shoot");
 
 	renderer_->ChangeAnimation("Idle");
 }
@@ -233,7 +235,7 @@ void Player::addGravity(float _deltaTime)
 	{
 		gravitySpeed_ = 0.f;
 		bGround_ = true;
-		bCanJumpDash_ = true;
+		bCanDash_ = true;
 		bCanJump_ = true;
 		transform_->SetLocationY(static_cast<float>(static_cast<int>(transform_->GetLocation().y)));
 	}
@@ -248,7 +250,7 @@ void Player::updateIdle(float _deltaTime)
 {
 	addGravity(_deltaTime);
 
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
@@ -309,7 +311,7 @@ void Player::updateRun(float _deltaTime)
 {
 	addGravity(_deltaTime);
 
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
@@ -404,7 +406,7 @@ void Player::updateJump(float _deltaTime)
 {
 	bGround_ = false;
 
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
@@ -436,7 +438,7 @@ void Player::updateJump(float _deltaTime)
 		{
 			bGround_ = true;
 			bCanJump_ = true;
-			bCanJumpDash_ = true;
+			bCanDash_ = true;
 			state_ << "Idle";
 			return;
 		}
@@ -475,7 +477,7 @@ void Player::startDash(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Dash", true);
 	gravitySpeed_ = 0.0f;
-	bCanJumpDash_ = false;
+	bCanDash_ = false;
 }
 
 void Player::updateDash(float _deltaTime)
@@ -489,7 +491,7 @@ void Player::updateDash(float _deltaTime)
 
 	if (bLeft_)
 	{
-		renderer_->SetLocationX(50.f);
+		renderer_->SetLocationX(57.f);
 		if (float4::BLACK != Map::GetColor(leftSideCollision_))
 		{
 			transform_->AddLocation(-DASH_SPEED * _deltaTime, 0.0f);
@@ -498,7 +500,7 @@ void Player::updateDash(float _deltaTime)
 	}
 	else
 	{
-		renderer_->SetLocationX(-50.f);
+		renderer_->SetLocationX(-57.f);
 		if (float4::BLACK != Map::GetColor(rightSideCollision_))
 		{
 			transform_->AddLocation(DASH_SPEED * _deltaTime, 0.0f);
@@ -518,7 +520,7 @@ void Player::updateDuck(float _deltaTime)
 		state_ << "Jump";
 		return;
 	}
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
@@ -544,6 +546,10 @@ void Player::updateDuckIdle(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
+		if (float4::BLUE == Map::GetColor(transform_))
+		{
+
+		}
 		state_ << "Jump";
 		return;
 	}
@@ -554,7 +560,13 @@ void Player::updateDuckIdle(float _deltaTime)
 		return;
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyPress("X"))
+	{
+		state_ << "ShootWhileDucking";
+		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
@@ -581,7 +593,7 @@ void Player::updateStandUp(float _deltaTime)
 		state_ << "Jump";
 		return;
 	}
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
@@ -600,7 +612,7 @@ void Player::startShoot(float _deltaTime)
 
 void Player::updateShoot(float _deltaTime)
 {
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
@@ -611,6 +623,13 @@ void Player::updateShoot(float _deltaTime)
 		state_ << "Idle";
 		return;
 	}
+
+	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
+	{
+		state_ << "ShootWhileJumping";
+		return;
+	}
+
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Up"))
 	{
@@ -653,7 +672,7 @@ void Player::updateLock(float _deltaTime)
 		return;
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
@@ -738,7 +757,7 @@ void Player::updateLockedShot(float _deltaTime)
 		return;
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
@@ -800,14 +819,42 @@ void Player::updateLockedShot(float _deltaTime)
 
 void Player::startShootWhileDucking(float _deltaTime)
 {
+	renderer_->ChangeAnimation("Duck_Shoot");
 }
 
 void Player::updateShootWhileDucking(float _deltaTime)
 {
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
+	{
+		state_ << "ShootWhileJumping";
+		return;
+	}
+
+	if (!GameEngineInput::GetInstance().IsKeyPress("X"))
+	{
+		state_ << "DuckIdle";
+		return;
+	}
+
+	if (!GameEngineInput::GetInstance().IsKeyPress("Down"))
+	{
+		state_ << "Shoot";
+		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+	{
+		bLeft_ = true;
+	}
+	else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+	{
+		bLeft_ = false;
 	}
 }
 
@@ -818,7 +865,7 @@ void Player::startShootWhileRunning(float _deltaTime)
 
 void Player::updateShootWhileRunning(float _deltaTime)
 {
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
@@ -829,17 +876,155 @@ void Player::updateShootWhileRunning(float _deltaTime)
 		state_ << "Run";
 		return;
 	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("C"))
+	{
+		state_ << "LockedShot";
+		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("Down"))
+	{
+		state_ << "ShootWhileDucking";
+		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+	{
+		if (GameEngineInput::GetInstance().IsKeyPress("Up"))
+		{
+			renderer_->ChangeAnimation("Run_Shoot_DiagonalUp");
+		}
+		else
+		{
+			renderer_->ChangeAnimation("Run_Shoot_Straight");
+		}
+
+		if (float4::BLACK != Map::GetColor(leftSideCollision_))
+		{
+			transform_->AddLocation(-MOVE_SPEED * _deltaTime, 0.0f);
+		}
+		bLeft_ = true;
+	}
+	else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+	{
+		if (GameEngineInput::GetInstance().IsKeyPress("Up"))
+		{
+			renderer_->ChangeAnimation("Run_Shoot_DiagonalUp");
+		}
+		else
+		{
+			renderer_->ChangeAnimation("Run_Shoot_Straight");
+		}
+
+		if (float4::BLACK != Map::GetColor(rightSideCollision_))
+		{
+			transform_->AddLocation(MOVE_SPEED * _deltaTime, 0.0f);
+		}
+		bLeft_ = false;
+	}
+	else
+	{
+		state_ << "Shoot";
+		return;
+	}
+
+	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
+	{
+		bGround_ = false;
+		state_ << "ShootWhileJumping";
+		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
+	{
+		state_ << "ShootWhileJumping";
+		return;
+	}
 }
 
 void Player::startShootWhileJumping(float _deltaTime)
 {
+	if (bGround_)
+	{
+		bCanJump_ = true;
+		jumpTime_ = 0.2f;
+		gravitySpeed_ = JUMP_POWER;
+		transform_->AddLocation(0.0f, 10.0f);
+	}
+	else
+	{
+		bCanJump_ = false;
+	}
+
+	renderer_->ChangeAnimation("Air");
 }
 
 void Player::updateShootWhileJumping(float _deltaTime)
 {
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanJumpDash_)
+	bGround_ = false;
+
+	if (!GameEngineInput::GetInstance().IsKeyPress("X"))
+	{
+		state_ << "Jump";
+		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		state_ << "Dash";
 		return;
+	}
+
+	if (bCanJump_)
+	{
+		jumpTime_ -= _deltaTime;
+		transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
+		if (jumpTime_ > 0.1f)
+		{
+
+		}
+		else if (true == GameEngineInput::GetInstance().IsKeyFree("Z") || jumpTime_ < 0.0f)
+		{
+			gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
+			bCanJump_ = false;
+		}
+	}
+	else
+	{
+		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_))
+		{
+			bGround_ = false;
+			transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
+			gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
+		}
+		else
+		{
+			bGround_ = true;
+			bCanJump_ = true;
+			bCanDash_ = true;
+			state_ << "Idle";
+			return;
+		}
+	}
+
+	// ¿òÁ÷ÀÓ
+	{
+		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+		{
+			if (float4::BLACK != Map::GetColor(leftSideCollision_))
+			{
+				transform_->AddLocation(-MOVE_SPEED * _deltaTime, 0.0f);
+			}
+			bLeft_ = true;
+		}
+		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+		{
+			if (float4::BLACK != Map::GetColor(rightSideCollision_))
+			{
+				transform_->AddLocation(MOVE_SPEED * _deltaTime, 0.0f);
+			}
+			bLeft_ = false;
+		}
 	}
 }

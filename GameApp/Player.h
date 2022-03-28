@@ -98,7 +98,7 @@ private:
 
 	bool bGround_;
 	bool bCanJump_;
-	bool bCanJumpDash_;
+	bool bCanDash_;
 	bool bShooting_;
 
 	float jumpTime_;
