@@ -25,6 +25,7 @@ Player::Player()
 	, leftSideCollision_(nullptr)
 	, rightSideCollision_(nullptr)
 	, bCanJump_(true)
+	, bDownJump_(false)
 	, bShooting_(false)
 	, gravitySpeed_(0.0f)
 	, jumpTime_(0.0f)
@@ -48,6 +49,8 @@ void Player::Start()
 void Player::Update(float _deltaTime)
 {
 	state_.Update(_deltaTime);
+
+	//GameEngineDebug::OutPutDebugString(state_.GetCurrentStateName() + "\n");
 
 	if (bLeft_)
 	{
@@ -208,6 +211,7 @@ void Player::initState()
 	state_.CreateState("Idle", std::bind(&Player::startIdle, this, std::placeholders::_1), std::bind(&Player::updateIdle, this, std::placeholders::_1));
 	state_.CreateState("Run", std::bind(&Player::startRun, this, std::placeholders::_1), std::bind(&Player::updateRun, this, std::placeholders::_1));
 	state_.CreateState("Jump", std::bind(&Player::startJump, this, std::placeholders::_1), std::bind(&Player::updateJump, this, std::placeholders::_1));
+	state_.CreateState("DownJump", std::bind(&Player::startDownJump, this, std::placeholders::_1), std::bind(&Player::updateDownJump, this, std::placeholders::_1));
 	state_.CreateState("Damaged", std::bind(&Player::startDamaged, this, std::placeholders::_1), std::bind(&Player::updateDamaged, this, std::placeholders::_1));
 	state_.CreateState("Dash", std::bind(&Player::startDash, this, std::placeholders::_1), std::bind(&Player::updateDash, this, std::placeholders::_1));
 	state_.CreateState("Duck", std::bind(&Player::startDuck, this, std::placeholders::_1), std::bind(&Player::updateDuck, this, std::placeholders::_1));
@@ -465,6 +469,73 @@ void Player::updateJump(float _deltaTime)
 	}
 }
 
+void Player::startDownJump(float _deltaTime)
+{
+	bGround_ = false;
+	bCanJump_ = false;
+	bDownJump_ = true;
+	renderer_->ChangeAnimation("Air");
+}
+
+void Player::updateDownJump(float _deltaTime)
+{
+	bGround_ = false;
+
+	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
+	{
+		state_ << "Dash";
+		return;
+	}
+
+	if (float4::BLUE != Map::GetColor(groundCheckCollision_))
+	{
+		bDownJump_ = false;
+	}
+
+	if (bDownJump_)
+	{
+		transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
+		gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
+	}
+	else
+	{
+		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_))
+		{
+			bGround_ = false;
+			transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
+			gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
+		}
+		else
+		{
+			bGround_ = true;
+			bCanJump_ = true;
+			bCanDash_ = true;
+			state_ << "Idle";
+			return;
+		}
+	}
+
+	// ¿òÁ÷ÀÓ
+	{
+		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+		{
+			if (float4::BLACK != Map::GetColor(leftSideCollision_))
+			{
+				transform_->AddLocation(-MOVE_SPEED * _deltaTime, 0.0f);
+			}
+			bLeft_ = true;
+		}
+		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+		{
+			if (float4::BLACK != Map::GetColor(rightSideCollision_))
+			{
+				transform_->AddLocation(MOVE_SPEED * _deltaTime, 0.0f);
+			}
+			bLeft_ = false;
+		}
+	}
+}
+
 void Player::startDamaged(float _deltaTime)
 {
 }
@@ -546,11 +617,15 @@ void Player::updateDuckIdle(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		if (float4::BLUE == Map::GetColor(transform_))
+		if (float4::BLUE == Map::GetColor(groundCheckCollision_))
 		{
-
+			bGround_ = false;
+			state_ << "DownJump";
 		}
-		state_ << "Jump";
+		else
+		{
+			state_ << "Jump";
+		}
 		return;
 	}
 

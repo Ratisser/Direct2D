@@ -42,6 +42,9 @@ private:
 	void startJump(float _deltaTime);
 	void updateJump(float _deltaTime);
 
+	void startDownJump(float _deltaTime);
+	void updateDownJump(float _deltaTime);
+
 	void startDamaged(float _deltaTime);
 	void updateDamaged(float _deltaTime);
 	
@@ -100,6 +103,7 @@ private:
 	bool bCanJump_;
 	bool bCanDash_;
 	bool bShooting_;
+	bool bDownJump_;
 
 	float jumpTime_;
 	float gravitySpeed_;
