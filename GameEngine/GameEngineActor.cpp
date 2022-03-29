@@ -30,6 +30,11 @@ GameEngineActor::~GameEngineActor()
 		delete component;
 		component = nullptr;
 	}
+
+	allTransformComponents_.clear();
+
+	delete transform_;
+	transform_ = nullptr;
 }
 
 void GameEngineActor::transformUpdate()
