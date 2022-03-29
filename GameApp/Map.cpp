@@ -34,5 +34,10 @@ float4 Map::GetColor(GameEngineTransformComponent* _Ptr, bool YRevers /*= true*/
 
 float4 Map::GetColor(float4 _Postion)
 {
+	if (nullptr == currentMap)
+	{
+		return float4::ZERO;
+	}
+
 	return currentMap->ImageRenderer->GetCurrentTexture()->GetPixel(_Postion.ix(), _Postion.iy());
 }
