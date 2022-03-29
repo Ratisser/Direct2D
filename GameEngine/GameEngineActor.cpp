@@ -8,7 +8,9 @@ GameEngineActor::GameEngineActor()
 	, bDestroyed_(false)
 	, aliveTime_(-1.f)
 {
-	transform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
+	transform_ = new GameEngineTransformComponent();
+	transform_->InitComponent(this);
+	transform_->Start();
 }
 
 GameEngineActor::~GameEngineActor()
@@ -48,12 +50,12 @@ void GameEngineActor::updateComponent(float _deltaTime)
 				tc->UpdateTransform();
 				iter++;
 			}
-			else if (tc->IsDeath())
-			{
-				delete tc;
-				tc = nullptr;
-				iter = allTransformComponents_.erase(iter);
-			}
+			//else if (tc->IsDeath())
+			//{
+			//	delete tc;
+			//	tc = nullptr;
+			//	iter = allTransformComponents_.erase(iter);
+			//}
 			else
 			{
 				iter++;
@@ -70,6 +72,15 @@ void GameEngineActor::Release(float _delay)
 {
 	if (0.0f >= _delay)
 	{
+		for (GameEngineComponent* component : allComponents_)
+		{
+			component->Death();
+		}
+
+		for (GameEngineTransformComponent* transformComponent : allTransformComponents_)
+		{
+			transformComponent->Death();
+		}
 		Death();
 	}
 	else

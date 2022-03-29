@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "GameEngineTransformComponent.h"
 
+#include <GameEngine\GameEngineActor.h>
+
 GameEngineTransformComponent::GameEngineTransformComponent()
 	: scale_(1.0f, 1.0f, 1.0f, 0.0f)
 	, rotation_(0.0f, 0.0f, 0.0f, 0.0f)
@@ -109,7 +111,7 @@ void GameEngineTransformComponent::AddLocation(float _x, float _y, float _z)
 
 void GameEngineTransformComponent::AddLocation(const float4& _location)
 {
-	location_ = _location;
+	location_ += _location;
 }
 
 float4 GameEngineTransformComponent::GetScale() const
@@ -154,6 +156,10 @@ float4 GameEngineTransformComponent::GetRight() const
 
 void GameEngineTransformComponent::UpdateTransform()
 {
+	if (actor_->GetName() == "Pea")
+	{
+		int a = 0;
+	}
 	if (nullptr == parent_)
 	{
 
@@ -188,10 +194,13 @@ void GameEngineTransformComponent::UpdateTransformByParent()
 void GameEngineTransformComponent::ReleaseReady()
 {
 	UnsetParent();
-	for (GameEngineTransformComponent* child : children_)
+	auto startIter = children_.begin();
+	auto endIter = children_.end();
+	while (startIter != endIter)
 	{
-		child->ReleaseReady();
-		child->Death();
+		(*startIter)->ReleaseReady();
+		(*startIter)->Death();
+		startIter = children_.erase(startIter);
 	}
 }
 
@@ -215,7 +224,6 @@ void GameEngineTransformComponent::UnsetParent()
 {
 	if (nullptr != parent_)
 	{
-		parent_->RemoveChild(this);
 		parent_ = nullptr;
 	}
 }
