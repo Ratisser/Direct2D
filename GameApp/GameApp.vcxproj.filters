@@ -8,12 +8,6 @@
     <ClCompile Include="UserGame.cpp">
       <Filter>UserCore</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>GameObject\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>GameObject\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>GameObject\Actor</Filter>
     </ClCompile>
@@ -34,6 +28,15 @@
     </ClCompile>
     <ClCompile Include="TutorialMap.cpp">
       <Filter>GameObject\Actor\TutorialLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameObject\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>GameObject\Actor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Peashot.cpp">
+      <Filter>GameObject\Actor\PlayerWeapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +67,15 @@
     <Filter Include="GameObject\Actor\TutorialLevel">
       <UniqueIdentifier>{4d4c17e6-c9c8-4ac2-ac0b-e6d4355c70c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Actor\Player">
+      <UniqueIdentifier>{f8e3539b-b27e-489c-ae25-64fc4d283644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Actor\PlayerWeapon">
+      <UniqueIdentifier>{0404191d-f317-45f5-b778-c1dcd2e81894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Actor\Enemy">
+      <UniqueIdentifier>{e81cf8ae-bbc0-4f45-a0cd-62d10336b013}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -77,12 +89,6 @@
     </ClInclude>
     <ClInclude Include="eCollisionGroup.h">
       <Filter>GameObject\Constant</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>GameObject\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>GameObject\Actor</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>GameObject\Actor</Filter>
@@ -104,6 +110,15 @@
     </ClInclude>
     <ClInclude Include="TutorialMap.h">
       <Filter>GameObject\Actor\TutorialLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameObject\Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>GameObject\Actor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Peashot.h">
+      <Filter>GameObject\Actor\PlayerWeapon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
