@@ -116,5 +116,6 @@ private:
 
 	float jumpTime_;
 	float gravitySpeed_;
+	float shootDelay_;
 };
 

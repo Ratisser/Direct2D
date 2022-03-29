@@ -30,6 +30,7 @@ Player::Player()
 	, bShooting_(false)
 	, gravitySpeed_(0.0f)
 	, jumpTime_(0.0f)
+	, shootDelay_(0.0f)
 {
 
 }
@@ -267,6 +268,7 @@ void Player::updateNormalState(float _deltaTime)
 void Player::startShootState(float _deltaTime)
 {
 	// insert finger snap sound
+	shootDelay_ = 0.0f;
 }
 
 void Player::updateShootState(float _deltaTime)
@@ -277,14 +279,13 @@ void Player::updateShootState(float _deltaTime)
 		return;
 	}
 
-	static float shootDelay = 0.0f;
-	shootDelay -= _deltaTime;
-	if (shootDelay < 0.0f)
+	shootDelay_ -= _deltaTime;
+	if (shootDelay_ < 0.0f)
 	{
 		Peashot* newShot = level_->CreateActor<Peashot>("Pea");
 		float4 newShotLocation = transform_->GetWorldLocation();
 		newShot->GetTransform()->SetLocation(newShotLocation);
-		shootDelay = 0.1f;
+		shootDelay_ = 0.1f;
 	}
 	normalState_.Update(_deltaTime);
 }
@@ -305,6 +306,13 @@ void Player::startIdle(float _deltaTime)
 void Player::updateIdle(float _deltaTime)
 {
 	addGravity(_deltaTime);
+
+	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
+	{
+		bGround_ = false;
+		normalState_ << "Jump";
+		return;
+	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
@@ -344,20 +352,13 @@ void Player::updateIdle(float _deltaTime)
 		return;
 	}
 
-	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
-	{
-		bGround_ = false;
-		normalState_ << "Jump";
-		return;
-	}
+
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Down"))
 	{
 		normalState_ << "Duck";
 		return;
 	}
-
-
 }
 
 void Player::startRun(float _deltaTime)
@@ -607,6 +608,7 @@ void Player::startDash(float _deltaTime)
 
 void Player::updateDash(float _deltaTime)
 {
+	shootDelay_ = 0.1f;
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		renderer_->SetLocationX(0.0f);
@@ -755,6 +757,13 @@ void Player::startShoot(float _deltaTime)
 
 void Player::updateShoot(float _deltaTime)
 {
+	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
+	{
+		bGround_ = false;
+		normalState_ << "Jump";
+		return;
+	}
+
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		normalState_ << "Dash";
