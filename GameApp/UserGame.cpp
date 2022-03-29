@@ -36,8 +36,9 @@ void UserGame::loadLevel()
 	CreateLevel<TitleLevel>("TitleLevel");
 	CreateLevel<PlayLevel>("PlayLevel");
 	CreateLevel<TutorialLevel>("TutorialLevel");
-	//ChangeLevel("TitleLevel");
 	ChangeLevel("TutorialLevel");
+	//ChangeLevel("TitleLevel");
+	//ChangeLevel("PlayLevel");
 }
 
 void UserGame::loadSound()
@@ -117,9 +118,22 @@ void UserGame::loadTexture()
 		}
 
 		TextureDir.MoveParent("Image");
-		TextureDir / "Title";
-
+		TextureDir / "Bullet";
 		AllFile = TextureDir.GetAllFile();
+		for (GameEngineFile& file : AllFile)
+		{
+			GameEngineFolderTextureManager::GetInst().Load(file.GetFullPath());
+		}
+
+	}
+
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
+		TextureDir / "Title";
+		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
 		for (GameEngineFile& file : AllFile)
 		{
 			GameEngineFolderTextureManager::GetInst().Load(file.GetFullPath());
