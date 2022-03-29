@@ -12,6 +12,7 @@
 #include "Map.h"
 
 #include "eCollisionGroup.h"
+#include <GameApp\Peashot.h>
 
 Player::Player()
 	: collider_(nullptr)
@@ -50,7 +51,7 @@ void Player::Update(float _deltaTime)
 {
 	state_.Update(_deltaTime);
 
-	//GameEngineDebug::OutPutDebugString(state_.GetCurrentStateName() + "\n");
+	//GameEngineDebug::OutPutDebugString(normalState_.GetCurrentStateName() + "\n");
 
 	if (bLeft_)
 	{
@@ -208,23 +209,27 @@ void Player::initCollision()
 
 void Player::initState()
 {
-	state_.CreateState("Idle", std::bind(&Player::startIdle, this, std::placeholders::_1), std::bind(&Player::updateIdle, this, std::placeholders::_1));
-	state_.CreateState("Run", std::bind(&Player::startRun, this, std::placeholders::_1), std::bind(&Player::updateRun, this, std::placeholders::_1));
-	state_.CreateState("Jump", std::bind(&Player::startJump, this, std::placeholders::_1), std::bind(&Player::updateJump, this, std::placeholders::_1));
-	state_.CreateState("DownJump", std::bind(&Player::startDownJump, this, std::placeholders::_1), std::bind(&Player::updateDownJump, this, std::placeholders::_1));
-	state_.CreateState("Damaged", std::bind(&Player::startDamaged, this, std::placeholders::_1), std::bind(&Player::updateDamaged, this, std::placeholders::_1));
-	state_.CreateState("Dash", std::bind(&Player::startDash, this, std::placeholders::_1), std::bind(&Player::updateDash, this, std::placeholders::_1));
-	state_.CreateState("Duck", std::bind(&Player::startDuck, this, std::placeholders::_1), std::bind(&Player::updateDuck, this, std::placeholders::_1));
-	state_.CreateState("DuckIdle", std::bind(&Player::startDuckIdle, this, std::placeholders::_1), std::bind(&Player::updateDuckIdle, this, std::placeholders::_1));
-	state_.CreateState("StandUp", std::bind(&Player::startStandUp, this, std::placeholders::_1), std::bind(&Player::updateStandUp, this, std::placeholders::_1));
-	state_.CreateState("Shoot", std::bind(&Player::startShoot, this, std::placeholders::_1), std::bind(&Player::updateShoot, this, std::placeholders::_1));
-	state_.CreateState("Lock", std::bind(&Player::startLock, this, std::placeholders::_1), std::bind(&Player::updateLock, this, std::placeholders::_1));
-	state_.CreateState("LockedShot", std::bind(&Player::startLockedShot, this, std::placeholders::_1), std::bind(&Player::updateLockedShot, this, std::placeholders::_1));
-	state_.CreateState("ShootWhileDucking", std::bind(&Player::startShootWhileDucking, this, std::placeholders::_1), std::bind(&Player::updateShootWhileDucking, this, std::placeholders::_1));
-	state_.CreateState("ShootWhileRunning", std::bind(&Player::startShootWhileRunning, this, std::placeholders::_1), std::bind(&Player::updateShootWhileRunning, this, std::placeholders::_1));
-	state_.CreateState("ShootWhileJumping", std::bind(&Player::startShootWhileJumping, this, std::placeholders::_1), std::bind(&Player::updateShootWhileJumping, this, std::placeholders::_1));
+	state_.CreateState("NormalState", std::bind(&Player::startNormalState, this, std::placeholders::_1), std::bind(&Player::updateNormalState, this, std::placeholders::_1));
+	state_.CreateState("ShootState", std::bind(&Player::startShootState, this, std::placeholders::_1), std::bind(&Player::updateShootState, this, std::placeholders::_1));
+	state_.CreateState("DamagedState", std::bind(&Player::startDamagedState, this, std::placeholders::_1), std::bind(&Player::updateDamagedState, this, std::placeholders::_1));
 
-	state_.ChangeState("Idle");
+	normalState_.CreateState("Idle", std::bind(&Player::startIdle, this, std::placeholders::_1), std::bind(&Player::updateIdle, this, std::placeholders::_1));
+	normalState_.CreateState("Run", std::bind(&Player::startRun, this, std::placeholders::_1), std::bind(&Player::updateRun, this, std::placeholders::_1));
+	normalState_.CreateState("Jump", std::bind(&Player::startJump, this, std::placeholders::_1), std::bind(&Player::updateJump, this, std::placeholders::_1));
+	normalState_.CreateState("DownJump", std::bind(&Player::startDownJump, this, std::placeholders::_1), std::bind(&Player::updateDownJump, this, std::placeholders::_1));
+	normalState_.CreateState("Damaged", std::bind(&Player::startDamaged, this, std::placeholders::_1), std::bind(&Player::updateDamaged, this, std::placeholders::_1));
+	normalState_.CreateState("Dash", std::bind(&Player::startDash, this, std::placeholders::_1), std::bind(&Player::updateDash, this, std::placeholders::_1));
+	normalState_.CreateState("Duck", std::bind(&Player::startDuck, this, std::placeholders::_1), std::bind(&Player::updateDuck, this, std::placeholders::_1));
+	normalState_.CreateState("DuckIdle", std::bind(&Player::startDuckIdle, this, std::placeholders::_1), std::bind(&Player::updateDuckIdle, this, std::placeholders::_1));
+	normalState_.CreateState("StandUp", std::bind(&Player::startStandUp, this, std::placeholders::_1), std::bind(&Player::updateStandUp, this, std::placeholders::_1));
+	normalState_.CreateState("Shoot", std::bind(&Player::startShoot, this, std::placeholders::_1), std::bind(&Player::updateShoot, this, std::placeholders::_1));
+	normalState_.CreateState("Lock", std::bind(&Player::startLock, this, std::placeholders::_1), std::bind(&Player::updateLock, this, std::placeholders::_1));
+	normalState_.CreateState("LockedShot", std::bind(&Player::startLockedShot, this, std::placeholders::_1), std::bind(&Player::updateLockedShot, this, std::placeholders::_1));
+	normalState_.CreateState("ShootWhileDucking", std::bind(&Player::startShootWhileDucking, this, std::placeholders::_1), std::bind(&Player::updateShootWhileDucking, this, std::placeholders::_1));
+	normalState_.CreateState("ShootWhileRunning", std::bind(&Player::startShootWhileRunning, this, std::placeholders::_1), std::bind(&Player::updateShootWhileRunning, this, std::placeholders::_1));
+
+	state_.ChangeState("NormalState");
+	normalState_.ChangeState("Idle");
 }
 
 void Player::addGravity(float _deltaTime)
@@ -245,6 +250,53 @@ void Player::addGravity(float _deltaTime)
 	}
 }
 
+void Player::startNormalState(float _deltaTime)
+{
+}
+
+void Player::updateNormalState(float _deltaTime)
+{
+	if (GameEngineInput::GetInstance().IsKeyPress("X"))
+	{
+		state_ << "ShootState";
+		return;
+	}
+	normalState_.Update(_deltaTime);
+}
+
+void Player::startShootState(float _deltaTime)
+{
+	// insert finger snap sound
+}
+
+void Player::updateShootState(float _deltaTime)
+{
+	if (!GameEngineInput::GetInstance().IsKeyPress("X"))
+	{
+		state_ << "NormalState";
+		return;
+	}
+
+	static float shootDelay = 0.0f;
+	shootDelay -= _deltaTime;
+	if (shootDelay < 0.0f)
+	{
+		Peashot* newShot = level_->CreateActor<Peashot>("Pea");
+		float4 newShotLocation = transform_->GetWorldLocation();
+		newShot->GetTransform()->SetLocation(newShotLocation);
+		shootDelay = 0.1f;
+	}
+	normalState_.Update(_deltaTime);
+}
+
+void Player::startDamagedState(float _deltaTime)
+{
+}
+
+void Player::updateDamagedState(float _deltaTime)
+{
+}
+
 void Player::startIdle(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Idle");
@@ -256,54 +308,56 @@ void Player::updateIdle(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("X"))
 	{
-		state_ << "Shoot";
+		normalState_ << "Shoot";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 	{
 		bLeft_ = true;
-		state_ << "Run";
+		normalState_ << "Run";
 		return;
 	}
 	if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 	{
 		bLeft_ = false;
-		state_ << "Run";
+		normalState_ << "Run";
 		return;
 	}
 
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		state_ << "Jump";
+		normalState_ << "Jump";
+		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("C"))
+	{
+		normalState_ << "Lock";
 		return;
 	}
 
 	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
 	{
 		bGround_ = false;
-		state_ << "Jump";
+		normalState_ << "Jump";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Down"))
 	{
-		state_ << "Duck";
+		normalState_ << "Duck";
 		return;
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyPress("C"))
-	{
-		state_ << "Lock";
-		return;
-	}
+
 }
 
 void Player::startRun(float _deltaTime)
@@ -317,25 +371,25 @@ void Player::updateRun(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Down"))
 	{
-		state_ << "Duck";
+		normalState_ << "Duck";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("X"))
 	{
-		state_ << "ShootWhileRunning";
+		normalState_ << "ShootWhileRunning";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("C"))
 	{
-		state_ << "Lock";
+		normalState_ << "Lock";
 		return;
 	}
 
@@ -357,20 +411,20 @@ void Player::updateRun(float _deltaTime)
 	}
 	else
 	{
-		state_ << "Idle";
+		normalState_ << "Idle";
 		return;
 	}
 
 	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
 	{
 		bGround_ = false;
-		state_ << "Jump";
+		normalState_ << "Jump";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		state_ << "Jump";
+		normalState_ << "Jump";
 		return;
 	}
 
@@ -385,7 +439,7 @@ void Player::updateRun(float _deltaTime)
 	//if (GameEngineInput::GetInstance().IsKeyFree("Left") && GameEngineInput::GetInstance().IsKeyFree("Right")&&
 	//	GameEngineInput::GetInstance().IsKeyFree("Up") && GameEngineInput::GetInstance().IsKeyFree("Down"))
 	//{
-	//	state_ << "Idle";
+	//	normalState_ << "Idle";
 	//}
 }
 
@@ -412,7 +466,7 @@ void Player::updateJump(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 
@@ -443,7 +497,7 @@ void Player::updateJump(float _deltaTime)
 			bGround_ = true;
 			bCanJump_ = true;
 			bCanDash_ = true;
-			state_ << "Idle";
+			normalState_ << "Idle";
 			return;
 		}
 	}
@@ -483,7 +537,7 @@ void Player::updateDownJump(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 
@@ -510,7 +564,7 @@ void Player::updateDownJump(float _deltaTime)
 			bGround_ = true;
 			bCanJump_ = true;
 			bCanDash_ = true;
-			state_ << "Idle";
+			normalState_ << "Idle";
 			return;
 		}
 	}
@@ -556,7 +610,7 @@ void Player::updateDash(float _deltaTime)
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		renderer_->SetLocationX(0.0f);
-		state_ << "Idle";
+		normalState_ << "Idle";
 		return;
 	}
 
@@ -588,22 +642,30 @@ void Player::updateDuck(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		state_ << "Jump";
+		if (float4::BLUE == Map::GetColor(groundCheckCollision_))
+		{
+			bGround_ = false;
+			normalState_ << "DownJump";
+		}
+		else
+		{
+			normalState_ << "Jump";
+		}
 		return;
 	}
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 	if (!GameEngineInput::GetInstance().IsKeyPress("Down"))
 	{
-		state_ << "StandUp";
+		normalState_ << "StandUp";
 		return;
 	}
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
-		state_ << "DuckIdle";
+		normalState_ << "DuckIdle";
 		return;
 	}
 }
@@ -620,30 +682,36 @@ void Player::updateDuckIdle(float _deltaTime)
 		if (float4::BLUE == Map::GetColor(groundCheckCollision_))
 		{
 			bGround_ = false;
-			state_ << "DownJump";
+			normalState_ << "DownJump";
 		}
 		else
 		{
-			state_ << "Jump";
+			normalState_ << "Jump";
 		}
+		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("C"))
+	{
+		normalState_ << "Lock";
 		return;
 	}
 
 	if (!GameEngineInput::GetInstance().IsKeyPress("Down"))
 	{
-		state_ << "StandUp";
+		normalState_ << "StandUp";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("X"))
 	{
-		state_ << "ShootWhileDucking";
+		normalState_ << "ShootWhileDucking";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
@@ -665,17 +733,17 @@ void Player::updateStandUp(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		state_ << "Jump";
+		normalState_ << "Jump";
 		return;
 	}
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 	if (1 == renderer_->GetCurrentAnimation()->CurFrame_)
 	{
-		state_ << "Idle";
+		normalState_ << "Idle";
 		return;
 	}
 }
@@ -689,22 +757,21 @@ void Player::updateShoot(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 
 	if (!GameEngineInput::GetInstance().IsKeyPress("X"))
 	{
-		state_ << "Idle";
+		normalState_ << "Idle";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		state_ << "ShootWhileJumping";
+		normalState_ << "Jump";
 		return;
 	}
-
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Up"))
 	{
@@ -712,7 +779,7 @@ void Player::updateShoot(float _deltaTime)
 	}
 	else if (GameEngineInput::GetInstance().IsKeyPress("Down"))
 	{
-		state_ << "ShootWhileDucking";
+		normalState_ << "ShootWhileDucking";
 		return;
 	}
 	else
@@ -723,13 +790,13 @@ void Player::updateShoot(float _deltaTime)
 	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 	{
 		bLeft_ = true;
-		state_ << "ShootWhileRunning";
+		normalState_ << "ShootWhileRunning";
 		return;
 	}
 	else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 	{
 		bLeft_ = false;
-		state_ << "ShootWhileRunning";
+		normalState_ << "ShootWhileRunning";
 		return;
 	}
 }
@@ -743,25 +810,25 @@ void Player::updateLock(float _deltaTime)
 {
 	if (!GameEngineInput::GetInstance().IsKeyPress("C"))
 	{
-		state_ << "Idle";
+		normalState_ << "Idle";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		state_ << "Jump";
+		normalState_ << "Jump";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("X"))
 	{
-		state_ << "LockedShot";
+		normalState_ << "LockedShot";
 		return;
 	}
 
@@ -822,25 +889,25 @@ void Player::updateLockedShot(float _deltaTime)
 {
 	if (!GameEngineInput::GetInstance().IsKeyPress("C"))
 	{
-		state_ << "Shoot";
+		normalState_ << "Shoot";
 		return;
 	}
 
 	if (!GameEngineInput::GetInstance().IsKeyPress("X"))
 	{
-		state_ << "Lock";
+		normalState_ << "Lock";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		state_ << "ShootWhileJumping";
+		normalState_ << "Jump";
 		return;
 	}
 
@@ -901,25 +968,37 @@ void Player::updateShootWhileDucking(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		state_ << "ShootWhileJumping";
+		normalState_ << "Jump";
 		return;
 	}
 
 	if (!GameEngineInput::GetInstance().IsKeyPress("X"))
 	{
-		state_ << "DuckIdle";
+		normalState_ << "DuckIdle";
 		return;
 	}
 
 	if (!GameEngineInput::GetInstance().IsKeyPress("Down"))
 	{
-		state_ << "Shoot";
+		normalState_ << "StandUp";
+		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("C"))
+	{
+		normalState_ << "LockedShot";
+		return;
+	}
+
+	if (!GameEngineInput::GetInstance().IsKeyPress("Down"))
+	{
+		normalState_ << "Shoot";
 		return;
 	}
 
@@ -942,25 +1021,25 @@ void Player::updateShootWhileRunning(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
-		state_ << "Dash";
+		normalState_ << "Dash";
 		return;
 	}
 
 	if (!GameEngineInput::GetInstance().IsKeyPress("X"))
 	{
-		state_ << "Run";
+		normalState_ << "Run";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("C"))
 	{
-		state_ << "LockedShot";
+		normalState_ << "LockedShot";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Down"))
 	{
-		state_ << "ShootWhileDucking";
+		normalState_ << "ShootWhileDucking";
 		return;
 	}
 
@@ -1000,106 +1079,20 @@ void Player::updateShootWhileRunning(float _deltaTime)
 	}
 	else
 	{
-		state_ << "Shoot";
+		normalState_ << "Shoot";
 		return;
 	}
 
 	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
 	{
 		bGround_ = false;
-		state_ << "ShootWhileJumping";
+		normalState_ << "Jump";
 		return;
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		state_ << "ShootWhileJumping";
+		normalState_ << "Jump";
 		return;
-	}
-}
-
-void Player::startShootWhileJumping(float _deltaTime)
-{
-	if (bGround_)
-	{
-		bCanJump_ = true;
-		jumpTime_ = 0.2f;
-		gravitySpeed_ = JUMP_POWER;
-		transform_->AddLocation(0.0f, 10.0f);
-	}
-	else
-	{
-		bCanJump_ = false;
-	}
-
-	renderer_->ChangeAnimation("Air");
-}
-
-void Player::updateShootWhileJumping(float _deltaTime)
-{
-	bGround_ = false;
-
-	if (!GameEngineInput::GetInstance().IsKeyPress("X"))
-	{
-		state_ << "Jump";
-		return;
-	}
-
-	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
-	{
-		state_ << "Dash";
-		return;
-	}
-
-	if (bCanJump_)
-	{
-		jumpTime_ -= _deltaTime;
-		transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
-		if (jumpTime_ > 0.1f)
-		{
-
-		}
-		else if (true == GameEngineInput::GetInstance().IsKeyFree("Z") || jumpTime_ < 0.0f)
-		{
-			gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
-			bCanJump_ = false;
-		}
-	}
-	else
-	{
-		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_))
-		{
-			bGround_ = false;
-			transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
-			gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
-		}
-		else
-		{
-			bGround_ = true;
-			bCanJump_ = true;
-			bCanDash_ = true;
-			state_ << "Idle";
-			return;
-		}
-	}
-
-	// ¿òÁ÷ÀÓ
-	{
-		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
-		{
-			if (float4::BLACK != Map::GetColor(leftSideCollision_))
-			{
-				transform_->AddLocation(-MOVE_SPEED * _deltaTime, 0.0f);
-			}
-			bLeft_ = true;
-		}
-		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
-		{
-			if (float4::BLACK != Map::GetColor(rightSideCollision_))
-			{
-				transform_->AddLocation(MOVE_SPEED * _deltaTime, 0.0f);
-			}
-			bLeft_ = false;
-		}
 	}
 }

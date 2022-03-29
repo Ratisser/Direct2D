@@ -33,6 +33,15 @@ private:
 private:
 	// PlayerState
 #pragma region PlayerState
+	void startNormalState(float _deltaTime);
+	void updateNormalState(float _deltaTime);
+
+	void startShootState(float _deltaTime);
+	void updateShootState(float _deltaTime);
+
+	void startDamagedState(float _deltaTime);
+	void updateDamagedState(float _deltaTime);
+
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
@@ -75,9 +84,6 @@ private:
 	void startShootWhileRunning(float _deltaTime);
 	void updateShootWhileRunning(float _deltaTime);
 
-	void startShootWhileJumping(float _deltaTime);
-	void updateShootWhileJumping(float _deltaTime);
-
 #pragma endregion
 
 private:
@@ -88,6 +94,7 @@ private:
 
 private:
 	GameEngineFSM state_;
+	GameEngineFSM normalState_;
 	GameEngineImageRenderer* renderer_;
 	GameEngineCollision* collider_;
 
@@ -96,6 +103,8 @@ private:
 	GameEngineCollision* leftSideCollision_;
 	GameEngineCollision* rightSideCollision_;
 	GameEngineCollision* headCollision_;
+
+	GameEngineTransformComponent* bulletSpawnLocation_;
 
 	bool bLeft_;
 
