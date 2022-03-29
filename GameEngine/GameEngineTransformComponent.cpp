@@ -109,7 +109,7 @@ void GameEngineTransformComponent::AddLocation(float _x, float _y, float _z)
 
 void GameEngineTransformComponent::AddLocation(const float4& _location)
 {
-	location_ = _location;
+	location_ += _location;
 }
 
 float4 GameEngineTransformComponent::GetScale() const
