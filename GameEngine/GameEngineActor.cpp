@@ -3,12 +3,16 @@
 #include "GameEngineLevel.h"
 #include "GameEngineRenderer.h"
 
+#include "GameEngine\GameEngineTransformComponent.h"
+
 GameEngineActor::GameEngineActor()
 	: level_(nullptr)
 	, bDestroyed_(false)
 	, aliveTime_(-1.f)
 {
-	transform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
+	transform_ = new GameEngineTransformComponent();
+	transform_->InitComponent(this);
+	transform_->Start();
 }
 
 GameEngineActor::~GameEngineActor()
