@@ -297,7 +297,7 @@ void Player::updateShootState(float _deltaTime)
 		Peashot* newShot = level_->CreateActor<Peashot>("Pea");
 		newShot->GetTransform()->SetLocation(bulletSpawnLocation_->GetWorldLocation());
 		newShot->InitBullet(bLeft_, bulletDirection_, bulletRotation_);
-		shootDelay_ = 0.1f;
+		shootDelay_ = 0.12f;
 	}
 	normalState_.Update(_deltaTime);
 }

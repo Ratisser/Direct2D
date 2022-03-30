@@ -38,7 +38,7 @@ void TutorialMap::Start()
 	GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
 	r->SetTexture("tutorial_room_front_layer_0001.png", false);
 	r->SetScale(1280.f, 720.f);
-	r->SetLocationZ(-1.0f);
+	r->SetLocationZ(-5.0f);
 }
 
 void TutorialMap::Update(float _deltaTime)
