@@ -5,9 +5,11 @@
 
 Peashot::Peashot()
 	: direction_(float4::RIGHT)
+	, rotation_(float4::ZERO)
 	, lifeTime_(2.0f)
 	, renderer_(nullptr)
 	, collision_(nullptr)
+	, bLeft_(false)
 {
 
 }
@@ -38,12 +40,25 @@ void Peashot::Start()
 void Peashot::Update(float _deltaTime)
 {
 	state_.Update(_deltaTime);
+
+	renderer_->SetRotation(rotation_);
+
+	if (bLeft_)
+	{
+		renderer_->SetFlip(true, false);
+	}
+	else
+	{
+		renderer_->SetFlip(false, false);
+	}
 }
 
-void Peashot::InitBullet(const float4& _direction, float _lifeTime)
+void Peashot::InitBullet(bool _bLeft, const float4& _direction, const float4& _rotation, float _lifeTime)
 {
 	direction_ = _direction;
+	rotation_ = _rotation;
 	lifeTime_ = _lifeTime;
+	bLeft_ = _bLeft;
 }
 
 void Peashot::startIdle(float _deltaTime)

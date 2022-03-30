@@ -104,7 +104,11 @@ private:
 	GameEngineCollision* rightSideCollision_;
 	GameEngineCollision* headCollision_;
 
+	GameEngineTransformComponent* bulletSpawnParentLocation_;
 	GameEngineTransformComponent* bulletSpawnLocation_;
+
+	float4 bulletDirection_;
+	float4 bulletRotation_;
 
 	bool bLeft_;
 

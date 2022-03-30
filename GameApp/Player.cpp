@@ -31,6 +31,10 @@ Player::Player()
 	, gravitySpeed_(0.0f)
 	, jumpTime_(0.0f)
 	, shootDelay_(0.0f)
+	, bulletSpawnParentLocation_(nullptr)
+	, bulletSpawnLocation_(nullptr)
+	, bulletDirection_(float4::RIGHT)
+	, bulletRotation_(float4::ZERO)
 {
 
 }
@@ -46,6 +50,9 @@ void Player::Start()
 	initRendererAndAnimation();
 	initState();
 	initCollision();
+	
+	bulletSpawnParentLocation_ = CreateTransformComponent<GameEngineTransformComponent>(transform_);
+	bulletSpawnLocation_ = CreateTransformComponent<GameEngineTransformComponent>(bulletSpawnParentLocation_);
 }
 
 void Player::Update(float _deltaTime)
@@ -249,6 +256,11 @@ void Player::addGravity(float _deltaTime)
 		bCanJump_ = true;
 		transform_->SetLocationY(static_cast<float>(static_cast<int>(transform_->GetLocation().y)));
 	}
+
+	if (float4::BLACK == Map::GetColor(bottomCenterCollision_) || float4::BLUE == Map::GetColor(bottomCenterCollision_))
+	{
+		transform_->AddLocation(0.0f, 1.0f);
+	}
 }
 
 void Player::startNormalState(float _deltaTime)
@@ -283,8 +295,8 @@ void Player::updateShootState(float _deltaTime)
 	if (shootDelay_ < 0.0f)
 	{
 		Peashot* newShot = level_->CreateActor<Peashot>("Pea");
-		float4 newShotLocation = transform_->GetWorldLocation();
-		newShot->GetTransform()->SetLocation(newShotLocation);
+		newShot->GetTransform()->SetLocation(bulletSpawnLocation_->GetWorldLocation());
+		newShot->InitBullet(bLeft_, bulletDirection_, bulletRotation_);
 		shootDelay_ = 0.1f;
 	}
 	normalState_.Update(_deltaTime);
@@ -301,6 +313,17 @@ void Player::updateDamagedState(float _deltaTime)
 void Player::startIdle(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Idle");
+	if (bLeft_)
+	{
+		bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+		bulletDirection_ = float4::LEFT;
+	}
+	else
+	{
+		bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+		bulletDirection_ = float4::RIGHT;
+	}
+	bulletRotation_ = float4::ZERO;
 }
 
 void Player::updateIdle(float _deltaTime)
@@ -458,6 +481,19 @@ void Player::startJump(float _deltaTime)
 		bCanJump_ = false;
 	}
 
+
+	if (bLeft_)
+	{
+		bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+		bulletDirection_ = float4::LEFT;
+	}
+	else
+	{
+		bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+		bulletDirection_ = float4::RIGHT;
+	}
+	bulletRotation_ = float4::ZERO;
+
 	renderer_->ChangeAnimation("Air");
 }
 
@@ -503,24 +539,99 @@ void Player::updateJump(float _deltaTime)
 		}
 	}
 
-	// 움직임
+	// 총알 쏘는 방향
+	if (GameEngineInput::GetInstance().IsKeyPress("Up"))
 	{
 		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 		{
-			if (float4::BLACK != Map::GetColor(leftSideCollision_))
-			{
-				transform_->AddLocation(-MOVE_SPEED * _deltaTime, 0.0f);
-			}
-			bLeft_ = true;
+			bulletSpawnParentLocation_->SetLocation(-100.f, 150.f);
+			bulletDirection_ = { -0.5f, 0.5f };
+			bulletRotation_.z = -45.f * GameEngineMath::DegreeToRadian;
 		}
 		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 		{
-			if (float4::BLACK != Map::GetColor(rightSideCollision_))
-			{
-				transform_->AddLocation(MOVE_SPEED * _deltaTime, 0.0f);
-			}
-			bLeft_ = false;
+			bulletSpawnParentLocation_->SetLocation(100.f, 150.f);
+			bulletDirection_ = { 0.5f, 0.5f };
+			bulletRotation_.z = 45.f * GameEngineMath::DegreeToRadian;
 		}
+		else
+		{
+			if (bLeft_)
+			{
+				bulletSpawnParentLocation_->SetLocation(-20.f, 150.f);
+				bulletDirection_ = float4::UP;
+				bulletRotation_.z = -90.f * GameEngineMath::DegreeToRadian;
+			}
+			else
+			{
+				bulletSpawnParentLocation_->SetLocation(20.f, 150.f);
+				bulletDirection_ = float4::UP;
+				bulletRotation_.z = 90.f * GameEngineMath::DegreeToRadian;
+			}
+		}
+	}
+	else if (GameEngineInput::GetInstance().IsKeyPress("Down"))
+	{
+		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+		{
+			bulletSpawnParentLocation_->SetLocation(-100.f, 0.0f);
+			bulletDirection_ = { -0.5f, -0.5f };
+			bulletRotation_.z = 45.f * GameEngineMath::DegreeToRadian;
+		}
+		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+		{
+			bulletSpawnParentLocation_->SetLocation(100.f, 0.0f);
+			bulletDirection_ = { 0.5f, -0.5f };
+			bulletRotation_.z = -45.f * GameEngineMath::DegreeToRadian;
+		}
+		else
+		{
+			if (bLeft_)
+			{
+				bulletSpawnParentLocation_->SetLocation(-20.f, 0.f);
+				bulletDirection_ = float4::DOWN;
+				bulletRotation_.z = -90.f * GameEngineMath::DegreeToRadian;
+			}
+			else
+			{
+				bulletSpawnParentLocation_->SetLocation(20.f, 0.f);
+				bulletDirection_ = float4::DOWN;
+				bulletRotation_.z = 90.f * GameEngineMath::DegreeToRadian;
+			}
+		}
+	}
+	else
+	{
+		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+		{
+			bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+			bulletDirection_ = float4::LEFT;
+			bulletRotation_.z = 0.0f;
+		}
+		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+		{			
+			bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+			bulletDirection_ = float4::RIGHT;
+			bulletRotation_.z = 0.0f;
+		}
+	}
+
+	// 움직임
+	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+	{
+		if (float4::BLACK != Map::GetColor(leftSideCollision_))
+		{
+			transform_->AddLocation(-MOVE_SPEED * _deltaTime, 0.0f);
+		}
+		bLeft_ = true;
+	}
+	else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+	{
+		if (float4::BLACK != Map::GetColor(rightSideCollision_))
+		{
+			transform_->AddLocation(MOVE_SPEED * _deltaTime, 0.0f);
+		}
+		bLeft_ = false;
 	}
 }
 
@@ -679,6 +790,8 @@ void Player::startDuckIdle(float _deltaTime)
 
 void Player::updateDuckIdle(float _deltaTime)
 {
+	addGravity(_deltaTime);
+
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
 		if (float4::BLUE == Map::GetColor(groundCheckCollision_))
@@ -753,10 +866,23 @@ void Player::updateStandUp(float _deltaTime)
 void Player::startShoot(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Shoot_Straight");
+
+	if (bLeft_)
+	{
+		bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+		bulletDirection_ = float4::LEFT;
+	}
+	else
+	{
+		bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+		bulletDirection_ = float4::RIGHT;
+	}
+	bulletRotation_ = float4::ZERO;
 }
 
 void Player::updateShoot(float _deltaTime)
 {
+	addGravity(_deltaTime);
 	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
 	{
 		bGround_ = false;
@@ -784,6 +910,18 @@ void Player::updateShoot(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Up"))
 	{
+		if (bLeft_)
+		{
+			bulletSpawnParentLocation_->SetLocation(-20.f, 150.f);
+			bulletDirection_ = float4::UP;
+			bulletRotation_.z = -90.f * GameEngineMath::DegreeToRadian;
+		}
+		else
+		{
+			bulletSpawnParentLocation_->SetLocation(20.f, 150.f);
+			bulletDirection_ = float4::UP;
+			bulletRotation_.z = 90.f * GameEngineMath::DegreeToRadian;
+		}
 		renderer_->ChangeAnimation("Shoot_Up");
 	}
 	else if (GameEngineInput::GetInstance().IsKeyPress("Down"))
@@ -817,6 +955,8 @@ void Player::startLock(float _deltaTime)
 
 void Player::updateLock(float _deltaTime)
 {
+	addGravity(_deltaTime);
+
 	if (!GameEngineInput::GetInstance().IsKeyPress("C"))
 	{
 		normalState_ << "Idle";
@@ -892,10 +1032,23 @@ void Player::updateLock(float _deltaTime)
 void Player::startLockedShot(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Shoot_Straight");
+	if (bLeft_)
+	{
+		bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+		bulletDirection_ = float4::LEFT;
+	}
+	else
+	{
+		bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+		bulletDirection_ = float4::RIGHT;
+	}
+	bulletRotation_ = float4::ZERO;
 }
 
 void Player::updateLockedShot(float _deltaTime)
 {
+	addGravity(_deltaTime);
+
 	if (!GameEngineInput::GetInstance().IsKeyPress("C"))
 	{
 		normalState_ << "Shoot";
@@ -924,16 +1077,35 @@ void Player::updateLockedShot(float _deltaTime)
 	{
 		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 		{
+			bulletSpawnParentLocation_->SetLocation(-100.f, 150.f);
+			bulletDirection_ = { -0.5f, 0.5f };
+			bulletRotation_.z = -45.f * GameEngineMath::DegreeToRadian;
 			renderer_->ChangeAnimation("Shoot_DiagonalUp");
 			bLeft_ = true;
 		}
 		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 		{
+			bulletSpawnParentLocation_->SetLocation(100.f, 150.f);
+			bulletDirection_ = { 0.5f, 0.5f };
+			bulletRotation_.z = 45.f * GameEngineMath::DegreeToRadian;
 			renderer_->ChangeAnimation("Shoot_DiagonalUp");
 			bLeft_ = false;
 		}
 		else
 		{
+			if (bLeft_)
+			{
+				bulletSpawnParentLocation_->SetLocation(-20.f, 150.f);
+				bulletDirection_ = float4::UP;
+				bulletRotation_.z = -90.f * GameEngineMath::DegreeToRadian;
+			}
+			else
+			{
+				bulletSpawnParentLocation_->SetLocation(20.f, 150.f);
+				bulletDirection_ = float4::UP;
+				bulletRotation_.z = 90.f * GameEngineMath::DegreeToRadian;
+			}
+
 			renderer_->ChangeAnimation("Shoot_Up");
 		}
 	}
@@ -941,16 +1113,35 @@ void Player::updateLockedShot(float _deltaTime)
 	{
 		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 		{
+			bulletSpawnParentLocation_->SetLocation(-100.f, 0.0f);
+			bulletDirection_ = { -0.5f, -0.5f };
+			bulletRotation_.z = 45.f * GameEngineMath::DegreeToRadian;
 			renderer_->ChangeAnimation("Shoot_DiagonalDown");
 			bLeft_ = true;
 		}
 		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 		{
+			bulletSpawnParentLocation_->SetLocation(100.f, 0.0f);
+			bulletDirection_ = { 0.5f, -0.5f };
+			bulletRotation_.z = -45.f * GameEngineMath::DegreeToRadian;
 			renderer_->ChangeAnimation("Shoot_DiagonalDown");
 			bLeft_ = false;
 		}
 		else
 		{
+			if (bLeft_)
+			{
+				bulletSpawnParentLocation_->SetLocation(-20.f, 0.f);
+				bulletDirection_ = float4::DOWN;
+				bulletRotation_.z = -90.f * GameEngineMath::DegreeToRadian;
+			}
+			else
+			{
+				bulletSpawnParentLocation_->SetLocation(20.f, 0.f);
+				bulletDirection_ = float4::DOWN;
+				bulletRotation_.z = 90.f * GameEngineMath::DegreeToRadian;
+			}
+
 			renderer_->ChangeAnimation("Shoot_Down");
 		}
 	}
@@ -959,10 +1150,16 @@ void Player::updateLockedShot(float _deltaTime)
 		renderer_->ChangeAnimation("Shoot_Straight");
 		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 		{
+			bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+			bulletDirection_ = float4::LEFT;
+			bulletRotation_ = float4::ZERO;
 			bLeft_ = true;
 		}
 		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 		{
+			bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+			bulletDirection_ = float4::RIGHT;
+			bulletRotation_ = float4::ZERO;
 			bLeft_ = false;
 		}
 	}
@@ -971,10 +1168,24 @@ void Player::updateLockedShot(float _deltaTime)
 void Player::startShootWhileDucking(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Duck_Shoot");
+
+	if (bLeft_)
+	{
+		bulletSpawnParentLocation_->SetLocation(-100.f, 30.f);
+		bulletDirection_ = float4::LEFT;
+	}
+	else
+	{
+		bulletSpawnParentLocation_->SetLocation(100.f, 30.f);
+		bulletDirection_ = float4::RIGHT;
+	}
+	bulletRotation_ = float4::ZERO;
 }
 
 void Player::updateShootWhileDucking(float _deltaTime)
 {
+	addGravity(_deltaTime);
+
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		normalState_ << "Dash";
@@ -983,7 +1194,15 @@ void Player::updateShootWhileDucking(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		normalState_ << "Jump";
+		if (float4::BLUE == Map::GetColor(groundCheckCollision_))
+		{
+			bGround_ = false;
+			normalState_ << "DownJump";
+		}
+		else
+		{
+			normalState_ << "Jump";
+		}
 		return;
 	}
 
@@ -1013,10 +1232,14 @@ void Player::updateShootWhileDucking(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 	{
+		bulletSpawnParentLocation_->SetLocation(-100.f, 30.f);
+		bulletDirection_ = float4::LEFT;
 		bLeft_ = true;
 	}
 	else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 	{
+		bulletSpawnParentLocation_->SetLocation(100.f, 30.f);
+		bulletDirection_ = float4::RIGHT;
 		bLeft_ = false;
 	}
 }
@@ -1024,10 +1247,24 @@ void Player::updateShootWhileDucking(float _deltaTime)
 void Player::startShootWhileRunning(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Run_Shoot_Straight");
+
+	if (bLeft_)
+	{
+		bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+		bulletDirection_ = float4::LEFT;
+	}
+	else
+	{
+		bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+		bulletDirection_ = float4::RIGHT;
+	}
+	bulletRotation_ = float4::ZERO;
 }
 
 void Player::updateShootWhileRunning(float _deltaTime)
 {
+	addGravity(_deltaTime);
+
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		normalState_ << "Dash";
@@ -1056,10 +1293,16 @@ void Player::updateShootWhileRunning(float _deltaTime)
 	{
 		if (GameEngineInput::GetInstance().IsKeyPress("Up"))
 		{
+			bulletSpawnParentLocation_->SetLocation(-100.f, 150.f);
+			bulletDirection_ = { -0.5f, 0.5f };
+			bulletRotation_.z = -45.f * GameEngineMath::DegreeToRadian;
 			renderer_->ChangeAnimation("Run_Shoot_DiagonalUp");
 		}
 		else
 		{
+			bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+			bulletDirection_ = float4::LEFT;
+			bulletRotation_ = float4::ZERO;
 			renderer_->ChangeAnimation("Run_Shoot_Straight");
 		}
 
@@ -1073,10 +1316,16 @@ void Player::updateShootWhileRunning(float _deltaTime)
 	{
 		if (GameEngineInput::GetInstance().IsKeyPress("Up"))
 		{
+			bulletSpawnParentLocation_->SetLocation(100.f, 150.f);
+			bulletDirection_ = { 0.5f, 0.5f };
+			bulletRotation_.z = 45.f * GameEngineMath::DegreeToRadian;
 			renderer_->ChangeAnimation("Run_Shoot_DiagonalUp");
 		}
 		else
 		{
+			bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+			bulletDirection_ = float4::RIGHT;
+			bulletRotation_ = float4::ZERO;
 			renderer_->ChangeAnimation("Run_Shoot_Straight");
 		}
 

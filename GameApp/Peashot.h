@@ -21,7 +21,7 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 public:
-	void InitBullet(const float4& _direction, float _lifeTime);
+	void InitBullet(bool _bLeft, const float4& _direction, const float4& _rotation, float _lifeTime = 2.0f);
 
 private:
 	void startIdle(float _deltaTime);
@@ -35,6 +35,9 @@ private:
 	GameEngineCollision* collision_;
 	GameEngineFSM state_;
 	float4 direction_;
+	float4 rotation_;
 	float lifeTime_;
+
+	bool bLeft_;
 };
 
