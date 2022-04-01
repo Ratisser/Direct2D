@@ -14,6 +14,7 @@ private:
 	{
 	public:
 		GameEngineFolderTexture* FolderTextures_;
+		std::string Name_;
 		float InterTime_;
 		float CurTime_;
 

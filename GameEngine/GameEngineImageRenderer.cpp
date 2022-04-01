@@ -202,7 +202,7 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 
 
 	Animation2D* NewAnimation = new Animation2D();
-
+	NewAnimation->Name_ = _Name;
 	NewAnimation->IsEnd_ = false;
 	NewAnimation->Loop_ = _Loop;
 	NewAnimation->InterTime_ = _InterTime;

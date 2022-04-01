@@ -61,6 +61,23 @@ void Player::Update(float _deltaTime)
 
 	//GameEngineDebug::OutPutDebugString(normalState_.GetCurrentStateName() + "\n");
 
+	static const char* tempString = "Shoot_Straight";
+	static const char* tempString2 = "Run_Shoot_Straight";
+	static const char* tempString3 = "Duck_Shoot";
+	static float bulletPositionY = 0.0f;
+
+	const char* str = renderer_->GetCurrentAnimation()->Name_.c_str();
+	if (!strcmp(tempString, str) || !strcmp(tempString2, str) || !strcmp(tempString3, str))
+	{
+		bulletPositionY += _deltaTime * 7.f;
+		float a = sinf(bulletPositionY) * 25.f;
+		bulletSpawnLocation_->SetLocationY(a);
+	}
+	else
+	{
+		bulletSpawnLocation_->SetLocationY(0.0f);
+	}
+
 	if (bLeft_)
 	{
 		renderer_->SetFlip(true, false);
@@ -100,7 +117,7 @@ void Player::initRendererAndAnimation()
 
 	renderer_->CreateAnimationFolder("Intro", "Intro");
 	renderer_->CreateAnimationFolder("Idle", "Idle", 0.04f);
-	renderer_->CreateAnimationFolder("Run", "Run", 0.04f);
+	renderer_->CreateAnimationFolder("Run", "Run", 0.033f);
 	renderer_->CreateAnimationFolder("Air", "Air", 0.04f);
 
 	renderer_->CreateAnimationFolder("Aim_Straight");
@@ -315,12 +332,12 @@ void Player::startIdle(float _deltaTime)
 	renderer_->ChangeAnimation("Idle");
 	if (bLeft_)
 	{
-		bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+		bulletSpawnParentLocation_->SetLocation(-100.f, 60.f);
 		bulletDirection_ = float4::LEFT;
 	}
 	else
 	{
-		bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+		bulletSpawnParentLocation_->SetLocation(100.f, 60.f);
 		bulletDirection_ = float4::RIGHT;
 	}
 	bulletRotation_ = float4::ZERO;
@@ -484,12 +501,12 @@ void Player::startJump(float _deltaTime)
 
 	if (bLeft_)
 	{
-		bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+		bulletSpawnParentLocation_->SetLocation(-100.f, 60.f);
 		bulletDirection_ = float4::LEFT;
 	}
 	else
 	{
-		bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+		bulletSpawnParentLocation_->SetLocation(100.f, 60.f);
 		bulletDirection_ = float4::RIGHT;
 	}
 	bulletRotation_ = float4::ZERO;
@@ -604,13 +621,13 @@ void Player::updateJump(float _deltaTime)
 	{
 		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 		{
-			bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+			bulletSpawnParentLocation_->SetLocation(-100.f, 60.f);
 			bulletDirection_ = float4::LEFT;
 			bulletRotation_.z = 0.0f;
 		}
 		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 		{			
-			bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+			bulletSpawnParentLocation_->SetLocation(100.f, 60.f);
 			bulletDirection_ = float4::RIGHT;
 			bulletRotation_.z = 0.0f;
 		}
@@ -869,12 +886,12 @@ void Player::startShoot(float _deltaTime)
 
 	if (bLeft_)
 	{
-		bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+		bulletSpawnParentLocation_->SetLocation(-100.f, 60.f);
 		bulletDirection_ = float4::LEFT;
 	}
 	else
 	{
-		bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+		bulletSpawnParentLocation_->SetLocation(100.f, 60.f);
 		bulletDirection_ = float4::RIGHT;
 	}
 	bulletRotation_ = float4::ZERO;
@@ -1034,12 +1051,12 @@ void Player::startLockedShot(float _deltaTime)
 	renderer_->ChangeAnimation("Shoot_Straight");
 	if (bLeft_)
 	{
-		bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+		bulletSpawnParentLocation_->SetLocation(-100.f, 60.f);
 		bulletDirection_ = float4::LEFT;
 	}
 	else
 	{
-		bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+		bulletSpawnParentLocation_->SetLocation(100.f, 60.f);
 		bulletDirection_ = float4::RIGHT;
 	}
 	bulletRotation_ = float4::ZERO;
@@ -1150,14 +1167,14 @@ void Player::updateLockedShot(float _deltaTime)
 		renderer_->ChangeAnimation("Shoot_Straight");
 		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 		{
-			bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+			bulletSpawnParentLocation_->SetLocation(-100.f, 60.f);
 			bulletDirection_ = float4::LEFT;
 			bulletRotation_ = float4::ZERO;
 			bLeft_ = true;
 		}
 		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 		{
-			bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+			bulletSpawnParentLocation_->SetLocation(100.f, 60.f);
 			bulletDirection_ = float4::RIGHT;
 			bulletRotation_ = float4::ZERO;
 			bLeft_ = false;
@@ -1250,12 +1267,12 @@ void Player::startShootWhileRunning(float _deltaTime)
 
 	if (bLeft_)
 	{
-		bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+		bulletSpawnParentLocation_->SetLocation(-100.f, 60.f);
 		bulletDirection_ = float4::LEFT;
 	}
 	else
 	{
-		bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+		bulletSpawnParentLocation_->SetLocation(100.f, 60.f);
 		bulletDirection_ = float4::RIGHT;
 	}
 	bulletRotation_ = float4::ZERO;
@@ -1300,7 +1317,7 @@ void Player::updateShootWhileRunning(float _deltaTime)
 		}
 		else
 		{
-			bulletSpawnParentLocation_->SetLocation(-100.f, 50.f);
+			bulletSpawnParentLocation_->SetLocation(-100.f, 60.f);
 			bulletDirection_ = float4::LEFT;
 			bulletRotation_ = float4::ZERO;
 			renderer_->ChangeAnimation("Run_Shoot_Straight");
@@ -1323,7 +1340,7 @@ void Player::updateShootWhileRunning(float _deltaTime)
 		}
 		else
 		{
-			bulletSpawnParentLocation_->SetLocation(100.f, 50.f);
+			bulletSpawnParentLocation_->SetLocation(100.f, 60.f);
 			bulletDirection_ = float4::RIGHT;
 			bulletRotation_ = float4::ZERO;
 			renderer_->ChangeAnimation("Run_Shoot_Straight");

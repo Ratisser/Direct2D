@@ -6,7 +6,7 @@
 Peashot::Peashot()
 	: direction_(float4::RIGHT)
 	, rotation_(float4::ZERO)
-	, lifeTime_(2.0f)
+	, lifeTime_(0.5f)
 	, renderer_(nullptr)
 	, collision_(nullptr)
 	, bLeft_(false)
