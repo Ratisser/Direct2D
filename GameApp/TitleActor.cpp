@@ -37,10 +37,11 @@ void TitleActor::Start()
 
     titleRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
     titleRenderer_->SetTexture("title_screen_background.png", true);
+    titleRenderer_->SetLocationZ(1.0f);
 
     GameEngineTransformComponent* cupheadTransform = CreateTransformComponent<GameEngineTransformComponent>(GetTransform());
 
-    cupheadTransform->SetLocation(0.0f, -360.f, -1.0f);
+    cupheadTransform->SetLocation(0.0f, -360.f, 0.0f);
 
     GameEngineImageRenderer* cupheadRenderer = CreateTransformComponent<GameEngineImageRenderer>(cupheadTransform);
     cupheadRenderer->CreateAnimationFolder("Idle", "Cuphead", 0.05f);
@@ -63,6 +64,6 @@ void TitleActor::updateStart(float _deltaTime)
     if (GameEngineInput::GetInstance().IsKeyDown("P"))
     {
         bgmPlayer_->Stop();
-        GameEngineCore::ChangeLevel("PlayLevel");
+        GameEngineCore::ChangeLevel("TutorialLevel");
     }
 }

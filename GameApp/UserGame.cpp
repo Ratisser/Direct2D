@@ -36,8 +36,8 @@ void UserGame::loadLevel()
 	CreateLevel<TitleLevel>("TitleLevel");
 	CreateLevel<PlayLevel>("PlayLevel");
 	CreateLevel<TutorialLevel>("TutorialLevel");
-	ChangeLevel("TutorialLevel");
-	//ChangeLevel("TitleLevel");
+	//ChangeLevel("TutorialLevel");
+	ChangeLevel("TitleLevel");
 	//ChangeLevel("PlayLevel");
 }
 
