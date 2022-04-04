@@ -47,6 +47,11 @@ GameEngineCollision* GameEngineCollision::IsCollideOne(int _group)
 
 	for (GameEngineCollision* collision : collisionGroup)
 	{
+		if (collision->IsUpdate() == false)
+		{
+			continue;
+		}
+
 		std::function func = collisionCheckFunction_[static_cast<int>(collisionType_)][static_cast<int>(collision->collisionType_)];
 		if (nullptr == func)
 		{
@@ -71,6 +76,11 @@ std::list<GameEngineCollision*> GameEngineCollision::IsCollide(int _group)
 
 	for (GameEngineCollision* collision : collisionGroup)
 	{
+		if (collision->IsUpdate() == false)
+		{
+			continue;
+		}
+
 		std::function func = collisionCheckFunction_[static_cast<int>(collisionType_)][static_cast<int>(collision->collisionType_)];
 		if (nullptr == func)
 		{
