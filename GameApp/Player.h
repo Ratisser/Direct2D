@@ -22,6 +22,10 @@ public:
 	virtual void Start() override;
 	virtual void Update(float _deltaTime) override;
 
+public:
+	std::string& GetNormalState();
+	std::string& GetParentState();
+
 private:
 	void initRendererAndAnimation();
 	void initInput();
@@ -83,6 +87,9 @@ private:
 
 	void startShootWhileRunning(float _deltaTime);
 	void updateShootWhileRunning(float _deltaTime);
+
+	void startParry(float _deltaTime);
+	void updateParry(float _deltaTime);
 
 #pragma endregion
 
