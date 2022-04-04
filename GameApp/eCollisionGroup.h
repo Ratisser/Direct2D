@@ -5,5 +5,5 @@ enum class eCollisionGroup
 	Player,
 	Monster,
 	Map,
-	ParryObejct
+	ParryObject
 };
