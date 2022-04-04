@@ -91,6 +91,7 @@ private:
 	const float GRAVITY_POWER = 5000.f;
 	const float JUMP_POWER = 800.f;
 	const float DASH_SPEED = 1000.f;
+	const float SHOOT_DELAY = 0.12f;
 
 private:
 	GameEngineFSM state_;
