@@ -134,7 +134,11 @@ float4 GameEngineTransformComponent::GetWorldLocation() const
 
 float4 GameEngineTransformComponent::GetWorldScale() const
 {
-	return scale_ * parent_->scale_;
+	if (parent_)
+	{
+		return scale_ * parent_->scale_;
+	}
+	return scale_;
 }
 
 float4 GameEngineTransformComponent::GetForward() const
