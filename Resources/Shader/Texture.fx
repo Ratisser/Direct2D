@@ -41,6 +41,10 @@ SamplerState Sample : register(s0);
 float4 Texture_PS(PS_INPUT _in) : SV_Target0
 {
     float4 color = Tex.Sample(Sample, float2(_in.TexCoord.xy));
+    if (0.0f == color.a)
+    {
+        clip(-1);
+    }
     return color;
 }
 
