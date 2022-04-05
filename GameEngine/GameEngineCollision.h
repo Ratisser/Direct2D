@@ -29,6 +29,9 @@ public:
 	virtual void Update(float _deltaTime);
 
 public:
+	template<typename T>
+	GameEngineCollision* IsCollideOne(T _group) { return IsCollideOne(static_cast<int>(_group)); }
+
 	GameEngineCollision* IsCollideOne(int _group);
 	std::list<GameEngineCollision*> IsCollide(int _group);
 
