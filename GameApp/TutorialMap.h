@@ -2,6 +2,7 @@
 
 #include "Map.h"
 
+class GameEngineCollision;
 class TutorialMap : public Map
 {
 public:
@@ -17,5 +18,7 @@ public:
 	virtual void Start() override;
 	virtual void Update(float _deltaTime) override;
 
+private:
+	GameEngineCollision* exitDoor_;
 };
 

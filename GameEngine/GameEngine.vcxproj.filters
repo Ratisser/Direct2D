@@ -109,6 +109,9 @@
     <Filter Include="Object\Componenets\Collision">
       <UniqueIdentifier>{c02a6a69-8942-4f62-95d2-2dd30688c285}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\01Shader\EngineShader">
+      <UniqueIdentifier>{294255ed-de5b-4872-8c99-8734068044fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

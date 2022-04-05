@@ -85,6 +85,9 @@
     <Filter Include="GameObject\Actor\ParryObject">
       <UniqueIdentifier>{5350e920-3d2c-419a-840e-c3f7f2d739a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{e47011b2-b438-40b7-8f75-c28ef1d351ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -135,5 +138,19 @@
     <ClInclude Include="ParryObjectTutorial.h">
       <Filter>GameObject\Actor\ParryObject</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Resources\Shader\CbufferHeader.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shader\Color.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shader\Texture.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shader\TextureNoCut.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
