@@ -3,154 +3,169 @@
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
     <ClCompile Include="PreCompile.cpp">
-      <Filter>Precom</Filter>
+      <Filter>00.GameApp\00.Precom</Filter>
     </ClCompile>
     <ClCompile Include="UserGame.cpp">
-      <Filter>UserCore</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>GameObject\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="TutorialLevel.cpp">
-      <Filter>GameObject\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleLevel.cpp">
-      <Filter>GameObject\Level</Filter>
+      <Filter>00.GameApp\01.UserCore</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
-      <Filter>GameObject\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleActor.cpp">
-      <Filter>GameObject\Actor\TitleLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldLevel.cpp">
-      <Filter>GameObject\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="TutorialMap.cpp">
-      <Filter>GameObject\Actor\TutorialLevel</Filter>
+      <Filter>01.GameObject\01.Level</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>GameObject\Actor\Player</Filter>
+      <Filter>01.GameObject\02.Actor\00.Global\Player</Filter>
     </ClCompile>
     <ClCompile Include="MonsterBase.cpp">
-      <Filter>GameObject\Actor\Enemy</Filter>
+      <Filter>01.GameObject\02.Actor\00.Global\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Peashot.cpp">
-      <Filter>GameObject\Actor\PlayerWeapon</Filter>
+      <Filter>01.GameObject\02.Actor\00.Global\Player\PlayerWeapon</Filter>
     </ClCompile>
     <ClCompile Include="ParryObjectBase.cpp">
-      <Filter>GameObject\Actor\ParryObject</Filter>
+      <Filter>01.GameObject\02.Actor\00.Global\ParryObject</Filter>
     </ClCompile>
     <ClCompile Include="ParryObjectTutorial.cpp">
-      <Filter>GameObject\Actor\ParryObject</Filter>
+      <Filter>01.GameObject\02.Actor\00.Global\ParryObject</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>01.GameObject\01.Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialLevel.cpp">
+      <Filter>01.GameObject\01.Level</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldLevel.cpp">
+      <Filter>01.GameObject\01.Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleActor.cpp">
+      <Filter>01.GameObject\02.Actor\01.Level\TitleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialMap.cpp">
+      <Filter>01.GameObject\02.Actor\01.Level\TutorialLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>01.GameObject\02.Actor\00.Global\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Precom">
-      <UniqueIdentifier>{0d0b75c7-5726-42b1-aa92-879451e131c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UserCore">
-      <UniqueIdentifier>{ae1c99fc-5ae2-4958-9205-8018fcb509b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject">
+    <Filter Include="01.GameObject">
       <UniqueIdentifier>{898bd5b8-731c-4894-b0c9-3b13daf35cbb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Level">
-      <UniqueIdentifier>{9d5a936f-250a-403d-9216-e3eb7dbba189}</UniqueIdentifier>
+    <Filter Include="00.GameApp">
+      <UniqueIdentifier>{420ab941-b51c-4120-8251-a5bdf7d688a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserCore\CustomVertex">
+    <Filter Include="00.GameApp\00.Precom">
+      <UniqueIdentifier>{0d0b75c7-5726-42b1-aa92-879451e131c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.GameApp\01.UserCore">
+      <UniqueIdentifier>{ae1c99fc-5ae2-4958-9205-8018fcb509b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.GameApp\01.UserCore\CustomVertex">
       <UniqueIdentifier>{16842167-2534-42db-8026-796a267ad72b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Constant">
-      <UniqueIdentifier>{fbaab9ef-1081-4ee1-a8af-1f91bc456261}</UniqueIdentifier>
+    <Filter Include="00.GameApp\02.Shader">
+      <UniqueIdentifier>{e47011b2-b438-40b7-8f75-c28ef1d351ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Actor">
+    <Filter Include="01.GameObject\01.Level">
+      <UniqueIdentifier>{9d5a936f-250a-403d-9216-e3eb7dbba189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.Actor">
       <UniqueIdentifier>{42a2e9f2-724c-4f93-9426-eecc8eb145fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Actor\TitleLevel">
-      <UniqueIdentifier>{bd13da0e-c7ef-42ac-8494-c6aa2425f89a}</UniqueIdentifier>
+    <Filter Include="01.GameObject\00.Constant">
+      <UniqueIdentifier>{fbaab9ef-1081-4ee1-a8af-1f91bc456261}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Actor\TutorialLevel">
-      <UniqueIdentifier>{4d4c17e6-c9c8-4ac2-ac0b-e6d4355c70c5}</UniqueIdentifier>
+    <Filter Include="01.GameObject\02.Actor\00.Global">
+      <UniqueIdentifier>{e114274d-95a0-4400-b1d5-ae35fe6094b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Actor\Player">
-      <UniqueIdentifier>{f8e3539b-b27e-489c-ae25-64fc4d283644}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Actor\PlayerWeapon">
-      <UniqueIdentifier>{0404191d-f317-45f5-b778-c1dcd2e81894}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Actor\Enemy">
+    <Filter Include="01.GameObject\02.Actor\00.Global\Enemy">
       <UniqueIdentifier>{e81cf8ae-bbc0-4f45-a0cd-62d10336b013}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Actor\ParryObject">
+    <Filter Include="01.GameObject\02.Actor\00.Global\ParryObject">
       <UniqueIdentifier>{5350e920-3d2c-419a-840e-c3f7f2d739a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader">
-      <UniqueIdentifier>{e47011b2-b438-40b7-8f75-c28ef1d351ae}</UniqueIdentifier>
+    <Filter Include="01.GameObject\02.Actor\00.Global\Player">
+      <UniqueIdentifier>{f8e3539b-b27e-489c-ae25-64fc4d283644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.Actor\00.Global\Player\PlayerWeapon">
+      <UniqueIdentifier>{0404191d-f317-45f5-b778-c1dcd2e81894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.Actor\00.Global\Map">
+      <UniqueIdentifier>{ab7e5231-4b7f-48b3-8a60-bc22df94559b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.Actor\01.Level">
+      <UniqueIdentifier>{4fe4443a-794a-46b4-9b95-551ce7848a0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.Actor\01.Level\TutorialLevel">
+      <UniqueIdentifier>{4d4c17e6-c9c8-4ac2-ac0b-e6d4355c70c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.Actor\01.Level\TitleLevel">
+      <UniqueIdentifier>{bd13da0e-c7ef-42ac-8494-c6aa2425f89a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.Actor\01.Level\WorldLevel">
+      <UniqueIdentifier>{aa779b7b-c77f-4f80-9109-a289b181acad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
-      <Filter>Precom</Filter>
+      <Filter>00.GameApp\00.Precom</Filter>
     </ClInclude>
     <ClInclude Include="UserGame.h">
-      <Filter>UserCore</Filter>
+      <Filter>00.GameApp\01.UserCore</Filter>
     </ClInclude>
     <ClInclude Include="CustomVertex.h">
-      <Filter>UserCore\CustomVertex</Filter>
+      <Filter>00.GameApp\01.UserCore\CustomVertex</Filter>
     </ClInclude>
     <ClInclude Include="eCollisionGroup.h">
-      <Filter>GameObject\Constant</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>GameObject\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="TutorialLevel.h">
-      <Filter>GameObject\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleLevel.h">
-      <Filter>GameObject\Level</Filter>
+      <Filter>01.GameObject\00.Constant</Filter>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
-      <Filter>GameObject\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleActor.h">
-      <Filter>GameObject\Actor\TitleLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldLevel.h">
-      <Filter>GameObject\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="TutorialMap.h">
-      <Filter>GameObject\Actor\TutorialLevel</Filter>
+      <Filter>01.GameObject\01.Level</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>GameObject\Actor\Player</Filter>
+      <Filter>01.GameObject\02.Actor\00.Global\Player</Filter>
     </ClInclude>
     <ClInclude Include="MonsterBase.h">
-      <Filter>GameObject\Actor\Enemy</Filter>
+      <Filter>01.GameObject\02.Actor\00.Global\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Peashot.h">
-      <Filter>GameObject\Actor\PlayerWeapon</Filter>
+      <Filter>01.GameObject\02.Actor\00.Global\Player\PlayerWeapon</Filter>
     </ClInclude>
     <ClInclude Include="ParryObjectBase.h">
-      <Filter>GameObject\Actor\ParryObject</Filter>
+      <Filter>01.GameObject\02.Actor\00.Global\ParryObject</Filter>
     </ClInclude>
     <ClInclude Include="ParryObjectTutorial.h">
-      <Filter>GameObject\Actor\ParryObject</Filter>
+      <Filter>01.GameObject\02.Actor\00.Global\ParryObject</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>01.GameObject\01.Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialLevel.h">
+      <Filter>01.GameObject\01.Level</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldLevel.h">
+      <Filter>01.GameObject\01.Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleActor.h">
+      <Filter>01.GameObject\02.Actor\01.Level\TitleLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialMap.h">
+      <Filter>01.GameObject\02.Actor\01.Level\TutorialLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>01.GameObject\02.Actor\00.Global\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\Shader\CbufferHeader.fx">
-      <Filter>Shader</Filter>
+      <Filter>00.GameApp\02.Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\Shader\Color.fx">
-      <Filter>Shader</Filter>
+      <Filter>00.GameApp\02.Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\Shader\Texture.fx">
-      <Filter>Shader</Filter>
+      <Filter>00.GameApp\02.Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\Resources\Shader\TextureNoCut.fx">
-      <Filter>Shader</Filter>
+      <Filter>00.GameApp\02.Shader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
