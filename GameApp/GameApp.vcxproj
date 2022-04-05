@@ -184,6 +184,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ParryObjectBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ParryObjectTutorial.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Peashot.cpp">
       <SubType>
       </SubType>
@@ -239,6 +247,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Monster.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ParryObjectBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ParryObjectTutorial.h">
       <SubType>
       </SubType>
     </ClInclude>

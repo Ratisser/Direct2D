@@ -8,6 +8,7 @@
 
 ParryObjectBase::ParryObjectBase()
 	: collision_(nullptr)
+	, bParryable_(true)
 {
 
 }
@@ -34,4 +35,22 @@ void ParryObjectBase::Start()
 
 void ParryObjectBase::Update(float _deltaTime)
 {
+	if (bParryable_)
+	{
+		collision_->On();
+	}
+	else
+	{
+		collision_->Off();
+	}
+}
+
+bool ParryObjectBase::IsParryable()
+{
+	return bParryable_;
+}
+
+void ParryObjectBase::SetParryable(bool _bParryable)
+{
+	bParryable_ = _bParryable;
 }

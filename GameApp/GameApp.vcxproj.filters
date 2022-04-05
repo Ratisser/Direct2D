@@ -38,6 +38,12 @@
     <ClCompile Include="Peashot.cpp">
       <Filter>GameObject\Actor\PlayerWeapon</Filter>
     </ClCompile>
+    <ClCompile Include="ParryObjectBase.cpp">
+      <Filter>GameObject\Actor\ParryObject</Filter>
+    </ClCompile>
+    <ClCompile Include="ParryObjectTutorial.cpp">
+      <Filter>GameObject\Actor\ParryObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -75,6 +81,9 @@
     </Filter>
     <Filter Include="GameObject\Actor\Enemy">
       <UniqueIdentifier>{e81cf8ae-bbc0-4f45-a0cd-62d10336b013}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Actor\ParryObject">
+      <UniqueIdentifier>{5350e920-3d2c-419a-840e-c3f7f2d739a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +128,12 @@
     </ClInclude>
     <ClInclude Include="Peashot.h">
       <Filter>GameObject\Actor\PlayerWeapon</Filter>
+    </ClInclude>
+    <ClInclude Include="ParryObjectBase.h">
+      <Filter>GameObject\Actor\ParryObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ParryObjectTutorial.h">
+      <Filter>GameObject\Actor\ParryObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

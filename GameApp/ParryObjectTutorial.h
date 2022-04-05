@@ -14,11 +14,13 @@ public:
 	ParryObjectTutorial& operator=(const ParryObjectTutorial&& _other) = delete;
 
 public:
-	void Start() override;
-	void Update(float _deltaTime) override;
+	virtual void Start() override;
+	virtual void Update(float _deltaTime) override;
 
 private:
 	GameEngineImageRenderer* parryOn_;
 	GameEngineImageRenderer* parryOff_;
+
+	float coolTime_;
 };
 

@@ -13,6 +13,7 @@
 
 #include "eCollisionGroup.h"
 #include <GameApp\Peashot.h>
+#include <GameApp\ParryObjectBase.h>
 
 Player::Player()
 	: collider_(nullptr)
@@ -186,8 +187,10 @@ void Player::initInput()
 
 void Player::initCollision()
 {
-	collider_ = CreateTransformComponent<GameEngineCollision>(renderer_);
+	collider_ = CreateTransformComponent<GameEngineCollision>();
 	collider_->SetCollisionType(eCollisionType::Rect);
+	collider_->SetScale(70.f);
+	collider_->SetLocationY(50.f);
 
 	bottomCenterCollision_ = CreateTransformComponent<GameEngineCollision>(transform_);
 	bottomCenterCollision_->SetCollisionType(eCollisionType::Rect);
@@ -1424,6 +1427,19 @@ void Player::updateParry(float _deltaTime)
 {
 	bGround_ = false;
 
+	GameEngineCollision* parryCollision = collider_->IsCollideOne(eCollisionGroup::ParryObject);
+	if (nullptr != parryCollision)
+	{
+		ParryObjectBase* parryObject = dynamic_cast<ParryObjectBase*>(parryCollision->GetActor());
+		if (nullptr != parryObject)
+		{
+			parryObject->SetParryable(false);
+			bGround_ = true;
+			normalState_ << "Jump";
+			return;
+		}
+	}
+	
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		normalState_ << "Jump";

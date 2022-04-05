@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "TutorialMap.h"
 
+#include "ParryObjectTutorial.h"
+
 
 TutorialLevel::TutorialLevel()
 	: player_(nullptr)
@@ -71,6 +73,7 @@ void TutorialLevel::LevelStart()
 
 	player_ = CreateActor<Player>("Player");
 	player_->GetTransform()->SetLocation(200.f, -400.f, 0.0f);
+	//player_->GetTransform()->SetLocation(3890.f, -400.f, 0.0f);
 
 
 	mainCamera_->GetCamera()->SetLocationZ(-320.f);
@@ -78,6 +81,15 @@ void TutorialLevel::LevelStart()
 
 
 	CreateActor<TutorialMap>("Map");
+
+	ParryObjectTutorial* parry = CreateActor<ParryObjectTutorial>();
+	parry->GetTransform()->SetLocation(3890.f, -370.f, 0.0f);
+
+	parry = CreateActor<ParryObjectTutorial>();
+	parry->GetTransform()->SetLocation(4042.f, -370.f, 0.0f);
+
+	parry = CreateActor<ParryObjectTutorial>();
+	parry->GetTransform()->SetLocation(4192.f, -370.f, 0.0f);
 }
 
 void TutorialLevel::LevelUpdate(float _deltaTime)

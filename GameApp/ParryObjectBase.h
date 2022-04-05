@@ -15,8 +15,14 @@ public:
 
 public:
 	virtual void Start() override;
+	virtual void Update(float _deltaTime) override;
+public:
+	bool IsParryable();
+	void SetParryable(bool _bParryable);
 
 protected:
 	GameEngineCollision* collision_;
+
+	bool bParryable_;
 };
 
