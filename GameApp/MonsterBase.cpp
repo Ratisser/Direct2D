@@ -1,22 +1,24 @@
 #include "PreCompile.h"
-#include "Monster.h"
+#include "MonsterBase.h"
 
 #include <GameEngine\GameEngineCollision.h>
 #include <GameEngine\GameEngineTransformComponent.h>
 #include <GameEngine\GameEngineRenderer.h>
 
-Monster::Monster()
+#include "eCollisionGroup.h"
+
+MonsterBase::MonsterBase()
 	: collider_(nullptr)
 {
 
 }
 
-Monster::~Monster()
+MonsterBase::~MonsterBase()
 {
 
 }
 
-void Monster::Start()
+void MonsterBase::Start()
 {
 	{
 		GameEngineRenderer* rc = CreateTransformComponent<GameEngineRenderer>(GetTransform());
@@ -26,13 +28,13 @@ void Monster::Start()
 
 	collider_ = CreateTransformComponent<GameEngineCollision>(GetTransform());
 	collider_->SetCollisionType(eCollisionType::Rect);
-	collider_->SetCollisionGroup(1);
+	collider_->SetCollisionGroup(eCollisionGroup::Monster);
 	collider_->SetScale(100.f);
 
 	GetTransform()->SetLocation(100, 0, 0);
 	
 }
 
-void Monster::Update(float _deltaTime)
+void MonsterBase::Update(float _deltaTime)
 {
 }

@@ -130,7 +130,7 @@ void Player::initRendererAndAnimation()
 	renderer_->CreateAnimationFolder("Idle", "Idle", 0.04f);
 	renderer_->CreateAnimationFolder("Run", "Run", 0.033f);
 	renderer_->CreateAnimationFolder("Air");
-	renderer_->CreateAnimationFolder("Parry", 0.04f, false);
+	renderer_->CreateAnimationFolder("Parry", 0.033f, false);
 
 	renderer_->CreateAnimationFolder("Aim_Straight");
 	renderer_->CreateAnimationFolder("Aim_Up");

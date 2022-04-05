@@ -180,7 +180,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
+    <ClCompile Include="MonsterBase.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -246,7 +246,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Monster.h">
+    <ClInclude Include="MonsterBase.h">
       <SubType>
       </SubType>
     </ClInclude>

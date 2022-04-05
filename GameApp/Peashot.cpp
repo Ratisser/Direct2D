@@ -2,6 +2,7 @@
 #include "Peashot.h"
 
 #include <GameEngine\GameEngineImageRenderer.h>
+#include "MonsterBase.h"
 
 Peashot::Peashot()
 	: direction_(float4::RIGHT)

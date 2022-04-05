@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "PlayLevel.h"
 #include "Player.h"
-#include "Monster.h"
+#include "MonsterBase.h"
 
 #include <GameEngine/GameEngineCameraComponent.h>
 #include <GameEngine\GameEngineInput.h>
@@ -28,7 +28,7 @@ void PlayLevel::LevelChangeStartEvent()
 
 void PlayLevel::LevelStart()
 {
-	CreateActor<Monster>("Monster");
+	CreateActor<MonsterBase>("Monster");
 	GameEngineActor* player = CreateActor<Player>("Player");
 	mainCamera_->GetCamera()->SetLocationZ(-420.f);
 	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
