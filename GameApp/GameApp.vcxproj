@@ -238,6 +238,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WorldMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WorldMapPlayer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomVertex.h" />
@@ -292,6 +300,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WorldLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WorldMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WorldMapPlayer.h">
       <SubType>
       </SubType>
     </ClInclude>

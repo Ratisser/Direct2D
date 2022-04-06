@@ -19,5 +19,9 @@ public:
 	virtual void LevelChangeStartEvent() override;
 	virtual void LevelStart() override;
 	virtual void LevelUpdate(float _deltaTime) override;
+
+private:
+	GameEngineActor* player_;
+	std::unique_ptr<GameEngineSoundPlayer> bgmPlayer_;
 };
 

@@ -5,11 +5,12 @@
 #include <GameEngineBase/GameEngineSoundManager.h>
 #include <GameEngine/GameEngineWindow.h>
 #include <GameEngine/GameEngineRenderingPipeline.h>
+
 #include <GameApp/TitleLevel.h>
 #include <GameApp/TitleLevel.h>
 #include <GameApp/PlayLevel.h>
-#include <GameApp\TutorialLevel.h>
-
+#include <GameApp/TutorialLevel.h>
+#include <GameApp\WorldLevel.h>
 #include <GameApp\CustomVertex.h>
 
 UserGame::UserGame() // default constructer 디폴트 생성자
@@ -36,9 +37,11 @@ void UserGame::loadLevel()
 	CreateLevel<TitleLevel>("TitleLevel");
 	CreateLevel<PlayLevel>("PlayLevel");
 	CreateLevel<TutorialLevel>("TutorialLevel");
+	CreateLevel<WorldLevel>("WorldLevel");
 	//ChangeLevel("TutorialLevel");
 	ChangeLevel("TitleLevel");
 	//ChangeLevel("PlayLevel");
+	//ChangeLevel("WorldLevel");
 }
 
 void UserGame::loadSound()
