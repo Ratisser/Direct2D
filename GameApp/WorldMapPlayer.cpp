@@ -231,15 +231,26 @@ void WorldMapPlayer::updateMove(float _deltaTime)
 		state_ << "Idle";
 		return;
 	}
-
+	if (float4::BLACK == Map::GetColor(collisionUp_))
+	{
+		transform_->AddLocation(0.0f, -1.0f);
+	}
+	if (float4::BLACK == Map::GetColor(collisionDown_))
+	{
+		transform_->AddLocation(0.0f, 1.0f);
+	}
+	if (float4::BLACK == Map::GetColor(collisionLeft_))
+	{
+		transform_->AddLocation(1.0f, 0.0f);
+	}
+	if (float4::BLACK == Map::GetColor(collisionRight_))
+	{
+		transform_->AddLocation(-1.0f, 0.0f);
+	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Up"))
 	{
 		bUp_ = true;
-		if (float4::BLACK == Map::GetColor(collisionUp_))
-		{
-			transform_->AddLocation(0.0f, -1.0f);
-		}
 	}
 	else
 	{
@@ -249,10 +260,6 @@ void WorldMapPlayer::updateMove(float _deltaTime)
 	if (GameEngineInput::GetInstance().IsKeyPress("Down"))
 	{
 		bDown_ = true;
-		if (float4::BLACK == Map::GetColor(collisionDown_))
-		{
-			transform_->AddLocation(0.0f, 1.0f);
-		}
 	}
 	else
 	{
@@ -263,10 +270,6 @@ void WorldMapPlayer::updateMove(float _deltaTime)
 	{
 		bLeft_ = true;
 		bRight_ = false;
-		if (float4::BLACK == Map::GetColor(collisionLeft_))
-		{
-			transform_->AddLocation(1.0f, 0.0f);
-		}
 	}
 	else
 	{
@@ -277,10 +280,6 @@ void WorldMapPlayer::updateMove(float _deltaTime)
 	{
 		bRight_ = true;
 		bLeft_ = false;
-		if (float4::BLACK == Map::GetColor(collisionRight_))
-		{
-			transform_->AddLocation(-1.0f, 0.0f);
-		}
 	}
 	else
 	{

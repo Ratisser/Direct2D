@@ -255,12 +255,10 @@ void GameEngineDevice::CreateSwapChain()
 
 void GameEngineDevice::RenderStart()
 {
-	// BackBufferTarget_ <= 여기에 그린 녀석만 나와.
-	// 지우고
 	BackBufferTarget_->Clear();
 	Context_->ClearDepthStencilView(DepthStencilView_, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	// 세팅하고
-	BackBufferTarget_->Setting();
+
+	BackBufferTarget_->Setting(); // TODO : 렌더타겟 분리할때 OMSetRenderTarget을 따로 떼어내야 할듯
 }
 
 
