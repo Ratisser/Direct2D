@@ -9,46 +9,52 @@
       <Filter>00.GameApp\01.UserCore</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
-      <Filter>01.GameObject\01.Level</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>01.GameObject\02.Actor\00.Global\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="MonsterBase.cpp">
-      <Filter>01.GameObject\02.Actor\00.Global\Enemy</Filter>
+      <Filter>01.GameObject\02.Level</Filter>
     </ClCompile>
     <ClCompile Include="Peashot.cpp">
-      <Filter>01.GameObject\02.Actor\00.Global\Player\PlayerWeapon</Filter>
-    </ClCompile>
-    <ClCompile Include="ParryObjectBase.cpp">
-      <Filter>01.GameObject\02.Actor\00.Global\ParryObject</Filter>
-    </ClCompile>
-    <ClCompile Include="ParryObjectTutorial.cpp">
-      <Filter>01.GameObject\02.Actor\00.Global\ParryObject</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleLevel.cpp">
-      <Filter>01.GameObject\01.Level</Filter>
-    </ClCompile>
-    <ClCompile Include="TutorialLevel.cpp">
-      <Filter>01.GameObject\01.Level</Filter>
+      <Filter>01.GameObject\01.GlobalActor\PlayerWeapon</Filter>
     </ClCompile>
     <ClCompile Include="TitleActor.cpp">
-      <Filter>01.GameObject\02.Actor\01.LevelActor\TitleLevel</Filter>
+      <Filter>01.GameObject\02.Level\TitleLevel</Filter>
     </ClCompile>
     <ClCompile Include="TutorialMap.cpp">
-      <Filter>01.GameObject\02.Actor\01.LevelActor\TutorialLevel</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>01.GameObject\02.Actor\00.Global\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldLevel.cpp">
-      <Filter>01.GameObject\01.Level</Filter>
+      <Filter>01.GameObject\02.Level\TutorialLevel</Filter>
     </ClCompile>
     <ClCompile Include="WorldMap.cpp">
-      <Filter>01.GameObject\02.Actor\01.LevelActor\WorldLevel</Filter>
+      <Filter>01.GameObject\02.Level\WorldLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="DevilMap.cpp">
+      <Filter>01.GameObject\02.Level\DevilLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="DevilLevel.cpp">
+      <Filter>01.GameObject\02.Level\DevilLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleLevel.cpp">
+      <Filter>01.GameObject\02.Level\TitleLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldLevel.cpp">
+      <Filter>01.GameObject\02.Level\WorldLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialLevel.cpp">
+      <Filter>01.GameObject\02.Level\TutorialLevel</Filter>
     </ClCompile>
     <ClCompile Include="WorldMapPlayer.cpp">
-      <Filter>01.GameObject\02.Actor\00.Global\Player</Filter>
+      <Filter>01.GameObject\02.Level\WorldLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="ParryObjectTutorial.cpp">
+      <Filter>01.GameObject\02.Level\TutorialLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterBase.cpp">
+      <Filter>01.GameObject\01.GlobalActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>01.GameObject\01.GlobalActor</Filter>
+    </ClCompile>
+    <ClCompile Include="ParryObjectBase.cpp">
+      <Filter>01.GameObject\01.GlobalActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>01.GameObject\01.GlobalActor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,44 +76,29 @@
     <Filter Include="00.GameApp\02.Shader">
       <UniqueIdentifier>{e47011b2-b438-40b7-8f75-c28ef1d351ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\01.Level">
-      <UniqueIdentifier>{9d5a936f-250a-403d-9216-e3eb7dbba189}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.GameObject\02.Actor">
-      <UniqueIdentifier>{42a2e9f2-724c-4f93-9426-eecc8eb145fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.GameObject\00.Constant">
       <UniqueIdentifier>{fbaab9ef-1081-4ee1-a8af-1f91bc456261}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\02.Actor\00.Global">
-      <UniqueIdentifier>{e114274d-95a0-4400-b1d5-ae35fe6094b1}</UniqueIdentifier>
+    <Filter Include="01.GameObject\01.GlobalActor">
+      <UniqueIdentifier>{42a2e9f2-724c-4f93-9426-eecc8eb145fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\02.Actor\00.Global\Enemy">
-      <UniqueIdentifier>{e81cf8ae-bbc0-4f45-a0cd-62d10336b013}</UniqueIdentifier>
+    <Filter Include="01.GameObject\02.Level">
+      <UniqueIdentifier>{9d5a936f-250a-403d-9216-e3eb7dbba189}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\02.Actor\00.Global\ParryObject">
-      <UniqueIdentifier>{5350e920-3d2c-419a-840e-c3f7f2d739a2}</UniqueIdentifier>
+    <Filter Include="01.GameObject\02.Level\DevilLevel">
+      <UniqueIdentifier>{efca24e4-5f79-4a92-bdc9-ed893e7ddeeb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\02.Actor\00.Global\Player">
-      <UniqueIdentifier>{f8e3539b-b27e-489c-ae25-64fc4d283644}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.GameObject\02.Actor\00.Global\Player\PlayerWeapon">
-      <UniqueIdentifier>{0404191d-f317-45f5-b778-c1dcd2e81894}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.GameObject\02.Actor\00.Global\Map">
-      <UniqueIdentifier>{ab7e5231-4b7f-48b3-8a60-bc22df94559b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.GameObject\02.Actor\01.LevelActor">
-      <UniqueIdentifier>{4fe4443a-794a-46b4-9b95-551ce7848a0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.GameObject\02.Actor\01.LevelActor\TutorialLevel">
-      <UniqueIdentifier>{4d4c17e6-c9c8-4ac2-ac0b-e6d4355c70c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.GameObject\02.Actor\01.LevelActor\TitleLevel">
+    <Filter Include="01.GameObject\02.Level\TitleLevel">
       <UniqueIdentifier>{bd13da0e-c7ef-42ac-8494-c6aa2425f89a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.GameObject\02.Actor\01.LevelActor\WorldLevel">
+    <Filter Include="01.GameObject\02.Level\TutorialLevel">
+      <UniqueIdentifier>{4d4c17e6-c9c8-4ac2-ac0b-e6d4355c70c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.Level\WorldLevel">
       <UniqueIdentifier>{aa779b7b-c77f-4f80-9109-a289b181acad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\01.GlobalActor\PlayerWeapon">
+      <UniqueIdentifier>{0404191d-f317-45f5-b778-c1dcd2e81894}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -124,46 +115,52 @@
       <Filter>01.GameObject\00.Constant</Filter>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
-      <Filter>01.GameObject\01.Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>01.GameObject\02.Actor\00.Global\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="MonsterBase.h">
-      <Filter>01.GameObject\02.Actor\00.Global\Enemy</Filter>
+      <Filter>01.GameObject\02.Level</Filter>
     </ClInclude>
     <ClInclude Include="Peashot.h">
-      <Filter>01.GameObject\02.Actor\00.Global\Player\PlayerWeapon</Filter>
-    </ClInclude>
-    <ClInclude Include="ParryObjectBase.h">
-      <Filter>01.GameObject\02.Actor\00.Global\ParryObject</Filter>
-    </ClInclude>
-    <ClInclude Include="ParryObjectTutorial.h">
-      <Filter>01.GameObject\02.Actor\00.Global\ParryObject</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleLevel.h">
-      <Filter>01.GameObject\01.Level</Filter>
-    </ClInclude>
-    <ClInclude Include="TutorialLevel.h">
-      <Filter>01.GameObject\01.Level</Filter>
+      <Filter>01.GameObject\01.GlobalActor\PlayerWeapon</Filter>
     </ClInclude>
     <ClInclude Include="TitleActor.h">
-      <Filter>01.GameObject\02.Actor\01.LevelActor\TitleLevel</Filter>
+      <Filter>01.GameObject\02.Level\TitleLevel</Filter>
     </ClInclude>
     <ClInclude Include="TutorialMap.h">
-      <Filter>01.GameObject\02.Actor\01.LevelActor\TutorialLevel</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>01.GameObject\02.Actor\00.Global\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldLevel.h">
-      <Filter>01.GameObject\01.Level</Filter>
+      <Filter>01.GameObject\02.Level\TutorialLevel</Filter>
     </ClInclude>
     <ClInclude Include="WorldMap.h">
-      <Filter>01.GameObject\02.Actor\01.LevelActor\WorldLevel</Filter>
+      <Filter>01.GameObject\02.Level\WorldLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="DevilMap.h">
+      <Filter>01.GameObject\02.Level\DevilLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="DevilLevel.h">
+      <Filter>01.GameObject\02.Level\DevilLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleLevel.h">
+      <Filter>01.GameObject\02.Level\TitleLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldLevel.h">
+      <Filter>01.GameObject\02.Level\WorldLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialLevel.h">
+      <Filter>01.GameObject\02.Level\TutorialLevel</Filter>
     </ClInclude>
     <ClInclude Include="WorldMapPlayer.h">
-      <Filter>01.GameObject\02.Actor\00.Global\Player</Filter>
+      <Filter>01.GameObject\02.Level\WorldLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="ParryObjectTutorial.h">
+      <Filter>01.GameObject\02.Level\TutorialLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterBase.h">
+      <Filter>01.GameObject\01.GlobalActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>01.GameObject\01.GlobalActor</Filter>
+    </ClInclude>
+    <ClInclude Include="ParryObjectBase.h">
+      <Filter>01.GameObject\01.GlobalActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>01.GameObject\01.GlobalActor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

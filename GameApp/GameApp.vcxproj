@@ -176,6 +176,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
+    <ClCompile Include="DevilLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DevilMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Map.cpp">
       <SubType>
       </SubType>
@@ -249,6 +257,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomVertex.h" />
+    <ClInclude Include="DevilLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DevilMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="eCollisionGroup.h" />
     <ClInclude Include="Map.h">
       <SubType>

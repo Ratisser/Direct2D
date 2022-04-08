@@ -13,6 +13,8 @@
 #include <GameApp\WorldLevel.h>
 #include <GameApp\CustomVertex.h>
 
+#include "DevilLevel.h"
+
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
 
@@ -38,10 +40,12 @@ void UserGame::loadLevel()
 	CreateLevel<PlayLevel>("PlayLevel");
 	CreateLevel<TutorialLevel>("TutorialLevel");
 	CreateLevel<WorldLevel>("WorldLevel");
+	CreateLevel<DevilLevel>("DevilLevel");
 	//ChangeLevel("TutorialLevel");
-	ChangeLevel("TitleLevel");
+	//ChangeLevel("TitleLevel");
 	//ChangeLevel("PlayLevel");
 	//ChangeLevel("WorldLevel");
+	ChangeLevel("DevilLevel");
 }
 
 void UserGame::loadSound()
