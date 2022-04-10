@@ -80,8 +80,8 @@ void Player::Update(float _deltaTime)
 	if (!strcmp(tempString, str) || !strcmp(tempString2, str) || !strcmp(tempString3, str))
 	{
 		bulletPositionY += _deltaTime * 8.f;
-		float a = sinf(bulletPositionY) * 25.f;
-		bulletSpawnLocation_->SetLocationY(a);
+		float a = sinf(bulletPositionY) * 20.f;
+		bulletSpawnLocation_->SetLocationY(a + 15.f);
 	}
 	else
 	{
