@@ -189,13 +189,26 @@ void GameEngineTransformComponent::UpdateTransformByParent()
 	}
 }
 
-void GameEngineTransformComponent::ReleaseReady()
+void GameEngineTransformComponent::ReleaseReady(bool _bReleaseByActor)
 {
-	UnsetParent();
-	for (GameEngineTransformComponent* child : children_)
+	
+	if (nullptr != parent_)
 	{
-		child->ReleaseReady();
+		if (_bReleaseByActor)
+		{
+			parent_->RemoveChild(this);
+		}
+		parent_ = nullptr;
+	}
+
+	auto startIter = children_.begin();
+	auto endIter = children_.end();
+	while (startIter != endIter)
+	{
+		GameEngineTransformComponent* child = *startIter;
+		child->ReleaseReady(false);
 		child->Death();
+		startIter = children_.erase(startIter);
 	}
 }
 

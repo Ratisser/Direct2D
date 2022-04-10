@@ -61,7 +61,7 @@ public:
 
 	void UpdateTransform();
 	void UpdateTransformByParent();
-	void ReleaseReady();
+	void ReleaseReady(bool _bReleaseByActor = true);
 	TransformData& GetTransformData();
 
 	void SetParent(GameEngineTransformComponent* _parent);
