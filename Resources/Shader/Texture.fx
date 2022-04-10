@@ -20,6 +20,11 @@ cbuffer TextureCutData : register(b1)
     float2 TextureCutDataSize;
 };
 
+cbuffer ResultColor : register(b2)
+{
+    float4 bufferColor;
+}
+
 PS_INPUT Texture_VS(VS_INPUT _in)
 {
     PS_INPUT output;
@@ -40,7 +45,7 @@ SamplerState Sample : register(s0);
 
 float4 Texture_PS(PS_INPUT _in) : SV_Target0
 {
-    float4 color = Tex.Sample(Sample, float2(_in.TexCoord.xy));
+    float4 color = Tex.Sample(Sample, float2(_in.TexCoord.xy)) * bufferColor;
     if (0.0f == color.a)
     {
         clip(-1);
