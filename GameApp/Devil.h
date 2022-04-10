@@ -31,6 +31,15 @@ private:
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
+	void startRamTransform(float _deltaTime);
+	void updateRamTransform(float _deltaTime);
+
+	void startRamAttack(float _deltaTime);
+	void updateRamAttack(float _deltaTime);
+
+	void startRamEnd(float _deltaTime);
+	void updateRamEnd(float _deltaTime);
+
 #pragma endregion
 
 

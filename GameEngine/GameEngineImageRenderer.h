@@ -37,6 +37,9 @@ private:
 		void CallEnd();
 		void CallFrame();
 		void Update(float _DeltaTime);
+
+		void FrameUpdate();
+		void ReverseFrameUpdate();
 	};
 
 public:
@@ -57,6 +60,8 @@ public:
 	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
 	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true, bool _bImageScale = true);
 	void CreateAnimationFolder(const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true, bool _bImageScale = true);
+	void CreateAnimationFolderReverse(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true, bool _bImageScale = true);
+	void CreateAnimationFolderReverse(const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true, bool _bImageScale = true);
 	void ChangeAnimation(const std::string& _Name, bool _IsForce = false);
 	Animation2D* GetCurrentAnimation() const { return CurAnimation_; }
 

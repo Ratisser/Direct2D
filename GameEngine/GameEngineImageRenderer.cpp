@@ -46,10 +46,8 @@ void GameEngineImageRenderer::Animation2D::Reset()
 	CurFrame_ = StartFrame_;
 }
 
-void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
+void GameEngineImageRenderer::Animation2D::FrameUpdate()
 {
-	CurTime_ -= _DeltaTime;
-
 	if (CurTime_ <= 0.0f)
 	{
 		++CurFrame_;
@@ -72,6 +70,49 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 
 			CurFrame_ = EndFrame_;
 		}
+	}
+
+}
+
+void GameEngineImageRenderer::Animation2D::ReverseFrameUpdate()
+{
+	if (CurTime_ <= 0.0f)
+	{
+		--CurFrame_;
+		CurTime_ = InterTime_;
+		if (true == Loop_
+			&& CurFrame_ < EndFrame_)
+		{
+			CallEnd();
+			CurFrame_ = StartFrame_;
+		}
+		else if (false == Loop_
+			&& CurFrame_ < EndFrame_)
+		{
+			if (false == IsEnd_)
+			{
+				CallEnd();
+			}
+
+			IsEnd_ = true;
+
+			CurFrame_ = EndFrame_;
+		}
+	}
+
+}
+
+void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
+{
+	CurTime_ -= _DeltaTime;
+
+	if (StartFrame_ < EndFrame_)
+	{
+		FrameUpdate();
+	}
+	else
+	{
+		ReverseFrameUpdate();
 	}
 
 	CallFrame();
@@ -101,8 +142,6 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 
 
 		Renderer->MultiplyScale(-2.f * Renderer->bFlipHorizontal_ + 1.0f, -2.f * Renderer->bFlipVertical_ + 1.0f); // -1을 넣느냐 1을 넣느냐의 차이
-
-
 
 	}
 
@@ -235,6 +274,45 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _FolderTexName, float _InterTime, bool _Loop, bool _bImageScale)
 {
 	CreateAnimationFolder(_FolderTexName, _FolderTexName, _InterTime, _Loop, _bImageScale);
+}
+
+void GameEngineImageRenderer::CreateAnimationFolderReverse(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop, bool _bImageScale)
+{
+	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
+
+	if (AllAnimations_.end() != FindIter)
+	{
+		GameEngineDebug::MsgBoxError("이미 존재하는 애니메이션을 또 만들었습니다.");
+	}
+
+	GameEngineFolderTexture* FolderTexture = GameEngineFolderTextureManager::GetInst().Find(_FolderTexName);
+
+	if (nullptr == FolderTexture)
+	{
+		GameEngineDebug::MsgBoxError("존재하지 않는 폴더 텍스처를 세팅하려고 했습니다..");
+	}
+
+
+	Animation2D* NewAnimation = new Animation2D();
+	NewAnimation->Name_ = _Name;
+	NewAnimation->IsEnd_ = false;
+	NewAnimation->Loop_ = _Loop;
+	NewAnimation->InterTime_ = _InterTime;
+	NewAnimation->CurTime_ = _InterTime;
+	NewAnimation->bImageScale_ = _bImageScale;
+
+	NewAnimation->FolderTextures_ = FolderTexture;
+	NewAnimation->CurFrame_ = FolderTexture->GetTextureCount() - 1;
+	NewAnimation->EndFrame_ = 0;
+	NewAnimation->StartFrame_ = FolderTexture->GetTextureCount() - 1;
+	NewAnimation->Renderer = this;
+
+	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));
+}
+
+void GameEngineImageRenderer::CreateAnimationFolderReverse(const std::string& _FolderTexName, float _InterTime, bool _Loop, bool _bImageScale)
+{
+	CreateAnimationFolderReverse(_FolderTexName, _FolderTexName, _InterTime, _Loop, _bImageScale);
 }
 
 void GameEngineImageRenderer::ChangeAnimation(const std::string& _Name, bool _IsForce /*= false*/)
