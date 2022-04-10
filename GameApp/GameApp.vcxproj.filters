@@ -56,6 +56,12 @@
     <ClCompile Include="Player.cpp">
       <Filter>01.GameObject\01.GlobalActor</Filter>
     </ClCompile>
+    <ClCompile Include="Devil.cpp">
+      <Filter>01.GameObject\02.Level\DevilLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialMonsterTarget.cpp">
+      <Filter>01.GameObject\02.Level\TutorialLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -161,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>01.GameObject\01.GlobalActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Devil.h">
+      <Filter>01.GameObject\02.Level\DevilLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialMonsterTarget.h">
+      <Filter>01.GameObject\02.Level\TutorialLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,9 @@ public:
 	Map& operator=(Map&& _Other) noexcept = delete;
 
 public:
+	virtual void Start() override;
+
+public:
 	static float4 GetColor(GameEngineTransformComponent* _Ptr, bool YRevers = true);
 	static float4 GetColor(float4 _Postion);
 

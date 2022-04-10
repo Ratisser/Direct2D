@@ -20,5 +20,7 @@ public:
 
 private:
 	GameEngineActor* player_;
+
+	std::unique_ptr<GameEngineSoundPlayer> bgmPlayer_;
 };
 

@@ -15,6 +15,8 @@ DevilMap::~DevilMap()
 
 void DevilMap::Start()
 {
+	Map::Start();
+
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
 	ImageRenderer->SetTexture("BossDevil_Phase1PixelCheck.png", true);
 	float4 textureSize = ImageRenderer->GetCurrentTexture()->GetTextureSize();
@@ -23,11 +25,31 @@ void DevilMap::Start()
 
 	{
 		GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
-		mapObjects->SetTexture("BossDevil_Phase1BackgroundTest.png", true);
+		mapObjects->SetTexture("BossDevil_Phase1Background.png", true);
 		float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
 		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 2.f);
 	}
 
+	//{
+	//	GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
+	//	mapObjects->SetTexture("BossDevil_Phase1Background2.png", true);
+	//	float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
+	//	mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 1.f);
+	//}
+
+	{
+		GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
+		mapObjects->SetTexture("HallFront.png", true);
+		float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
+		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, -1.f);
+	}
+
+	{
+		GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
+		mapObjects->SetTexture("BossDevil_Phase1FrontLayerBackground.png", true);
+		float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
+		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, -2.f);
+	}
 }
 
 void DevilMap::Update(float _deltaTime)

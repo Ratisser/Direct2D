@@ -29,6 +29,33 @@ TitleActor::~TitleActor()
 
 void TitleActor::Start()
 {
+    {
+        GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>();
+        float4 color;
+        color.r = 0.3f;
+        color.g = 0.3f;
+        color.b = 0.3f;
+        color.a = 0.3f;
+        r->SetLocationZ(1.0f);
+        r->SetColor(color);
+        r->CreateAnimationFolder("OldFilmEffect", 0.034f, true, false);
+        r->SetScale(1280.f, 720.f);
+        r->ChangeAnimation("OldFilmEffect");
+    }
+    {
+        GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
+        float4 color;
+        color.r = 0.5f;
+        color.g = 0.5f;
+        color.b = 0.5f;
+        color.a = 0.2f;
+        r->SetColor(color);
+        r->CreateAnimationFolder("OldFilmEffect", 0.034f, true, false);
+        r->SetScale(1280.f, 720.f);
+        r->SetLocationZ(1.0f);
+        r->ChangeAnimation("OldFilmEffect");
+    }
+
     GameEngineInput::GetInstance().CreateKey("P", 'P');
 
     bgmPlayer_ = new GameEngineSoundPlayer("MUS_Intro_DontDealWithDevil_Vocal.wav");
@@ -37,7 +64,7 @@ void TitleActor::Start()
 
     titleRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
     titleRenderer_->SetTexture("title_screen_background.png", true);
-    titleRenderer_->SetLocationZ(1.0f);
+    titleRenderer_->SetLocationZ(2.0f);
 
     GameEngineTransformComponent* cupheadTransform = CreateTransformComponent<GameEngineTransformComponent>(GetTransform());
 
@@ -46,6 +73,7 @@ void TitleActor::Start()
     GameEngineImageRenderer* cupheadRenderer = CreateTransformComponent<GameEngineImageRenderer>(cupheadTransform);
     cupheadRenderer->CreateAnimationFolder("Idle", "Cuphead", 0.05f);
     cupheadRenderer->ChangeAnimation("Idle");
+    cupheadRenderer->SetLocationZ(-1.0f);
 }
 
 void TitleActor::Update(float _deltaTime)

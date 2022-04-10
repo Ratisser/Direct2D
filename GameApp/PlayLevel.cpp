@@ -28,7 +28,6 @@ void PlayLevel::LevelChangeStartEvent()
 
 void PlayLevel::LevelStart()
 {
-	CreateActor<MonsterBase>("Monster");
 	GameEngineActor* player = CreateActor<Player>("Player");
 	mainCamera_->GetCamera()->SetLocationZ(-420.f);
 	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);

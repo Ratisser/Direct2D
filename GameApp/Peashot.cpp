@@ -8,7 +8,8 @@ Peashot::Peashot()
 	: direction_(float4::RIGHT)
 	, rotation_(float4::ZERO)
 	, lifeTime_(0.5f)
-	, renderer_(nullptr)
+	, bulletRenderer_(nullptr)
+	, bulletTransform_(nullptr)
 	, collision_(nullptr)
 	, bLeft_(false)
 {
@@ -25,16 +26,26 @@ void Peashot::Start()
 	state_.CreateState("Idle", std::bind(&Peashot::startIdle, this, std::placeholders::_1), std::bind(&Peashot::updateIdle, this, std::placeholders::_1));
 	state_.ChangeState("Idle");
 
-	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
+	bulletTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
 
-	renderer_->CreateAnimationFolder("Peashot_Spawn");
-	renderer_->CreateAnimationFolder("Peashot_Spawn2");
-	renderer_->CreateAnimationFolder("Peashot_Loop");
-	renderer_->ChangeAnimation("Peashot_Spawn");
+	bulletRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(bulletTransform_);
+	
+	transform_->SetScale(0.9f);
 
-	//renderer_ = CreateTransformComponent<GameEngineRenderer>(transform_);
-	//renderer_->SetRenderingPipeline("BoxRendering");
-	//renderer_->SetScale(100.f);
+	bulletRenderer_->CreateAnimationFolder("Peashot_Spawn");
+	bulletRenderer_->CreateAnimationFolder("Peashot_Spawn2");
+	bulletRenderer_->CreateAnimationFolder("Peashot_Loop");
+	bulletRenderer_->ChangeAnimation("Peashot_Spawn");
+
+	//fireStartRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	//fireStartRenderer_->CreateAnimationFolder("Peashot_Spawn", 0.034f, false, false);
+	//fireStartRenderer_->ChangeAnimation("Peashot_Spawn");
+	//fireStartRenderer_->SetScale(80.f);
+	//fireStartRenderer_->SetLocationY(10.f);
+
+	//bulletRenderer_ = CreateTransformComponent<GameEngineRenderer>(transform_);
+	//bulletRenderer_->SetRenderingPipeline("BoxRendering");
+	//bulletRenderer_->SetScale(100.f);
 	//GetTransform()->SetLocation(100, 0, 0);
 }
 
@@ -42,15 +53,15 @@ void Peashot::Update(float _deltaTime)
 {
 	state_.Update(_deltaTime);
 
-	renderer_->SetRotation(rotation_);
+	bulletRenderer_->SetRotation(rotation_);
 
 	if (bLeft_)
 	{
-		renderer_->SetFlip(true, false);
+		bulletRenderer_->SetFlip(true, false);
 	}
 	else
 	{
-		renderer_->SetFlip(false, false);
+		bulletRenderer_->SetFlip(false, false);
 	}
 }
 
@@ -64,7 +75,7 @@ void Peashot::InitBullet(bool _bLeft, const float4& _direction, const float4& _r
 
 void Peashot::startIdle(float _deltaTime)
 {
-	renderer_->ChangeAnimation("Peashot_Loop");
+	bulletRenderer_->ChangeAnimation("Peashot_Loop");
 	transform_->SetLocationZ(-5.0f);
 }
 
@@ -77,5 +88,5 @@ void Peashot::updateIdle(float _deltaTime)
 		return;
 	}
 
-	transform_->AddLocation(direction_ * BULLET_SPEED * _deltaTime);
+	bulletTransform_->AddLocation(direction_ * BULLET_SPEED * _deltaTime);
 }

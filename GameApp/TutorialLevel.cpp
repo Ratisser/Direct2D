@@ -56,19 +56,6 @@ void TutorialLevel::LevelStart()
 		}
 	}
 
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParent("Direct2D");
-		Dir / "Resources" / "Sound" / "Tutorial";
-
-		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
-
-		for (size_t i = 0; i < AllFile.size(); i++)
-		{
-			GameEngineSoundManager::GetInstance().CreateSound(AllFile[i].FileName(), AllFile[i].GetFullPath());
-		}
-	}
-
 	bgmPlayer_ = std::make_unique<GameEngineSoundPlayer>("MUS_Tutorial.wav");
 
 	player_ = CreateActor<Player>("Player");
@@ -94,12 +81,13 @@ void TutorialLevel::LevelStart()
 
 void TutorialLevel::LevelUpdate(float _deltaTime)
 {
-	mainCamera_->GetTransform()->SetLocation(player_->GetTransform()->GetLocation());
+	float4 pl = player_->GetTransform()->GetLocation();
+	mainCamera_->GetTransform()->SetLocation(pl.x, pl.y);
 	mainCamera_->GetTransform()->SetLocationY(-475.f);
 
 	if (!bgmPlayer_->IsPlaying())
 	{
 		bgmPlayer_->Play();
-		bgmPlayer_->SetVolume(0.5f);
+		//bgmPlayer_->SetVolume(0.5f);
 	}
 }

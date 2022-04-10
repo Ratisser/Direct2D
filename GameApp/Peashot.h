@@ -28,10 +28,11 @@ private:
 	void updateIdle(float _deltaTime);
 
 private:
-	float BULLET_SPEED = 2000.f;
+	float BULLET_SPEED = 3000.f;
 
 private:
-	GameEngineImageRenderer* renderer_;
+	GameEngineImageRenderer* bulletRenderer_;
+	GameEngineTransformComponent* bulletTransform_;
 	GameEngineCollision* collision_;
 	GameEngineFSM state_;
 	float4 direction_;

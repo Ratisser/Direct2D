@@ -36,16 +36,16 @@ void UserGame::Release()
 
 void UserGame::loadLevel()
 {
+	CreateLevel<TutorialLevel>("TutorialLevel");
 	CreateLevel<TitleLevel>("TitleLevel");
 	CreateLevel<PlayLevel>("PlayLevel");
-	CreateLevel<TutorialLevel>("TutorialLevel");
 	CreateLevel<WorldLevel>("WorldLevel");
 	CreateLevel<DevilLevel>("DevilLevel");
+	ChangeLevel("TitleLevel");
 	//ChangeLevel("TutorialLevel");
-	//ChangeLevel("TitleLevel");
 	//ChangeLevel("PlayLevel");
 	//ChangeLevel("WorldLevel");
-	ChangeLevel("DevilLevel");
+	//ChangeLevel("DevilLevel");
 }
 
 void UserGame::loadSound()
@@ -55,7 +55,22 @@ void UserGame::loadSound()
 		SoundDir.MoveParent("Direct2D");
 		SoundDir.MoveChild("Resources");
 		SoundDir.MoveChild("Sound");
-		SoundDir.MoveChild("Title");
+		SoundDir.MoveChild("Music");
+
+		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineSoundManager::GetInstance().CreateSound(AllFile[i].FileName(), AllFile[i].GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory SoundDir;
+		SoundDir.MoveParent("Direct2D");
+		SoundDir.MoveChild("Resources");
+		SoundDir.MoveChild("Sound");
+		SoundDir.MoveChild("Sfx");
 
 		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFile();
 
@@ -140,6 +155,17 @@ void UserGame::loadTexture()
 		TextureDir.MoveChild("Resources");
 		TextureDir.MoveChild("Image");
 		TextureDir / "Title";
+		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
+		for (GameEngineFile& file : AllFile)
+		{
+			GameEngineFolderTextureManager::GetInst().Load(file.GetFullPath());
+		}
+	}
+
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("Direct2D");
+		TextureDir / "Resources" / "Image" / "Screen";
 		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
 		for (GameEngineFile& file : AllFile)
 		{

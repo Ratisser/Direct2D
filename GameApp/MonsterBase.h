@@ -15,13 +15,12 @@ public:
 	MonsterBase& operator=(const MonsterBase& _other) = delete;
 	MonsterBase& operator=(const MonsterBase&& _other) = delete;
 public:
-	// GameEngineActor을(를) 통해 상속됨
-	virtual void Start() override;
-	virtual void Update(float _deltaTime) override;
+
+public:
+	void SubtractHP(int _damage);
 
 protected:
-	GameEngineCollision* collider_;
-
+	int hp_;
 
 };
 

@@ -22,6 +22,8 @@ TutorialMap::~TutorialMap()
 
 void TutorialMap::Start()
 {
+	Map::Start();
+
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
 	ImageRenderer->SetTexture("TutorialScene_Background_PixelCheck.png", true);
 	float4 textureSize = ImageRenderer->GetCurrentTexture()->GetTextureSize();
@@ -41,10 +43,19 @@ void TutorialMap::Start()
 		r->SetLocationZ(4.0f);
 	}
 
-	GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
-	r->SetTexture("tutorial_room_front_layer_0001.png", false);
-	r->SetScale(1280.f, 720.f);
-	r->SetLocationZ(-5.0f);
+	{
+		GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
+		r->SetTexture("tutorial_room_front_layer_0001.png", false);
+		r->SetScale(1280.f, 720.f);
+		r->SetLocationZ(-5.0f);
+	}
+
+	{
+		GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
+		r->SetTexture("tutorial_room_front_layer_0001.png", false);
+		r->SetScale(1280.f, 720.f);
+		r->SetLocationZ(-5.0f);
+	}
 
 	exitDoor_ = CreateTransformComponent<GameEngineCollision>(nullptr);
 	exitDoor_->SetCollisionType(eCollisionType::Rect);

@@ -54,19 +54,6 @@ void WorldLevel::LevelStart()
 		}
 	}
 
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParent("Direct2D");
-		Dir / "Resources" / "Sound" / "World";
-
-		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
-
-		for (size_t i = 0; i < AllFile.size(); i++)
-		{
-			GameEngineSoundManager::GetInstance().CreateSound(AllFile[i].FileName(), AllFile[i].GetFullPath());
-		}
-	}
-
 	bgmPlayer_ = std::make_unique<GameEngineSoundPlayer>("MUS_InkwellIsleOne.wav");
 
 
@@ -74,13 +61,14 @@ void WorldLevel::LevelStart()
 	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
 
 	player_ = CreateActor<WorldMapPlayer>("Player");
-	player_->GetTransform()->SetLocation(800.f, -800.f);
+	player_->GetTransform()->SetLocation(800.f, -800.f, 3.5f);
 	CreateActor<WorldMap>("Map");
 }
 
 void WorldLevel::LevelUpdate(float _deltaTime)
 {
-	mainCamera_->GetTransform()->SetLocation(player_->GetTransform()->GetLocation());
+	float4 pl = player_->GetTransform()->GetLocation();
+	mainCamera_->GetTransform()->SetLocation(pl.x, pl.y);
 
 	if (!bgmPlayer_->IsPlaying())
 	{

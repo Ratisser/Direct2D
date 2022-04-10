@@ -100,10 +100,23 @@ private:
 	const float DASH_SPEED = 1000.f;
 	const float SHOOT_DELAY = 0.12f;
 
+	const float BULLET_UP_OFFSET = 110.f;
+	const float BULLET_DOWN_OFFSET = -30.f;
+	const float BULLET_LEFT_OFFSET = -60.f;
+	const float BULLET_RIGHT_OFFSET = 60.f;
+
+	const float BULLET_DIAGONALUP_OFFSET = 70.f;
+	const float BULLET_LEFTUP_OFFSET = -20.f;
+	const float BULLET_RIGHTUP_OFFSET = 20.f;
+
+	const float BULLET_STRAIGHT_OFFSET = 40.f;
+	const float BULLET_DUCK_OFFSET = 10.f;
+
 private:
 	GameEngineFSM state_;
 	GameEngineFSM normalState_;
 	GameEngineImageRenderer* renderer_;
+	GameEngineImageRenderer* fireStartRenderer_;
 	GameEngineCollision* collider_;
 
 	GameEngineCollision* bottomCenterCollision_;
@@ -114,6 +127,8 @@ private:
 
 	GameEngineTransformComponent* bulletSpawnParentLocation_;
 	GameEngineTransformComponent* bulletSpawnLocation_;
+
+	std::unique_ptr<GameEngineSoundPlayer> fireLoopSound_;
 
 	float4 bulletDirection_;
 	float4 bulletRotation_;
