@@ -20,6 +20,7 @@ private:
 
 		bool IsEnd_;
 		bool Loop_;
+		bool bImageScale_;
 		int CurFrame_;
 		int StartFrame_;
 		int EndFrame_;
@@ -54,8 +55,8 @@ public:
 	void SetIndex(const int Index);
 
 	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
-	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true);
-	void CreateAnimationFolder(const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true);
+	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true, bool _bImageScale = true);
+	void CreateAnimationFolder(const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true, bool _bImageScale = true);
 	void ChangeAnimation(const std::string& _Name, bool _IsForce = false);
 	Animation2D* GetCurrentAnimation() const { return CurAnimation_; }
 
@@ -64,6 +65,10 @@ public:
 	void SetFrameCallBack(const std::string& _Name, int _Index, std::function<void()> _CallBack);
 
 	void SetFlip(bool _bHorizon, bool _bVertical);
+
+
+	inline void SetColor(float4 _color) { color_ = _color; }
+	inline float4 GetColor() const { return color_; }
 
 protected:
 	void Update(float _DeltaTime) override;
@@ -74,6 +79,7 @@ private:
 	Animation2D* CurAnimation_;
 
 	float4 CutData_;
+	float4 color_;
 
 	bool bFlipHorizontal_;
 	bool bFlipVertical_;

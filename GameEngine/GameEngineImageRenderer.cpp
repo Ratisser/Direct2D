@@ -83,14 +83,26 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 	{
 		Renderer->CutData_ = float4(0, 0, 1, 1);
 		GameEngineTexture* tex = Renderer->ShaderHelper_.SettingTexture("Tex", FolderTextures_->GetTextureIndex(CurFrame_));
-		float4 size = tex->GetTextureSize();
-		Renderer->SetScale(size);
+
+		if (bImageScale_)
+		{
+			float4 size = tex->GetTextureSize();
+			Renderer->SetScale(size);
+
+			if (Renderer->pivot_ == eImagePivot::BOTTOM)
+			{
+				Renderer->SetLocationY(size.y / 2.f);
+			}
+		}
+		else
+		{
+			Renderer->SetScale(Renderer->scale_);
+		}
+
+
 		Renderer->MultiplyScale(-2.f * Renderer->bFlipHorizontal_ + 1.0f, -2.f * Renderer->bFlipVertical_ + 1.0f); // -1을 넣느냐 1을 넣느냐의 차이
 
-		if (Renderer->pivot_ == eImagePivot::BOTTOM)
-		{
-			Renderer->SetLocationY(size.y / 2.f);
-		}
+
 
 	}
 
@@ -104,6 +116,7 @@ GameEngineImageRenderer::GameEngineImageRenderer()
 	, pivot_(eImagePivot::BOTTOM)
 	, bFlipHorizontal_(false)
 	, bFlipVertical_(false)
+	, color_(float4::ONE)
 {
 }
 
@@ -128,6 +141,7 @@ void GameEngineImageRenderer::Start()
 	SetRenderingPipeline("TextureBox");
 
 	ShaderHelper_.SettingConstantBufferLink("TextureCutData", CutData_);
+	ShaderHelper_.SettingConstantBufferLink("ResultColor", color_);
 }
 
 void GameEngineImageRenderer::SetIndex(const int Index)
@@ -184,7 +198,7 @@ void GameEngineImageRenderer::CreateAnimation(const std::string& _Name, int _Sta
 	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));
 }
 
-void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop /*= true*/)
+void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime, bool _Loop, bool _bImageScale)
 {
 	std::map<std::string, Animation2D*>::iterator FindIter = AllAnimations_.find(_Name);
 
@@ -207,6 +221,7 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 	NewAnimation->Loop_ = _Loop;
 	NewAnimation->InterTime_ = _InterTime;
 	NewAnimation->CurTime_ = _InterTime;
+	NewAnimation->bImageScale_ = _bImageScale;
 
 	NewAnimation->FolderTextures_ = FolderTexture;
 	NewAnimation->CurFrame_ = 0;
@@ -217,9 +232,9 @@ void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _Name, co
 	AllAnimations_.insert(std::map<std::string, Animation2D*>::value_type(_Name, NewAnimation));
 }
 
-void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _FolderTexName, float _InterTime, bool _Loop)
+void GameEngineImageRenderer::CreateAnimationFolder(const std::string& _FolderTexName, float _InterTime, bool _Loop, bool _bImageScale)
 {
-	CreateAnimationFolder(_FolderTexName, _FolderTexName, _InterTime, _Loop);
+	CreateAnimationFolder(_FolderTexName, _FolderTexName, _InterTime, _Loop, _bImageScale);
 }
 
 void GameEngineImageRenderer::ChangeAnimation(const std::string& _Name, bool _IsForce /*= false*/)
