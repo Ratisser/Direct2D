@@ -19,7 +19,7 @@ FMOD::Sound* GameEngineSoundManager::getSound(const std::string& _name)
 
 	if (findIter == endIter)
 	{
-		GameEngineDebug::MsgBoxError("No Sounds.");
+		GameEngineDebug::MsgBoxError("No Sounds. named : " + _name);
 		return nullptr;
 	}
 
