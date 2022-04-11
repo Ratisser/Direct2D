@@ -231,21 +231,34 @@ void WorldMapPlayer::updateMove(float _deltaTime)
 		state_ << "Idle";
 		return;
 	}
-	if (float4::BLACK == Map::GetColor(collisionUp_))
+
+	while (float4::BLACK == Map::GetColor(collisionUp_))
 	{
 		transform_->AddLocation(0.0f, -1.0f);
+		float4 location = transform_->GetLocation();
+		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
+		transform_->UpdateTransform();
 	}
-	if (float4::BLACK == Map::GetColor(collisionDown_))
+	while (float4::BLACK == Map::GetColor(collisionDown_))
 	{
 		transform_->AddLocation(0.0f, 1.0f);
+		float4 location = transform_->GetLocation();
+		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
+		transform_->UpdateTransform();
 	}
-	if (float4::BLACK == Map::GetColor(collisionLeft_))
+	while (float4::BLACK == Map::GetColor(collisionLeft_))
 	{
 		transform_->AddLocation(1.0f, 0.0f);
+		float4 location = transform_->GetLocation();
+		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
+		transform_->UpdateTransform();
 	}
-	if (float4::BLACK == Map::GetColor(collisionRight_))
+	while (float4::BLACK == Map::GetColor(collisionRight_))
 	{
 		transform_->AddLocation(-1.0f, 0.0f);
+		float4 location = transform_->GetLocation();
+		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
+		transform_->UpdateTransform();
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Up"))

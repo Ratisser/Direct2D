@@ -304,9 +304,13 @@ void Player::addGravity(float _deltaTime)
 		transform_->SetLocationY(static_cast<float>(static_cast<int>(transform_->GetLocation().y)));
 	}
 
-	if (float4::BLACK == Map::GetColor(bottomCenterCollision_) || float4::BLUE == Map::GetColor(bottomCenterCollision_))
+	while (float4::BLACK == Map::GetColor(bottomCenterCollision_) || float4::BLUE == Map::GetColor(bottomCenterCollision_))
 	{
 		transform_->AddLocation(0.0f, 1.0f);
+		float4 location = transform_->GetLocation();
+		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
+		
+		transform_->UpdateTransform();
 	}
 }
 
@@ -391,6 +395,8 @@ void Player::startIdle(float _deltaTime)
 		bulletDirection_ = float4::RIGHT;
 	}
 	bulletRotation_ = float4::ZERO;
+
+	renderer_->SetLocationX(0.0f);
 }
 
 void Player::updateIdle(float _deltaTime)
@@ -805,7 +811,6 @@ void Player::updateDash(float _deltaTime)
 	shootDelay_ = 0.1f;
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
-		renderer_->SetLocationX(0.0f);
 		normalState_ << "Idle";
 		return;
 	}
