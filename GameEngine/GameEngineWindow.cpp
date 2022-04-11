@@ -4,6 +4,7 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineBase/GameEngineSoundManager.h>
 #include <iostream>
+#include <sstream>
 
 // Æ÷ÀÎÅÍÇü ½Ì±ÛÅæ
 GameEngineWindow* GameEngineWindow::Inst = new GameEngineWindow();
@@ -173,6 +174,28 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
 			}
 
 			_loopFunc();
+
+
+			static unsigned int frameCount = 0;
+			static float timeElapsed = 0.0f;
+
+			float deltaTime = GameEngineTime::GetInst().GetDeltaTime();
+			timeElapsed += deltaTime;
+
+			if (timeElapsed >= 1.0f)
+			{
+				float fps = (float)frameCount;
+
+				std::wostringstream out;
+				out.precision(8);
+				out << L"CupHead - FPS: " << fps << L" Frame Time: " << deltaTime << L" second";
+				SetWindowTextW(windowhandle_, out.str().c_str());
+
+				frameCount = 0;
+				timeElapsed = 0;
+			}
+
+			frameCount++;
 		}
 	}
 }
