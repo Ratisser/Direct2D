@@ -80,9 +80,9 @@ void TutorialMap::Update(float _deltaTime)
 		}
 	}
 
-#ifdef _DEBUG
 	if (GameEngineInput::GetInstance().IsKeyDown("P"))
 	{
+		GameEngineCore::ChangeLevel("WorldLevel");
 		if (ImageRenderer->IsUpdate())
 		{
 			ImageRenderer->Off();
@@ -92,7 +92,4 @@ void TutorialMap::Update(float _deltaTime)
 			ImageRenderer->On();
 		}
 	}
-#endif // DEBUG
-
-
 }
