@@ -321,7 +321,7 @@ void GameEngineImageRenderer::ChangeAnimation(const std::string& _Name, bool _Is
 
 	if (AllAnimations_.end() == FindIter)
 	{
-		GameEngineDebug::MsgBoxError("존재하지 않는 애니메이션을 세팅하려고 했습니다");
+		GameEngineDebug::MsgBoxError("존재하지 않는 애니메이션을 세팅하려고 했습니다. " + _Name);
 	}
 
 	if (nullptr == FindIter->second)

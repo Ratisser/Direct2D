@@ -3,5 +3,6 @@
 enum class eImagePivot
 {
 	CENTER,
-	BOTTOM
+	BOTTOM,
+	NONE
 };

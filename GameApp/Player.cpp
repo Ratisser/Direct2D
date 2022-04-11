@@ -150,7 +150,7 @@ void Player::initRendererAndAnimation()
 	renderer_->CreateAnimationFolder("Duck", "Duck", 0.033f, false);
 	renderer_->CreateAnimationFolder("DuckIdle", "DuckIdle", 0.04f);
 
-	renderer_->CreateAnimationFolder("Dash", 0.04f, false);
+	renderer_->CreateAnimationFolder("Dash", 0.034f, false);
 
 	renderer_->CreateAnimationFolder("Run_Shoot_Straight");
 	renderer_->CreateAnimationFolder("Run_Shoot_DiagonalUp");
@@ -499,7 +499,6 @@ void Player::updateRun(float _deltaTime)
 		bulletSpawnParentLocation_->SetLocation(BULLET_LEFT_OFFSET, BULLET_STRAIGHT_OFFSET);
 		bulletDirection_ = float4::LEFT;
 		bulletRotation_ = float4::ZERO;
-		renderer_->ChangeAnimation("Run_Shoot_Straight");
 		bLeft_ = true;
 	}
 	else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
@@ -511,7 +510,6 @@ void Player::updateRun(float _deltaTime)
 		bulletSpawnParentLocation_->SetLocation(BULLET_RIGHT_OFFSET, BULLET_STRAIGHT_OFFSET);
 		bulletDirection_ = float4::RIGHT;
 		bulletRotation_ = float4::ZERO;
-		renderer_->ChangeAnimation("Run_Shoot_Straight");
 		bLeft_ = false;
 	}
 	else
@@ -1252,19 +1250,17 @@ void Player::updateLockedShot(float _deltaTime)
 	else
 	{
 		renderer_->ChangeAnimation("Shoot_Straight");
-		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+		if (bLeft_)
 		{
 			bulletSpawnParentLocation_->SetLocation(BULLET_LEFT_OFFSET, BULLET_STRAIGHT_OFFSET);
 			bulletDirection_ = float4::LEFT;
 			bulletRotation_ = float4::ZERO;
-			bLeft_ = true;
 		}
-		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+		else
 		{
 			bulletSpawnParentLocation_->SetLocation(BULLET_RIGHT_OFFSET, BULLET_STRAIGHT_OFFSET);
 			bulletDirection_ = float4::RIGHT;
 			bulletRotation_ = float4::ZERO;
-			bLeft_ = false;
 		}
 	}
 }

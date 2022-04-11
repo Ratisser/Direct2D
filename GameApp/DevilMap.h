@@ -2,6 +2,7 @@
 
 #include "Map.h"
 
+// Map Width : 1442px
 class DevilMap : public Map
 {
 public:

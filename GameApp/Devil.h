@@ -5,6 +5,7 @@
 #include "MonsterBase.h"
 
 class GameEngineImageRenderer;
+class GameEngineCollision;
 class Devil : public MonsterBase
 {
 public:
@@ -22,6 +23,7 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 private:
+	void initTransform();
 	void initRendererAndAnimation();
 	void initCollision();
 	void initState();
@@ -42,10 +44,24 @@ private:
 
 #pragma endregion
 
+private:
+	const float4 HEAD_LOCATION = float4(-40.f, 450.f);
+	const float4 LEFT_ARM_LOCATION = float4(-100.f, -600.f);
+	const float4 RIGHT_ARM_LOCATION = float4(1542.f, -600.f);
+	const float4 CENTER_ARM_LOCATION = float4(721.f, -600.f);
 
 private:
 	GameEngineImageRenderer* renderer_;
+	GameEngineImageRenderer* leftArmRenderer_;
+	GameEngineImageRenderer* rightArmRenderer_;
+	GameEngineTransformComponent* headTransform_;
+	GameEngineCollision* headCollision_;
+
+	GameEngineTransformComponent* leftArmTransform_;
+	GameEngineTransformComponent* rightArmTransform_;
 
 	GameEngineFSM state_;
+
+	float timeCounter_;
 };
 

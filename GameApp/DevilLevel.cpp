@@ -73,49 +73,51 @@ void DevilLevel::LevelStart()
 
 void DevilLevel::LevelUpdate(float _deltaTime)
 {
-	//mainCamera_->GetTransform()->SetLocation(player_->GetTransform()->GetLocation());
+	//float4 camPos = mainCamera_->GetTransform()->GetWorldLocation();
+	//float4 playerPos = player_->GetTransform()->GetWorldLocation();
+	//if (camPos.x >= 650.f && camPos.x <= 790.f)
+	//{
+	//	if (camPos.x - playerPos.x > 200.f && camPos.x != 650.f)
+	//	{
+	//		mainCamera_->GetTransform()->AddLocation(-100.f * _deltaTime, 0.0f);
+	//	}
+	//	else if (camPos.x - playerPos.x < -200.f && camPos.x != 790.f)
+	//	{
+	//		mainCamera_->GetTransform()->AddLocation(100.f * _deltaTime, 0.0f);
+	//	}
+	//}
 
-	float4 camPos = mainCamera_->GetTransform()->GetWorldLocation();
-	float4 playerPos = player_->GetTransform()->GetWorldLocation();
-	if (camPos.x >= 650.f && camPos.x <= 790.f)
+	//if (camPos.x < 650.f)
+	//{
+	//	mainCamera_->GetTransform()->SetLocationX(650.f);
+	//}
+	//else if (camPos.x > 790.f)
+	//{
+	//	mainCamera_->GetTransform()->SetLocationX(790.f);
+	//}
+
+	float4 location = mainCamera_->GetTransform()->GetLocation();
+	mainCamera_->GetTransform()->SetLocationX(static_cast<float>(location.ix()));
+
+	if (GameEngineInput::GetInstance().IsKeyPress("W"))
 	{
-		if (camPos.x - playerPos.x > 200.f)
-		{
-			mainCamera_->GetTransform()->AddLocation(-100.f * _deltaTime, 0.0f);
-		}
-		else if (camPos.x - playerPos.x < -200.f)
-		{
-			mainCamera_->GetTransform()->AddLocation(100.f * _deltaTime, 0.0f);
-		}
+		mainCamera_->GetTransform()->AddLocation(0.0f, 1000.f * _deltaTime);
 	}
-	else if (camPos.x < 650.f)
+
+	if (GameEngineInput::GetInstance().IsKeyPress("S"))
 	{
-		mainCamera_->GetTransform()->SetLocationX(650.f);
+		mainCamera_->GetTransform()->AddLocation(0.0f, -1000 * _deltaTime);
 	}
-	else if (camPos.x > 790.f)
+
+	if (GameEngineInput::GetInstance().IsKeyPress("A"))
 	{
-		mainCamera_->GetTransform()->SetLocationX(790.f);
+		mainCamera_->GetTransform()->AddLocation(-1000 * _deltaTime, 0.0f);
 	}
 
-	//if (GameEngineInput::GetInstance().IsKeyPress("W"))
-	//{
-	//	mainCamera_->GetTransform()->AddLocation(0.0f, 500.f * _deltaTime);
-	//}
-
-	//if (GameEngineInput::GetInstance().IsKeyPress("S"))
-	//{
-	//	mainCamera_->GetTransform()->AddLocation(0.0f, -500.f * _deltaTime);
-	//}
-
-	//if (GameEngineInput::GetInstance().IsKeyPress("A"))
-	//{
-	//	mainCamera_->GetTransform()->AddLocation(-500.f * _deltaTime, 0.0f);
-	//}
-
-	//if (GameEngineInput::GetInstance().IsKeyPress("D"))
-	//{
-	//	mainCamera_->GetTransform()->AddLocation(500.f * _deltaTime, 0.0f);
-	//}
+	if (GameEngineInput::GetInstance().IsKeyPress("D"))
+	{
+		mainCamera_->GetTransform()->AddLocation(1000 * _deltaTime, 0.0f);
+	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("W"))
 	{

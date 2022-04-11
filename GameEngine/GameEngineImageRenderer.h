@@ -58,10 +58,10 @@ public:
 	void SetIndex(const int Index);
 
 	void CreateAnimation(const std::string& _Name, int _StartFrame, int _EndFrame, float _InterTime, bool _Loop = true);
-	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true, bool _bImageScale = true);
-	void CreateAnimationFolder(const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true, bool _bImageScale = true);
-	void CreateAnimationFolderReverse(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true, bool _bImageScale = true);
-	void CreateAnimationFolderReverse(const std::string& _FolderTexName, float _InterTime = 0.04f, bool _Loop = true, bool _bImageScale = true);
+	void CreateAnimationFolder(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.034f, bool _Loop = true, bool _bImageScale = true);
+	void CreateAnimationFolder(const std::string& _FolderTexName, float _InterTime = 0.034f, bool _Loop = true, bool _bImageScale = true);
+	void CreateAnimationFolderReverse(const std::string& _Name, const std::string& _FolderTexName, float _InterTime = 0.034f, bool _Loop = true, bool _bImageScale = true);
+	void CreateAnimationFolderReverse(const std::string& _FolderTexName, float _InterTime = 0.034f, bool _Loop = true, bool _bImageScale = true);
 	void ChangeAnimation(const std::string& _Name, bool _IsForce = false);
 	Animation2D* GetCurrentAnimation() const { return CurAnimation_; }
 
@@ -71,6 +71,7 @@ public:
 
 	void SetFlip(bool _bHorizon, bool _bVertical);
 
+	void SetPivot(eImagePivot _pivot) { pivot_ = _pivot; }
 
 	inline void SetColor(float4 _color) { color_ = _color; }
 	inline float4 GetColor() const { return color_; }
