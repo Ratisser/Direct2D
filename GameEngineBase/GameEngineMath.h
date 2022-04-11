@@ -1,5 +1,7 @@
 #pragma once
 
+class float4;
+
 class GameEngineMath 
 {
 public:
@@ -7,6 +9,8 @@ public:
 	static const float PI2;
 	static const float DegreeToRadian;
 	static const float RadianToDegree;
+
+	static float4 Lerp(const float4 _startPos, const float4 _endPos, float _startTime, float _endTime);
 };
 
 class float4x4;
@@ -28,21 +32,6 @@ public:
 	static const float4 NONE;
 
 public:
-
-	static float4 Lerp(const float4 _startPos, const float4 _endPos, float _startTime, float _endTime)
-	{
-		float4 delta;
-		delta = _endPos - _startPos;
-
-		float ratio = (_startTime / _endTime);
-		if (ratio > 1.0f)
-		{
-			ratio = 1.0f;
-		}
-
-		return _startPos + (delta * ratio);
-	}
-
 	static float4 Cross3D(float4 _Left , float4 _Right)
 	{
 		return DirectX::XMVector3Cross(_Left.DirectVector, _Right.DirectVector);
