@@ -375,6 +375,7 @@ void Player::updateShootState(float _deltaTime)
 
 void Player::startDamagedState(float _deltaTime)
 {
+
 }
 
 void Player::updateDamagedState(float _deltaTime)

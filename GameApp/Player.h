@@ -96,7 +96,7 @@ private:
 private:
 	const float MOVE_SPEED = 500.f;
 	const float GRAVITY_POWER = 5000.f;
-	const float JUMP_POWER = 800.f;
+	const float JUMP_POWER = 850.f;
 	const float DASH_SPEED = 1000.f;
 	const float SHOOT_DELAY = 0.12f;
 
