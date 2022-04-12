@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "GameEngineCollision.h"
+#include "GameEngineRenderer.h"
 #include "GameEngineLevel.h"
 
 std::function<bool(GameEngineCollision&, GameEngineCollision&)>
@@ -30,6 +31,16 @@ void GameEngineCollision::Start()
 	GameEngineTransformComponent::Start();
 
 	level_->pushCollision(collisionGroup_, this);
+
+#ifdef _DEBUG
+	if (nullptr == actor_)
+	{
+		GameEngineDebug::MsgBoxError("Actor is nullptr");
+		return;
+	}
+	GameEngineRenderer* debugRect = actor_->CreateTransformComponent<GameEngineRenderer>(this);
+	debugRect->SetRenderingPipeline("DebugRect");
+#endif
 }
 
 void GameEngineCollision::Update(float _deltaTime)
