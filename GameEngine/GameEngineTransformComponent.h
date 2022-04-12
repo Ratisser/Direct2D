@@ -10,6 +10,7 @@ public:
 	float4x4 Projection;
 };
 
+class float4;
 class GameEngineTransformComponent : public GameEngineComponent
 {
 public:

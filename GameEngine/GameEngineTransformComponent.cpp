@@ -18,11 +18,15 @@ void GameEngineTransformComponent::SetScale(const float4& _scale)
 {
 	scale_ = _scale;
 	scale_.z = 0.0f;
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::SetScale(float _scale)
 {
 	scale_ = { _scale, _scale, _scale, 0.0f };
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::SetScale(float _x, float _y, float _z)
@@ -31,6 +35,9 @@ void GameEngineTransformComponent::SetScale(float _x, float _y, float _z)
 	scale_.y = _y;
 	scale_.z = _z;
 	scale_.w = 0.f;
+
+	UpdateTransform();
+
 }
 
 void GameEngineTransformComponent::AddScale(float _scale)
@@ -39,6 +46,8 @@ void GameEngineTransformComponent::AddScale(float _scale)
 	scale_.y += _scale;
 	scale_.z += _scale;
 	scale_.w = 0.f;
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::AddScale(float _x, float _y, float _z)
@@ -47,6 +56,8 @@ void GameEngineTransformComponent::AddScale(float _x, float _y, float _z)
 	scale_.y += _y;
 	scale_.z += _z;
 	scale_.w = 0.f;
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::MultiplyScale(float _scale)
@@ -55,6 +66,8 @@ void GameEngineTransformComponent::MultiplyScale(float _scale)
 	scale_.y *= _scale;
 	scale_.z *= _scale;
 	scale_.w = 0.f;
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::MultiplyScale(float _x, float _y, float _z)
@@ -63,11 +76,15 @@ void GameEngineTransformComponent::MultiplyScale(float _x, float _y, float _z)
 	scale_.y *= _y;
 	scale_.z *= _z;
 	scale_.w = 0.f;
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::SetRotation(const float4& _rotation)
 {
 	rotation_ = _rotation;
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::SetRotation(float _x, float _y, float _z)
@@ -76,6 +93,8 @@ void GameEngineTransformComponent::SetRotation(float _x, float _y, float _z)
 	rotation_.y = _y;
 	rotation_.z = _z;
 	rotation_.w = 0.f;
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::AddRotation(float _x, float _y, float _z)
@@ -84,11 +103,15 @@ void GameEngineTransformComponent::AddRotation(float _x, float _y, float _z)
 	rotation_.y += _y;
 	rotation_.z += _z;
 	rotation_.w = 0.f;
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::SetLocation(const float4& _location)
 {
 	location_ = _location;
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::SetLocation(float _x, float _y, float _z)
@@ -97,6 +120,8 @@ void GameEngineTransformComponent::SetLocation(float _x, float _y, float _z)
 	location_.y = _y;
 	location_.z = _z;
 	location_.w = 1.0f;
+
+	UpdateTransform();
 }
 
 void GameEngineTransformComponent::AddLocation(float _x, float _y, float _z)
@@ -105,11 +130,15 @@ void GameEngineTransformComponent::AddLocation(float _x, float _y, float _z)
 	location_.y += _y;
 	location_.z += _z;
 	location_.w = 1.0f;
+	UpdateTransform();
+
 }
 
 void GameEngineTransformComponent::AddLocation(const float4& _location)
 {
 	location_ += _location;
+
+	UpdateTransform();
 }
 
 float4 GameEngineTransformComponent::GetScale() const
