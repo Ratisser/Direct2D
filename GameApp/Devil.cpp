@@ -77,7 +77,6 @@ void Devil::initRendererAndAnimation()
 
 	renderer_->ChangeAnimation("DevilIdle");
 
-
 	leftArmRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(leftArmTransform_);
 	leftArmRenderer_->CreateAnimationFolder("RamArmsStart", 0.04f, false);
 	leftArmRenderer_->CreateAnimationFolder("RamArmsEnd", 0.04f, false);
@@ -100,6 +99,27 @@ void Devil::initCollision()
 	headCollision_->SetCollisionType(eCollisionType::Rect);
 	headCollision_->SetCollisionGroup(eCollisionGroup::Monster);
 	headCollision_->SetScale(125.f);
+
+	{
+		GameEngineCollision* leftArmCollision = CreateTransformComponent<GameEngineCollision>(leftArmTransform_);
+		leftArmCollision->SetCollisionType(eCollisionType::Rect);
+		leftArmCollision->SetScale(600.f, 70.f);
+		leftArmCollision->SetCollisionGroup(eCollisionGroup::Monster);
+		leftArmCollision->SetLocationX(-300.f);
+
+		GameEngineCollision* rightArmCollision = CreateTransformComponent<GameEngineCollision>(rightArmTransform_);
+		rightArmCollision->SetCollisionType(eCollisionType::Rect);
+		rightArmCollision->SetScale(600.f, 70.f);
+		rightArmCollision->SetCollisionGroup(eCollisionGroup::Monster);
+		rightArmCollision->SetLocationX(300.f);
+	}
+
+	GameEngineCollision* test = CreateTransformComponent<GameEngineCollision>(nullptr);
+	test->SetCollisionGroup(eCollisionGroup::Monster);
+	test->SetCollisionType(eCollisionType::Rect);
+	test->SetScale(100.f);
+	test->SetLocation(400.f, -400.f);
+
 
 #ifdef _DEBUG
 	GameEngineRenderer* debugRect = CreateTransformComponent<GameEngineRenderer>(headCollision_);

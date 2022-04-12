@@ -6,3 +6,5 @@
 #include <GameEngineBase/GameEngineFile.h>
 
 #include <GameEngine/GameEngineManagerHelper.h>
+
+#include "eCollisionGroup.h"

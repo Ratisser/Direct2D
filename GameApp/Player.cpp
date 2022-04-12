@@ -175,6 +175,8 @@ void Player::initRendererAndAnimation()
 
 	renderer_->CreateAnimationFolder("Duck_Shoot");
 
+	renderer_->CreateAnimationFolder("Hit_Ground", 0.067f, false);
+
 	renderer_->ChangeAnimation("Idle");
 
 	fireStartRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(bulletSpawnParentLocation_);
@@ -309,7 +311,7 @@ void Player::addGravity(float _deltaTime)
 		transform_->AddLocation(0.0f, 1.0f);
 		float4 location = transform_->GetLocation();
 		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
-		
+
 		transform_->UpdateTransform();
 	}
 }
@@ -325,6 +327,15 @@ void Player::updateNormalState(float _deltaTime)
 		state_ << "ShootState";
 		return;
 	}
+
+	if (nullptr != collider_->IsCollideOne(eCollisionGroup::Monster))
+	{
+		normalState_ << "Jump";
+		bGround_ = false;
+		state_ << "DamagedState";
+		return;
+	}
+
 	normalState_.Update(_deltaTime);
 }
 
@@ -375,11 +386,16 @@ void Player::updateShootState(float _deltaTime)
 
 void Player::startDamagedState(float _deltaTime)
 {
-
+	renderer_->ChangeAnimation("Hit_Ground");
 }
 
 void Player::updateDamagedState(float _deltaTime)
 {
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "NormalState";
+		return;
+	}
 }
 
 void Player::startIdle(float _deltaTime)
