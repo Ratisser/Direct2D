@@ -63,8 +63,8 @@ void TutorialLevel::LevelStart()
 	//player_->GetTransform()->SetLocation(3890.f, -400.f, 0.0f);
 
 
-	mainCamera_->GetCamera()->SetLocationZ(-320.f);
-	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	mainCamera_->GetCameraComponent()->SetLocationZ(-320.f);
+	mainCamera_->GetCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);
 
 
 	CreateActor<TutorialMap>("Map");

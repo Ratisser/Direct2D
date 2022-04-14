@@ -4,10 +4,13 @@
 #include "GameEngineActor.h"
 #include "GameEngineComponent.h"
 #include "GameEngineRenderer.h"
-#include "GameEngineCamera.h"
+#include "GameEngineInput.h"
 
 GameEngineLevel::GameEngineLevel()
 	: mainCamera_(nullptr)
+	, uiCamera_(nullptr)
+	, freeCamera_(nullptr)
+	, mainCameraBackup_(nullptr)
 {
 
 }
@@ -23,6 +26,60 @@ GameEngineLevel::~GameEngineLevel()
 				delete actor;
 				actor = nullptr;
 			}
+		}
+	}
+}
+
+void GameEngineLevel::LevelUpdateAfter(float _deltaTime)
+{
+	GameEngineInput* input = &GameEngineInput::GetInstance();
+	if (input->IsKeyDown("O"))
+	{
+		SwitchFreeCamera();
+	}
+
+	if (mainCamera_ == freeCamera_)
+	{
+		const float CAMERA_MOVE_SPEED = 500.f;
+		const float CAMERA_MOVE_SPEED_BOOST = 1500.f;
+
+
+		float CameraMoveSpeed = CAMERA_MOVE_SPEED;
+		if (input->IsKeyPress("LShift"))
+		{
+			CameraMoveSpeed = CAMERA_MOVE_SPEED_BOOST;
+		}
+
+		GameEngineCameraComponent* cam = freeCamera_->GetCameraComponent();
+		if (input->IsKeyPress("W"))
+		{
+			cam->AddLocation(cam->GetForward() * CameraMoveSpeed * _deltaTime);
+		}
+		if (input->IsKeyPress("S"))
+		{
+			cam->AddLocation(cam->GetBackward() * CameraMoveSpeed * _deltaTime);
+		}
+		if (input->IsKeyPress("A"))
+		{
+			cam->AddLocation(cam->GetLeft() * CameraMoveSpeed * _deltaTime);
+		}
+		if (input->IsKeyPress("D"))
+		{
+			cam->AddLocation(cam->GetRight() * CameraMoveSpeed * _deltaTime);
+		}
+		if (input->IsKeyPress("Q"))
+		{
+			cam->AddLocation(cam->GetDown() * CameraMoveSpeed * _deltaTime);
+		}
+		if (input->IsKeyPress("E"))
+		{
+			cam->AddLocation(cam->GetUp() * CameraMoveSpeed * _deltaTime);
+		}
+
+		if (input->IsKeyPress("RClick"))
+		{
+			float4 mouseDelta = input->GetMouseDirection();
+			cam->AddRotation(-mouseDelta.y * GameEngineMath::DegreeToRadian, mouseDelta.x * GameEngineMath::DegreeToRadian, 0.0f);
 		}
 	}
 }
@@ -166,6 +223,23 @@ void GameEngineLevel::Release(float _deltaTime)
 	}
 }
 
+void GameEngineLevel::SwitchFreeCamera()
+{
+	if (mainCamera_ == mainCameraBackup_)
+	{
+		mainCamera_ = freeCamera_;
+	}
+	else
+	{
+		mainCamera_ = mainCameraBackup_;
+	}
+}
+
+bool GameEngineLevel::IsFreeCamera()
+{
+	return mainCamera_ == freeCamera_;
+}
+
 GameEngineCamera* GameEngineLevel::GetMainCameraActor()
 {
 	return mainCamera_;
@@ -173,7 +247,7 @@ GameEngineCamera* GameEngineLevel::GetMainCameraActor()
 
 GameEngineCameraComponent* GameEngineLevel::GetMainCameraComponent()
 {
-	return mainCamera_->GetCamera();
+	return mainCamera_->GetCameraComponent();
 }
 
 std::list<GameEngineCollision*>& GameEngineLevel::GetCollisionGroup(int _group)
@@ -184,6 +258,21 @@ std::list<GameEngineCollision*>& GameEngineLevel::GetCollisionGroup(int _group)
 void GameEngineLevel::init()
 {
 	mainCamera_ = CreateActor<GameEngineCamera>("MainCamera");
+	mainCameraBackup_ = mainCamera_;
+	uiCamera_ = nullptr;
+	freeCamera_ = CreateActor<GameEngineCamera>("FreeCamera");
+	freeCamera_->GetCameraComponent()->SetProjectionMode(ProjectionMode::Perspective);
+
+	GameEngineInput::GetInstance().CreateKey("W", 'W');
+	GameEngineInput::GetInstance().CreateKey("A", 'A');
+	GameEngineInput::GetInstance().CreateKey("S", 'S');
+	GameEngineInput::GetInstance().CreateKey("D", 'D');
+	GameEngineInput::GetInstance().CreateKey("Q", 'Q');
+	GameEngineInput::GetInstance().CreateKey("E", 'E');
+	GameEngineInput::GetInstance().CreateKey("O", 'O');
+
+	GameEngineInput::GetInstance().CreateKey("LShift", VK_LSHIFT);
+	GameEngineInput::GetInstance().CreateKey("RClick", VK_RBUTTON);
 }
 
 void GameEngineLevel::pushRenderer(GameEngineRenderer* _renderingComponent)

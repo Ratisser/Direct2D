@@ -3,11 +3,13 @@
 #include <GameEngineBase/GameEngineObjectNameBase.h>
 
 #include "GameEngineCamera.h"
+#include "GameEngineCameraComponent.h"
 
 class GameEngineActor;
 class GameEngineRenderer;
 class GameEngineCollision;
 class GameEngineCamera;
+class GameEngineCameraComponent;
 class GameEngineCore;
 class GameEngineLevel : public GameEngineObjectNameBase
 {
@@ -30,11 +32,15 @@ public:
 	virtual void LevelChangeStartEvent() = 0;
 	virtual void LevelStart() = 0;
 	virtual void LevelUpdate(float _deltaTime) = 0;
+	virtual void LevelUpdateAfter(float _deltaTime);
 
 public:
 	void ActorUpdate(float _deltaTime);
 	void Render();
 	void Release(float _deltaTime);
+
+	void SwitchFreeCamera();
+	bool IsFreeCamera();
 
 	GameEngineCamera* GetMainCameraActor();
 	GameEngineCameraComponent* GetMainCameraComponent();
@@ -60,6 +66,9 @@ private:
 
 protected:
 	GameEngineCamera* mainCamera_;
+	GameEngineCamera* uiCamera_;
+	GameEngineCamera* freeCamera_;
+	GameEngineCamera* mainCameraBackup_;
 
 private:
 	std::map<int, std::list<GameEngineActor*>> allActors_;

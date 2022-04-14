@@ -33,9 +33,13 @@ Player::Player()
 	, bCanJump_(true)
 	, bDownJump_(false)
 	, bShooting_(false)
+	, bInvincible_(false)
+	, bBlink_(false)
 	, gravitySpeed_(0.0f)
 	, jumpTime_(0.0f)
 	, shootDelay_(0.0f)
+	, invincibleTime_(0.0f)
+	, blinkTime_(0.0f)
 	, bulletSpawnParentLocation_(nullptr)
 	, bulletSpawnLocation_(nullptr)
 	, bulletDirection_(float4::RIGHT)
@@ -70,22 +74,53 @@ void Player::Update(float _deltaTime)
 
 	//GameEngineDebug::OutPutDebugString(normalState_.GetCurrentStateName() + "\n");
 
-	static const char* tempString = "Shoot_Straight";
-	static const char* tempString2 = "Run_Shoot_Straight";
-	static const char* tempString3 = "Duck_Shoot";
-	static float bulletPositionY = 0.0f;
-
-	const char* str = renderer_->GetCurrentAnimation()->Name_.c_str();
-
-	if (!strcmp(tempString, str) || !strcmp(tempString2, str) || !strcmp(tempString3, str))
+	// Peashot Straight로 발사할 때 위아래 왔다갔다
 	{
-		bulletPositionY += _deltaTime * 8.f;
-		float a = sinf(bulletPositionY) * 20.f;
-		bulletSpawnLocation_->SetLocationY(a + 15.f);
+		static const char* tempString = "Shoot_Straight";
+		static const char* tempString2 = "Run_Shoot_Straight";
+		static const char* tempString3 = "Duck_Shoot";
+		static float bulletPositionY = 0.0f;
+
+		const char* str = renderer_->GetCurrentAnimation()->Name_.c_str();
+
+		if (!strcmp(tempString, str) || !strcmp(tempString2, str) || !strcmp(tempString3, str))
+		{
+			bulletPositionY += _deltaTime * 8.f;
+			float a = sinf(bulletPositionY) * 20.f;
+			bulletSpawnLocation_->SetLocationY(a + 45.f);
+		}
+		else
+		{
+			bulletSpawnLocation_->SetLocationY(30.0f);
+		}
+	}
+
+	// 무적, 깜빡임처리
+	if (bInvincible_)
+	{
+		invincibleTime_ += _deltaTime;
+		blinkTime_ += _deltaTime;
+
+		if (blinkTime_ > BLINK_DELAY)
+		{
+			bBlink_ = !bBlink_;
+			blinkTime_ = 0.0f;
+		}
+
+		if (invincibleTime_ > INVINCIBLE_TIME)
+		{
+			bInvincible_ = false;
+			bBlink_ = false;
+		}
+	}
+
+	if (bBlink_)
+	{
+		renderer_->SetColor({ 1.0f, 1.0f, 1.0f, 0.2f });
 	}
 	else
 	{
-		bulletSpawnLocation_->SetLocationY(0.0f);
+		renderer_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	}
 
 	if (bLeft_)
@@ -96,29 +131,6 @@ void Player::Update(float _deltaTime)
 	{
 		renderer_->SetFlip(false, false);
 	}
-
-	//if (GameEngineInput::GetInstance().IsKeyPress("Q"))
-	//{
-	//	transform_->AddRotation(0.0f, 0.0f, _deltaTime);
-	//}
-	//if (GameEngineInput::GetInstance().IsKeyPress("E"))
-	//{
-	//	transform_->AddRotation(0.0f, 0.0f, -_deltaTime);
-	//}
-
-	//if (GameEngineInput::GetInstance().IsKeyDown("P"))
-	//{
-	//	static bool temp = false;
-	//	if (temp)
-	//	{
-	//		level_->GetMainCameraComponent()->SetProjectionMode(ProjectionMode::Perspective);
-	//	}
-	//	else
-	//	{
-	//		level_->GetMainCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);
-	//	}
-	//	temp = !temp;
-	//}
 }
 
 std::string& Player::GetNormalState()
@@ -151,6 +163,7 @@ void Player::initRendererAndAnimation()
 	renderer_->CreateAnimationFolder("DuckIdle", "DuckIdle", 0.04f);
 
 	renderer_->CreateAnimationFolder("Dash", 0.034f, false);
+	renderer_->CreateAnimationFolder("Dash_Air", 0.034f, false);
 
 	renderer_->CreateAnimationFolder("Run_Shoot_Straight");
 	renderer_->CreateAnimationFolder("Run_Shoot_DiagonalUp");
@@ -175,7 +188,7 @@ void Player::initRendererAndAnimation()
 
 	renderer_->CreateAnimationFolder("Duck_Shoot");
 
-	renderer_->CreateAnimationFolder("Hit_Ground", 0.067f, false);
+	renderer_->CreateAnimationFolder("Hit_Ground", 0.05f, false);
 
 	renderer_->ChangeAnimation("Idle");
 
@@ -285,8 +298,8 @@ void Player::initState()
 	normalState_.CreateState("ShootWhileRunning", std::bind(&Player::startShootWhileRunning, this, std::placeholders::_1), std::bind(&Player::updateShootWhileRunning, this, std::placeholders::_1));
 	normalState_.CreateState("Parry", std::bind(&Player::startParry, this, std::placeholders::_1), std::bind(&Player::updateParry, this, std::placeholders::_1));
 
-	state_.ChangeState("NormalState");
 	normalState_.ChangeState("Idle");
+	state_.ChangeState("NormalState");
 }
 
 void Player::addGravity(float _deltaTime)
@@ -322,17 +335,19 @@ void Player::startNormalState(float _deltaTime)
 
 void Player::updateNormalState(float _deltaTime)
 {
-	if (GameEngineInput::GetInstance().IsKeyPress("X") && normalState_.GetCurrentStateName() != "Dash")
-	{
-		state_ << "ShootState";
-		return;
-	}
-
-	if (nullptr != collider_->IsCollideOne(eCollisionGroup::Monster))
+	if (!bInvincible_ &&
+		(nullptr != collider_->IsCollideOne(eCollisionGroup::Monster) || nullptr != collider_->IsCollideOne(eCollisionGroup::MonsterProjectile))
+		)
 	{
 		normalState_ << "Jump";
 		bGround_ = false;
 		state_ << "DamagedState";
+		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("X") && normalState_.GetCurrentStateName() != "Dash")
+	{
+		state_ << "ShootState";
 		return;
 	}
 
@@ -349,6 +364,18 @@ void Player::startShootState(float _deltaTime)
 
 void Player::updateShootState(float _deltaTime)
 {
+	if (!bInvincible_ &&
+		(nullptr != collider_->IsCollideOne(eCollisionGroup::Monster) || nullptr != collider_->IsCollideOne(eCollisionGroup::MonsterProjectile))
+		)
+	{
+		state_ << "DamagedState";
+		normalState_ << "Jump";
+		fireLoopSound_->Stop();
+		fireStartRenderer_->Off();
+		bGround_ = false;
+		return;
+	}
+
 	if (!GameEngineInput::GetInstance().IsKeyPress("X")
 		|| normalState_.GetCurrentStateName() == "Dash")
 	{
@@ -393,6 +420,11 @@ void Player::updateDamagedState(float _deltaTime)
 {
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
+		bInvincible_ = true;
+		bBlink_ = false;
+		invincibleTime_ = 0.0f;
+		blinkTime_ = 0.0f;
+
 		state_ << "NormalState";
 		return;
 	}

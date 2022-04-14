@@ -67,64 +67,18 @@ void DevilLevel::LevelStart()
 	devil->GetTransform()->SetLocation(750.f, -690.f, 0.8f);
 
 	mainCamera_->GetTransform()->SetLocation(640.f, -360.f, -320.f);
-	//mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Perspective);
-	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	mainCamera_->GetCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);
 }
 
 void DevilLevel::LevelUpdate(float _deltaTime)
 {
 	float4 camPos = mainCamera_->GetTransform()->GetWorldLocation();
 	float4 playerPos = player_->GetTransform()->GetWorldLocation();
-	if (camPos.x >= 650.f && camPos.x <= 790.f)
+
+	if (false == IsFreeCamera())
 	{
-		if (camPos.x - playerPos.x > 200.f && camPos.x != 650.f)
-		{
-			mainCamera_->GetTransform()->AddLocation(-100.f * _deltaTime, 0.0f);
-		}
-		else if (camPos.x - playerPos.x < -200.f && camPos.x != 790.f)
-		{
-			mainCamera_->GetTransform()->AddLocation(100.f * _deltaTime, 0.0f);
-		}
+		mainCamera_->GetTransform()->SetLocationX(640.f + playerPos.x / 8.9f);
 	}
-
-	if (camPos.x < 650.f)
-	{
-		mainCamera_->GetTransform()->SetLocationX(650.f);
-	}
-	else if (camPos.x > 790.f)
-	{
-		mainCamera_->GetTransform()->SetLocationX(790.f);
-	}
-
-	float4 location = mainCamera_->GetTransform()->GetLocation();
-	mainCamera_->GetTransform()->SetLocationX(static_cast<float>(location.ix()));
-
-
-	//
-	//if (GameEngineInput::GetInstance().IsKeyPress("W"))
-	//{
-	//	mainCamera_->GetTransform()->AddLocation(0.0f, 1000.f * _deltaTime);
-	//}
-
-	//if (GameEngineInput::GetInstance().IsKeyPress("S"))
-	//{
-	//	mainCamera_->GetTransform()->AddLocation(0.0f, -1000 * _deltaTime);
-	//}
-
-	//if (GameEngineInput::GetInstance().IsKeyPress("A"))
-	//{
-	//	mainCamera_->GetTransform()->AddLocation(-1000 * _deltaTime, 0.0f);
-	//}
-
-	//if (GameEngineInput::GetInstance().IsKeyPress("D"))
-	//{
-	//	mainCamera_->GetTransform()->AddLocation(1000 * _deltaTime, 0.0f);
-	//}
-
-	//if (GameEngineInput::GetInstance().IsKeyDown("W"))
-	//{
-	//	player_->GetTransform()->SetLocation(400.f, -400.f);
-	//}
 
 	if (!bgmPlayer_->IsPlaying())
 	{

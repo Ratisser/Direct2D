@@ -1,17 +1,21 @@
 #include "PreCompile.h"
 #include "GameEngineInput.h"
 #include <GameEngineBase/GameEngineDebug.h>
+#include <GameEngine\GameEngineWindow.h>
 
 GameEngineInput* GameEngineInput::instance_ = new GameEngineInput();
 
 GameEngineInput::GameEngineInput()
+	: prevMousePos_(float4::ZERO)
+	, currentMousePos_(float4::ZERO)
+	, mouseDirection_(float4::ZERO)
 {
 }
 
 GameEngineInput::~GameEngineInput()
 {
-	std::map<std::string, GameEngineKey*>::iterator startIter = keys_.begin();
-	std::map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
+	std::unordered_map<std::string, GameEngineKey*>::iterator startIter = keys_.begin();
+	std::unordered_map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
 
 	while (startIter != endIter)
 	{
@@ -77,8 +81,8 @@ GameEngineInput::GameEngineKey::~GameEngineKey()
 
 bool GameEngineInput::CreateKey(const std::string& _keyName, int _key)
 {
-	std::map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
-	std::map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
+	std::unordered_map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
+	std::unordered_map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
 
 	if (findIter != endIter)
 	{
@@ -96,8 +100,8 @@ bool GameEngineInput::CreateKey(const std::string& _keyName, int _key)
 
 bool GameEngineInput::IsKeyDown(const std::string& _keyName)
 {
-	std::map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
-	std::map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
+	std::unordered_map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
+	std::unordered_map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
 
 	if (findIter == endIter)
 	{
@@ -110,8 +114,8 @@ bool GameEngineInput::IsKeyDown(const std::string& _keyName)
 
 bool GameEngineInput::IsKeyUp(const std::string& _keyName)
 {
-	std::map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
-	std::map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
+	std::unordered_map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
+	std::unordered_map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
 
 	if (findIter == endIter)
 	{
@@ -124,8 +128,8 @@ bool GameEngineInput::IsKeyUp(const std::string& _keyName)
 
 bool GameEngineInput::IsKeyPress(const std::string& _keyName)
 {
-	std::map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
-	std::map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
+	std::unordered_map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
+	std::unordered_map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
 
 	if (findIter == endIter)
 	{
@@ -138,8 +142,8 @@ bool GameEngineInput::IsKeyPress(const std::string& _keyName)
 
 bool GameEngineInput::IsKeyFree(const std::string& _keyName)
 {
-	std::map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
-	std::map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
+	std::unordered_map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
+	std::unordered_map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
 
 	if (findIter == endIter)
 	{
@@ -152,8 +156,8 @@ bool GameEngineInput::IsKeyFree(const std::string& _keyName)
 
 bool GameEngineInput::IsKeyAvailable(const std::string& _keyName)
 {
-	std::map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
-	std::map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
+	std::unordered_map<std::string, GameEngineKey*>::iterator findIter = keys_.find(_keyName);
+	std::unordered_map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
 
 	if (findIter == endIter)
 	{
@@ -163,14 +167,35 @@ bool GameEngineInput::IsKeyAvailable(const std::string& _keyName)
 	return true;
 }
 
+float4 GameEngineInput::GetMouseDirection()
+{
+	return mouseDirection_;
+}
+
 void GameEngineInput::update()
 {
-	std::map<std::string, GameEngineKey*>::iterator startIter = keys_.begin();
-	std::map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
+	std::unordered_map<std::string, GameEngineKey*>::iterator startIter = keys_.begin();
+	std::unordered_map<std::string, GameEngineKey*>::iterator endIter = keys_.end();
 
 	while (startIter != endIter)
 	{
 		startIter->second->update();
 		startIter++;
 	}
+
+	POINT mousePoint = { 0, };
+	GetCursorPos(&mousePoint);
+	::ScreenToClient(GameEngineWindow::GetInst().GetWindowHWND(), &mousePoint);
+
+	float4 windowSize = GameEngineWindow::GetInst().GetSize();
+	
+	mousePoint.x -= windowSize.ix();
+	mousePoint.y -= windowSize.iy();
+
+	currentMousePos_.x = static_cast<float>(mousePoint.x);
+	currentMousePos_.y = -static_cast<float>(mousePoint.y);
+
+	mouseDirection_ = currentMousePos_ - prevMousePos_;
+
+	prevMousePos_ = currentMousePos_;
 }

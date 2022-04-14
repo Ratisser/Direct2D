@@ -39,6 +39,11 @@ MonsterBase::~MonsterBase()
 //{
 //}
 
+void MonsterBase::SetHP(int _hp)
+{
+	hp_ = _hp;
+}
+
 void MonsterBase::SubtractHP(int _damage)
 {
 	hp_ -= _damage;

@@ -94,23 +94,29 @@ private:
 #pragma endregion
 
 private:
+#pragma region MyRegion
 	const float MOVE_SPEED = 500.f;
 	const float GRAVITY_POWER = 5000.f;
 	const float JUMP_POWER = 850.f;
 	const float DASH_SPEED = 1000.f;
 	const float SHOOT_DELAY = 0.12f;
+	const float INVINCIBLE_TIME = 2.0f;
+	const float BLINK_DELAY = 0.1f;
 
 	const float BULLET_UP_OFFSET = 110.f;
-	const float BULLET_DOWN_OFFSET = -30.f;
+	const float BULLET_DOWN_OFFSET = -20.f;
 	const float BULLET_LEFT_OFFSET = -60.f;
 	const float BULLET_RIGHT_OFFSET = 60.f;
 
-	const float BULLET_DIAGONALUP_OFFSET = 70.f;
+	const float BULLET_DIAGONALUP_OFFSET = 90.f;
 	const float BULLET_LEFTUP_OFFSET = -20.f;
 	const float BULLET_RIGHTUP_OFFSET = 20.f;
 
-	const float BULLET_STRAIGHT_OFFSET = 40.f;
-	const float BULLET_DUCK_OFFSET = 10.f;
+	const float BULLET_STRAIGHT_OFFSET = 60.f;
+	const float BULLET_DUCK_OFFSET = 20.f;
+
+
+#pragma endregion
 
 private:
 	GameEngineFSM state_;
@@ -140,9 +146,13 @@ private:
 	bool bCanDash_;
 	bool bShooting_;
 	bool bDownJump_;
+	bool bInvincible_;
+	bool bBlink_;
 
 	float jumpTime_;
 	float gravitySpeed_;
 	float shootDelay_;
+	float invincibleTime_;
+	float blinkTime_;
 };
 

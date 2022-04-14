@@ -112,13 +112,14 @@
     <Filter Include="Resources\01Shader\EngineShader">
       <UniqueIdentifier>{294255ed-de5b-4872-8c99-8734068044fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core&amp;Window">
+      <UniqueIdentifier>{80b43d89-27c3-4d30-a396-0a08b4661445}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
       <Filter>Precom</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineCore.h" />
-    <ClInclude Include="GameEngineWindow.h" />
     <ClInclude Include="GameEngineIndexBuffer.h">
       <Filter>Resources\00Buffer</Filter>
     </ClInclude>
@@ -251,13 +252,17 @@
     <ClInclude Include="eImagePivot.h">
       <Filter>Object\Componenets\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineWindow.h">
+      <Filter>Core&amp;Window</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineCore.h">
+      <Filter>Core&amp;Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
       <Filter>Precom</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineCore.cpp" />
-    <ClCompile Include="GameEngineWindow.cpp" />
     <ClCompile Include="GameEngineIndexBuffer.cpp">
       <Filter>Resources\00Buffer</Filter>
     </ClCompile>
@@ -380,6 +385,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineCollision.cpp">
       <Filter>Object\Componenets\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCore.cpp">
+      <Filter>Core&amp;Window</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineWindow.cpp">
+      <Filter>Core&amp;Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

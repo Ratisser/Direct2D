@@ -5,7 +5,7 @@ GameEngineCameraComponent::GameEngineCameraComponent()
 	: projectionMode_(ProjectionMode::Perspective)
 	, FieldOfViewAngleY_(90.f)
 	, nearZ_(0.1f)
-	, farZ_(1000.f)
+	, farZ_(5000.f)
 	, cameraSize_(1280.f, 720.f)
 {
 

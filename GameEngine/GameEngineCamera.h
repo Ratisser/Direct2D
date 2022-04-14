@@ -23,7 +23,7 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 public:
-	GameEngineCameraComponent* GetCamera();
+	GameEngineCameraComponent* GetCameraComponent();
 
 private:
 	float4x4 getViewMatrix();

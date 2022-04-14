@@ -57,8 +57,8 @@ void WorldLevel::LevelStart()
 	bgmPlayer_ = std::make_unique<GameEngineSoundPlayer>("MUS_InkwellIsleOne.wav");
 
 
-	mainCamera_->GetCamera()->SetLocationZ(-320.f);
-	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	mainCamera_->GetCameraComponent()->SetLocationZ(-320.f);
+	mainCamera_->GetCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);
 
 	player_ = CreateActor<WorldMapPlayer>("Player");
 	player_->GetTransform()->SetLocation(800.f, -800.f, 3.5f);

@@ -15,6 +15,7 @@ Devil::Devil()
 	, leftArmRenderer_(nullptr)
 	, rightArmRenderer_(nullptr)
 	, timeCounter_(0.0f)
+	, hitEffectTime_(0.0f)
 {
 
 }
@@ -30,11 +31,21 @@ void Devil::Start()
 	initRendererAndAnimation();
 	initCollision();
 	initState();
+	SetHP(100);
 }
 
 void Devil::Update(float _deltaTime)
 {
 	state_.Update(_deltaTime);
+
+	if (hitEffectTime_ > 0.0f)
+	{
+		hitEffectTime_ -= _deltaTime;
+	}
+	else
+	{
+		renderer_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	}
 }
 
 void Devil::initTransform()
@@ -48,22 +59,22 @@ void Devil::initTransform()
 	rightArmTransform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
 	rightArmTransform_->SetLocation(RIGHT_ARM_LOCATION);
 
-#ifdef _DEBUG
-	GameEngineRenderer* debugRect = CreateTransformComponent<GameEngineRenderer>(headTransform_);
-	debugRect->SetRenderingPipeline("DebugRect");
-	debugRect->SetLocationZ(-1.f);
-	debugRect->SetScale(3.f);
-
-	debugRect = CreateTransformComponent<GameEngineRenderer>(leftArmTransform_);
-	debugRect->SetRenderingPipeline("DebugRect");
-	debugRect->SetLocationZ(-1.f);
-	debugRect->SetScale(3.f);
-
-	debugRect = CreateTransformComponent<GameEngineRenderer>(rightArmTransform_);
-	debugRect->SetRenderingPipeline("DebugRect");
-	debugRect->SetLocationZ(-1.f);
-	debugRect->SetScale(3.f);
-#endif // _DEBUG
+	//#ifdef _DEBUG
+	//	GameEngineRenderer* debugRect = CreateTransformComponent<GameEngineRenderer>(headTransform_);
+	//	debugRect->SetRenderingPipeline("DebugRect");
+	//	debugRect->SetLocationZ(-1.f);
+	//	debugRect->SetScale(3.f);
+	//
+	//	debugRect = CreateTransformComponent<GameEngineRenderer>(leftArmTransform_);
+	//	debugRect->SetRenderingPipeline("DebugRect");
+	//	debugRect->SetLocationZ(-1.f);
+	//	debugRect->SetScale(3.f);
+	//
+	//	debugRect = CreateTransformComponent<GameEngineRenderer>(rightArmTransform_);
+	//	debugRect->SetRenderingPipeline("DebugRect");
+	//	debugRect->SetLocationZ(-1.f);
+	//	debugRect->SetScale(3.f);
+	//#endif // _DEBUG
 }
 
 void Devil::initRendererAndAnimation()
@@ -104,21 +115,21 @@ void Devil::initCollision()
 		GameEngineCollision* leftArmCollision = CreateTransformComponent<GameEngineCollision>(leftArmTransform_);
 		leftArmCollision->SetCollisionType(eCollisionType::Rect);
 		leftArmCollision->SetScale(600.f, 70.f);
-		leftArmCollision->SetCollisionGroup(eCollisionGroup::Monster);
+		leftArmCollision->SetCollisionGroup(eCollisionGroup::MonsterProjectile);
 		leftArmCollision->SetLocationX(-300.f);
 
 		GameEngineCollision* rightArmCollision = CreateTransformComponent<GameEngineCollision>(rightArmTransform_);
 		rightArmCollision->SetCollisionType(eCollisionType::Rect);
 		rightArmCollision->SetScale(600.f, 70.f);
-		rightArmCollision->SetCollisionGroup(eCollisionGroup::Monster);
+		rightArmCollision->SetCollisionGroup(eCollisionGroup::MonsterProjectile);
 		rightArmCollision->SetLocationX(300.f);
 	}
 
-	GameEngineCollision* test = CreateTransformComponent<GameEngineCollision>(nullptr);
-	test->SetCollisionGroup(eCollisionGroup::Monster);
-	test->SetCollisionType(eCollisionType::Rect);
-	test->SetScale(100.f);
-	test->SetLocation(400.f, -400.f);
+	//GameEngineCollision* test = CreateTransformComponent<GameEngineCollision>(nullptr);
+	//test->SetCollisionGroup(eCollisionGroup::Monster);
+	//test->SetCollisionType(eCollisionType::Rect);
+	//test->SetScale(100.f);
+	//test->SetLocation(400.f, -400.f);
 
 
 #ifdef _DEBUG
@@ -173,7 +184,7 @@ void Devil::startRamTransform(float _deltaTime)
 
 void Devil::updateRamTransform(float _deltaTime)
 {
-	
+
 
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
@@ -203,7 +214,7 @@ void Devil::updateRamAttack(float _deltaTime)
 	{
 		leftArmRenderer_->ChangeAnimation("RamArmsEnd");
 		rightArmRenderer_->ChangeAnimation("RamArmsEnd");
-		leftArmTransform_->SetLocation(GameEngineMath::Lerp(CENTER_ARM_LOCATION, LEFT_ARM_LOCATION, timeCounter_- 0.6f, 0.2f));
+		leftArmTransform_->SetLocation(GameEngineMath::Lerp(CENTER_ARM_LOCATION, LEFT_ARM_LOCATION, timeCounter_ - 0.6f, 0.2f));
 		rightArmTransform_->SetLocation(GameEngineMath::Lerp(CENTER_ARM_LOCATION, RIGHT_ARM_LOCATION, timeCounter_ - 0.6f, 0.2f));
 	}
 
@@ -227,5 +238,11 @@ void Devil::updateRamEnd(float _deltaTime)
 		state_ << "Idle";
 		return;
 	}
+}
+
+void Devil::OnHit()
+{
+	renderer_->SetColor({ 0.5f, 0.8f, 1.0f, 1.0f });
+	hitEffectTime_ = HIT_EFFECT_TIME;
 }
 

@@ -21,11 +21,14 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 public:
-	void InitBullet(bool _bLeft, const float4& _direction, const float4& _rotation, float _lifeTime = 2.0f);
+	void InitBullet(bool _bLeft, const float4& _direction, const float4& _rotation);
 
 private:
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
+
+	void startPop(float _deltaTime);
+	void updatePop(float _deltaTime);
 
 private:
 	float BULLET_SPEED = 3000.f;

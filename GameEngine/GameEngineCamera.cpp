@@ -23,7 +23,7 @@ void GameEngineCamera::Update(float _deltaTime)
 {
 }
 
-GameEngineCameraComponent* GameEngineCamera::GetCamera()
+GameEngineCameraComponent* GameEngineCamera::GetCameraComponent()
 {
 	return camera_;
 }

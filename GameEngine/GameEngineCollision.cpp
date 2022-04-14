@@ -2,6 +2,7 @@
 #include "GameEngineCollision.h"
 #include "GameEngineRenderer.h"
 #include "GameEngineLevel.h"
+#include "GameEngineActor.h"
 
 std::function<bool(GameEngineCollision&, GameEngineCollision&)>
 GameEngineCollision::collisionCheckFunction_[static_cast<int>(eCollisionType::MAX)][static_cast<int>(eCollisionType::MAX)];
@@ -20,8 +21,8 @@ GameEngineCollision::~GameEngineCollision()
 
 bool GameEngineCollision::CollisionCheckRectToRect(GameEngineCollision& _lhs, GameEngineCollision& _rhs)
 {
-	_lhs.boundingBox_.Center.z = 0;
-	_rhs.boundingBox_.Center.z = 0;
+	_lhs.boundingBox_.Center.z = 0.0f;
+	_rhs.boundingBox_.Center.z = 0.0f;
 
 	return _lhs.boundingBox_.Intersects(_rhs.boundingBox_);
 }

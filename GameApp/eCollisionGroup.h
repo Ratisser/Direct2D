@@ -6,5 +6,7 @@ enum class eCollisionGroup
 	Monster,
 	Map,
 	ParryObject,
-	Location
+	Location,
+	PlayerBullet,
+	MonsterProjectile
 };

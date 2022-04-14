@@ -56,6 +56,8 @@ public:
 	bool IsKeyFree(const std::string& _keyName);
 	bool IsKeyAvailable(const std::string& _keyName);
 
+	float4 GetMouseDirection();
+
 private:
 	GameEngineInput();
 	void update();
@@ -63,7 +65,10 @@ private:
 private:
 	static GameEngineInput* instance_;
 
-	std::map<std::string, GameEngineKey*> keys_;
+	std::unordered_map<std::string, GameEngineKey*> keys_;
 
+	float4 prevMousePos_;
+	float4 currentMousePos_;
+	float4 mouseDirection_;
 };
 

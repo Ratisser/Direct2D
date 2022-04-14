@@ -212,6 +212,7 @@ void GameEngineCore::MainLoop()
 
 	currentLevel_->LevelUpdate(deltaTime);
 	currentLevel_->ActorUpdate(deltaTime);
+	currentLevel_->LevelUpdateAfter(deltaTime);
 	currentLevel_->Render();
 	currentLevel_->Release(deltaTime);
 }

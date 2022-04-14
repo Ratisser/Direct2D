@@ -29,8 +29,8 @@ void PlayLevel::LevelChangeStartEvent()
 void PlayLevel::LevelStart()
 {
 	GameEngineActor* player = CreateActor<Player>("Player");
-	mainCamera_->GetCamera()->SetLocationZ(-420.f);
-	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	mainCamera_->GetCameraComponent()->SetLocationZ(-420.f);
+	mainCamera_->GetCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);
 
 	mainCamera_->GetTransform()->SetParent(player->GetTransform());
 

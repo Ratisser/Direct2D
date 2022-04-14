@@ -24,7 +24,7 @@ void TitleLevel::LevelChangeStartEvent()
 
 void TitleLevel::LevelStart()
 {
-	mainCamera_->GetCamera()->SetProjectionMode(ProjectionMode::Orthographic);
+	mainCamera_->GetCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);
 	mainCamera_->GetTransform()->SetLocationZ(-300.f);
 	{
 		GameEngineDirectory Dir;

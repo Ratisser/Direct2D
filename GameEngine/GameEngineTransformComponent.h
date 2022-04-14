@@ -39,6 +39,7 @@ public:
 	void SetRotation(const float4& _rotation);
 	void SetRotation(float _x, float _y, float _z = 0.0f);
 	void AddRotation(float _x, float _y, float _z = 0.0f);
+	void AddRotation(const float4& _rotation);
 
 	void SetLocation(const float4& _location);
 	void SetLocation(float _x, float _y, float _z = 0.0f);
@@ -57,8 +58,11 @@ public:
 	float4 GetWorldScale() const;
 
 	float4 GetForward() const;
+	float4 GetBackward() const;
 	float4 GetUp() const;
+	float4 GetDown() const;
 	float4 GetRight() const;
+	float4 GetLeft() const;
 
 	void UpdateTransform();
 	void UpdateTransformByParent();
