@@ -43,10 +43,14 @@ void WorldMap::Start()
 
 void WorldMap::Update(float _deltaTime)
 {
-#ifdef _DEBUG
 	if (GameEngineInput::GetInstance().IsKeyDown("P"))
 	{
 		GameEngineCore::ChangeLevel("DevilLevel");
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyDown("O"))
+	{
+	
 		if (ImageRenderer->IsUpdate())
 		{
 			ImageRenderer->Off();
@@ -56,5 +60,4 @@ void WorldMap::Update(float _deltaTime)
 			ImageRenderer->On();
 		}
 	}
-#endif // DEBUG
 }
