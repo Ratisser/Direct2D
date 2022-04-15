@@ -94,7 +94,7 @@ private:
 #pragma endregion
 
 private:
-#pragma region MyRegion
+#pragma region Constant
 	const float MOVE_SPEED = 500.f;
 	const float GRAVITY_POWER = 5000.f;
 	const float JUMP_POWER = 850.f;
