@@ -32,6 +32,9 @@ private:
 
 private:
 #pragma region DevilState
+	void startIntro(float _deltaTime);
+	void updateIntro(float _deltaTime);
+
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
@@ -44,6 +47,15 @@ private:
 	void startRamEnd(float _deltaTime);
 	void updateRamEnd(float _deltaTime);
 
+	void startDragonTransform(float _deltaTime);
+	void updateDragonTransform(float _deltaTime);
+
+	void startDragonAttack(float _deltaTime);
+	void updateDragonAttack(float _deltaTime);
+	
+	void startDragonEnd(float _deltaTime);
+	void updateDragonEnd(float _deltaTime);
+
 #pragma endregion
 
 private:
@@ -55,14 +67,20 @@ private:
 	const float HIT_EFFECT_TIME = 0.034f;
 
 private:
-	GameEngineImageRenderer* renderer_;
+	GameEngineImageRenderer* devilRenderer_;
+	GameEngineImageRenderer* pupil_;
 	GameEngineImageRenderer* leftArmRenderer_;
 	GameEngineImageRenderer* rightArmRenderer_;
-	GameEngineTransformComponent* headTransform_;
-	GameEngineCollision* headCollision_;
+	GameEngineImageRenderer* dragonHeadRenderer_;
 
+	GameEngineTransformComponent* headTransform_;
 	GameEngineTransformComponent* leftArmTransform_;
 	GameEngineTransformComponent* rightArmTransform_;
+	GameEngineTransformComponent* leftDragonHeadTransform_;
+	GameEngineTransformComponent* rightDragonHeadTransform_;
+
+	GameEngineCollision* headCollision_;
+	GameEngineCollision* dragonHeadCollision_;
 
 	GameEngineFSM state_;
 

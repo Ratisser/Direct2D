@@ -64,7 +64,6 @@ void DevilLevel::LevelStart()
 	CreateActor<DevilMap>("DevilMap");
 
 	Devil* devil = CreateActor<Devil>("Devil");
-	devil->GetTransform()->SetLocation(750.f, -690.f, 0.8f);
 
 	mainCamera_->GetTransform()->SetLocation(640.f, -360.f, -320.f);
 	mainCamera_->GetCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);

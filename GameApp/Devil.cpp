@@ -7,13 +7,18 @@
 #include "eCollisionGroup.h"
 
 Devil::Devil()
-	: renderer_(nullptr)
+	: devilRenderer_(nullptr)
+	, dragonHeadRenderer_(nullptr)
+	, leftArmRenderer_(nullptr)
+	, rightArmRenderer_(nullptr)
+	, pupil_(nullptr)
 	, headCollision_(nullptr)
+	, dragonHeadCollision_(nullptr)
 	, headTransform_(nullptr)
 	, leftArmTransform_(nullptr)
 	, rightArmTransform_(nullptr)
-	, leftArmRenderer_(nullptr)
-	, rightArmRenderer_(nullptr)
+	, leftDragonHeadTransform_(nullptr)
+	, rightDragonHeadTransform_(nullptr)
 	, timeCounter_(0.0f)
 	, hitEffectTime_(0.0f)
 {
@@ -27,6 +32,8 @@ Devil::~Devil()
 
 void Devil::Start()
 {
+	GetTransform()->SetLocation(750.f, -690.f, 0.8f);
+
 	initTransform();
 	initRendererAndAnimation();
 	initCollision();
@@ -44,7 +51,7 @@ void Devil::Update(float _deltaTime)
 	}
 	else
 	{
-		renderer_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		devilRenderer_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	}
 }
 
@@ -79,32 +86,46 @@ void Devil::initTransform()
 
 void Devil::initRendererAndAnimation()
 {
-	renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
-	renderer_->CreateAnimationFolder("DevilIntroIdle");
-	renderer_->CreateAnimationFolder("DevilIntro", 0.034f, false);
+	devilRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	devilRenderer_->CreateAnimationFolder("DevilIntroIdle");
+	devilRenderer_->CreateAnimationFolder("DevilIntro", 0.034f, false);
 
-	renderer_->CreateAnimationFolder("DevilIdle");
+	devilRenderer_->CreateAnimationFolder("DevilIdle");
 
-	renderer_->CreateAnimationFolder("RamTransform", 0.034f, false);
-	renderer_->CreateAnimationFolderReverse("RamTransformReverse", "RamTransform", 0.034f, false);
-	renderer_->CreateAnimationFolder("RamIdle");
+	devilRenderer_->CreateAnimationFolder("RamTransform", 0.034f, false);
+	devilRenderer_->CreateAnimationFolderReverse("RamTransformReverse", "RamTransform", 0.034f, false);
+	devilRenderer_->CreateAnimationFolder("RamIdle");
 
-	renderer_->ChangeAnimation("DevilIdle");
+	devilRenderer_->CreateAnimationFolder("DragonTransform", 0.034f, false);
+	devilRenderer_->CreateAnimationFolderReverse("DragonTransformReverse", "DragonTransform", 0.034f, false);
+	devilRenderer_->CreateAnimationFolder("DragonIdle");
+
+	devilRenderer_->ChangeAnimation("DevilIdle");
+
+	GameEngineTransformComponent* pupilTransfom = CreateTransformComponent<GameEngineTransformComponent>();
+	pupil_ = CreateTransformComponent<GameEngineImageRenderer>(pupilTransfom);
+	pupil_->CreateAnimationFolder("PupilIntro", 0.034f, false);
+	pupil_->ChangeAnimation("PupilIntro");
+	pupil_->SetPivot(eImagePivot::BOTTOM_LEFT);
+	pupilTransfom->SetLocation(-122.f, 165.f, -0.1f);
+	
 
 	leftArmRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(leftArmTransform_);
 	leftArmRenderer_->CreateAnimationFolder("RamArmsStart", 0.034f, false);
 	leftArmRenderer_->CreateAnimationFolder("RamArmsEnd", 0.034f, false);
 	leftArmRenderer_->ChangeAnimation("RamArmsStart");
-	leftArmRenderer_->SetPivot(eImagePivot::NONE);
+	leftArmRenderer_->SetPivot(eImagePivot::CENTER);
 	leftArmRenderer_->SetLocation(-465.f, 20.f, -0.1f);
 
 	rightArmRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(rightArmTransform_);
 	rightArmRenderer_->CreateAnimationFolder("RamArmsStart", 0.034f, false);
 	rightArmRenderer_->CreateAnimationFolder("RamArmsEnd", 0.034f, false);
 	rightArmRenderer_->ChangeAnimation("RamArmsStart");
-	rightArmRenderer_->SetPivot(eImagePivot::NONE);
+	rightArmRenderer_->SetPivot(eImagePivot::CENTER);
 	rightArmRenderer_->SetLocation(465.f, 20.f, -0.1f);
 	rightArmRenderer_->SetFlip(true, false);
+
+
 }
 
 void Devil::initCollision()
@@ -149,18 +170,47 @@ void Devil::initState()
 	//state_.CreateState("", std::bind(&Devil::start, this, std::placeholders::_1), std::bind(&Devil::update, this, std::placeholders::_1));
 
 	state_.CreateState("Idle", std::bind(&Devil::startIdle, this, std::placeholders::_1), std::bind(&Devil::updateIdle, this, std::placeholders::_1));
+	state_.CreateState("Intro", std::bind(&Devil::startIntro, this, std::placeholders::_1), std::bind(&Devil::updateIntro, this, std::placeholders::_1));
 
 	state_.CreateState("RamTransform", std::bind(&Devil::startRamTransform, this, std::placeholders::_1), std::bind(&Devil::updateRamTransform, this, std::placeholders::_1));
 	state_.CreateState("RamAttack", std::bind(&Devil::startRamAttack, this, std::placeholders::_1), std::bind(&Devil::updateRamAttack, this, std::placeholders::_1));
 	state_.CreateState("RamEnd", std::bind(&Devil::startRamEnd, this, std::placeholders::_1), std::bind(&Devil::updateRamEnd, this, std::placeholders::_1));
 
-	state_.ChangeState("Idle");
+	state_.CreateState("DragonTransform", std::bind(&Devil::startDragonTransform, this, std::placeholders::_1), std::bind(&Devil::updateDragonTransform, this, std::placeholders::_1));
+	state_.CreateState("DragonAttack", std::bind(&Devil::startDragonAttack, this, std::placeholders::_1), std::bind(&Devil::updateDragonAttack, this, std::placeholders::_1));
+	state_.CreateState("DragonEnd", std::bind(&Devil::startDragonEnd, this, std::placeholders::_1), std::bind(&Devil::updateDragonEnd, this, std::placeholders::_1));
+
+
+	state_.ChangeState("Intro");
+}
+
+void Devil::startIntro(float _deltaTime)
+{
+	devilRenderer_->ChangeAnimation("DevilIntroIdle");
+	transform_->AddLocation(-61.f, 0.0f);
+	pupil_->ChangeAnimation("PupilIntro", true);
+}
+
+void Devil::updateIntro(float _deltaTime)
+{
+	if (pupil_->GetCurrentAnimation()->IsEnd_)
+	{
+		pupil_->Off();
+		devilRenderer_->ChangeAnimation("DevilIntro");
+
+		if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
+		{
+			state_ << "Idle";
+			transform_->AddLocation(61.f, 0.0f);
+			return;
+		}
+	}
 }
 
 void Devil::startIdle(float _deltaTime)
 {
-	renderer_->ChangeAnimation("DevilIdle");
-	renderer_->SetLocationX(0.f);
+	devilRenderer_->ChangeAnimation("DevilIdle");
+	devilRenderer_->SetLocationX(0.f);
 	headCollision_->SetLocation(0.0f, 0.0f);
 	timeCounter_ = 0;
 }
@@ -178,8 +228,8 @@ void Devil::updateIdle(float _deltaTime)
 
 void Devil::startRamTransform(float _deltaTime)
 {
-	renderer_->ChangeAnimation("RamTransform");
-	renderer_->SetLocationX(-30.f);
+	devilRenderer_->ChangeAnimation("RamTransform");
+	devilRenderer_->SetLocationX(-30.f);
 	headCollision_->SetLocation(0.0f, 100.f);
 
 	timeCounter_ = 0.0f;
@@ -189,7 +239,7 @@ void Devil::updateRamTransform(float _deltaTime)
 {
 
 
-	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		state_ << "RamAttack";
 		return;
@@ -198,7 +248,7 @@ void Devil::updateRamTransform(float _deltaTime)
 
 void Devil::startRamAttack(float _deltaTime)
 {
-	renderer_->ChangeAnimation("RamIdle");
+	devilRenderer_->ChangeAnimation("RamIdle");
 	leftArmRenderer_->ChangeAnimation("RamArmsStart", true);
 	rightArmRenderer_->ChangeAnimation("RamArmsStart", true);
 	timeCounter_ = 0;
@@ -231,21 +281,52 @@ void Devil::updateRamAttack(float _deltaTime)
 
 void Devil::startRamEnd(float _deltaTime)
 {
-	renderer_->ChangeAnimation("RamTransformReverse");
+	devilRenderer_->ChangeAnimation("RamTransformReverse");
 }
 
 void Devil::updateRamEnd(float _deltaTime)
 {
-	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		state_ << "Idle";
 		return;
 	}
 }
 
+void Devil::startDragonTransform(float _deltaTime)
+{
+	devilRenderer_->ChangeAnimation("DragonTransform");
+}
+
+void Devil::updateDragonTransform(float _deltaTime)
+{
+	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "DragonAttack";
+		return;
+	}
+}
+
+void Devil::startDragonAttack(float _deltaTime)
+{
+
+}
+
+void Devil::updateDragonAttack(float _deltaTime)
+{
+}
+
+void Devil::startDragonEnd(float _deltaTime)
+{
+}
+
+void Devil::updateDragonEnd(float _deltaTime)
+{
+}
+
 void Devil::OnHit()
 {
-	renderer_->SetColor({ 0.5f, 0.8f, 1.0f, 1.0f });
+	devilRenderer_->SetColor({ 0.5f, 0.8f, 1.0f, 1.0f });
 	hitEffectTime_ = HIT_EFFECT_TIME;
 }
 

@@ -130,9 +130,19 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 			float4 size = tex->GetTextureSize();
 			Renderer->SetScale(size);
 
-			if (Renderer->pivot_ == eImagePivot::BOTTOM)
+			switch (Renderer->pivot_)
 			{
+			case eImagePivot::CENTER:
+				break;
+			case eImagePivot::BOTTOM:
 				Renderer->SetLocationY(size.y / 2.f);
+				break;
+			case eImagePivot::BOTTOM_LEFT:
+				Renderer->SetLocationX(size.x / 2.f);
+				Renderer->SetLocationY(size.y / 2.f);
+				break;
+			default:
+				break;
 			}
 		}
 		else

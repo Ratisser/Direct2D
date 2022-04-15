@@ -11,3 +11,5 @@
 
 #include <map>
 #include <string>
+
+#include <GameEngineBase\GameEngineMath.h>

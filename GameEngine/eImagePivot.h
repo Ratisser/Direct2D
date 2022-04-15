@@ -2,7 +2,7 @@
 
 enum class eImagePivot
 {
-	CENTER,
 	BOTTOM,
-	NONE
+	BOTTOM_LEFT,
+	CENTER
 };
