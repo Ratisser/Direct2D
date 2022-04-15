@@ -80,6 +80,9 @@ void Devil::initTransform()
 void Devil::initRendererAndAnimation()
 {
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	renderer_->CreateAnimationFolder("DevilIntroIdle");
+	renderer_->CreateAnimationFolder("DevilIntro", 0.034f, false);
+
 	renderer_->CreateAnimationFolder("DevilIdle");
 
 	renderer_->CreateAnimationFolder("RamTransform", 0.034f, false);
@@ -89,15 +92,15 @@ void Devil::initRendererAndAnimation()
 	renderer_->ChangeAnimation("DevilIdle");
 
 	leftArmRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(leftArmTransform_);
-	leftArmRenderer_->CreateAnimationFolder("RamArmsStart", 0.04f, false);
-	leftArmRenderer_->CreateAnimationFolder("RamArmsEnd", 0.04f, false);
+	leftArmRenderer_->CreateAnimationFolder("RamArmsStart", 0.034f, false);
+	leftArmRenderer_->CreateAnimationFolder("RamArmsEnd", 0.034f, false);
 	leftArmRenderer_->ChangeAnimation("RamArmsStart");
 	leftArmRenderer_->SetPivot(eImagePivot::NONE);
 	leftArmRenderer_->SetLocation(-465.f, 20.f, -0.1f);
 
 	rightArmRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(rightArmTransform_);
-	rightArmRenderer_->CreateAnimationFolder("RamArmsStart", 0.04f, false);
-	rightArmRenderer_->CreateAnimationFolder("RamArmsEnd", 0.04f, false);
+	rightArmRenderer_->CreateAnimationFolder("RamArmsStart", 0.034f, false);
+	rightArmRenderer_->CreateAnimationFolder("RamArmsEnd", 0.034f, false);
 	rightArmRenderer_->ChangeAnimation("RamArmsStart");
 	rightArmRenderer_->SetPivot(eImagePivot::NONE);
 	rightArmRenderer_->SetLocation(465.f, 20.f, -0.1f);
