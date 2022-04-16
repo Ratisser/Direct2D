@@ -232,35 +232,6 @@ void WorldMapPlayer::updateMove(float _deltaTime)
 		return;
 	}
 
-	while (float4::BLACK == Map::GetColor(collisionUp_))
-	{
-		transform_->AddLocation(0.0f, -1.0f);
-		float4 location = transform_->GetLocation();
-		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
-		transform_->UpdateTransform();
-	}
-	while (float4::BLACK == Map::GetColor(collisionDown_))
-	{
-		transform_->AddLocation(0.0f, 1.0f);
-		float4 location = transform_->GetLocation();
-		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
-		transform_->UpdateTransform();
-	}
-	while (float4::BLACK == Map::GetColor(collisionLeft_))
-	{
-		transform_->AddLocation(1.0f, 0.0f);
-		float4 location = transform_->GetLocation();
-		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
-		transform_->UpdateTransform();
-	}
-	while (float4::BLACK == Map::GetColor(collisionRight_))
-	{
-		transform_->AddLocation(-1.0f, 0.0f);
-		float4 location = transform_->GetLocation();
-		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
-		transform_->UpdateTransform();
-	}
-
 	if (GameEngineInput::GetInstance().IsKeyPress("Up"))
 	{
 		bUp_ = true;
@@ -347,5 +318,34 @@ void WorldMapPlayer::updateMove(float _deltaTime)
 		{
 			transform_->AddLocation(MOVE_SPEED * _deltaTime, 0.0f);
 		}
+	}
+
+	while (float4::BLACK == Map::GetColor(collisionUp_))
+	{
+		transform_->AddLocation(0.0f, -1.0f);
+		float4 location = transform_->GetLocation();
+		transform_->SetLocationY(static_cast<float>(location.iy()));
+		transform_->UpdateTransform();
+	}
+	while (float4::BLACK == Map::GetColor(collisionDown_))
+	{
+		transform_->AddLocation(0.0f, 1.0f);
+		float4 location = transform_->GetLocation();
+		transform_->SetLocationY(static_cast<float>(location.iy()));
+		transform_->UpdateTransform();
+	}
+	while (float4::BLACK == Map::GetColor(collisionLeft_))
+	{
+		transform_->AddLocation(1.0f, 0.0f);
+		float4 location = transform_->GetLocation();
+		transform_->SetLocationX(static_cast<float>(location.ix()));
+		transform_->UpdateTransform();
+	}
+	while (float4::BLACK == Map::GetColor(collisionRight_))
+	{
+		transform_->AddLocation(-1.0f, 0.0f);
+		float4 location = transform_->GetLocation();
+		transform_->SetLocationX(static_cast<float>(location.ix()));
+		transform_->UpdateTransform();
 	}
 }

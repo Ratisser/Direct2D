@@ -37,7 +37,7 @@ void WorldMap::Start()
 		GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
 		mapObjects->SetTexture("WorldMap_Layer.png", true);
 		float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
-		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 3.f);
+		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, -1.f);
 	}
 }
 

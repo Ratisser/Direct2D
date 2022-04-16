@@ -68,7 +68,7 @@ void WorldLevel::LevelStart()
 void WorldLevel::LevelUpdate(float _deltaTime)
 {
 	float4 pl = player_->GetTransform()->GetLocation();
-	mainCamera_->GetTransform()->SetLocation(pl.x, pl.y);
+	mainCamera_->GetTransform()->SetLocation(pl.x, pl.y, -200.f);
 
 	if (!bgmPlayer_->IsPlaying())
 	{
