@@ -221,7 +221,7 @@ void Devil::updateIdle(float _deltaTime)
 
 	if (timeCounter_ > 2.f)
 	{
-		state_ << "RamTransform";
+		state_ << "DragonTransform";
 		return;
 	}
 }
@@ -309,19 +309,33 @@ void Devil::updateDragonTransform(float _deltaTime)
 
 void Devil::startDragonAttack(float _deltaTime)
 {
-
+	devilRenderer_->ChangeAnimation("DragonIdle");
+	timeCounter_ = 0.f;
 }
 
 void Devil::updateDragonAttack(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+	if (timeCounter_ > 0.8f)
+	{
+		state_ << "DragonEnd";
+		return;
+	}
+
 }
 
 void Devil::startDragonEnd(float _deltaTime)
 {
+	devilRenderer_->ChangeAnimation("DragonTransformReverse");
 }
 
 void Devil::updateDragonEnd(float _deltaTime)
 {
+	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "Idle";
+		return;
+	}
 }
 
 void Devil::OnHit()
