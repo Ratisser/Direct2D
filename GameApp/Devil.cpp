@@ -148,12 +148,14 @@ void Devil::initCollision()
 	headCollision_->SetCollisionGroup(eCollisionGroup::Monster);
 	headCollision_->SetScale(125.f);
 
+	// 용 머리
 	dragonHeadCollision_ = CreateTransformComponent<GameEngineCollision>(leftDragonHeadTransform_);
 	dragonHeadCollision_->SetCollisionType(eCollisionType::Rect);
 	dragonHeadCollision_->SetCollisionGroup(eCollisionGroup::Monster);
-	dragonHeadCollision_->SetScale(80.f);
-	dragonHeadCollision_->SetLocationX(-400.f);
+	dragonHeadCollision_->SetScale(120.f);
+	dragonHeadCollision_->SetLocation(-420.f, 50.f);
 
+	// 양 손바닥
 	{
 		GameEngineCollision* leftArmCollision = CreateTransformComponent<GameEngineCollision>(leftArmTransform_);
 		leftArmCollision->SetCollisionType(eCollisionType::Rect);
@@ -336,23 +338,25 @@ void Devil::updateDragonAttack(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
 
-	if (timeCounter_ < 3.216f)
+	if (timeCounter_ < 3.264f)
 	{
-		leftDragonHeadTransform_->SetLocation(GameEngineMath::Lerp(LEFT_ARM_LOCATION, RIGHT_ARM_LOCATION, timeCounter_, 3.216f));
+		leftDragonHeadTransform_->SetLocation(GameEngineMath::Lerp(LEFT_ARM_LOCATION, RIGHT_ARM_LOCATION, timeCounter_, 3.264f));
 	
 	}
-	else if (timeCounter_ >= 3.216f && timeCounter_ < 3.820f)
+	else if (timeCounter_ >= 3.264f && timeCounter_ < 3.868f)
 	{
+		devilRenderer_->Stop();
 		dragonHeadRenderer_->ChangeAnimation("DragonHeadSmile");
 	}
-	else if (timeCounter_ >= 3.820f)
+	else if (timeCounter_ >= 3.868f)
 	{
+		devilRenderer_->Resume();
 		dragonHeadRenderer_->ChangeAnimation("DragonHeadDisappear");
-		leftDragonHeadTransform_->SetLocation(GameEngineMath::Lerp(RIGHT_ARM_LOCATION, LEFT_ARM_LOCATION, timeCounter_ - 3.820f, 0.5f));
+		leftDragonHeadTransform_->SetLocation(GameEngineMath::Lerp(RIGHT_ARM_LOCATION, LEFT_ARM_LOCATION, timeCounter_ - 3.868f, 0.5f));
 	}
 
 
-	if (timeCounter_ > 4.32f)
+	if (timeCounter_ > 4.8f)
 	{
 		state_ << "DragonEnd";
 		return;
