@@ -141,6 +141,10 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 				Renderer->SetLocationX(size.x / 2.f);
 				Renderer->SetLocationY(size.y / 2.f);
 				break;
+			case eImagePivot::BOTTOM_RIGHT:
+				Renderer->SetLocationX(-size.x / 2.f);
+				Renderer->SetLocationY(size.y / 2.f);
+				break;
 			default:
 				break;
 			}
@@ -166,6 +170,7 @@ GameEngineImageRenderer::GameEngineImageRenderer()
 	, bFlipHorizontal_(false)
 	, bFlipVertical_(false)
 	, color_(float4::ONE)
+	, bStop_(false)
 {
 }
 

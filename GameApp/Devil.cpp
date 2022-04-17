@@ -66,6 +66,12 @@ void Devil::initTransform()
 	rightArmTransform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
 	rightArmTransform_->SetLocation(RIGHT_ARM_LOCATION);
 
+	leftDragonHeadTransform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
+	leftDragonHeadTransform_->SetLocation(LEFT_ARM_LOCATION);
+
+	rightDragonHeadTransform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
+	rightDragonHeadTransform_->SetLocation(RIGHT_ARM_LOCATION);
+
 	//#ifdef _DEBUG
 	//	GameEngineRenderer* debugRect = CreateTransformComponent<GameEngineRenderer>(headTransform_);
 	//	debugRect->SetRenderingPipeline("DebugRect");
@@ -108,7 +114,7 @@ void Devil::initRendererAndAnimation()
 	pupil_->ChangeAnimation("PupilIntro");
 	pupil_->SetPivot(eImagePivot::BOTTOM_LEFT);
 	pupilTransfom->SetLocation(-122.f, 165.f, -0.1f);
-	
+
 
 	leftArmRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(leftArmTransform_);
 	leftArmRenderer_->CreateAnimationFolder("RamArmsStart", 0.034f, false);
@@ -125,7 +131,14 @@ void Devil::initRendererAndAnimation()
 	rightArmRenderer_->SetLocation(465.f, 20.f, -0.1f);
 	rightArmRenderer_->SetFlip(true, false);
 
+	dragonHeadRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(leftDragonHeadTransform_);
+	dragonHeadRenderer_->SetPivot(eImagePivot::CENTER);
+	dragonHeadRenderer_->SetLocation(-1050.f, 100.f, -2.0f);
+	dragonHeadRenderer_->CreateAnimationFolder("DragonHeadAppear", 0.034f);
+	dragonHeadRenderer_->CreateAnimationFolder("DragonHeadSmile", 0.034f, false);
+	dragonHeadRenderer_->CreateAnimationFolder("DragonHeadDisappear", 0.034f, false);
 
+	dragonHeadRenderer_->ChangeAnimation("DragonHeadAppear");
 }
 
 void Devil::initCollision()
@@ -134,6 +147,12 @@ void Devil::initCollision()
 	headCollision_->SetCollisionType(eCollisionType::Rect);
 	headCollision_->SetCollisionGroup(eCollisionGroup::Monster);
 	headCollision_->SetScale(125.f);
+
+	dragonHeadCollision_ = CreateTransformComponent<GameEngineCollision>(leftDragonHeadTransform_);
+	dragonHeadCollision_->SetCollisionType(eCollisionType::Rect);
+	dragonHeadCollision_->SetCollisionGroup(eCollisionGroup::Monster);
+	dragonHeadCollision_->SetScale(80.f);
+	dragonHeadCollision_->SetLocationX(-400.f);
 
 	{
 		GameEngineCollision* leftArmCollision = CreateTransformComponent<GameEngineCollision>(leftArmTransform_);
@@ -179,7 +198,6 @@ void Devil::initState()
 	state_.CreateState("DragonTransform", std::bind(&Devil::startDragonTransform, this, std::placeholders::_1), std::bind(&Devil::updateDragonTransform, this, std::placeholders::_1));
 	state_.CreateState("DragonAttack", std::bind(&Devil::startDragonAttack, this, std::placeholders::_1), std::bind(&Devil::updateDragonAttack, this, std::placeholders::_1));
 	state_.CreateState("DragonEnd", std::bind(&Devil::startDragonEnd, this, std::placeholders::_1), std::bind(&Devil::updateDragonEnd, this, std::placeholders::_1));
-
 
 	state_.ChangeState("Intro");
 }
@@ -310,13 +328,31 @@ void Devil::updateDragonTransform(float _deltaTime)
 void Devil::startDragonAttack(float _deltaTime)
 {
 	devilRenderer_->ChangeAnimation("DragonIdle");
+	dragonHeadRenderer_->ChangeAnimation("DragonHeadAppear", true);
 	timeCounter_ = 0.f;
 }
 
 void Devil::updateDragonAttack(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
-	if (timeCounter_ > 0.8f)
+
+	if (timeCounter_ < 3.216f)
+	{
+		leftDragonHeadTransform_->SetLocation(GameEngineMath::Lerp(LEFT_ARM_LOCATION, RIGHT_ARM_LOCATION, timeCounter_, 3.216f));
+	
+	}
+	else if (timeCounter_ >= 3.216f && timeCounter_ < 3.820f)
+	{
+		dragonHeadRenderer_->ChangeAnimation("DragonHeadSmile");
+	}
+	else if (timeCounter_ >= 3.820f)
+	{
+		dragonHeadRenderer_->ChangeAnimation("DragonHeadDisappear");
+		leftDragonHeadTransform_->SetLocation(GameEngineMath::Lerp(RIGHT_ARM_LOCATION, LEFT_ARM_LOCATION, timeCounter_ - 3.820f, 0.5f));
+	}
+
+
+	if (timeCounter_ > 4.32f)
 	{
 		state_ << "DragonEnd";
 		return;

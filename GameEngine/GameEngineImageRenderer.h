@@ -73,8 +73,12 @@ public:
 
 	void SetPivot(eImagePivot _pivot) { pivot_ = _pivot; }
 
-	inline void SetColor(float4 _color) { color_ = _color; }
-	inline float4 GetColor() const { return color_; }
+	void SetColor(float4 _color) { color_ = _color; }
+	float4 GetColor() const { return color_; }
+
+
+	void Stop() { bStop_ = true; }
+	void Resume() { bStop_ = false; }
 
 protected:
 	void Update(float _DeltaTime) override;
@@ -89,6 +93,7 @@ private:
 
 	bool bFlipHorizontal_;
 	bool bFlipVertical_;
+	bool bStop_;
 
 	eImagePivot pivot_;
 };
