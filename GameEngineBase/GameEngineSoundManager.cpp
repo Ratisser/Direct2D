@@ -5,6 +5,7 @@
 #include <Windows.h>
 
 GameEngineSoundManager* GameEngineSoundManager::instance_ = new GameEngineSoundManager;
+float GameEngineSoundManager::globalVolume_ = 1.0f;
 
 GameEngineSoundManager::GameEngineSoundManager()
 	: system_(nullptr)
@@ -110,10 +111,22 @@ void GameEngineSoundManager::PlaySoundByName(const std::string& _name)
 	}
 
 	system_->playSound(findIter->second, 0, false, &channel_);
+	if (channel_ != nullptr)
+	{
+		FMOD_RESULT result = channel_->setVolume(GameEngineSoundManager::globalVolume_);
+	}
 }
 
-void GameEngineSoundManager::SetVolume(unsigned int _volume)
+void GameEngineSoundManager::SetGlobalVolume(float _volume)
 {
+	if (_volume <= 1.0f)
+	{
+		globalVolume_ = _volume;
+	}
+	else
+	{
+		globalVolume_ = 1.0f;
+	}
 }
 
 void GameEngineSoundManager::StopSound()

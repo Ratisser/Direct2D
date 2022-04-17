@@ -36,7 +36,7 @@ public:
 	void CreateSound(const std::string& _name, const std::string& _path, bool _bLoop = false);
 	
 	void PlaySoundByName(const std::string& _name);
-	void SetVolume(unsigned int _volume);
+	void SetGlobalVolume(float _volume);
 	void StopSound();
 
 private:
@@ -46,6 +46,7 @@ private:
 
 private:
 	static GameEngineSoundManager* instance_;
+	static float globalVolume_;
 
 private:
 	FMOD::System* system_;

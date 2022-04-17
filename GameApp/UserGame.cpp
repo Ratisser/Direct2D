@@ -27,6 +27,7 @@ UserGame::~UserGame() // default destructer 디폴트 소멸자
 
 void UserGame::Initialize()
 {
+	GameEngineSoundManager::GetInstance().SetGlobalVolume(0.3f);
 }
 
 void UserGame::Release()
