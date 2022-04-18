@@ -52,6 +52,7 @@ void Devil::Update(float _deltaTime)
 	else
 	{
 		devilRenderer_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		dragonHeadRenderer_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
 	}
 }
 
@@ -341,6 +342,7 @@ void Devil::updateDragonAttack(float _deltaTime)
 	if (timeCounter_ < 3.264f)
 	{
 		leftDragonHeadTransform_->SetLocation(GameEngineMath::Lerp(LEFT_ARM_LOCATION, RIGHT_ARM_LOCATION, timeCounter_, 3.264f));
+		dragonHeadCollision_->SetLocationY(sinf(timeCounter_ * 9.f) * 50.f + 100.f);
 	
 	}
 	else if (timeCounter_ >= 3.264f && timeCounter_ < 3.868f)
@@ -381,6 +383,7 @@ void Devil::updateDragonEnd(float _deltaTime)
 void Devil::OnHit()
 {
 	devilRenderer_->SetColor({ 0.5f, 0.8f, 1.0f, 1.0f });
+	dragonHeadRenderer_->SetColor({ 0.5f, 0.8f, 1.0f, 1.0f });
 	hitEffectTime_ = HIT_EFFECT_TIME;
 }
 
