@@ -81,6 +81,11 @@ void TitleActor::Update(float _deltaTime)
     state_.Update(_deltaTime);
 }
 
+void TitleActor::levelChangeEndEvent()
+{
+    bgmPlayer_->Stop();
+}
+
 void TitleActor::startStart(float _deltaTime)
 {
     bgmPlayer_->Play();

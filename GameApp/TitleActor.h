@@ -21,6 +21,9 @@ public:
 	virtual void Start() override;
 	virtual void Update(float _deltaTime) override;
 
+protected:
+	virtual void levelChangeEndEvent() override;
+
 private:
 	void startStart(float  _deltaTime);
 	void updateStart(float  _deltaTime);

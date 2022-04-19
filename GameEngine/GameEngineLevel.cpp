@@ -5,6 +5,7 @@
 #include "GameEngineComponent.h"
 #include "GameEngineRenderer.h"
 #include "GameEngineInput.h"
+#include <GameEngine\GameEngineGUI.h>
 
 GameEngineLevel::GameEngineLevel()
 	: mainCamera_(nullptr)
@@ -135,6 +136,9 @@ void GameEngineLevel::Render()
 		}
 	}
 
+
+	GameEngineGUI::GetInst()->GUIRenderStart();
+	GameEngineGUI::GetInst()->GUIRenderEnd();
 
 	GameEngineDevice::GetInst().RenderEnd();
 }

@@ -22,6 +22,7 @@ DevilLevel::~DevilLevel()
 
 void DevilLevel::LevelChangeEndEvent()
 {
+	bgmPlayer_->Stop();
 }
 
 void DevilLevel::LevelChangeStartEvent()

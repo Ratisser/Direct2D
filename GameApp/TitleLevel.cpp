@@ -14,6 +14,7 @@ TitleLevel::~TitleLevel()
 
 void TitleLevel::LevelChangeEndEvent()
 {
+	
 }
 
 void TitleLevel::LevelChangeStartEvent()

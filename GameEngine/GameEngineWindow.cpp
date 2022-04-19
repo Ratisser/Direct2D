@@ -8,11 +8,20 @@
 
 // Æ÷ÀÎÅÍÇü ½Ì±ÛÅæ
 GameEngineWindow* GameEngineWindow::Inst = new GameEngineWindow();
+std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> GameEngineWindow::MessageCallBack_ = nullptr;
 
 bool WindowOn = true;
 
 LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam)
 {
+	if (nullptr != GameEngineWindow::MessageCallBack_)
+	{
+		if (0 != GameEngineWindow::MessageCallBack_(_hWnd, _message, _wParam, _lParam))
+		{
+			return true;
+		}
+	}
+
 	switch (_message)
 	{
 	case WM_PAINT:

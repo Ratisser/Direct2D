@@ -61,6 +61,7 @@
     </ClInclude>
     <ClInclude Include="GameEngineFolderTexture.h" />
     <ClInclude Include="GameEngineFolderTextureManager.h" />
+    <ClInclude Include="GameEngineGUI.h" />
     <ClInclude Include="GameEngineImageRenderer.h" />
     <ClInclude Include="GameEngineIndexBuffer.h">
       <SubType>
@@ -74,6 +75,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineLevelControlWindow.h" />
     <ClInclude Include="GameEngineMesh.h">
       <SubType>
       </SubType>
@@ -162,6 +164,14 @@
     </ClInclude>
     <ClInclude Include="GameEngineWindow.h" />
     <ClInclude Include="GameEngineManagerHelper.h" />
+    <ClInclude Include="imconfig.h" />
+    <ClInclude Include="imgui.h" />
+    <ClInclude Include="imgui_impl_dx11.h" />
+    <ClInclude Include="imgui_impl_win32.h" />
+    <ClInclude Include="imgui_internal.h" />
+    <ClInclude Include="imstb_rectpack.h" />
+    <ClInclude Include="imstb_textedit.h" />
+    <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="PreCompile.h">
       <SubType>
       </SubType>
@@ -213,6 +223,7 @@
     </ClCompile>
     <ClCompile Include="GameEngineFolderTexture.cpp" />
     <ClCompile Include="GameEngineFolderTextureManager.cpp" />
+    <ClCompile Include="GameEngineGUI.cpp" />
     <ClCompile Include="GameEngineImageRenderer.cpp" />
     <ClCompile Include="GameEngineIndexBuffer.cpp">
       <SubType>
@@ -226,6 +237,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineLevelControlWindow.cpp" />
     <ClCompile Include="GameEngineMesh.cpp">
       <SubType>
       </SubType>
@@ -313,6 +325,12 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineWindow.cpp" />
+    <ClCompile Include="imgui.cpp" />
+    <ClCompile Include="imgui_draw.cpp" />
+    <ClCompile Include="imgui_impl_dx11.cpp" />
+    <ClCompile Include="imgui_impl_win32.cpp" />
+    <ClCompile Include="imgui_tables.cpp" />
+    <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="PreCompile.cpp">
       <SubType>
       </SubType>

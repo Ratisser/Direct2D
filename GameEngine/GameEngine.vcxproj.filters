@@ -115,6 +115,18 @@
     <Filter Include="Core&amp;Window">
       <UniqueIdentifier>{80b43d89-27c3-4d30-a396-0a08b4661445}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core&amp;Window\Thread">
+      <UniqueIdentifier>{e260ee0a-7b9e-4546-af6b-39667a3f6263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core&amp;Window\imgui">
+      <UniqueIdentifier>{09005b7a-c61f-443c-9d3c-780d05d3232b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core&amp;Window\imgui\Code">
+      <UniqueIdentifier>{6e7e12b7-3b7d-4b6e-b2be-2e83a21fb1b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core&amp;Window\imgui\Window">
+      <UniqueIdentifier>{f67fae37-3690-4b5c-8922-e4a28784a907}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -258,6 +270,36 @@
     <ClInclude Include="GameEngineCore.h">
       <Filter>Core&amp;Window</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineGUI.h">
+      <Filter>Core&amp;Window\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineLevelControlWindow.h">
+      <Filter>Core&amp;Window\imgui\Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -391,6 +433,30 @@
     </ClCompile>
     <ClCompile Include="GameEngineWindow.cpp">
       <Filter>Core&amp;Window</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineGUI.cpp">
+      <Filter>Core&amp;Window\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Core&amp;Window\imgui\Code</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineLevelControlWindow.cpp">
+      <Filter>Core&amp;Window\imgui\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

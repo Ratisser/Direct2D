@@ -30,15 +30,18 @@ public:
 		}
 	}
 
-private:
-	std::string className_;
-	std::string windowTitle_;
-	HINSTANCE hInstance_;
-	HWND windowhandle_;
-	HDC devicecontext_;
+public:
+	friend LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam);
+	static inline void SetMessageCallBack(std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> _CallBack)
+	{
+		MessageCallBack_ = _CallBack;
+	}
 
-	float4 size_;
-	float4 pos_;
+public:
+	void CreateMainWindow(const std::string& _titlename, const float4& _size, const float4& _pos);
+	void SetSizeAndPos(const float4& _size, const float4& _pos);
+	void Loop(void(*_loopFunc)());
+
 
 public:
 	HWND  GetWindowHWND()
@@ -63,12 +66,19 @@ public:
 private:
 	int CreateMainWindowClass();
 
-public:
-	void CreateMainWindow(const std::string& _titlename, const float4& _size, const float4& _pos);
-	void SetSizeAndPos(const float4& _size, const float4& _pos);
-	void Loop(void(*_loopFunc)());
-
 private:
 	GameEngineWindow();
 	~GameEngineWindow();
+
+private:
+	static std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> MessageCallBack_;
+
+	std::string className_;
+	std::string windowTitle_;
+	HINSTANCE hInstance_;
+	HWND windowhandle_;
+	HDC devicecontext_;
+
+	float4 size_;
+	float4 pos_;
 };

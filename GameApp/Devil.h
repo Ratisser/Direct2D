@@ -30,6 +30,8 @@ private:
 	void initCollision();
 	void initState();
 
+	void initSpider();
+
 private:
 #pragma region DevilState
 	void startIntro(float _deltaTime);
@@ -56,6 +58,27 @@ private:
 	void startDragonEnd(float _deltaTime);
 	void updateDragonEnd(float _deltaTime);
 
+	void startSpiderTransform(float _deltaTime);
+	void updateSpiderTransform(float _deltaTime);
+
+	void startSpiderAttack(float _deltaTime);
+	void updateSpiderAttack(float _deltaTime);
+
+	void startSpiderEnd(float _deltaTime);
+	void updateSpiderEnd(float _deltaTime);
+
+#pragma region SubState
+	void startSpiderFalling(float _deltaTime);
+	void updateSpiderFalling(float _deltaTime);
+
+	void startSpiderFall(float _deltaTime);
+	void updateSpiderFall(float _deltaTime);
+
+	void startSpiderFly(float _deltaTime);
+	void updateSpiderFly(float _deltaTime);
+#pragma endregion
+
+
 #pragma endregion
 
 private:
@@ -67,22 +90,32 @@ private:
 	const float HIT_EFFECT_TIME = 0.034f;
 
 private:
+	// Devil
+	GameEngineTransformComponent* headTransform_;
 	GameEngineImageRenderer* devilRenderer_;
 	GameEngineImageRenderer* pupil_;
-	GameEngineImageRenderer* leftArmRenderer_;
-	GameEngineImageRenderer* rightArmRenderer_;
-	GameEngineImageRenderer* dragonHeadRenderer_;
+	GameEngineCollision* headCollision_;
+	GameEngineFSM state_;
 
-	GameEngineTransformComponent* headTransform_;
+	// Ram
 	GameEngineTransformComponent* leftArmTransform_;
 	GameEngineTransformComponent* rightArmTransform_;
+	GameEngineImageRenderer* leftArmRenderer_;
+	GameEngineImageRenderer* rightArmRenderer_;
+
+	// Dragon
 	GameEngineTransformComponent* leftDragonHeadTransform_;
 	GameEngineTransformComponent* rightDragonHeadTransform_;
-
-	GameEngineCollision* headCollision_;
+	GameEngineImageRenderer* dragonHeadRenderer_;
 	GameEngineCollision* dragonHeadCollision_;
+	
+	// Spider
+	GameEngineTransformComponent* spiderTransform_;
+	GameEngineImageRenderer* spiderRenderer_;
+	GameEngineCollision* spiderCollision_;
+	GameEngineFSM spiderState_;
 
-	GameEngineFSM state_;
+
 
 	float timeCounter_;
 	float hitEffectTime_;

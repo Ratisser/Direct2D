@@ -7,6 +7,7 @@
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
 #include <GameEngine/GameEngineCollision.h>
+#include <GameEngine\GameEngineLevelControlWindow.h>
 
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 std::map<std::string, GameEngineLevel*> GameEngineCore::allLevels_ = std::map<std::string, GameEngineLevel*>();
@@ -31,11 +32,15 @@ GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RVa
 
 void GameEngineCore::EngineInitialize()
 {
+	GameEngineGUI::GetInst()->Initialize();
+
 	loadEngineResource();
 	GameEngineCollision::init();
 
 	GameEngineSoundManager::GetInstance().Initialize();
 	GameEngineInput::GetInstance();
+
+	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
 }
 
 
@@ -50,6 +55,7 @@ void GameEngineCore::EngineDestroy()
 		}
 	}
 
+	GameEngineGUI::Destroy();
 	GameEngineManagerHelper::ManagerRelease();
 	GameEngineTime::Destroy();
 	GameEngineDevice::Destroy();

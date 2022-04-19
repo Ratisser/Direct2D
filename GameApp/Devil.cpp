@@ -38,6 +38,9 @@ void Devil::Start()
 	initRendererAndAnimation();
 	initCollision();
 	initState();
+
+	initSpider();
+
 	SetHP(100);
 }
 
@@ -203,6 +206,11 @@ void Devil::initState()
 	state_.CreateState("DragonEnd", std::bind(&Devil::startDragonEnd, this, std::placeholders::_1), std::bind(&Devil::updateDragonEnd, this, std::placeholders::_1));
 
 	state_.ChangeState("Intro");
+}
+
+void Devil::initSpider()
+{
+
 }
 
 void Devil::startIntro(float _deltaTime)
@@ -378,6 +386,54 @@ void Devil::updateDragonEnd(float _deltaTime)
 		state_ << "Idle";
 		return;
 	}
+}
+
+void Devil::startSpiderTransform(float _deltaTime)
+{
+}
+
+void Devil::updateSpiderTransform(float _deltaTime)
+{
+}
+
+void Devil::startSpiderAttack(float _deltaTime)
+{
+}
+
+void Devil::updateSpiderAttack(float _deltaTime)
+{
+}
+
+void Devil::startSpiderEnd(float _deltaTime)
+{
+}
+
+void Devil::updateSpiderEnd(float _deltaTime)
+{
+}
+
+void Devil::startSpiderFalling(float _deltaTime)
+{
+}
+
+void Devil::updateSpiderFalling(float _deltaTime)
+{
+}
+
+void Devil::startSpiderFall(float _deltaTime)
+{
+}
+
+void Devil::updateSpiderFall(float _deltaTime)
+{
+}
+
+void Devil::startSpiderFly(float _deltaTime)
+{
+}
+
+void Devil::updateSpiderFly(float _deltaTime)
+{
 }
 
 void Devil::OnHit()
