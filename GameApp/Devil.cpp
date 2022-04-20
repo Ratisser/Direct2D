@@ -161,7 +161,7 @@ void Devil::initCollision()
 	dragonHeadCollision_ = CreateTransformComponent<GameEngineCollision>(leftDragonHeadTransform_);
 	dragonHeadCollision_->SetCollisionType(eCollisionType::Rect);
 	dragonHeadCollision_->SetCollisionGroup(eCollisionGroup::Monster);
-	dragonHeadCollision_->SetScale(120.f);
+	dragonHeadCollision_->SetScale(100.f);
 	dragonHeadCollision_->SetLocation(-420.f, 50.f);
 
 	// ¾ç ¼Õ¹Ù´Ú
@@ -368,7 +368,7 @@ void Devil::updateDragonAttack(float _deltaTime)
 	if (timeCounter_ < 3.264f)
 	{
 		leftDragonHeadTransform_->SetLocation(GameEngineMath::Lerp(LEFT_ARM_LOCATION, RIGHT_ARM_LOCATION, timeCounter_, 3.264f));
-		dragonHeadCollision_->SetLocationY(sinf(timeCounter_ * 9.f) * 50.f + 100.f);
+		dragonHeadCollision_->SetLocationY(sinf(timeCounter_ * 9.0f) * 70.f + 100.f);
 	
 	}
 	else if (timeCounter_ >= 3.264f && timeCounter_ < 3.868f)
