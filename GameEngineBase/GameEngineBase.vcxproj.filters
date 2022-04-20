@@ -41,6 +41,15 @@
     <ClInclude Include="GameEngineFSM.h">
       <Filter>Logic</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineIocp.h">
+      <Filter>IOCP</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineThread.h">
+      <Filter>IOCP</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineThreadQueue.h">
+      <Filter>IOCP</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -83,6 +92,15 @@
     <ClCompile Include="GameEngineFSM.cpp">
       <Filter>Logic</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineThread.cpp">
+      <Filter>IOCP</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineThreadQueue.cpp">
+      <Filter>IOCP</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineIocp.cpp">
+      <Filter>IOCP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Precom">
@@ -123,6 +141,9 @@
     </Filter>
     <Filter Include="Logic">
       <UniqueIdentifier>{51ea7300-345a-4632-8f71-a2fc978ecc9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IOCP">
+      <UniqueIdentifier>{401bab1e-b649-492f-9b41-bae484359f92}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

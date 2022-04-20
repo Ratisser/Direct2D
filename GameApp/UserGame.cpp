@@ -113,19 +113,22 @@ void UserGame::loadShader()
 
 void UserGame::loadTexture()
 {
-	{
-		GameEngineDirectory SoundDir;
-		SoundDir.MoveParent("Direct2D");
-		SoundDir.MoveChild("Resources");
-		SoundDir.MoveChild("Image");
 
-		std::vector<GameEngineFile> AllFile = SoundDir.GetAllFileWithoutDirectory();
+	{
+		GameEngineDirectory TextureDir;
+		TextureDir.MoveParent("Direct2D");
+		TextureDir.MoveChild("Resources");
+		TextureDir.MoveChild("Image");
+
+		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFileWithoutDirectory();
 
 		for (size_t i = 0; i < AllFile.size(); i++)
 		{
 			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 		}
 	}
+
+
 
 	{
 		GameEngineDirectory TextureDir;
@@ -150,6 +153,8 @@ void UserGame::loadTexture()
 
 	}
 
+
+
 	{
 		GameEngineDirectory TextureDir;
 		TextureDir.MoveParent("Direct2D");
@@ -163,6 +168,8 @@ void UserGame::loadTexture()
 		}
 	}
 
+
+
 	{
 		GameEngineDirectory TextureDir;
 		TextureDir.MoveParent("Direct2D");
@@ -173,6 +180,337 @@ void UserGame::loadTexture()
 			GameEngineFolderTextureManager::GetInst().Load(file.GetFullPath());
 		}
 	}
+
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParent("Direct2D");
+		Dir.MoveChild("Resources");
+		Dir.MoveChild("Image");
+		Dir.MoveChild("Title");
+
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParent("Direct2D");
+		Dir / "Resources" / "Image" / "Title" / "Cuphead";
+
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParent("Direct2D");
+		Dir / "Resources" / "Image" / "Tutorial" / "Background";
+
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParent("Direct2D");
+		Dir / "Resources" / "Image" / "Tutorial" / "Guides";
+
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParent("Direct2D");
+		Dir / "Resources" / "Image" / "World" / "Background";
+
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParent("Direct2D");
+		Dir / "Resources" / "Image" / "World" / "Cuphead";
+
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineFolderTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParent("Direct2D");
+		Dir / "Resources" / "Image" / "Devil" / "Background";
+
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParent("Direct2D");
+		Dir / "Resources" / "Image" / "Devil" / "Devil" / "Phase1";
+
+		std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+		for (size_t i = 0; i < AllFile.size(); i++)
+		{
+			GameEngineFolderTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+		}
+	}
+
+	
+
+	// 이 밑으로 스레드
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory TextureDir;
+	//		TextureDir.MoveParent("Direct2D");
+	//		TextureDir.MoveChild("Resources");
+	//		TextureDir.MoveChild("Image");
+
+	//		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFileWithoutDirectory();
+
+	//		for (size_t i = 0; i < AllFile.size(); i++)
+	//		{
+	//			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	//		}
+	//	}
+	//);
+
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory TextureDir;
+	//		TextureDir.MoveParent("Direct2D");
+	//		TextureDir.MoveChild("Resources");
+	//		TextureDir.MoveChild("Image");
+	//		TextureDir.MoveChild("CupHead");
+
+	//		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
+	//		for (GameEngineFile& file : AllFile)
+	//		{
+	//			GameEngineFolderTextureManager::GetInst().Load(file.GetFullPath());
+	//		}
+
+	//		TextureDir.MoveParent("Image");
+	//		TextureDir / "Bullet";
+	//		AllFile = TextureDir.GetAllFile();
+	//		for (GameEngineFile& file : AllFile)
+	//		{
+	//			GameEngineFolderTextureManager::GetInst().Load(file.GetFullPath());
+	//		}
+
+	//	}
+	//);
+
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory TextureDir;
+	//		TextureDir.MoveParent("Direct2D");
+	//		TextureDir.MoveChild("Resources");
+	//		TextureDir.MoveChild("Image");
+	//		TextureDir / "Title";
+	//		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
+	//		for (GameEngineFile& file : AllFile)
+	//		{
+	//			GameEngineFolderTextureManager::GetInst().Load(file.GetFullPath());
+	//		}
+	//	}
+	//);
+
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory TextureDir;
+	//		TextureDir.MoveParent("Direct2D");
+	//		TextureDir / "Resources" / "Image" / "Screen";
+	//		std::vector<GameEngineFile> AllFile = TextureDir.GetAllFile();
+	//		for (GameEngineFile& file : AllFile)
+	//		{
+	//			GameEngineFolderTextureManager::GetInst().Load(file.GetFullPath());
+	//		}
+	//	}
+	//);
+
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory Dir;
+	//		Dir.MoveParent("Direct2D");
+	//		Dir.MoveChild("Resources");
+	//		Dir.MoveChild("Image");
+	//		Dir.MoveChild("Title");
+
+	//		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+	//		for (size_t i = 0; i < AllFile.size(); i++)
+	//		{
+	//			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	//		}
+	//	}
+	//);
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory Dir;
+	//		Dir.MoveParent("Direct2D");
+	//		Dir / "Resources" / "Image" / "Title" / "Cuphead";
+
+	//		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+	//		for (size_t i = 0; i < AllFile.size(); i++)
+	//		{
+	//			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	//		}
+	//	}
+	//);
+
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory Dir;
+	//		Dir.MoveParent("Direct2D");
+	//		Dir / "Resources" / "Image" / "Tutorial" / "Background";
+
+	//		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+	//		for (size_t i = 0; i < AllFile.size(); i++)
+	//		{
+	//			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	//		}
+	//	}
+	//);
+
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory Dir;
+	//		Dir.MoveParent("Direct2D");
+	//		Dir / "Resources" / "Image" / "Tutorial" / "Guides";
+
+	//		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+	//		for (size_t i = 0; i < AllFile.size(); i++)
+	//		{
+	//			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	//		}
+	//	}
+	//);
+
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory Dir;
+	//		Dir.MoveParent("Direct2D");
+	//		Dir / "Resources" / "Image" / "World" / "Background";
+
+	//		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+	//		for (size_t i = 0; i < AllFile.size(); i++)
+	//		{
+	//			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	//		}
+	//	}
+	//);
+
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory Dir;
+	//		Dir.MoveParent("Direct2D");
+	//		Dir / "Resources" / "Image" / "World" / "Cuphead";
+
+	//		std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+	//		for (size_t i = 0; i < AllFile.size(); i++)
+	//		{
+	//			GameEngineFolderTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	//		}
+	//	}
+	//);
+
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory Dir;
+	//		Dir.MoveParent("Direct2D");
+	//		Dir / "Resources" / "Image" / "Devil" / "Background";
+
+	//		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+	//		for (size_t i = 0; i < AllFile.size(); i++)
+	//		{
+	//			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	//		}
+	//	}
+	//);
+
+	//GameEngineCore::ThreadQueue_.JobPost(
+	//	[]()
+	//	{
+	//		GameEngineDirectory Dir;
+	//		Dir.MoveParent("Direct2D");
+	//		Dir / "Resources" / "Image" / "Devil" / "Devil" / "Phase1";
+
+	//		std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+	//		for (size_t i = 0; i < AllFile.size(); i++)
+	//		{
+	//			GameEngineFolderTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+	//		}
+	//	}
+	//);
+
+	//while (GameEngineCore::ThreadQueue_.GetWorkingCount() > 0)
+	//{
+	//	Sleep(1);
+	//}
 }
 
 void UserGame::loadMesh()

@@ -3,6 +3,7 @@
 #include "GameEngineTexture.h"
 
 GameEngineTextureManager* GameEngineTextureManager::Inst = new GameEngineTextureManager();
+std::mutex GameEngineTextureManager::managerLock_;
 
 GameEngineTextureManager::GameEngineTextureManager() // default constructer 디폴트 생성자
 {
@@ -42,7 +43,10 @@ GameEngineTexture* GameEngineTextureManager::Create(const std::string& _Name, ID
 	GameEngineTexture* NewRes = new GameEngineTexture();
 	NewRes->SetName(_Name);
 	NewRes->Create(_Texture2D);
-	ResourcesMap.insert(std::map<std::string, GameEngineTexture*>::value_type(_Name, NewRes));
+	{
+		std::lock_guard lock(managerLock_);
+		ResourcesMap.insert(std::map<std::string, GameEngineTexture*>::value_type(_Name, NewRes));
+	}
 	return NewRes;
 }
 
@@ -63,13 +67,21 @@ GameEngineTexture* GameEngineTextureManager::Load(const std::string& _Name, cons
 	GameEngineTexture* NewRes = new GameEngineTexture();
 	NewRes->SetName(_Name);
 	NewRes->Load(_Path);
-	ResourcesMap.insert(std::map<std::string, GameEngineTexture*>::value_type(_Name, NewRes));
+	{
+		std::lock_guard lock(managerLock_);
+		ResourcesMap.insert(std::map<std::string, GameEngineTexture*>::value_type(_Name, NewRes));
+	}
 	return NewRes;
 }
 
 GameEngineTexture* GameEngineTextureManager::Find(const std::string& _Name)
 {
-	std::map<std::string, GameEngineTexture*>::iterator FindIter = ResourcesMap.find(_Name);
+	std::map<std::string, GameEngineTexture*>::iterator FindIter;
+
+	{
+		std::lock_guard lock(managerLock_);
+		FindIter = ResourcesMap.find(_Name);
+	}
 
 	if (FindIter != ResourcesMap.end())
 	{

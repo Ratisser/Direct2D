@@ -31,32 +31,6 @@ void DevilLevel::LevelChangeStartEvent()
 
 void DevilLevel::LevelStart()
 {
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParent("Direct2D");
-		Dir / "Resources" / "Image" / "Devil" / "Background";
-
-		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
-
-		for (size_t i = 0; i < AllFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
-		}
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParent("Direct2D");
-		Dir / "Resources" / "Image" / "Devil" / "Devil" / "Phase1";
-
-		std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
-
-		for (size_t i = 0; i < AllFile.size(); i++)
-		{
-			GameEngineFolderTextureManager::GetInst().Load(AllFile[i].GetFullPath());
-		}
-	}
-
 	bgmPlayer_ = std::make_unique<GameEngineSoundPlayer>("MUS_DevilPhase1_2.wav");
 
 	player_ = CreateActor<Player>("Player");

@@ -9,6 +9,8 @@
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngine\GameEngineLevelControlWindow.h>
 
+GameEngineThreadQueue GameEngineCore::ThreadQueue_ = GameEngineThreadQueue("GameEngineThread");
+
 GameEngineCore* GameEngineCore::MainCore_ = nullptr;
 std::map<std::string, GameEngineLevel*> GameEngineCore::allLevels_ = std::map<std::string, GameEngineLevel*>();
 GameEngineLevel* GameEngineCore::nextLevel_ = nullptr;
@@ -21,12 +23,6 @@ GameEngineCore::GameEngineCore() // default constructer 디폴트 생성자
 
 GameEngineCore::~GameEngineCore() // default destructer 디폴트 소멸자
 {
-
-}
-
-GameEngineCore::GameEngineCore(GameEngineCore&& _other) noexcept  // default RValue Copy constructer 디폴트 RValue 복사생성자
-{
-
 
 }
 
@@ -54,6 +50,8 @@ void GameEngineCore::EngineDestroy()
 			p.second = nullptr;
 		}
 	}
+
+	ThreadQueue_.Destroy();
 
 	GameEngineGUI::Destroy();
 	GameEngineManagerHelper::ManagerRelease();

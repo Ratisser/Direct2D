@@ -31,31 +31,6 @@ void TutorialLevel::LevelChangeStartEvent()
 
 void TutorialLevel::LevelStart()
 {
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParent("Direct2D");
-		Dir / "Resources" / "Image" / "Tutorial" / "Background";
-
-		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
-
-		for (size_t i = 0; i < AllFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
-		}
-	}
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParent("Direct2D");
-		Dir / "Resources" / "Image" / "Tutorial" / "Guides";
-
-		std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
-
-		for (size_t i = 0; i < AllFile.size(); i++)
-		{
-			GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
-		}
-	}
-
 	bgmPlayer_ = std::make_unique<GameEngineSoundPlayer>("MUS_Tutorial.wav");
 
 	player_ = CreateActor<Player>("Player");

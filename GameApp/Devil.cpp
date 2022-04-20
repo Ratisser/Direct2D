@@ -19,6 +19,9 @@ Devil::Devil()
 	, rightArmTransform_(nullptr)
 	, leftDragonHeadTransform_(nullptr)
 	, rightDragonHeadTransform_(nullptr)
+	, spiderTransform_(nullptr)
+	, spiderRenderer_(nullptr)
+	, spiderCollision_(nullptr)
 	, timeCounter_(0.0f)
 	, hitEffectTime_(0.0f)
 {
@@ -142,6 +145,8 @@ void Devil::initRendererAndAnimation()
 	dragonHeadRenderer_->CreateAnimationFolder("DragonHeadSmile", 0.034f, false);
 	dragonHeadRenderer_->CreateAnimationFolder("DragonHeadDisappear", 0.034f, false);
 
+
+
 	dragonHeadRenderer_->ChangeAnimation("DragonHeadAppear");
 }
 
@@ -210,7 +215,20 @@ void Devil::initState()
 
 void Devil::initSpider()
 {
+	spiderTransform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
+	spiderTransform_->SetLocationZ(0.5f);
 
+	spiderRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(spiderTransform_);
+	spiderRenderer_->CreateAnimationFolder("SpiderHead_FallFromSky");
+	spiderRenderer_->CreateAnimationFolder("SpiderHead_FallToFloor", 0.034f, false);
+	spiderRenderer_->CreateAnimationFolder("SpiderHead_FlyToSky", 0.067f, false);
+	spiderRenderer_->ChangeAnimation("SpiderHead_FallFromSky");
+	
+	spiderCollision_ = CreateTransformComponent<GameEngineCollision>(spiderTransform_);
+	spiderCollision_->SetCollisionType(eCollisionType::Rect);
+	spiderCollision_->SetCollisionGroup(eCollisionGroup::Monster);
+	spiderCollision_->SetScale(200.f);
+	spiderCollision_->SetLocationY(100.f);
 }
 
 void Devil::startIntro(float _deltaTime)

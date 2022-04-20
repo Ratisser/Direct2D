@@ -1,8 +1,10 @@
 #include "PreCompile.h"
 #include "GameEngineFolderTextureManager.h"
 #include "GameEngineFolderTexture.h"
+#include <GameEngine\GameEngineCore.h>
 
 GameEngineFolderTextureManager* GameEngineFolderTextureManager::Inst = new GameEngineFolderTextureManager();
+std::mutex GameEngineFolderTextureManager::managerLock_;
 
 GameEngineFolderTextureManager::GameEngineFolderTextureManager() // default constructer 디폴트 생성자
 {
@@ -44,13 +46,21 @@ GameEngineFolderTexture* GameEngineFolderTextureManager::Load(const std::string&
 	GameEngineFolderTexture* NewRes = new GameEngineFolderTexture();
 	NewRes->SetName(_Name);
 	NewRes->Load(_Path);
-	ResourcesMap.insert(std::map<std::string, GameEngineFolderTexture*>::value_type(_Name, NewRes));
+	{
+		std::lock_guard lock(managerLock_);
+		ResourcesMap.insert(std::map<std::string, GameEngineFolderTexture*>::value_type(_Name, NewRes));
+	}
 	return NewRes;
 }
 
 GameEngineFolderTexture* GameEngineFolderTextureManager::Find(const std::string& _Name)
 {
-	std::map<std::string, GameEngineFolderTexture*>::iterator FindIter = ResourcesMap.find(_Name);
+	std::map<std::string, GameEngineFolderTexture*>::iterator FindIter;
+
+	{
+		std::lock_guard lock(managerLock_);
+		FindIter = ResourcesMap.find(_Name);
+	}
 
 	if (FindIter != ResourcesMap.end())
 	{
