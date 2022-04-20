@@ -113,6 +113,9 @@ void UserGame::loadShader()
 
 void UserGame::loadTexture()
 {
+	GameEngineTime::GetInst().TimeCheckReset();
+	GameEngineTime::GetInst().TimeCheck();
+	GameEngineDebug::OutPutDebugString("\n" + std::to_string(GameEngineTime::GetInst().GetDeltaTime()) + "\n");
 
 	//{
 	//	GameEngineDirectory TextureDir;
@@ -511,6 +514,9 @@ void UserGame::loadTexture()
 	{
 		Sleep(1);
 	}
+
+	GameEngineTime::GetInst().TimeCheck();
+	GameEngineDebug::OutPutDebugString("\n" + std::to_string(GameEngineTime::GetInst().GetDeltaTime()) + "\n");
 }
 
 void UserGame::loadMesh()
