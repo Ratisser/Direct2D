@@ -68,14 +68,14 @@ private:
 	void updateSpiderEnd(float _deltaTime);
 
 #pragma region SubState
-	void startSpiderFalling(float _deltaTime);
-	void updateSpiderFalling(float _deltaTime);
+	void startSpiderFallFromSky(float _deltaTime);
+	void updateSpiderFallFromSky(float _deltaTime);
 
-	void startSpiderFall(float _deltaTime);
-	void updateSpiderFall(float _deltaTime);
+	void startSpiderFallToFloor(float _deltaTime);
+	void updateSpiderFallToFloor(float _deltaTime);
 
-	void startSpiderFly(float _deltaTime);
-	void updateSpiderFly(float _deltaTime);
+	void startSpiderFlyToSky(float _deltaTime);
+	void updateSpiderFlyToSky(float _deltaTime);
 #pragma endregion
 
 
@@ -88,6 +88,9 @@ private:
 	const float4 CENTER_ARM_LOCATION = float4(721.f, -600.f);
 
 	const float HIT_EFFECT_TIME = 0.034f;
+
+	const int SPIDER_FALL_COUNT_MIN = 2;
+	const int SPIDER_FALL_COUNT_MAX = 4;
 
 private:
 	// Devil
@@ -115,7 +118,12 @@ private:
 	GameEngineCollision* spiderCollision_;
 	GameEngineFSM spiderState_;
 
+	float4 spiderFallStartLocation_;
+	float4 spiderFallFromSkyDest_;
+	float4 spiderFallToFloorDest_;
+	float4 spiderFlyToSkyDest_;
 
+	int spiderFallCount_;
 
 	float timeCounter_;
 	float hitEffectTime_;

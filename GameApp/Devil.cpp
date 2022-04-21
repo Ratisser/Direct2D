@@ -3,6 +3,7 @@
 
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineCollision.h>
+#include <GameEngineBase\GameEngineRandom.h>
 
 #include "eCollisionGroup.h"
 
@@ -24,6 +25,7 @@ Devil::Devil()
 	, spiderCollision_(nullptr)
 	, timeCounter_(0.0f)
 	, hitEffectTime_(0.0f)
+	, spiderFallCount_(0)
 {
 
 }
@@ -57,8 +59,9 @@ void Devil::Update(float _deltaTime)
 	}
 	else
 	{
-		devilRenderer_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-		dragonHeadRenderer_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		devilRenderer_->SetColor(float4::ONE);
+		dragonHeadRenderer_->SetColor(float4::ONE);
+		spiderRenderer_->SetColor(float4::ONE);
 	}
 }
 
@@ -112,6 +115,11 @@ void Devil::initRendererAndAnimation()
 	devilRenderer_->CreateAnimationFolder("DragonTransform", 0.034f, false);
 	devilRenderer_->CreateAnimationFolderReverse("DragonTransformReverse", "DragonTransform", 0.034f, false);
 	devilRenderer_->CreateAnimationFolder("DragonIdle");
+
+	devilRenderer_->CreateAnimationFolder("SpiderTransform", 0.034f, false);
+	devilRenderer_->CreateAnimationFolderReverse("SpiderTransformReverse", "SpiderTransform", 0.034f, false);
+	devilRenderer_->CreateAnimationFolder("SpiderIdle", 0.0678f);
+
 
 	devilRenderer_->ChangeAnimation("DevilIdle");
 
@@ -210,6 +218,10 @@ void Devil::initState()
 	state_.CreateState("DragonAttack", std::bind(&Devil::startDragonAttack, this, std::placeholders::_1), std::bind(&Devil::updateDragonAttack, this, std::placeholders::_1));
 	state_.CreateState("DragonEnd", std::bind(&Devil::startDragonEnd, this, std::placeholders::_1), std::bind(&Devil::updateDragonEnd, this, std::placeholders::_1));
 
+	state_.CreateState("SpiderTransform", std::bind(&Devil::startSpiderTransform, this, std::placeholders::_1), std::bind(&Devil::updateSpiderTransform, this, std::placeholders::_1));
+	state_.CreateState("SpiderAttack", std::bind(&Devil::startSpiderAttack, this, std::placeholders::_1), std::bind(&Devil::updateSpiderAttack, this, std::placeholders::_1));
+	state_.CreateState("SpiderEnd", std::bind(&Devil::startSpiderEnd, this, std::placeholders::_1), std::bind(&Devil::updateSpiderEnd, this, std::placeholders::_1));
+
 	state_.ChangeState("Intro");
 }
 
@@ -220,15 +232,21 @@ void Devil::initSpider()
 
 	spiderRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(spiderTransform_);
 	spiderRenderer_->CreateAnimationFolder("SpiderHead_FallFromSky");
-	spiderRenderer_->CreateAnimationFolder("SpiderHead_FallToFloor", 0.034f, false);
-	spiderRenderer_->CreateAnimationFolder("SpiderHead_FlyToSky", 0.067f, false);
+	spiderRenderer_->CreateAnimationFolder("SpiderHead_FallToFloor", 0.067f, false);
+	spiderRenderer_->CreateAnimationFolder("SpiderHead_FlyToSky", 0.034f, false);
+	spiderRenderer_->CreateAnimationFolder("SpiderHead_FlyToSky2", 0.0678f);
 	spiderRenderer_->ChangeAnimation("SpiderHead_FallFromSky");
-	
+
 	spiderCollision_ = CreateTransformComponent<GameEngineCollision>(spiderTransform_);
 	spiderCollision_->SetCollisionType(eCollisionType::Rect);
 	spiderCollision_->SetCollisionGroup(eCollisionGroup::Monster);
 	spiderCollision_->SetScale(200.f);
 	spiderCollision_->SetLocationY(100.f);
+	spiderCollision_->SetLocationZ(-0.01f);
+
+	spiderState_.CreateState("SpiderFallFromSky", std::bind(&Devil::startSpiderFallFromSky, this, std::placeholders::_1), std::bind(&Devil::updateSpiderFallFromSky, this, std::placeholders::_1));
+	spiderState_.CreateState("SpiderFallToFloor", std::bind(&Devil::startSpiderFallToFloor, this, std::placeholders::_1), std::bind(&Devil::updateSpiderFallToFloor, this, std::placeholders::_1));
+	spiderState_.CreateState("SpiderFlyToSky", std::bind(&Devil::startSpiderFlyToSky, this, std::placeholders::_1), std::bind(&Devil::updateSpiderFlyToSky, this, std::placeholders::_1));
 }
 
 void Devil::startIntro(float _deltaTime)
@@ -268,7 +286,8 @@ void Devil::updateIdle(float _deltaTime)
 
 	if (timeCounter_ > 2.f)
 	{
-		state_ << "DragonTransform";
+		//state_ << "DragonTransform";
+		state_ << "SpiderTransform";
 		return;
 	}
 }
@@ -369,7 +388,7 @@ void Devil::updateDragonAttack(float _deltaTime)
 	{
 		leftDragonHeadTransform_->SetLocation(GameEngineMath::Lerp(LEFT_ARM_LOCATION, RIGHT_ARM_LOCATION, timeCounter_, 3.264f));
 		dragonHeadCollision_->SetLocationY(sinf(timeCounter_ * 9.0f) * 70.f + 100.f);
-	
+
 	}
 	else if (timeCounter_ >= 3.264f && timeCounter_ < 3.868f)
 	{
@@ -408,56 +427,144 @@ void Devil::updateDragonEnd(float _deltaTime)
 
 void Devil::startSpiderTransform(float _deltaTime)
 {
+	devilRenderer_->ChangeAnimation("SpiderTransform");
+	devilRenderer_->SetLocationX(-40.f);
 }
 
 void Devil::updateSpiderTransform(float _deltaTime)
 {
+	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "SpiderAttack";
+	}
 }
 
 void Devil::startSpiderAttack(float _deltaTime)
 {
+	GameEngineRandom random;
+	spiderFallCount_ = random.RandomInt(SPIDER_FALL_COUNT_MIN, SPIDER_FALL_COUNT_MAX);
+
+	devilRenderer_->ChangeAnimation("SpiderIdle");
+	spiderState_ << "SpiderFallFromSky";
 }
 
 void Devil::updateSpiderAttack(float _deltaTime)
 {
+	spiderState_.Update(_deltaTime);
 }
 
 void Devil::startSpiderEnd(float _deltaTime)
 {
+	devilRenderer_->ChangeAnimation("SpiderTransformReverse");
+
 }
 
 void Devil::updateSpiderEnd(float _deltaTime)
 {
+	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "Idle";
+		return;
+	}
 }
 
-void Devil::startSpiderFalling(float _deltaTime)
+void Devil::startSpiderFallFromSky(float _deltaTime)
 {
+	spiderRenderer_->ChangeAnimation("SpiderHead_FallFromSky", true);
+	spiderRenderer_->SetLocationY(0.f);
+	spiderRenderer_->SetPivot(eImagePivot::BOTTOM);
+	spiderCollision_->SetLocationY(150.f);
+
+	GameEngineRandom random;
+
+	float spiderX = random.RandomFloat(250.f, 1200.f);
+
+	spiderFallStartLocation_ = { spiderX, 0.0f, 0.1f };
+	spiderFallFromSkyDest_ = { spiderX, -400.f, 0.1f };
+	spiderFallToFloorDest_ = { spiderX, -700.f, 0.1f };
+	spiderFlyToSkyDest_ = { spiderX, 0.0f, 0.1f };
+
+	timeCounter_ = 0.0f;
 }
 
-void Devil::updateSpiderFalling(float _deltaTime)
+void Devil::updateSpiderFallFromSky(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+
+	if (timeCounter_ > 1.0f)
+	{
+		spiderTransform_->SetLocation(GameEngineMath::Lerp(spiderFallStartLocation_, spiderFallFromSkyDest_, timeCounter_- 1.0f, 0.5f));
+	}
+
+
+	if (timeCounter_ > 1.6f)
+	{
+		spiderState_ << "SpiderFallToFloor";
+		return;
+	}
 }
 
-void Devil::startSpiderFall(float _deltaTime)
+void Devil::startSpiderFallToFloor(float _deltaTime)
 {
+	spiderRenderer_->ChangeAnimation("SpiderHead_FallToFloor");
+	timeCounter_ = 0.0f;
 }
 
-void Devil::updateSpiderFall(float _deltaTime)
+void Devil::updateSpiderFallToFloor(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+
+	spiderTransform_->SetLocation(GameEngineMath::Lerp(spiderFallFromSkyDest_, spiderFallToFloorDest_, timeCounter_, 0.0678f));
+
+	if (timeCounter_ > 0.5f)
+	{
+		spiderState_ << "SpiderFlyToSky";
+		return;
+	}
 }
 
-void Devil::startSpiderFly(float _deltaTime)
+void Devil::startSpiderFlyToSky(float _deltaTime)
 {
+	spiderRenderer_->ChangeAnimation("SpiderHead_FlyToSky");
+	timeCounter_ = 0.0f;
 }
 
-void Devil::updateSpiderFly(float _deltaTime)
+void Devil::updateSpiderFlyToSky(float _deltaTime)
 {
+	if (spiderRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		spiderRenderer_->ChangeAnimation("SpiderHead_FlyToSky2");
+		spiderRenderer_->SetPivot(eImagePivot::CENTER);
+		spiderRenderer_->SetLocationY(421.f);
+		spiderCollision_->SetLocationY(421.f);
+	}
+
+	if (spiderRenderer_->GetCurrentAnimation()->Name_ == "SpiderHead_FlyToSky2")
+	{
+		timeCounter_ += _deltaTime;
+		spiderTransform_->SetLocation(GameEngineMath::Lerp(spiderFallToFloorDest_, spiderFlyToSkyDest_, timeCounter_, 0.8f));
+	}
+
+	if (timeCounter_ > 1.f)
+	{
+		spiderFallCount_--;
+		spiderState_ << "SpiderFallFromSky";
+
+		if (spiderFallCount_ < 1)
+		{
+			state_ << "SpiderEnd";
+		}
+
+		return;
+	}
 }
 
 void Devil::OnHit()
 {
-	devilRenderer_->SetColor({ 0.5f, 0.8f, 1.0f, 1.0f });
-	dragonHeadRenderer_->SetColor({ 0.5f, 0.8f, 1.0f, 1.0f });
+	const float4 onHitColor = { 0.6f, 0.8f, 1.0f, 1.0f };
+	devilRenderer_->SetColor(onHitColor);
+	dragonHeadRenderer_->SetColor(onHitColor);
+	spiderRenderer_->SetColor(onHitColor);
 	hitEffectTime_ = HIT_EFFECT_TIME;
 }
 

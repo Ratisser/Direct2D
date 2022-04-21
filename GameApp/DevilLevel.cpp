@@ -59,4 +59,15 @@ void DevilLevel::LevelUpdate(float _deltaTime)
 		bgmPlayer_->Play();
 		bgmPlayer_->SetVolume(0.5f);
 	}
+
+	if (GameEngineInput::GetInstance().IsKeyDown("Q"))
+	{
+		GameEngineTime::GetInst().SetTimeScale(0.1f);
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyDown("E"))
+	{
+		GameEngineTime::GetInst().SetTimeScale(1.0f);
+	}
+	
 }
