@@ -286,8 +286,23 @@ void Devil::updateIdle(float _deltaTime)
 
 	if (timeCounter_ > 2.f)
 	{
-		//state_ << "DragonTransform";
-		state_ << "SpiderTransform";
+		GameEngineRandom random;
+		int randomState = random.RandomInt(1, 3);
+
+		switch (randomState)
+		{
+		case 1:
+			state_ << "RamTransform";
+			break;
+		case 2:
+			state_ << "SpiderTransform";
+			break;
+		case 3:
+			state_ << "DragonTransform";
+			break;
+		default:
+			break;
+		}
 		return;
 	}
 }
@@ -493,7 +508,7 @@ void Devil::updateSpiderFallFromSky(float _deltaTime)
 
 	if (timeCounter_ > 1.0f)
 	{
-		spiderTransform_->SetLocation(GameEngineMath::Lerp(spiderFallStartLocation_, spiderFallFromSkyDest_, timeCounter_- 1.0f, 0.5f));
+		spiderTransform_->SetLocation(GameEngineMath::Lerp(spiderFallStartLocation_, spiderFallFromSkyDest_, timeCounter_ - 1.0f, 0.5f));
 	}
 
 
