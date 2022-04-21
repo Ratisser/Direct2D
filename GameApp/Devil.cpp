@@ -229,6 +229,7 @@ void Devil::initSpider()
 {
 	spiderTransform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
 	spiderTransform_->SetLocationZ(0.5f);
+	spiderTransform_->SetScale(0.8f);
 
 	spiderRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(spiderTransform_);
 	spiderRenderer_->CreateAnimationFolder("SpiderHead_FallFromSky");
