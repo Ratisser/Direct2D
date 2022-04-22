@@ -510,6 +510,8 @@ void UserGame::loadTexture()
 		}
 	);
 
+	Sleep(100);
+
 	while (GameEngineCore::ThreadQueue_.GetWorkingCount() > 0)
 	{
 		Sleep(1);
