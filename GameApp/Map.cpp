@@ -27,11 +27,11 @@ void Map::Start()
 	{
 		GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
 		float4 color;
-		color.r = 1.f;
-		color.g = 1.f;
-		color.b = 1.f;
-		color.a = 0.2f;
-		r->SetLocationZ(1.0f);
+		color.r = 0.7f;
+		color.g = 0.7f;
+		color.b = 0.7f;
+		color.a = 0.7f;
+		r->SetLocationZ(-10.0f);
 		r->SetColor(color);
 		r->CreateAnimationFolder("OldFilmEffect", 0.034f, true, false);
 		r->SetScale(1280.f, 720.f);
