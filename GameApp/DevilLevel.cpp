@@ -62,21 +62,10 @@ void DevilLevel::LevelUpdate(float _deltaTime)
 		bgmPlayer_->Play();
 		bgmPlayer_->SetVolume(0.5f);
 	}
-
-	if (GameEngineInput::GetInstance().IsKeyDown("Q"))
-	{
-		GameEngineTime::GetInst().SetTimeScale(0.1f);
-	}
-
-	if (GameEngineInput::GetInstance().IsKeyDown("E"))
-	{
-		GameEngineTime::GetInst().SetTimeScale(1.0f);
-	}
-	
 	
 	if (cameraShakeTime_ <= 0.0f)
 	{
-		mainCamera_->GetCameraComponent()->SetLocation(0.0f, 0.0f, 0.0f);
+		mainCameraBackup_->GetCameraComponent()->SetLocation(0.0f, 0.0f, 0.0f);
 	}
 	else
 	{
@@ -84,8 +73,8 @@ void DevilLevel::LevelUpdate(float _deltaTime)
 		GameEngineRandom random;
 		float cameraX = random.RandomFloat(0.0f, cameraShakeIntensity_) - cameraShakeIntensity_ * 0.5f;
 		float cameraY = random.RandomFloat(0.0f, cameraShakeIntensity_) - cameraShakeIntensity_ * 0.5f;
-		mainCamera_->GetCameraComponent()->SetLocationX(cameraX);
-		mainCamera_->GetCameraComponent()->SetLocationY(cameraY);
+		mainCameraBackup_->GetCameraComponent()->SetLocationX(cameraX);
+		mainCameraBackup_->GetCameraComponent()->SetLocationY(cameraY);
 	}
 }
 
