@@ -5,6 +5,7 @@
 #include <GameEngine\GameEngineCollision.h>
 #include <GameEngineBase\GameEngineRandom.h>
 
+#include "DevilLevel.h"
 #include "eCollisionGroup.h"
 
 Devil::Devil()
@@ -339,6 +340,15 @@ void Devil::startRamAttack(float _deltaTime)
 void Devil::updateRamAttack(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
+
+	if (7 == leftArmRenderer_->GetCurrentAnimation()->CurFrame_)
+	{
+		DevilLevel* level = dynamic_cast<DevilLevel*>(level_);
+		if (nullptr != level)
+		{
+			level->CameraShake(0.2f, 30.f);
+		}
+	}
 
 	if (timeCounter_ < 0.6f)
 	{

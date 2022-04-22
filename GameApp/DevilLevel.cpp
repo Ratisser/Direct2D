@@ -4,6 +4,7 @@
 #include <GameEngine\GameEngineInput.h>
 #include <GameEngine\GameEngineTransformComponent.h>
 #include <GameEngineBase\GameEngineSoundPlayer.h>
+#include <GameEngineBase\GameEngineRandom.h>
 
 #include "Player.h"
 #include "DevilMap.h"
@@ -11,6 +12,8 @@
 
 DevilLevel::DevilLevel()
 	: player_(nullptr)
+	, cameraShakeTime_(0.0f)
+	, cameraShakeIntensity_(0.0f)
 {
 
 }
@@ -70,4 +73,24 @@ void DevilLevel::LevelUpdate(float _deltaTime)
 		GameEngineTime::GetInst().SetTimeScale(1.0f);
 	}
 	
+	
+	if (cameraShakeTime_ <= 0.0f)
+	{
+		mainCamera_->GetCameraComponent()->SetLocation(0.0f, 0.0f, 0.0f);
+	}
+	else
+	{
+		cameraShakeTime_ -= _deltaTime;
+		GameEngineRandom random;
+		float cameraX = random.RandomFloat(0.0f, cameraShakeIntensity_) - cameraShakeIntensity_ * 0.5f;
+		float cameraY = random.RandomFloat(0.0f, cameraShakeIntensity_) - cameraShakeIntensity_ * 0.5f;
+		mainCamera_->GetCameraComponent()->SetLocationX(cameraX);
+		mainCamera_->GetCameraComponent()->SetLocationY(cameraY);
+	}
+}
+
+void DevilLevel::CameraShake(float _ShakeTime, float _intensity)
+{
+	cameraShakeTime_ = _ShakeTime;
+	cameraShakeIntensity_ = _intensity;
 }
