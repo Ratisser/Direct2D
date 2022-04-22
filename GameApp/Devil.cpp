@@ -1,15 +1,18 @@
 #include "PreCompile.h"
 #include "Devil.h"
 
+#include <GameEngineBase\GameEngineRandom.h>
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineCollision.h>
-#include <GameEngineBase\GameEngineRandom.h>
+#include <GameEngine\GameEngineInput.h>
 
 #include "DevilLevel.h"
 #include "eCollisionGroup.h"
 
 Devil::Devil()
 	: devilRenderer_(nullptr)
+	, devilCastingHeadRenderer_(nullptr)
+	, tridentRenderer_(nullptr)
 	, dragonHeadRenderer_(nullptr)
 	, leftArmRenderer_(nullptr)
 	, rightArmRenderer_(nullptr)
@@ -27,6 +30,7 @@ Devil::Devil()
 	, timeCounter_(0.0f)
 	, hitEffectTime_(0.0f)
 	, spiderFallCount_(0)
+	, nextState_(0)
 {
 
 }
@@ -40,6 +44,8 @@ void Devil::Start()
 {
 	GetTransform()->SetLocation(750.f, -690.f, 0.8f);
 
+	initInput();
+
 	initTransform();
 	initRendererAndAnimation();
 	initCollision();
@@ -52,6 +58,17 @@ void Devil::Start()
 
 void Devil::Update(float _deltaTime)
 {
+	GameEngineInput& input = GameEngineInput::GetInstance();
+	for (int i = 0; i < 10; i++)
+	{
+		if (input.IsKeyDown(std::to_string(i)))
+		{
+			nextState_ = i;
+		}
+	}
+
+
+
 	state_.Update(_deltaTime);
 
 	if (hitEffectTime_ > 0.0f)
@@ -64,6 +81,20 @@ void Devil::Update(float _deltaTime)
 		dragonHeadRenderer_->SetColor(float4::ONE);
 		spiderRenderer_->SetColor(float4::ONE);
 	}
+}
+
+void Devil::initInput()
+{
+	GameEngineInput::GetInstance().CreateKey("1", '1');
+	GameEngineInput::GetInstance().CreateKey("2", '2');
+	GameEngineInput::GetInstance().CreateKey("3", '3');
+	GameEngineInput::GetInstance().CreateKey("4", '4');
+	GameEngineInput::GetInstance().CreateKey("5", '5');
+	GameEngineInput::GetInstance().CreateKey("6", '6');
+	GameEngineInput::GetInstance().CreateKey("7", '7');
+	GameEngineInput::GetInstance().CreateKey("8", '8');
+	GameEngineInput::GetInstance().CreateKey("9", '9');
+	GameEngineInput::GetInstance().CreateKey("0", '0');
 }
 
 void Devil::initTransform()
@@ -121,8 +152,23 @@ void Devil::initRendererAndAnimation()
 	devilRenderer_->CreateAnimationFolderReverse("SpiderTransformReverse", "SpiderTransform", 0.034f, false);
 	devilRenderer_->CreateAnimationFolder("SpiderIdle", 0.0678f);
 
+	devilRenderer_->CreateAnimationFolder("CreateOrbsIntro", 0.034f, false);
+	devilRenderer_->CreateAnimationFolderReverse("CreateOrbsIntroReverse", "CreateOrbsIntro", 0.034f, false);
+	devilRenderer_->CreateAnimationFolder("CreateOrbsBody");
 
 	devilRenderer_->ChangeAnimation("DevilIdle");
+
+	devilCastingHeadRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(headTransform_);
+	devilCastingHeadRenderer_->CreateAnimationFolder("CreateOrbsHead", 0.034f, false);
+	devilCastingHeadRenderer_->ChangeAnimation("CreateOrbsHead");
+	devilCastingHeadRenderer_->SetLocationZ(-0.1f);
+	devilCastingHeadRenderer_->Off();
+
+	tridentRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	tridentRenderer_->CreateAnimationFolder("CreateOrbsTrident", 0.034f, false);
+	tridentRenderer_->ChangeAnimation("CreateOrbsTrident");
+	tridentRenderer_->SetLocationZ(-0.1f);
+	tridentRenderer_->Off();
 
 	GameEngineTransformComponent* pupilTransfom = CreateTransformComponent<GameEngineTransformComponent>();
 	pupil_ = CreateTransformComponent<GameEngineImageRenderer>(pupilTransfom);
@@ -223,6 +269,11 @@ void Devil::initState()
 	state_.CreateState("SpiderAttack", std::bind(&Devil::startSpiderAttack, this, std::placeholders::_1), std::bind(&Devil::updateSpiderAttack, this, std::placeholders::_1));
 	state_.CreateState("SpiderEnd", std::bind(&Devil::startSpiderEnd, this, std::placeholders::_1), std::bind(&Devil::updateSpiderEnd, this, std::placeholders::_1));
 
+	state_.CreateState("SummonOrbIntro", std::bind(&Devil::startSummonOrbIntro, this, std::placeholders::_1), std::bind(&Devil::updateSummonOrbIntro, this, std::placeholders::_1));
+	state_.CreateState("SummonOrbCasting", std::bind(&Devil::startSummonOrbCasting, this, std::placeholders::_1), std::bind(&Devil::updateSummonOrbCasting, this, std::placeholders::_1));
+	state_.CreateState("SummonOrb", std::bind(&Devil::startSummonOrb, this, std::placeholders::_1), std::bind(&Devil::updateSummonOrb, this, std::placeholders::_1));
+
+
 	state_.ChangeState("Intro");
 }
 
@@ -288,10 +339,13 @@ void Devil::updateIdle(float _deltaTime)
 
 	if (timeCounter_ > 2.f)
 	{
-		GameEngineRandom random;
-		int randomState = random.RandomInt(1, 3);
+		if (nextState_ == 0)
+		{
+			GameEngineRandom random;
+			nextState_ = random.RandomInt(1, 9);
+		}
 
-		switch (randomState)
+		switch (nextState_)
 		{
 		case 1:
 			state_ << "RamTransform";
@@ -302,9 +356,13 @@ void Devil::updateIdle(float _deltaTime)
 		case 3:
 			state_ << "DragonTransform";
 			break;
+		//case 4:
+		//	state_ << "SummonOrbIntro";
+			break;
 		default:
 			break;
 		}
+		nextState_ = 0;
 		return;
 	}
 }
@@ -492,6 +550,37 @@ void Devil::updateSpiderEnd(float _deltaTime)
 		state_ << "Idle";
 		return;
 	}
+}
+
+void Devil::startSummonOrbIntro(float _deltaTime)
+{
+	devilRenderer_->ChangeAnimation("CreateOrbsIntro", true);
+
+}
+
+void Devil::updateSummonOrbIntro(float _deltaTime)
+{
+	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "SummonOrbCastring";
+		return;
+	}
+}
+
+void Devil::startSummonOrbCasting(float _deltaTime)
+{
+}
+
+void Devil::updateSummonOrbCasting(float _deltaTime)
+{
+}
+
+void Devil::startSummonOrb(float _deltaTime)
+{
+}
+
+void Devil::updateSummonOrb(float _deltaTIme)
+{
 }
 
 void Devil::startSpiderFallFromSky(float _deltaTime)

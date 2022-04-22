@@ -106,6 +106,9 @@
     <Filter Include="01.GameObject\01.GlobalActor\PlayerWeapon">
       <UniqueIdentifier>{0404191d-f317-45f5-b778-c1dcd2e81894}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.GameObject\02.Level\DevilLevel\DevilOrbs">
+      <UniqueIdentifier>{bea7947c-43b1-4f76-9951-5c36ce341c8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

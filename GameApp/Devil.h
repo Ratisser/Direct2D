@@ -25,6 +25,7 @@ public:
 	// MonsterBase을(를) 통해 상속됨
 	virtual void OnHit() override;
 private:
+	void initInput();
 	void initTransform();
 	void initRendererAndAnimation();
 	void initCollision();
@@ -67,6 +68,15 @@ private:
 	void startSpiderEnd(float _deltaTime);
 	void updateSpiderEnd(float _deltaTime);
 
+	void startSummonOrbIntro(float _deltaTime);
+	void updateSummonOrbIntro(float _deltaTime);
+
+	void startSummonOrbCasting(float _deltaTime);
+	void updateSummonOrbCasting(float _deltaTime);
+
+	void startSummonOrb(float _deltaTime);
+	void updateSummonOrb(float _deltaTIme);
+
 #pragma region SubState
 	void startSpiderFallFromSky(float _deltaTime);
 	void updateSpiderFallFromSky(float _deltaTime);
@@ -96,6 +106,8 @@ private:
 	// Devil
 	GameEngineTransformComponent* headTransform_;
 	GameEngineImageRenderer* devilRenderer_;
+	GameEngineImageRenderer* devilCastingHeadRenderer_;
+	GameEngineImageRenderer* tridentRenderer_;
 	GameEngineImageRenderer* pupil_;
 	GameEngineCollision* headCollision_;
 	GameEngineFSM state_;
@@ -124,6 +136,7 @@ private:
 	float4 spiderFlyToSkyDest_;
 
 	int spiderFallCount_;
+	int nextState_;
 
 	float timeCounter_;
 	float hitEffectTime_;
