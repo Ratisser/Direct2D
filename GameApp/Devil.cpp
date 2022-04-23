@@ -161,15 +161,19 @@ void Devil::initRendererAndAnimation()
 	devilRenderer_->ChangeAnimation("DevilIdle");
 
 	devilCastingHeadRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(headTransform_);
-	devilCastingHeadRenderer_->CreateAnimationFolder("CreateOrbsHead", 0.034f, false);
+	devilCastingHeadRenderer_->CreateAnimationFolder("CreateOrbsHead");
+	devilCastingHeadRenderer_->SetPivot(eImagePivot::CENTER);
+	devilCastingHeadRenderer_->SetLocationY(150.f);
 	devilCastingHeadRenderer_->ChangeAnimation("CreateOrbsHead");
 	devilCastingHeadRenderer_->SetLocationZ(-0.1f);
 	devilCastingHeadRenderer_->Off();
 
 	tridentRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	tridentRenderer_->CreateAnimationFolder("CreateOrbsTrident", 0.034f, false);
+	tridentRenderer_->SetPivot(eImagePivot::CENTER);
 	tridentRenderer_->ChangeAnimation("CreateOrbsTrident");
-	tridentRenderer_->SetLocationZ(-0.1f);
+	tridentRenderer_->SetLocationY(350.f);
+	tridentRenderer_->SetLocationZ(-0.2f);
 	tridentRenderer_->Off();
 
 	GameEngineTransformComponent* pupilTransfom = CreateTransformComponent<GameEngineTransformComponent>();
@@ -274,7 +278,7 @@ void Devil::initState()
 	state_.CreateState("SummonOrbIntro", std::bind(&Devil::startSummonOrbIntro, this, std::placeholders::_1), std::bind(&Devil::updateSummonOrbIntro, this, std::placeholders::_1));
 	state_.CreateState("SummonOrbCasting", std::bind(&Devil::startSummonOrbCasting, this, std::placeholders::_1), std::bind(&Devil::updateSummonOrbCasting, this, std::placeholders::_1));
 	state_.CreateState("SummonOrb", std::bind(&Devil::startSummonOrb, this, std::placeholders::_1), std::bind(&Devil::updateSummonOrb, this, std::placeholders::_1));
-
+	state_.CreateState("SummonOrbEnd", std::bind(&Devil::startSummonOrbEnd, this, std::placeholders::_1), std::bind(&Devil::updateSummonOrbEnd, this, std::placeholders::_1));
 
 	state_.ChangeState("Intro");
 }
@@ -375,8 +379,8 @@ void Devil::updateIdle(float _deltaTime)
 			prevPrevState_ = prevState_;
 			prevState_ = nextState_;
 			break;
-		//case 4:
-		//	state_ << "SummonOrbIntro";
+		case 4:
+			state_ << "SummonOrbIntro";
 			break;
 		default:
 			break;
@@ -572,32 +576,67 @@ void Devil::updateSpiderEnd(float _deltaTime)
 void Devil::startSummonOrbIntro(float _deltaTime)
 {
 	devilRenderer_->ChangeAnimation("CreateOrbsIntro", true);
-
+	devilRenderer_->SetLocationX(-35.f);
+	transform_->AddLocation(0.0f, 10.f);
+	headTransform_->AddLocation(0.0f, -20.f);
 }
 
 void Devil::updateSummonOrbIntro(float _deltaTime)
 {
 	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
-		state_ << "SummonOrbCastring";
+		state_ << "SummonOrbCasting";
 		return;
 	}
 }
 
 void Devil::startSummonOrbCasting(float _deltaTime)
 {
+	devilCastingHeadRenderer_->On();
+	devilCastingHeadRenderer_->ChangeAnimation("CreateOrbsHead", true);
+
+	tridentRenderer_->On();
+	tridentRenderer_->ChangeAnimation("CreateOrbsTrident", true);
+
+	devilRenderer_->ChangeAnimation("CreateOrbsBody");
 }
 
 void Devil::updateSummonOrbCasting(float _deltaTime)
 {
+	if (tridentRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "SummonOrb";
+		return;
+	}
 }
 
 void Devil::startSummonOrb(float _deltaTime)
 {
+	devilCastingHeadRenderer_->Off();
+	tridentRenderer_->Off();
 }
 
 void Devil::updateSummonOrb(float _deltaTIme)
 {
+	state_ << "SummonOrbEnd";
+	return;
+}
+
+void Devil::startSummonOrbEnd(float _deltaTime)
+{
+	//devilRenderer_->SetLocationY(0.f);
+	devilRenderer_->ChangeAnimation("CreateOrbsIntroReverse", true);
+}
+
+void Devil::updateSummonOrbEnd(float _deltaTime)
+{
+	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		transform_->AddLocation(0.0f, -10.f);
+		headTransform_->AddLocation(0.0f, 20.f);
+		state_ << "Idle";
+		return;
+	}
 }
 
 void Devil::startSpiderFallFromSky(float _deltaTime)
@@ -629,7 +668,7 @@ void Devil::updateSpiderFallFromSky(float _deltaTime)
 	}
 
 
-	if (timeCounter_ > 1.6f)
+	if (timeCounter_ > 1.2f)
 	{
 		spiderState_ << "SpiderFallToFloor";
 		return;

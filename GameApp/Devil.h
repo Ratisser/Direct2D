@@ -77,6 +77,9 @@ private:
 	void startSummonOrb(float _deltaTime);
 	void updateSummonOrb(float _deltaTIme);
 
+	void startSummonOrbEnd(float _deltaTime);
+	void updateSummonOrbEnd(float _deltaTime);
+
 #pragma region SubState
 	void startSpiderFallFromSky(float _deltaTime);
 	void updateSpiderFallFromSky(float _deltaTime);
