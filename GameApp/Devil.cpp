@@ -31,6 +31,8 @@ Devil::Devil()
 	, hitEffectTime_(0.0f)
 	, spiderFallCount_(0)
 	, nextState_(0)
+	, prevState_(0)
+	, prevPrevState_(0)
 {
 
 }
@@ -345,16 +347,33 @@ void Devil::updateIdle(float _deltaTime)
 			nextState_ = random.RandomInt(1, 9);
 		}
 
+		//GameEngineDebug::OutPutDebugString("----\n");
+		//GameEngineDebug::OutPutDebugString("Next : " + std::to_string(nextState_) + "\n");
+		//GameEngineDebug::OutPutDebugString("Prev : " + std::to_string(prevState_) + "\n");
+		//GameEngineDebug::OutPutDebugString("PrevPrev : " + std::to_string(prevPrevState_) + "\n");
+
+		if (prevState_ == nextState_ || prevPrevState_ == nextState_)
+		{
+			nextState_ = 0;
+			return;
+		}
+
 		switch (nextState_)
 		{
 		case 1:
 			state_ << "RamTransform";
+			prevPrevState_ = prevState_;
+			prevState_ = nextState_;
 			break;
 		case 2:
 			state_ << "SpiderTransform";
+			prevPrevState_ = prevState_;
+			prevState_ = nextState_;
 			break;
 		case 3:
 			state_ << "DragonTransform";
+			prevPrevState_ = prevState_;
+			prevState_ = nextState_;
 			break;
 		//case 4:
 		//	state_ << "SummonOrbIntro";
@@ -378,8 +397,6 @@ void Devil::startRamTransform(float _deltaTime)
 
 void Devil::updateRamTransform(float _deltaTime)
 {
-
-
 	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		state_ << "RamAttack";

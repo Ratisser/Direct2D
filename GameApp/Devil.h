@@ -137,6 +137,8 @@ private:
 
 	int spiderFallCount_;
 	int nextState_;
+	int prevState_;
+	int prevPrevState_;
 
 	float timeCounter_;
 	float hitEffectTime_;
