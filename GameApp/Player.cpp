@@ -1381,6 +1381,14 @@ void Player::updateLockedShot(float _deltaTime)
 	}
 	else
 	{
+		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+		{
+			bLeft_ = true;
+		}
+		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+		{
+			bLeft_ = false;
+		}
 		renderer_->ChangeAnimation("Shoot_Straight");
 		if (bLeft_)
 		{
