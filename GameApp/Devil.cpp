@@ -634,6 +634,8 @@ void Devil::updateSummonOrbEnd(float _deltaTime)
 	{
 		transform_->AddLocation(0.0f, -10.f);
 		headTransform_->AddLocation(0.0f, 20.f);
+		devilRenderer_->ChangeAnimation("DevilIdle");
+		devilRenderer_->GetCurrentAnimation()->CurFrame_ = 19;
 		state_ << "Idle";
 		return;
 	}
@@ -662,9 +664,9 @@ void Devil::updateSpiderFallFromSky(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
 
-	if (timeCounter_ > 1.0f)
+	if (timeCounter_ > 0.8f)
 	{
-		spiderTransform_->SetLocation(GameEngineMath::Lerp(spiderFallStartLocation_, spiderFallFromSkyDest_, timeCounter_ - 1.0f, 0.5f));
+		spiderTransform_->SetLocation(GameEngineMath::Lerp(spiderFallStartLocation_, spiderFallFromSkyDest_, timeCounter_ - 0.8f, 0.5f));
 	}
 
 

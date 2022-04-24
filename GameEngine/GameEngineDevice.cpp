@@ -119,7 +119,7 @@ void GameEngineDevice::Initialize()
 	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 	if (FAILED(hr))
 	{
-
+		GameEngineDebug::AssertFalse();
 	}
 
 	CreateSwapChain();
