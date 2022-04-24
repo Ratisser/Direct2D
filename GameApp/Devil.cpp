@@ -349,18 +349,18 @@ void Devil::updateIdle(float _deltaTime)
 		{
 			GameEngineRandom random;
 			nextState_ = random.RandomInt(1, 9);
+
+			if (prevState_ == nextState_ || prevPrevState_ == nextState_)
+			{
+				nextState_ = 0;
+				return;
+			}
 		}
 
 		//GameEngineDebug::OutPutDebugString("----\n");
 		//GameEngineDebug::OutPutDebugString("Next : " + std::to_string(nextState_) + "\n");
 		//GameEngineDebug::OutPutDebugString("Prev : " + std::to_string(prevState_) + "\n");
 		//GameEngineDebug::OutPutDebugString("PrevPrev : " + std::to_string(prevPrevState_) + "\n");
-
-		if (prevState_ == nextState_ || prevPrevState_ == nextState_)
-		{
-			nextState_ = 0;
-			return;
-		}
 
 		switch (nextState_)
 		{
@@ -670,7 +670,7 @@ void Devil::updateSpiderFallFromSky(float _deltaTime)
 	}
 
 
-	if (timeCounter_ > 1.2f)
+	if (timeCounter_ > 1.4f)
 	{
 		spiderState_ << "SpiderFallToFloor";
 		return;
