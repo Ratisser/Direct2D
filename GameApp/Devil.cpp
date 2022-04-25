@@ -6,8 +6,10 @@
 #include <GameEngine\GameEngineCollision.h>
 #include <GameEngine\GameEngineInput.h>
 
+#include "OrbBubble.h"
 #include "DevilLevel.h"
 #include "eCollisionGroup.h"
+#include <GameApp\eOrbType.h>
 
 Devil::Devil()
 	: devilRenderer_(nullptr)
@@ -599,6 +601,35 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 	tridentRenderer_->ChangeAnimation("CreateOrbsTrident", true);
 
 	devilRenderer_->ChangeAnimation("CreateOrbsBody");
+
+
+	GameEngineRandom random;
+	eOrbType orbType = static_cast<eOrbType>(random.RandomInt(1, 3));
+
+	orbType = eOrbType::Bubble;
+
+	switch (orbType)
+	{
+	case eOrbType::Bubble:
+	{
+		int parryBubbleIndex = random.RandomInt(0, 3);
+		float4 summonLocation = { 300.f, 0.0f };
+		for (size_t i = 0; i < 4; i++)
+		{
+			summonLocation.RotateZDegree(360.f / 4.f);
+			OrbBubble* newBubble = level_->CreateActor<OrbBubble>();
+			newBubble->Initialize(summonLocation + (transform_->GetWorldLocation() + float4(0.0f, 300.f, 0.0f)), i == parryBubbleIndex ? true : false);
+		}
+	}
+	break;
+	case eOrbType::Dance:
+		break;
+	case eOrbType::fire:
+		break;
+	default:
+		break;
+	}
+
 }
 
 void Devil::updateSummonOrbCasting(float _deltaTime)
@@ -624,7 +655,6 @@ void Devil::updateSummonOrb(float _deltaTIme)
 
 void Devil::startSummonOrbEnd(float _deltaTime)
 {
-	//devilRenderer_->SetLocationY(0.f);
 	devilRenderer_->ChangeAnimation("CreateOrbsIntroReverse", true);
 }
 

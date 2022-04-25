@@ -40,6 +40,7 @@ public:
 	void SetCollisionGroup(int _group);
 	void SetCollisionType(eCollisionType _collisionType);
 
+	int GetCollisionGroup() { return collisionGroup_; }
 private:
 	static void init();
 	static bool CollisionCheckRectToRect(GameEngineCollision& _lhs, GameEngineCollision& _rhs);

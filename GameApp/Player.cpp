@@ -143,6 +143,19 @@ std::string& Player::GetParentState()
 	return state_.GetCurrentStateName();
 }
 
+void Player::Damage()
+{
+	normalState_ << "Jump";
+	bGround_ = false;
+	state_ << "DamagedState";
+}
+
+void Player::ParryJump()
+{
+	bGround_ = true;
+	normalState_ << "Jump";
+}
+
 void Player::initRendererAndAnimation()
 {
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());

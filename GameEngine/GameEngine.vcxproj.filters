@@ -115,9 +115,6 @@
     <Filter Include="Core&amp;Window">
       <UniqueIdentifier>{80b43d89-27c3-4d30-a396-0a08b4661445}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core&amp;Window\Thread">
-      <UniqueIdentifier>{e260ee0a-7b9e-4546-af6b-39667a3f6263}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core&amp;Window\imgui">
       <UniqueIdentifier>{09005b7a-c61f-443c-9d3c-780d05d3232b}</UniqueIdentifier>
     </Filter>

@@ -2,6 +2,7 @@
 #include "GameEngineActor.h"
 #include "GameEngineLevel.h"
 #include "GameEngineRenderer.h"
+#include "GameEngineCollision.h"
 
 #include "GameEngine\GameEngineTransformComponent.h"
 
@@ -132,6 +133,15 @@ void GameEngineActor::ReleaseComponent()
 				{
 					renderer->Death();
 					level_->popRenderer(renderer);
+					continue;
+				}
+
+				GameEngineCollision* collision = dynamic_cast<GameEngineCollision*>(transformComponent);
+				if (nullptr != collision)
+				{
+					collision->Death();
+					level_->popCollision(collision->GetCollisionGroup(), collision);
+					continue;
 				}
 			}
 		}

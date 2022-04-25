@@ -196,6 +196,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="OrbBubble.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="OrbDance.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="OrbFire.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ParryObjectBase.cpp">
       <SubType>
       </SubType>
@@ -278,11 +290,24 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="eCollisionGroup.h" />
+    <ClInclude Include="eOrbType.h" />
     <ClInclude Include="Map.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="MonsterBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="OrbBubble.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="OrbDance.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="OrbFire.h">
       <SubType>
       </SubType>
     </ClInclude>

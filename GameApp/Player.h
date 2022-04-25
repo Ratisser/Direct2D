@@ -26,6 +26,9 @@ public:
 	std::string& GetNormalState();
 	std::string& GetParentState();
 
+	void Damage();
+	void ParryJump();
+
 private:
 	void initRendererAndAnimation();
 	void initInput();

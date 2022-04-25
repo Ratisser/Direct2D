@@ -11,18 +11,12 @@ private:	// member Var
 public:
 	int RandomInt(int _min, int _max)
 	{
-		// 보통 대부분의 난수 알고리즘이
-		// 마지막 제한을 할때 % 사용하므로
-		// 보통 _max -1까지 나온다는것을 항상 염두해 둬야 합니다.
 		std::uniform_int_distribution<int> Dis(_min, _max);
 		return Dis(mt_);
 	}
 
 	float RandomFloat(float _min, float _max)
 	{
-		// 보통 대부분의 난수 알고리즘이
-		// 마지막 제한을 할때 % 사용하므로
-		// 보통 _max -1까지 나온다는것을 항상 염두해 둬야 합니다.
 		std::uniform_real_distribution<float> Dis(_min, _max);
 		return Dis(mt_);
 	}
@@ -44,13 +38,12 @@ public:
 	{
 
 	}
-protected:		// delete constructer
-	GameEngineRandom(const GameEngineRandom& _other) = delete; // default Copy constructer 디폴트 복사생성자
-	GameEngineRandom(GameEngineRandom&& _other) noexcept; // default RValue Copy constructer 디폴트 RValue 복사생성자
-
-private:		//delete operator
-	GameEngineRandom& operator=(const GameEngineRandom& _other) = delete; // default Copy operator 디폴트 대입 연산자
-	GameEngineRandom& operator=(const GameEngineRandom&& _other) = delete; // default RValue Copy operator 디폴트 RValue 대입연산자
+protected:
+	GameEngineRandom(const GameEngineRandom& _other) = delete;
+	GameEngineRandom(GameEngineRandom&& _other) noexcept;
+private:
+	GameEngineRandom& operator=(const GameEngineRandom& _other) = delete;
+	GameEngineRandom& operator=(const GameEngineRandom&& _other) = delete;
 
 public:
 };
