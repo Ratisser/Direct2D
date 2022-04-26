@@ -217,7 +217,7 @@ void Devil::initCollision()
 {
 	headCollision_ = CreateTransformComponent<GameEngineCollision>(headTransform_);
 	headCollision_->SetCollisionType(eCollisionType::Rect);
-	headCollision_->SetCollisionGroup(eCollisionGroup::Monster);
+	headCollision_->SetCollisionGroup(eCollisionGroup::MonsterHitBox);
 	headCollision_->SetScale(125.f);
 
 	// ¿ë ¸Ó¸®
@@ -383,6 +383,8 @@ void Devil::updateIdle(float _deltaTime)
 			break;
 		case 4:
 			state_ << "SummonOrbIntro";
+			prevPrevState_ = prevState_;
+			prevState_ = nextState_;
 			break;
 		default:
 			break;
@@ -613,12 +615,16 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 	case eOrbType::Bubble:
 	{
 		int parryBubbleIndex = random.RandomInt(0, 3);
-		float4 summonLocation = { 300.f, 0.0f };
+		float4 summonLocation = { 250.f, 30.0f };
+		float4 direction = float4::RIGHT;
+		direction.RotateZDegree(45.f);
+
 		for (size_t i = 0; i < 4; i++)
 		{
-			summonLocation.RotateZDegree(360.f / 4.f);
+			summonLocation.RotateZDegree(90.f);
+			direction.RotateZDegree(90.f);
 			OrbBubble* newBubble = level_->CreateActor<OrbBubble>();
-			newBubble->Initialize(summonLocation + (transform_->GetWorldLocation() + float4(0.0f, 300.f, 0.0f)), i == parryBubbleIndex ? true : false);
+			newBubble->Initialize(summonLocation + (transform_->GetWorldLocation() + float4(-40.0f, 300.f, 0.0f)), direction, i == parryBubbleIndex ? true : false);
 		}
 	}
 	break;

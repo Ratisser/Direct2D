@@ -46,3 +46,8 @@ void ParryObjectBase::SetParryable(bool _bParryable)
 {
 	bParryable_ = _bParryable;
 }
+
+void ParryObjectBase::Parry()
+{
+	onParry();
+}

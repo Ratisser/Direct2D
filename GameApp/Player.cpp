@@ -349,13 +349,25 @@ void Player::startNormalState(float _deltaTime)
 void Player::updateNormalState(float _deltaTime)
 {
 	if (!bInvincible_ &&
-		(nullptr != collider_->IsCollideOne(eCollisionGroup::Monster) || nullptr != collider_->IsCollideOne(eCollisionGroup::MonsterProjectile))
+		(nullptr != collider_->IsCollideOne(eCollisionGroup::Monster)
+			|| nullptr != collider_->IsCollideOne(eCollisionGroup::MonsterProjectile))
 		)
 	{
 		normalState_ << "Jump";
 		bGround_ = false;
 		state_ << "DamagedState";
 		return;
+	}
+
+	if (!bInvincible_ && nullptr != collider_->IsCollideOne(eCollisionGroup::ParryMonster))
+	{
+		if (GetNormalState() != "Parry")
+		{
+			normalState_ << "Jump";
+			bGround_ = false;
+			state_ << "DamagedState";
+			return;
+		}
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("X") && normalState_.GetCurrentStateName() != "Dash")
@@ -1649,6 +1661,21 @@ void Player::updateParry(float _deltaTime)
 		if (nullptr != parryObject)
 		{
 			parryObject->SetParryable(false);
+			parryObject->Parry();
+			bGround_ = true;
+			normalState_ << "Jump";
+			return;
+		}
+	}
+
+	parryCollision = collider_->IsCollideOne(eCollisionGroup::ParryMonster);
+	if (nullptr != parryCollision)
+	{
+		ParryObjectBase* parryObject = dynamic_cast<ParryObjectBase*>(parryCollision->GetActor());
+		if (nullptr != parryObject)
+		{
+			parryObject->SetParryable(false);
+			parryObject->Parry();
 			bGround_ = true;
 			normalState_ << "Jump";
 			return;

@@ -20,6 +20,11 @@ public:
 	bool IsParryable();
 	void SetParryable(bool _bParryable);
 
+	void Parry();
+
+protected:
+	virtual void onParry() {}
+
 protected:
 	GameEngineCollision* collision_;
 

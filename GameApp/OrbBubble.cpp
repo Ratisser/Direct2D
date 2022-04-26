@@ -1,16 +1,23 @@
 #include "PreCompile.h"
-#include "OrbBubble.h"
 
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineCollision.h>
+
+#include "OrbBubble.h"
+#include "Map.h"
 
 OrbBubble::OrbBubble()
 	: ParryObjectBase()
 	, renderer_(nullptr)
 	, summonEffectRenderer_(nullptr)
 	, summonSparkRenderer_(nullptr)
+	, left_(nullptr)
+	, top_(nullptr)
+	, right_(nullptr)
+	, bottom_(nullptr)
 	, sparkEffectCount_(0)
 	, timeCounter_(0.0f)
+	, direction_(float4::RIGHT)
 {
 
 }
@@ -24,22 +31,41 @@ void OrbBubble::Start()
 {
 	ParryObjectBase::Start();
 
-	collision_->SetScale(100.f);
+	collision_->SetScale(70.f);
+	collision_->SetLocationY(50.f);
+	collision_->SetCollisionGroup(eCollisionGroup::MonsterProjectile);
+	collision_->Off();
 
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	renderer_->CreateAnimationFolder("Orb_Bubble");
+	renderer_->CreateAnimationFolder("Orb_Bubble_Parry");
 	renderer_->ChangeAnimation("Orb_Bubble");
 	renderer_->Off();
 
 	summonEffectRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
 	summonEffectRenderer_->CreateAnimationFolder("OrbsSpawn_SparkZaps");
 	summonEffectRenderer_->CreateAnimationFolder("OrbsSpawn_Boom", 0.034f, false);
+	summonEffectRenderer_->CreateAnimationFolder("OrbsSpawn_SparkZaps_Parry");
+	summonEffectRenderer_->CreateAnimationFolder("OrbsSpawn_Boom_Parry", 0.034f, false);
 	summonEffectRenderer_->ChangeAnimation("OrbsSpawn_SparkZaps");
 
-	summonSparkRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	GameEngineTransformComponent* sparkTransform = CreateTransformComponent<GameEngineTransformComponent>();
+	sparkTransform->SetScale(1.2f);
+	sparkTransform->SetLocationY(20.f);
+	summonSparkRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(sparkTransform);
 	summonSparkRenderer_->CreateAnimationFolder("OrbsSpawn_Spark", 0.034f, false);
+	summonSparkRenderer_->CreateAnimationFolder("OrbsSpawn_Spark_Parry", 0.034f, false);
 	summonSparkRenderer_->ChangeAnimation("OrbsSpawn_Spark");
 
+	left_ = CreateTransformComponent<GameEngineTransformComponent>();
+	top_ = CreateTransformComponent<GameEngineTransformComponent>();
+	right_ = CreateTransformComponent<GameEngineTransformComponent>();
+	bottom_ = CreateTransformComponent<GameEngineTransformComponent>();
+
+	left_->SetLocationX(-35.f);
+	top_->SetLocationY(35.f);
+	right_->SetLocationX(35.f);
+	bottom_->SetLocationY(-35.f);
 
 	state_.CreateState("Summoning", std::bind(&OrbBubble::startSummoning, this, std::placeholders::_1), std::bind(&OrbBubble::updateSummoning, this, std::placeholders::_1));
 	state_.CreateState("SummonComplete", std::bind(&OrbBubble::startSummonComplete, this, std::placeholders::_1), std::bind(&OrbBubble::updateSummonComplete, this, std::placeholders::_1));
@@ -51,29 +77,42 @@ void OrbBubble::Start()
 
 void OrbBubble::Update(float _deltaTime)
 {
-	ParryObjectBase::Update(_deltaTime);
-
 	state_.Update(_deltaTime);
 }
 
-void OrbBubble::Initialize(const float4& _startPosition, bool _bParryable)
+void OrbBubble::Initialize(const float4& _startPosition, const float4& _direction, bool _bParryable)
 {
 	transform_->SetLocation(_startPosition);
 	transform_->AddLocation(0.0f, 0.0f, -0.1f);
+
+	direction_ = _direction;
+
 	SetParryable(_bParryable);
+
 	if (_bParryable)
 	{
-		renderer_->SetColor({ 2.0f, 0.7f, 2.0f, 1.0f });
-		summonEffectRenderer_->SetColor({ 2.0f, 0.7f, 2.0f, 1.0f });
-		summonSparkRenderer_->SetColor({ 2.0f, 0.7f, 2.0f, 1.0f });
+		collision_->SetCollisionGroup(eCollisionGroup::ParryMonster);
 	}
+}
+
+void OrbBubble::onParry()
+{
+	Release();
 }
 
 void OrbBubble::startSummoning(float _deltaTime)
 {
-	summonEffectRenderer_->ChangeAnimation("OrbsSpawn_SparkZaps", true);
+	if (bParryable_)
+	{
+		summonEffectRenderer_->ChangeAnimation("OrbsSpawn_SparkZaps_Parry", true);
+		summonSparkRenderer_->ChangeAnimation("OrbsSpawn_Spark_Parry", true);
+	}
+	else
+	{
+		summonEffectRenderer_->ChangeAnimation("OrbsSpawn_SparkZaps", true);
+		summonSparkRenderer_->ChangeAnimation("OrbsSpawn_Spark", true);
+	}
 	summonEffectRenderer_->On();
-	summonSparkRenderer_->ChangeAnimation("OrbsSpawn_Spark", true);
 	summonSparkRenderer_->On();
 	sparkEffectCount_ = 0;
 }
@@ -82,8 +121,15 @@ void OrbBubble::updateSummoning(float _deltaTime)
 {
 	if (summonSparkRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
-		summonSparkRenderer_->AddRotation(0.0f, 0.0f, 90.f * GameEngineMath::DegreeToRadian);
-		summonSparkRenderer_->ChangeAnimation("OrbsSpawn_Spark", true);
+		summonSparkRenderer_->AddRotation(0.0f, 0.0f, 90.f);
+		if (bParryable_)
+		{
+			summonSparkRenderer_->ChangeAnimation("OrbsSpawn_Spark_Parry", true);
+		}
+		else
+		{
+			summonSparkRenderer_->ChangeAnimation("OrbsSpawn_Spark", true);
+		}
 		sparkEffectCount_++;
 	}
 
@@ -97,8 +143,17 @@ void OrbBubble::updateSummoning(float _deltaTime)
 
 void OrbBubble::startSummonComplete(float _deltaTime)
 {
-	renderer_->ChangeAnimation("Orb_Bubble", true);
-	summonEffectRenderer_->ChangeAnimation("OrbsSpawn_Boom");
+	if (bParryable_)
+	{
+		renderer_->ChangeAnimation("Orb_Bubble_Parry", true);
+		summonEffectRenderer_->ChangeAnimation("OrbsSpawn_Boom_Parry");
+	}
+	else
+	{
+		renderer_->ChangeAnimation("Orb_Bubble", true);
+		summonEffectRenderer_->ChangeAnimation("OrbsSpawn_Boom");
+	}
+	collision_->On();
 	timeCounter_ = 0.0f;
 }
 
@@ -126,10 +181,38 @@ void OrbBubble::updateMove(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
 
+	transform_->AddLocation(direction_ * SPEED * _deltaTime);
+
+	if (float4::BLACK == Map::GetColor(left_))
+	{
+		transform_->AddLocation(2.f, 0.0f);
+		direction_.x *= -1;
+	}
+
+	if (float4::BLACK == Map::GetColor(right_))
+	{
+		transform_->AddLocation(-2.f, 0.0f);
+		direction_.x *= -1;
+	}
+
+	if (timeCounter_ < 3.0f && float4::BLACK == Map::GetColor(top_))
+	{
+		transform_->AddLocation(0.0f, -2.0f);
+		direction_.y *= -1;
+	}
+
+	if (float4::BLACK == Map::GetColor(bottom_))
+	{
+		transform_->AddLocation(0.0f, 2.0f);
+		direction_.y *= -1;
+	}
 
 	if (timeCounter_ > 3.0f)
 	{
-		state_ << "Death";
+		if (transform_->GetWorldLocation().y > 100.f)
+		{
+			state_ << "Death";
+		}
 	}
 }
 

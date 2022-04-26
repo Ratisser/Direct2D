@@ -27,7 +27,6 @@ UserGame::~UserGame() // default destructer 디폴트 소멸자
 
 void UserGame::Initialize()
 {
-	GameEngineSoundManager::GetInstance().SetGlobalVolume(0.3f);
 }
 
 void UserGame::Release()
@@ -51,6 +50,8 @@ void UserGame::loadLevel()
 
 void UserGame::loadSound()
 {
+	GameEngineSoundManager::GetInstance().SetGlobalVolume(0.5f);
+
 	{
 		GameEngineDirectory SoundDir;
 		SoundDir.MoveParent("Direct2D");

@@ -112,6 +112,21 @@ void Peashot::updateIdle(float _deltaTime)
 		state_ << "Pop";
 		return;
 	}
+
+	monsterCollision = collision_->IsCollideOne(eCollisionGroup::MonsterHitBox);
+	if (nullptr != monsterCollision)
+	{
+		MonsterBase* monster = dynamic_cast<MonsterBase*>(monsterCollision->GetActor());
+		if (nullptr != monster)
+		{
+			monster->SubtractHP(1);
+			monster->OnHit();
+		}
+
+		state_ << "Pop";
+		return;
+	}
+
 	
 	if (float4::BLACK == Map::GetColor(collision_))
 	{
