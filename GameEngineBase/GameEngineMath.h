@@ -340,9 +340,6 @@ public:
 	{
 	}
 
-	// 디폴트 파라미터
-	// 가장 우측에 있는 인자에 상수값을 넣어서
-	// 만약 인자를 넣어주지 않았을때는 
 	float4(float _x, float _y, float _z, float _w = 1.0f)
 		: x(_x), y(_y), z(_z), w(_w)
 	{
@@ -357,7 +354,7 @@ public:
 
 	}
 
-public:		// delete constructer
+public:
 	float4(const float4& _value) 
 		: x(_value.x), y(_value.y), z(_value.z), w(_value.w)
 	{
@@ -613,81 +610,6 @@ public:
 
 	void ViewAtLH(const float4& _EyePos, const float4& _EyeFocus, const float4& _EyeUp)
 	{
-		// 1 0 0 0
-		// 0 1 0 0
-		// 0 0 1 0
-		// 0 0 0 1
-
-		// 세개의 축이 필요하다. 
-
-		//float4 ZPivot = _EyeFocus - _EyePos;
-		//ZPivot.Normalize3D();
-		//float4 EyeUp = _EyeUp.NormalizeReturn3D();
-		//float4 XPivot = float4::Cross3D(EyeUp, ZPivot);
-		//XPivot.Normalize3D();
-		//float4 YPivot = float4::Cross3D(ZPivot, XPivot);
-		//YPivot.Normalize3D();
-
-		//float4 NegEyePosition = -_EyePos;
-
-		//float D0 = float4::Dot3D(XPivot, NegEyePosition);
-		//float D1 = float4::Dot3D(YPivot, NegEyePosition);
-		//float D2 = float4::Dot3D(ZPivot, NegEyePosition);
-
-		//XPivot;
-		//YPivot;
-		//ZPivot;
-
-		//float4x4 VieMat;
-
-		//VieMat.vx = float4(XPivot.x, XPivot.y, XPivot.z, D0);
-		//VieMat.vy = float4(YPivot.x, YPivot.y, YPivot.z, D1);
-		//VieMat.vz = float4(ZPivot.x, ZPivot.y, ZPivot.z, D2);
-		//VieMat.vw = { 0.0f, 0.0f ,0.0f , 1.0f};
-		//VieMat.Transpose();
-
-		// VieMat.tRA
-
-		// cos -sin
-		// sin cos
-
-
-		// 뷰행렬의 복적 바라보는 사람이 원점이 되게 모든 물체에 영향을 주는 행렬.
-
-		// float4x4 Mat;
-
-
-
-		/*
-		XMVECTOR EyeDirection = XMVectorSubtract(FocusPosition, EyePosition);
-
-		assert(!XMVector3Equal(EyeDirection, XMVectorZero()));
-		assert(!XMVector3IsInfinite(EyeDirection));
-		assert(!XMVector3Equal(UpDirection, XMVectorZero()));
-		assert(!XMVector3IsInfinite(UpDirection));
-
-		XMVECTOR R2 = XMVector3Normalize(EyeDirection);
-		XMVECTOR R0 = XMVector3Cross(UpDirection, R2);
-		R0 = XMVector3Normalize(R0);
-
-		XMVECTOR R1 = XMVector3Cross(R2, R0);
-
-		XMVECTOR NegEyePosition = XMVectorNegate(EyePosition);
-
-		XMVECTOR D0 = XMVector3Dot(R0, NegEyePosition);
-		XMVECTOR D1 = XMVector3Dot(R1, NegEyePosition);
-		XMVECTOR D2 = XMVector3Dot(R2, NegEyePosition);
-
-		XMMATRIX M;
-		M.r[0] = XMVectorSelect(D0, R0, g_XMSelect1110.v);
-		M.r[1] = XMVectorSelect(D1, R1, g_XMSelect1110.v);
-		M.r[2] = XMVectorSelect(D2, R2, g_XMSelect1110.v);
-		M.r[3] = g_XMIdentityR3.v;
-
-		M = XMMatrixTranspose(M);
-		return M;
-		*/
-
 		DirectMatrix = DirectX::XMMatrixLookAtLH(_EyePos.DirectVector, _EyeFocus.DirectVector, _EyeUp.DirectVector);
 	}
 

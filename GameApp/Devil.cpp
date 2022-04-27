@@ -7,9 +7,11 @@
 #include <GameEngine\GameEngineInput.h>
 
 #include "OrbBubble.h"
+#include "OrbDance.h"
+#include "OrbFire.h"
 #include "DevilLevel.h"
 #include "eCollisionGroup.h"
-#include <GameApp\eOrbType.h>
+#include "eOrbType.h"
 
 Devil::Devil()
 	: devilRenderer_(nullptr)
@@ -608,7 +610,7 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 	GameEngineRandom random;
 	eOrbType orbType = static_cast<eOrbType>(random.RandomInt(1, 3));
 
-	orbType = eOrbType::Bubble;
+	orbType = eOrbType::fire;
 
 	switch (orbType)
 	{
@@ -629,8 +631,26 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 	}
 	break;
 	case eOrbType::Dance:
-		break;
+	{
+		OrbDance* parentOrb = level_->CreateActor<OrbDance>();
+		parentOrb->GetTransform()->SetLocation(transform_->GetWorldLocation() + float4(-40.0f, 350.f, 0.0f));
+	}
+	break;
 	case eOrbType::fire:
+	{
+		int parryBubbleIndex = random.RandomInt(0, 5);
+		float4 summonLocation = { 300.f, 0.0f };
+		float4 direction = float4::RIGHT;
+		direction.RotateZDegree(45.f);
+
+		for (size_t i = 0; i < 6; i++)
+		{
+			summonLocation.RotateZDegree(60.f);
+			direction.RotateZDegree(60.f);
+			OrbFire* newBubble = level_->CreateActor<OrbFire>();
+			newBubble->Initialize(summonLocation + (transform_->GetWorldLocation() + float4(-40.0f, 300.f, 0.0f)), direction, i == parryBubbleIndex ? true : false);
+		}
+	}
 		break;
 	default:
 		break;

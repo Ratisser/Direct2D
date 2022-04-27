@@ -45,6 +45,7 @@ void GameEngineTexture::Create(ID3D11Texture2D* _Texture2D)
 
 
 	Texture2D_ = _Texture2D;
+	Texture2D_->GetDesc(&textureDesc_);
 }
 
 void GameEngineTexture::Load(const std::string& _path)

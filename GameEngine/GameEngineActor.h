@@ -108,12 +108,7 @@ ComponentType* GameEngineActor::CreateTransformComponent(GameEngineTransformComp
 	GameEngineTransformComponent* newComponent = new ComponentType();
 
 	newComponent->InitComponent(this);
-
-	if (nullptr != _parent)
-	{
-		newComponent->SetParent(_parent);
-	}
-
+	newComponent->SetParent(_parent);
 	newComponent->Start();
 
 	allTransformComponents_.push_back(newComponent);

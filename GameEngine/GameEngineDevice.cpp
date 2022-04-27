@@ -159,13 +159,14 @@ void GameEngineDevice::CreateSwapChain()
 
 	ScInfo.OutputWindow = GameEngineWindow::GetInst().GetWindowHWND();
 
-	ScInfo.BufferCount = 2;
+	ScInfo.BufferCount = 3;
 
-	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_DISCARD;
+	//ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	//ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_DISCARD;
+	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 
 	// 전체화면 모드 가능
-	ScInfo.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	ScInfo.Flags = DXGI_SWAP_CHAIN_FLAG::DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	// 전체화면 안함.
 	ScInfo.Windowed = true;

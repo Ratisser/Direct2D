@@ -34,6 +34,8 @@ GameEngineActor::~GameEngineActor()
 
 	allTransformComponents_.clear();
 
+
+	transform_->UnsetParent();
 	delete transform_;
 	transform_ = nullptr;
 }

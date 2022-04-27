@@ -141,7 +141,6 @@ void GameEngineTransformComponent::AddLocation(float _x, float _y, float _z)
 	location_.z += _z;
 	location_.w = 1.0f;
 	UpdateTransform();
-
 }
 
 void GameEngineTransformComponent::AddLocation(const float4& _location)
@@ -245,7 +244,7 @@ void GameEngineTransformComponent::UpdateTransformByParent()
 
 void GameEngineTransformComponent::ReleaseReady(bool _bReleaseByActor)
 {
-	
+
 	if (nullptr != parent_)
 	{
 		if (_bReleaseByActor)
@@ -273,13 +272,13 @@ TransformData& GameEngineTransformComponent::GetTransformData()
 
 void GameEngineTransformComponent::SetParent(GameEngineTransformComponent* _parent)
 {
+	parent_ = _parent;
+
 	if (nullptr != parent_)
 	{
 		parent_->RemoveChild(this);
+		parent_->AddChild(this);
 	}
-
-	parent_ = _parent;
-	parent_->AddChild(this);
 }
 
 void GameEngineTransformComponent::UnsetParent()
