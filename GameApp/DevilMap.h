@@ -5,6 +5,7 @@
 // Map
 // Width : 1442px
 // Height : 770px
+class GameEngineImageRenderer;
 class DevilMap : public Map
 {
 public:
@@ -19,5 +20,12 @@ public:
 	virtual void Start() override;
 	virtual void Update(float _deltaTime) override;
 
+public:
+	void HallFrontLayerOn();
+	void HallFrontLayerOff();
+
+
+private:
+	GameEngineImageRenderer* hallFrontLayer_;
 };
 

@@ -38,10 +38,11 @@ void DevilMap::Start()
 	//}
 
 	{
-		GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
-		mapObjects->SetTexture("HallFront.png", true);
-		float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
-		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, -1.f);
+		hallFrontLayer_ = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
+		hallFrontLayer_->SetTexture("HallFront.png", true);
+		float4 textureSize = hallFrontLayer_->GetCurrentTexture()->GetTextureSize();
+		hallFrontLayer_->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, -1.f);
+		hallFrontLayer_->Off();
 	}
 
 	{
@@ -54,4 +55,14 @@ void DevilMap::Start()
 
 void DevilMap::Update(float _deltaTime)
 {
+}
+
+void DevilMap::HallFrontLayerOn()
+{
+	hallFrontLayer_->On();
+}
+
+void DevilMap::HallFrontLayerOff()
+{
+	hallFrontLayer_->Off();
 }
