@@ -30,6 +30,8 @@ void GameEngineCore::EngineInitialize()
 {
 	GameEngineGUI::GetInst()->Initialize();
 
+	loadEngineTexture();
+	loadEngineShader();
 	loadEngineResource();
 	GameEngineCollision::init();
 

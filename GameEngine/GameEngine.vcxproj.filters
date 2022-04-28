@@ -22,9 +22,6 @@
     <Filter Include="RenderingPipeLine\Device">
       <UniqueIdentifier>{864e4601-aa46-4b78-aff5-53c6845348ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ShaderCode">
-      <UniqueIdentifier>{ed819453-a98d-4f7a-9523-f3c902b28f7a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources\01Shader\ShaderResources">
       <UniqueIdentifier>{60e4344d-c0fb-41d3-80cf-b2e81f971a6c}</UniqueIdentifier>
     </Filter>
@@ -455,11 +452,6 @@
     <ClCompile Include="GameEngineLevelControlWindow.cpp">
       <Filter>Core&amp;Window\imgui\Window</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>ShaderCode</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\ThirdParty\x64\Release\DirectXTex\DirectXTex.lib">

@@ -39,7 +39,7 @@ void GameEngineLevelControlWindow::OnGUI()
 
 		if (Count != 0)
 		{
-			ImGui::SameLine();
+			ImGui::NextColumn();
 		}
 	}
 

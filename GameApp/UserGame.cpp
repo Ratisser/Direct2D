@@ -41,16 +41,16 @@ void UserGame::loadLevel()
 	CreateLevel<PlayLevel>("PlayLevel");
 	CreateLevel<WorldLevel>("WorldLevel");
 	CreateLevel<DevilLevel>("DevilLevel");
-	//ChangeLevel("TitleLevel");
+	ChangeLevel("TitleLevel");
 	//ChangeLevel("TutorialLevel");
 	//ChangeLevel("PlayLevel");
 	//ChangeLevel("WorldLevel");
-	ChangeLevel("DevilLevel");
+	//ChangeLevel("DevilLevel");
 }
 
 void UserGame::loadSound()
 {
-	GameEngineSoundManager::GetInstance().SetGlobalVolume(0.3f);
+	GameEngineSoundManager::GetInstance().SetGlobalVolume(0.0f);
 
 	{
 		GameEngineDirectory SoundDir;
