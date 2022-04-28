@@ -84,7 +84,7 @@ void GameEngineShaderResHelper::ShaderResourcesCheck(GameEngineShader* _Shader)
 	for (auto& texture : _Shader->GetTextures())
 	{
 		GameEngineTextureSetting* SettingData = new GameEngineTextureSetting();
-		SettingData->Shader = _Shader;
+		SettingData->Shader_ = _Shader;
 		SettingData->Res_ = errorTexture;
 		SettingData->SettingIndex_ = texture.first;
 		auto Result = AllTextureSettings_.insert(std::make_pair(texture.second, SettingData));
@@ -115,6 +115,31 @@ void GameEngineShaderResHelper::Setting()
 	{
 		Setting.second->ShaderSetting();
 	}
+}
+
+void GameEngineShaderResHelper::Reset()
+{
+	//for (auto& Setting : AllConstantBufferSettings_)
+	//{
+	//	if (Setting.second->Mode_ == SettingMode::MAX)
+	//	{
+	//		GameEngineDebug::MsgBoxError("다음의 상수버퍼가 세팅되지 않았습니다. >>> " + Setting.first);
+	//	}
+
+
+	//	Setting.second->ChangeData();
+	//	Setting.second->ShaderReset();
+	//}
+
+	for (auto& Setting : AllTextureSettings_)
+	{
+		Setting.second->ShaderReset();
+	}
+
+	//for (auto& Setting : AllSamplerSettings_)
+	//{
+	//	Setting.second->ShaderReset();
+	//}
 }
 
 GameEngineTexture* GameEngineShaderResHelper::SettingTexture(const std::string& _settingName, const std::string& _textureName)

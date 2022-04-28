@@ -4,7 +4,7 @@
 GameEngineTextureSetting::GameEngineTextureSetting()
 	: Res_(nullptr)
 	, SettingIndex_(0)
-	, Shader(nullptr)
+	, Shader_(nullptr)
 {
 
 }
@@ -16,5 +16,10 @@ GameEngineTextureSetting::~GameEngineTextureSetting()
 
 void GameEngineTextureSetting::ShaderSetting()
 {
-	Shader->SetTexture(this);
+	Shader_->SetTexture(this);
+}
+
+void GameEngineTextureSetting::ShaderReset()
+{
+	Shader_->ResetTexture(this);
 }

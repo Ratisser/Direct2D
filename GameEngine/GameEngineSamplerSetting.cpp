@@ -18,3 +18,8 @@ void GameEngineSamplerSetting::ShaderSetting()
 {
 	Shader_->SetSampler(this);
 }
+
+void GameEngineSamplerSetting::ShaderReset()
+{
+	Shader_->ResetSampler(this);
+}

@@ -167,10 +167,10 @@ void GameEngineCore::loadEngineResource()
 	{
 		D3D11_BLEND_DESC bd;
 
-		bd.AlphaToCoverageEnable = true;
+		bd.AlphaToCoverageEnable = false;
 		bd.IndependentBlendEnable = false;
 
-		bd.RenderTarget[0].BlendEnable = true;
+		bd.RenderTarget[0].BlendEnable = false;
 		bd.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 		bd.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 

@@ -27,6 +27,7 @@ public:
 
 	// 현재 리소스 정보를 렌더링 파이프라인에 세팅
 	void Setting();
+	void Reset();
 	
 	bool IsValidConstantBuffer(const std::string& _name);
 

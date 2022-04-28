@@ -179,3 +179,24 @@ void GameEnginePixelShader::SetSampler(const GameEngineSamplerSetting* _setting)
 	ID3D11SamplerState* samplerState = _setting->Res_->GetSamplerState();
 	GameEngineDevice::GetContext()->PSSetSamplers(_setting->SettingIndex_, 1, &samplerState);
 }
+
+
+void GameEnginePixelShader::ResetConstantBuffers(const GameEngineConstantBufferSetting* _Setting)
+{
+	static ID3D11Buffer* const ReSetting[1] = { nullptr };
+	GameEngineDevice::GetContext()->PSSetConstantBuffers(_Setting->SettingIndex_, 1, ReSetting);
+}
+
+void GameEnginePixelShader::ResetTexture(const GameEngineTextureSetting* _Setting)
+{
+	static ID3D11ShaderResourceView* ReSetting[1] = { nullptr };
+
+	GameEngineDevice::GetContext()->PSSetShaderResources(_Setting->SettingIndex_, 1, ReSetting);
+}
+
+void GameEnginePixelShader::ResetSampler(const GameEngineSamplerSetting* _Setting)
+{
+	static ID3D11SamplerState* const ReSetting[1] = { nullptr };
+
+	GameEngineDevice::GetContext()->PSSetSamplers(_Setting->SettingIndex_, 1, ReSetting);
+}

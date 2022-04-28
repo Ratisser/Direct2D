@@ -58,6 +58,7 @@ public:
 	GameEnginePixelShader* GetPixelShader() const;
 
 	void RenderingPipeLineSetting();
+	void Reset();
 
 	void Rendering();
 

@@ -182,6 +182,12 @@ void GameEngineRenderingPipeline::RenderingPipeLineSetting()
 	OutputMerger();
 }
 
+void GameEngineRenderingPipeline::Reset()
+{
+	Blender_->Reset();
+	GameEngineDevice::GetContext()->OMSetDepthStencilState(nullptr, 0);
+}
+
 void GameEngineRenderingPipeline::Rendering() 
 {
 	RenderingPipeLineSetting();

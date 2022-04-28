@@ -23,6 +23,11 @@ void GameEngineConstantBufferSetting::ShaderSetting()
 	Shader->SetConstantBuffers(this);
 }
 
+void GameEngineConstantBufferSetting::ShaderReset()
+{
+	Shader->ResetConstantBuffers(this);
+}
+
 GameEngineConstantBufferSetting::GameEngineConstantBufferSetting()
 	: SettingData_(nullptr)
 	, Mode_(SettingMode::MAX)

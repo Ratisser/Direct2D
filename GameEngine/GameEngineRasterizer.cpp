@@ -3,6 +3,10 @@
 
 GameEngineRasterizer::GameEngineRasterizer() // default constructer 디폴트 생성자
     : State_(nullptr), ViewPort_()
+    , OldState_(nullptr)
+    , Desc_()
+    , WireDesc_()
+    , rects()
 {
 
 }

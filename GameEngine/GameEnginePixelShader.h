@@ -24,6 +24,10 @@ public:
 	virtual void SetTexture(const GameEngineTextureSetting* _setting) override;
 	virtual void SetSampler(const GameEngineSamplerSetting* _setting) override;
 
+	virtual void ResetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+	virtual void ResetTexture(const GameEngineTextureSetting* _Setting) override;
+	virtual void ResetSampler(const GameEngineSamplerSetting* _Setting) override;
+
 public:
 	bool Create(const std::string& _ShaderCode, const std::string& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
 	bool Load(const std::string& _Path, const std::string& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);

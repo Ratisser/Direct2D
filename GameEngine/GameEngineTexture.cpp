@@ -41,11 +41,21 @@ void GameEngineTexture::Create(ID3D11Texture2D* _Texture2D)
 	if (nullptr == _Texture2D)
 	{
 		GameEngineDebug::MsgBoxError("Texture Is null GameEngine Texture Create Error");
+		return;
 	}
 
 
 	Texture2D_ = _Texture2D;
 	Texture2D_->GetDesc(&textureDesc_);
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC desc{};
+
+	desc.Format = textureDesc_.Format;
+	desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	desc.Texture2D.MipLevels = 1;
+	desc.Texture2D.MostDetailedMip = 0;
+
+	GameEngineDevice::GetDevice()->CreateShaderResourceView(_Texture2D, &desc, &shaderResourceView_);
 }
 
 void GameEngineTexture::Load(const std::string& _path)
@@ -103,6 +113,19 @@ ID3D11RenderTargetView* GameEngineTexture::CreateRenderTargetView()
 	}
 
 	return RenderTargetView_;
+}
+
+ID3D11ShaderResourceView* GameEngineTexture::CreateShaderResourceView()
+{
+	D3D11_SHADER_RESOURCE_VIEW_DESC desc{};
+
+	desc.Format = textureDesc_.Format;
+	desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	desc.Texture2D.MipLevels = 1;
+	desc.Texture2D.MostDetailedMip = 0;
+
+	GameEngineDevice::GetDevice()->CreateShaderResourceView(Texture2D_, &desc, &shaderResourceView_);
+	return shaderResourceView_;
 }
 
 ID3D11ShaderResourceView* GameEngineTexture::GetShaderResourceView()

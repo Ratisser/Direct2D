@@ -15,6 +15,7 @@ public:
 
 public:
 	void ShaderSetting();
+	void ShaderReset();
 
 public:
 	GameEngineShader* Shader_;

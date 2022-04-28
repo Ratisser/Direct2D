@@ -21,6 +21,7 @@ public:
 	void Clear();
 	void ChangeData();
 	void ShaderSetting();
+	void ShaderReset();
 
 public:
 	GameEngineShader* Shader;

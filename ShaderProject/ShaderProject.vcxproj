@@ -142,6 +142,7 @@
     <FxCompile Include="..\EngineResources\Shader\Blur.fx" />
     <FxCompile Include="..\EngineResources\Shader\CbufferHeader.fx" />
     <FxCompile Include="..\EngineResources\Shader\Color.fx" />
+    <FxCompile Include="..\EngineResources\Shader\TargetMerge.fx" />
     <FxCompile Include="..\EngineResources\Shader\Texture.fx" />
     <FxCompile Include="..\EngineResources\Shader\TextureNoCut.fx" />
   </ItemGroup>

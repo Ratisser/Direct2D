@@ -18,6 +18,7 @@ public:
 	void Load(const std::string& _path);
 	
 	ID3D11RenderTargetView* CreateRenderTargetView();
+	ID3D11ShaderResourceView* CreateShaderResourceView();
 	ID3D11ShaderResourceView* GetShaderResourceView();
 
 	float4 GetTextureSize();
@@ -28,6 +29,8 @@ public:
 	float4 GetCutData(int _Index);
 
 	float4 GetPixel(int _x, int _y);
+
+	ID3D11Texture2D* GetTexture() { return Texture2D_; }
 
 private:	// member Var
 	ID3D11Texture2D* Texture2D_;

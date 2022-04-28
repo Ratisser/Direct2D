@@ -10,9 +10,10 @@ public:
 	~GameEngineTextureSetting();
 public:
 	void ShaderSetting();
+	void ShaderReset();
 
 public:
-	GameEngineShader* Shader;
+	GameEngineShader* Shader_;
 	GameEngineTexture* Res_;
 	int SettingIndex_;
 };

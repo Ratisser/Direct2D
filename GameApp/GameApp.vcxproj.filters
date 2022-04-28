@@ -88,9 +88,6 @@
     <Filter Include="00.GameApp\01.UserCore\CustomVertex">
       <UniqueIdentifier>{16842167-2534-42db-8026-796a267ad72b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00.GameApp\02.Shader">
-      <UniqueIdentifier>{e47011b2-b438-40b7-8f75-c28ef1d351ae}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.GameObject\00.Constant">
       <UniqueIdentifier>{fbaab9ef-1081-4ee1-a8af-1f91bc456261}</UniqueIdentifier>
     </Filter>
@@ -201,19 +198,5 @@
     <ClInclude Include="Map.h">
       <Filter>01.GameObject\01.BaseActor</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\Resources\Shader\CbufferHeader.fx">
-      <Filter>00.GameApp\02.Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\Color.fx">
-      <Filter>00.GameApp\02.Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\Texture.fx">
-      <Filter>00.GameApp\02.Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shader\TextureNoCut.fx">
-      <Filter>00.GameApp\02.Shader</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

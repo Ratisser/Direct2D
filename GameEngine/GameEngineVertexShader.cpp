@@ -444,6 +444,26 @@ void GameEngineVertexShader::LayOutClear()
 	LayOutOffset_ = 0;
 }
 
+void GameEngineVertexShader::ResetConstantBuffers(const GameEngineConstantBufferSetting* _Setting)
+{
+	static ID3D11Buffer* const ReSetting[1] = { nullptr };
+	GameEngineDevice::GetContext()->VSSetConstantBuffers(_Setting->SettingIndex_, 1, ReSetting);
+}
+
+void GameEngineVertexShader::ResetTexture(const GameEngineTextureSetting* _Setting)
+{
+	static ID3D11ShaderResourceView* ReSetting[1] = { nullptr };
+
+	GameEngineDevice::GetContext()->VSSetShaderResources(_Setting->SettingIndex_, 1, ReSetting);
+}
+
+void GameEngineVertexShader::ResetSampler(const GameEngineSamplerSetting* _Setting)
+{
+	static ID3D11SamplerState* const ReSetting[1] = { nullptr };
+
+	GameEngineDevice::GetContext()->VSSetSamplers(_Setting->SettingIndex_, 1, ReSetting);
+}
+
 void GameEngineVertexShader::InputLayOutSetting() 
 {
 	if (nullptr == LayOut_)

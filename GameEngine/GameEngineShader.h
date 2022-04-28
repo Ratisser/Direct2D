@@ -38,6 +38,10 @@ public:
 	virtual void SetTexture(const GameEngineTextureSetting* _setting) = 0;
 	virtual void SetSampler(const GameEngineSamplerSetting* _setting) = 0;
 
+	virtual void ResetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) = 0;
+	virtual void ResetTexture(const GameEngineTextureSetting* _Setting) = 0;
+	virtual void ResetSampler(const GameEngineSamplerSetting* _Setting) = 0;
+
 public:
 	unsigned int GetTypeIndex();
 

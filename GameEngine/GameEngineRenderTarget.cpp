@@ -18,6 +18,21 @@ GameEngineRenderTarget::GameEngineRenderTarget(GameEngineRenderTarget&& _other) 
 
 }
 
+float4 GameEngineRenderTarget::GetTextureSize(size_t _Index)
+{
+	return Textures_[_Index]->GetTextureSize();
+}
+
+GameEngineTexture* GameEngineRenderTarget::GetTexture(size_t _Index)
+{
+	return Textures_[_Index];
+}
+
+ID3D11RenderTargetView* GameEngineRenderTarget::GetRenderTargetView(size_t _index)
+{
+	return RenderTargetViews_[_index];
+}
+
 void GameEngineRenderTarget::Clear() 
 {
 	for (size_t i = 0; i < RenderTargetViews_.size(); i++)
@@ -39,6 +54,18 @@ void GameEngineRenderTarget::Create(const std::string _TextureName, float4 _Clea
 	ClearColor_.push_back(_ClearColor);
 }
 
+void GameEngineRenderTarget::Create(GameEngineTexture* _texture, float4 _ClearColor)
+{
+	GameEngineTexture* FindTexture = _texture;
+	if (nullptr == FindTexture)
+	{
+		GameEngineDebug::MsgBoxError("FindTexture Is null Create Render Target Error");
+	}
+
+	Textures_.push_back(FindTexture);
+	RenderTargetViews_.push_back(FindTexture->CreateRenderTargetView());
+	ClearColor_.push_back(_ClearColor); 
+}
 
 void GameEngineRenderTarget::Setting(int _Index) 
 {

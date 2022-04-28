@@ -723,7 +723,6 @@ void UserGame::loadPipeLine()
 	{
 		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("DebugRect");
 
-		// 이런 기본적인 vertex들이 있다.
 		Pipe->SetInputAssembler1VertexBufferSetting("DebugRect");
 		Pipe->SetInputAssembler1InputLayOutSetting("Color_VS");
 
@@ -807,6 +806,38 @@ void UserGame::loadPipeLine()
 		Pipe->SetOutputMergerBlend("AlphaBlend");
 		//Pipe->SetOutputMergerBlend("DefaultBlend");
 
+	}
+
+	// Blur
+	{
+		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("Blur");
+
+		Pipe->SetInputAssembler1VertexBufferSetting("FullRect");
+		Pipe->SetInputAssembler1InputLayOutSetting("Blur_VS");
+		Pipe->SetVertexShader("Blur_VS");
+		Pipe->SetPixelShader("Blur_PS");
+
+		Pipe->SetInputAssembler2IndexBufferSetting("Box");
+		Pipe->SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+
+		//Pipe->SetOutputMergerBlend("AlphaBlend");
+		Pipe->SetOutputMergerBlend("DefaultBlend");
+
+	}
+
+
+	{
+		GameEngineRenderingPipeline* Pipe = GameEngineRenderingPipelineManager::GetInst().Create("TargetMerge");
+		Pipe->SetInputAssembler1VertexBufferSetting("FullRect");
+		Pipe->SetInputAssembler2IndexBufferSetting("FullRect");
+		Pipe->SetInputAssembler1InputLayOutSetting("TargetMerge_VS");
+		Pipe->SetRasterizer("EngineBaseRasterizer");
+		Pipe->SetVertexShader("TargetMerge_VS");
+		Pipe->SetPixelShader("TargetMerge_PS");
+		//Pipe->SetOutputMergerBlend("AlphaBlend");
+		Pipe->SetOutputMergerBlend("DefaultBlend");
 	}
 }
 

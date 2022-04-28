@@ -73,6 +73,8 @@ void GameEngineRenderer::Render()
 {
 	ShaderHelper_.Setting();
 	pipe_->Rendering();
+	ShaderHelper_.Reset();
+	pipe_->Reset();
 }
 
 void GameEngineRenderer::Start()

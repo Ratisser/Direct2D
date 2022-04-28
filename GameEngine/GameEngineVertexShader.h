@@ -23,6 +23,11 @@ public:
 	virtual void SetTexture(const GameEngineTextureSetting* _setting) override;
 	virtual void SetSampler(const GameEngineSamplerSetting* _setting) override;
 
+	// GameEngineShader을(를) 통해 상속됨
+	virtual void ResetConstantBuffers(const GameEngineConstantBufferSetting* _Setting) override;
+	virtual void ResetTexture(const GameEngineTextureSetting* _Setting) override;
+	virtual void ResetSampler(const GameEngineSamplerSetting* _Setting) override;
+
 public:
 	bool Create(const std::string& _ShaderCode, const std::string& _EntryPoint, UINT _VersionHigh = 5, UINT _VersionLow = 0);
 	bool Load(const std::string& _Path,const std::string& _EntryPoint,UINT _VersionHigh = 5,UINT _VersionLow = 0);
@@ -47,5 +52,6 @@ private:
 	unsigned int LayOutOffset_;
 	std::vector<std::string> SemanticName_;
 	std::vector<D3D11_INPUT_ELEMENT_DESC> InputLayoutDesc_;
+
 };
 

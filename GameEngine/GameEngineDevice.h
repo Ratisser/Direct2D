@@ -53,6 +53,8 @@ public:
 	static ID3D11Device* GetDevice();
 	static ID3D11DeviceContext* GetContext();
 
+	inline static GameEngineRenderTarget* GetBackbufferTarget() { return BackBufferTarget_; }
+
 	inline static ID3D11DepthStencilView* GetDepthStencilView()
 	{
 		return DepthStencilView_;

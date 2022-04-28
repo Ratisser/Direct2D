@@ -17,6 +17,7 @@ public:
 public:
 	void Create(const D3D11_BLEND_DESC& _desc);
 	void Setting();
+	void Reset();
 
 private:
 	D3D11_BLEND_DESC desc_;

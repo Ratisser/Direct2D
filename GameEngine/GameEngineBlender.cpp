@@ -35,3 +35,8 @@ void GameEngineBlender::Setting()
 {
 	GameEngineDevice::GetContext()->OMSetBlendState(state_, nullptr, 0xffffffff);
 }
+
+void GameEngineBlender::Reset()
+{
+	GameEngineDevice::GetContext()->OMSetBlendState(nullptr, nullptr, 0xffffffff);
+}

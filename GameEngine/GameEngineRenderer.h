@@ -27,9 +27,10 @@ public:
 
 	inline GameEngineTexture* GetCurrentTexture() { return CurTexture_; }
 
+public:
+	GameEngineShaderResHelper ShaderHelper_;
 protected:
 	GameEngineRenderingPipeline* pipe_;
-	GameEngineShaderResHelper ShaderHelper_;
 	GameEngineTexture* CurTexture_;
 };
 
