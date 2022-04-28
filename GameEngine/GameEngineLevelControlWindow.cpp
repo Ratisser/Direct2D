@@ -1,30 +1,44 @@
 #include "PreCompile.h"
+#include <GameEngineBase\GameEngineTime.h>
+#include <GameEngine\GameEngineWindow.h>
+
+
 #include "GameEngineLevelControlWindow.h"
 #include "GameEngineCore.h"
 #include "GameEngineLevel.h"
-#include <GameEngineBase\GameEngineTime.h>
 #include "GameEngineActor.h"
 
-GameEngineLevelControlWindow::GameEngineLevelControlWindow() 
+GameEngineLevelControlWindow::GameEngineLevelControlWindow()
+	: volume_(50.f)
+	, prevVolume_(50.f)
+	, fps_(0)
 {
 }
 
-GameEngineLevelControlWindow::~GameEngineLevelControlWindow() 
+GameEngineLevelControlWindow::~GameEngineLevelControlWindow()
 {
 }
 
-void GameEngineLevelControlWindow::OnGUI() 
+void GameEngineLevelControlWindow::OnGUI()
 {
-	static float Acc = 1.0f;
-	static std::string FrameText = "Frame : " + std::to_string(1.0f / GameEngineTime::GetInst().GetDeltaTime());
-
-	Acc -= GameEngineTime::GetInst().GetDeltaTime();
-	if (0 >= Acc)
+	static float Acc = 0.0f;
+	
+	Acc += GameEngineTime::GetInst().GetDeltaTime();
+	if (1.0 <= Acc)
 	{
-		FrameText = "Frame : " + std::to_string(1.0f / GameEngineTime::GetInst().GetDeltaTime());
-		Acc = 1.0f;
+		fps_ = 1.0f / ImGui::GetIO().DeltaTime;
+		Acc = 0.0f;
 	}
-	ImGui::Text(FrameText.c_str());
+
+	//ImGui::Text("UI FPS : %.2f", fps_);
+	ImGui::NextColumn();
+
+	ImGui::Text("Game FPS : %.2f", GameEngineWindow::GetFPS());
+	ImGui::NextColumn();
+
+	ImGui::Text("LevelSelect");
+	ImGui::NextColumn();
+
 
 	int Count = static_cast<int>(GameEngineCore::allLevels_.size());
 
@@ -43,44 +57,14 @@ void GameEngineLevelControlWindow::OnGUI()
 		}
 	}
 
-	//GameEngineCore::CurrentLevel_->ActorList_;
-	//std::vector<std::string> ActorName;
-	//std::vector<const char*> ActorDisplay;
-	//std::vector<GameEngineActor*> ActorObject;
+	ImGui::Text("Volume");
+	ImGui::NextColumn();
+	ImGui::SliderFloat("%", &volume_, 0.0f, 100.f, "%.2f");
 
-	//for (auto& Group : GameEngineCore::CurrentLevel_->ActorList_)
-	//{
-	//	for (auto& Actor : Group.second)
-	//	{
-	//		if (Actor->GetName() == "")
-	//		{
-	//			ActorName.push_back("Actor");
-	//			ActorDisplay.push_back("Actor");
-	//		}
-	//		else 
-	//		{
-	//			ActorName.push_back(Actor->GetName());
-	//			ActorDisplay.push_back(ActorName[ActorName.size() -1].c_str());
-	//		}
-
-	//		ActorObject.push_back(Actor);
-	//	}
-	//}
-
-	//static int SelectActor = -1;
-
-	//ImGui::Text("ActorList");
-	//ImGui::BeginListBox("", {500, 500});
-	//ImGui::ListBox("", &SelectActor, &ActorDisplay[0], ActorDisplay.size());
-
-
-	//if (-1 != SelectActor)
-	//{
-	//	int a = 0;
-	//}
-
-	//ImGui::EndListBox();
-
-	// GameEngineCore::CurrentLevel_
+	if (prevVolume_ != volume_)
+	{
+		GameEngineSoundManager::GetInstance().SetGlobalVolume(volume_ / 100.f);
+		prevVolume_ = volume_;
+	}
 }
 

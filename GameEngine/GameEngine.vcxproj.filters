@@ -121,6 +121,12 @@
     <Filter Include="Core&amp;Window\imgui\Window">
       <UniqueIdentifier>{f67fae37-3690-4b5c-8922-e4a28784a907}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\PostProcess">
+      <UniqueIdentifier>{e5015ada-f57f-47d9-b4a3-af2c22ffcde3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\PostProcess\EngineEffect">
+      <UniqueIdentifier>{7f10edaa-f90f-40e3-af14-e75418dc320d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">

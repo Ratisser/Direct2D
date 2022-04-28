@@ -127,6 +127,28 @@ void GameEngineSoundManager::SetGlobalVolume(float _volume)
 	{
 		globalVolume_ = 1.0f;
 	}
+
+	//int channels = 0;
+	//int realChannels = 0;
+	//system_->getChannelsPlaying(&channels, &realChannels);
+
+	FMOD::ChannelGroup* cg;
+	system_->getMasterChannelGroup(&cg);
+
+	int numChannels;
+	cg->getNumChannels(&numChannels);
+
+	for (int i = 0; i < numChannels; i++)
+	{
+		FMOD::Channel* channel = nullptr;
+		cg->getChannel(i, &channel);
+		if (nullptr != channel)
+		{
+			channel->setVolume(globalVolume_);
+		}
+	}
+
+	cg->release();
 }
 
 void GameEngineSoundManager::StopSound()

@@ -50,7 +50,7 @@ void UserGame::loadLevel()
 
 void UserGame::loadSound()
 {
-	GameEngineSoundManager::GetInstance().SetGlobalVolume(0.0f);
+	GameEngineSoundManager::GetInstance().SetGlobalVolume(0.5f);
 
 	{
 		GameEngineDirectory SoundDir;

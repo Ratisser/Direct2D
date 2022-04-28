@@ -44,9 +44,6 @@
     <ClCompile Include="ParryObjectTutorial.cpp">
       <Filter>01.GameObject\03.Level\TutorialLevel</Filter>
     </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>01.GameObject\02.GlobalActor</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>01.GameObject\02.GlobalActor</Filter>
     </ClCompile>
@@ -69,6 +66,9 @@
       <Filter>01.GameObject\01.BaseActor</Filter>
     </ClCompile>
     <ClCompile Include="MonsterBase.cpp">
+      <Filter>01.GameObject\01.BaseActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
       <Filter>01.GameObject\01.BaseActor</Filter>
     </ClCompile>
   </ItemGroup>
@@ -171,9 +171,6 @@
     <ClInclude Include="ParryObjectTutorial.h">
       <Filter>01.GameObject\03.Level\TutorialLevel</Filter>
     </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>01.GameObject\02.GlobalActor</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>01.GameObject\02.GlobalActor</Filter>
     </ClInclude>
@@ -200,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="eOrbType.h">
       <Filter>01.GameObject\03.Level\DevilLevel\DevilOrbs</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>01.GameObject\01.BaseActor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

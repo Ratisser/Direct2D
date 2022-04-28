@@ -22,6 +22,8 @@ protected:
 
 
 private:
-
+	float fps_;
+	float volume_;
+	float prevVolume_;
 };
 

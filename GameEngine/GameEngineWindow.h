@@ -30,6 +30,8 @@ public:
 		}
 	}
 
+	static float GetFPS() { return fps_; }
+
 public:
 	friend LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam);
 	static inline void SetMessageCallBack(std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> _CallBack)
@@ -63,6 +65,7 @@ public:
 	}
 
 
+
 private:
 	int CreateMainWindowClass();
 
@@ -72,6 +75,7 @@ private:
 
 private:
 	static std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> MessageCallBack_;
+	static float fps_;
 
 	std::string className_;
 	std::string windowTitle_;

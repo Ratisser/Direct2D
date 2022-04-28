@@ -9,6 +9,7 @@
 // Æ÷ÀÎÅÍÇü ½Ì±ÛÅæ
 GameEngineWindow* GameEngineWindow::Inst = new GameEngineWindow();
 std::function<LRESULT(HWND, UINT, WPARAM, LPARAM)> GameEngineWindow::MessageCallBack_ = nullptr;
+float GameEngineWindow::fps_ = 0.f;
 
 bool WindowOn = true;
 
@@ -185,26 +186,22 @@ void GameEngineWindow::Loop(void(*_loopFunc)())
 			_loopFunc();
 
 
-			static unsigned int frameCount = 0;
 			static float timeElapsed = 0.0f;
 
 			float deltaTime = GameEngineTime::GetInst().GetDeltaTime();
 			timeElapsed += deltaTime;
-
 			if (timeElapsed >= 1.0f)
 			{
-				float fps = (float)frameCount;
+				fps_ = 1.0f / deltaTime;
 
-				std::wostringstream out;
-				out.precision(8);
-				out << L"CupHead - FPS: " << fps << L" Frame Time: " << deltaTime << L" second";
-				SetWindowTextW(windowhandle_, out.str().c_str());
+				//std::wostringstream out;
+				//out.precision(8);
+				//out << L"CupHead - FPS: " << fps_ << L" Frame Time: " << deltaTime << L" second";
+				//SetWindowTextW(windowhandle_, out.str().c_str());
 
-				frameCount = 0;
 				timeElapsed = 0;
 			}
 
-			frameCount++;
 		}
 	}
 }
