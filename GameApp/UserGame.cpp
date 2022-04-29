@@ -85,31 +85,31 @@ void UserGame::loadSound()
 
 void UserGame::loadShader()
 {
-	GameEngineDirectory Dir;
-	Dir.MoveParent("Direct2D");
-	Dir.MoveChild("Resources");
-	Dir.MoveChild("Shader");
+	//GameEngineDirectory Dir;
+	//Dir.MoveParent("Direct2D");
+	//Dir.MoveChild("Resources");
+	//Dir.MoveChild("Shader");
 
-	std::vector<GameEngineFile> AllShader = Dir.GetAllFile("fx");
+	//std::vector<GameEngineFile> AllShader = Dir.GetAllFile("fx");
 
-	for (auto& ShaderFile : AllShader)
-	{
-		ShaderFile.Open("rt");
+	//for (auto& ShaderFile : AllShader)
+	//{
+	//	ShaderFile.Open("rt");
 
-		std::string FileName = ShaderFile.GetFileNameWithOutExtension();
-		std::string AllCode = ShaderFile.GetString();
+	//	std::string FileName = ShaderFile.GetFileNameWithOutExtension();
+	//	std::string AllCode = ShaderFile.GetString();
 
-		if (std::string::npos != AllCode.find(FileName + "_VS"))
-		{
-			GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Load(FileName + "_VS", ShaderFile.GetFullPath(), FileName + "_VS");
-		}
+	//	if (std::string::npos != AllCode.find(FileName + "_VS"))
+	//	{
+	//		GameEngineVertexShader* Ptr = GameEngineVertexShaderManager::GetInst().Load(FileName + "_VS", ShaderFile.GetFullPath(), FileName + "_VS");
+	//	}
 
-		if (std::string::npos != AllCode.find(FileName + "_PS"))
-		{
-			GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Load(FileName + "_PS", ShaderFile.GetFullPath(), FileName + "_PS");
-		}
+	//	if (std::string::npos != AllCode.find(FileName + "_PS"))
+	//	{
+	//		GameEnginePixelShader* Ptr = GameEnginePixelShaderManager::GetInst().Load(FileName + "_PS", ShaderFile.GetFullPath(), FileName + "_PS");
+	//	}
 
-	}
+	//}
 }
 
 void UserGame::loadTexture()
