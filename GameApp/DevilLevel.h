@@ -20,6 +20,7 @@ public:
 
 public:
 	void CameraShake(float _shakeTime, float _intensity);
+	GameEngineActor* GetPlayer() { return player_; }
 
 private:
 	GameEngineActor* player_;

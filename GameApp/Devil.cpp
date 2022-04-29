@@ -610,7 +610,7 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 	GameEngineRandom random;
 	eOrbType orbType = static_cast<eOrbType>(random.RandomInt(1, 3));
 
-	//orbType = eOrbType::fire;
+	orbType = eOrbType::fire;
 
 	switch (orbType)
 	{
@@ -648,7 +648,7 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 			summonLocation.RotateZDegree(60.f);
 			direction.RotateZDegree(60.f);
 			OrbFire* newBubble = level_->CreateActor<OrbFire>();
-			newBubble->Initialize(summonLocation + (transform_->GetWorldLocation() + float4(-40.0f, 300.f, 0.0f)), direction, i == parryBubbleIndex ? true : false);
+			newBubble->Initialize(summonLocation + (transform_->GetWorldLocation() + float4(-40.0f, 300.f, 0.0f)), 0.5f * static_cast<float>(i), i == parryBubbleIndex ? true : false);
 		}
 	}
 		break;

@@ -22,7 +22,7 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 public:
-	void Initialize(const float4& _startPosition, const float4& _direction, bool _bParryable = false);
+	void Initialize(const float4& _startPosition, float _moveDelay, bool _bParryable = false);
 
 protected:
 	virtual void onParry() override;
@@ -51,15 +51,12 @@ private:
 	GameEngineImageRenderer* summonEffectRenderer_;
 	GameEngineImageRenderer* summonSparkRenderer_;
 
-	GameEngineTransformComponent* left_;
-	GameEngineTransformComponent* top_;
-	GameEngineTransformComponent* right_;
-	GameEngineTransformComponent* bottom_;
-
 	float4 direction_;
 
 	int sparkEffectCount_;
 
 	float timeCounter_;
+
+	float moveDelay_;
 };
 

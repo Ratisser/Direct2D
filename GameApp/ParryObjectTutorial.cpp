@@ -23,9 +23,11 @@ void ParryObjectTutorial::Start()
 
 	parryOn_ = CreateTransformComponent<GameEngineImageRenderer>();
 	parryOn_->SetTexture("ParryObjectOn.png", true);
+	parryOn_->SetLocationZ(2.1f);
 
 	parryOff_ = CreateTransformComponent<GameEngineImageRenderer>();
 	parryOff_->SetTexture("ParryObjectOff.png", true);
+	parryOff_->SetLocationZ(2.1f);
 
 	collision_->SetParent(parryOff_);
 
