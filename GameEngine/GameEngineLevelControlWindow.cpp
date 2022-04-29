@@ -12,6 +12,8 @@ GameEngineLevelControlWindow::GameEngineLevelControlWindow()
 	: volume_(50.f)
 	, prevVolume_(50.f)
 	, fps_(0)
+	, bPostProcess_(true)
+	, bPrevPostProcess_(true)
 {
 }
 
@@ -66,5 +68,10 @@ void GameEngineLevelControlWindow::OnGUI()
 		GameEngineSoundManager::GetInstance().SetGlobalVolume(volume_ / 100.f);
 		prevVolume_ = volume_;
 	}
+
+	ImGui::NextColumn();
+	ImGui::NextColumn();
+	
+	ImGui::Checkbox("PostProcess", &GameEngineLevel::PostProcess_);
 }
 

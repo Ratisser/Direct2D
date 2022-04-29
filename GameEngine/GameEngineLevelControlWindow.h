@@ -25,5 +25,7 @@ private:
 	float fps_;
 	float volume_;
 	float prevVolume_;
+	bool bPostProcess_;
+	bool bPrevPostProcess_;
 };
 

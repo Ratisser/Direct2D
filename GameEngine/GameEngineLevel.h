@@ -48,6 +48,9 @@ public:
 	std::list<GameEngineCollision*>& GetCollisionGroup(int _group);
 
 public:
+	static bool PostProcess_;
+
+public:
 	template<typename ActorType>
 	ActorType* CreateActor(int _updateOrder = 0);
 
@@ -63,6 +66,8 @@ private:
 
 	void levelChangeStartActorEvent();
 	void levelChangeEndActorEvent();
+
+	void postProcess();
 
 protected:
 	GameEngineCamera* mainCamera_;
