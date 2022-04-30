@@ -75,7 +75,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameEngineLevelControlWindow.h" />
     <ClInclude Include="GameEngineMesh.h">
       <SubType>
       </SubType>
@@ -237,7 +236,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameEngineLevelControlWindow.cpp" />
     <ClCompile Include="GameEngineMesh.cpp">
       <SubType>
       </SubType>

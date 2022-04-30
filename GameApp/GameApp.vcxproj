@@ -176,6 +176,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
+    <ClCompile Include="Demon.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Devil.cpp">
       <SubType>
       </SubType>
@@ -188,6 +192,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineLevelControlWindow.cpp" />
     <ClCompile Include="Map.cpp">
       <SubType>
       </SubType>
@@ -277,6 +282,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CustomVertex.h" />
+    <ClInclude Include="Demon.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Devil.h">
       <SubType>
       </SubType>
@@ -291,6 +300,7 @@
     </ClInclude>
     <ClInclude Include="eCollisionGroup.h" />
     <ClInclude Include="eOrbType.h" />
+    <ClInclude Include="GameEngineLevelControlWindow.h" />
     <ClInclude Include="Map.h">
       <SubType>
       </SubType>

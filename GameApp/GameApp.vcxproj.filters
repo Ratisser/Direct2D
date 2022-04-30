@@ -71,6 +71,12 @@
     <ClCompile Include="Map.cpp">
       <Filter>01.GameObject\01.BaseActor</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineLevelControlWindow.cpp">
+      <Filter>00.GameApp\01.UserCore\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Demon.cpp">
+      <Filter>01.GameObject\03.Level\DevilLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -117,6 +123,9 @@
     </Filter>
     <Filter Include="01.GameObject\02.GlobalActor\PlayerWeapon">
       <UniqueIdentifier>{0404191d-f317-45f5-b778-c1dcd2e81894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.GameApp\01.UserCore\Window">
+      <UniqueIdentifier>{9c05cd8d-3118-4276-b5c1-3f66fc766ae7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +206,12 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>01.GameObject\01.BaseActor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineLevelControlWindow.h">
+      <Filter>00.GameApp\01.UserCore\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Demon.h">
+      <Filter>01.GameObject\03.Level\DevilLevel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,8 @@
 
 #include <GameEngine\GameEngineLevel.h>
 
+class Player;
+class Devil;
 class DevilLevel : public GameEngineLevel
 {
 public:
@@ -20,10 +22,12 @@ public:
 
 public:
 	void CameraShake(float _shakeTime, float _intensity);
-	GameEngineActor* GetPlayer() { return player_; }
+	Player* GetPlayer() { return player_; }
+	Devil* GetDevil() { return devil_; }
 
 private:
-	GameEngineActor* player_;
+	Player* player_;
+	Devil* devil_;
 
 	float cameraShakeTime_;
 	float cameraShakeIntensity_;

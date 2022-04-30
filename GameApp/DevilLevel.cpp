@@ -12,6 +12,7 @@
 
 DevilLevel::DevilLevel()
 	: player_(nullptr)
+	, devil_(nullptr)
 	, cameraShakeTime_(0.0f)
 	, cameraShakeIntensity_(0.0f)
 {
@@ -41,7 +42,7 @@ void DevilLevel::LevelStart()
 
 	CreateActor<DevilMap>("DevilMap");
 
-	Devil* devil = CreateActor<Devil>("Devil");
+	devil_ = CreateActor<Devil>("Devil");
 
 	mainCamera_->GetTransform()->SetLocation(640.f, -360.f, -320.f);
 	mainCamera_->GetCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);

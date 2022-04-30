@@ -1,12 +1,14 @@
 #include "PreCompile.h"
+#include "GameEngineLevelControlWindow.h"
+
 #include <GameEngineBase\GameEngineTime.h>
 #include <GameEngine\GameEngineWindow.h>
+#include <GameEngine\GameEngineCore.h>
+#include <GameEngine\GameEngineLevel.h>
+#include <GameEngine\GameEngineActor.h>
 
-
-#include "GameEngineLevelControlWindow.h"
-#include "GameEngineCore.h"
-#include "GameEngineLevel.h"
-#include "GameEngineActor.h"
+#include "DevilLevel.h"
+#include "Devil.h"
 
 GameEngineLevelControlWindow::GameEngineLevelControlWindow()
 	: volume_(50.f)
@@ -73,5 +75,17 @@ void GameEngineLevelControlWindow::OnGUI()
 	ImGui::NextColumn();
 	
 	ImGui::Checkbox("PostProcess", &GameEngineLevel::PostProcess_);
+	ImGui::NextColumn();
+
+
+	if (GameEngineCore::currentLevel_->GetName() == "DevilLevel")
+	{
+		DevilLevel* devilLevel = dynamic_cast<DevilLevel*>(GameEngineCore::currentLevel_);
+		if (nullptr != devilLevel)
+		{
+			ImGui::Text("Devil HP : %d", devilLevel->GetDevil()->GetHP());
+			ImGui::NextColumn();
+		}
+	}
 }
 

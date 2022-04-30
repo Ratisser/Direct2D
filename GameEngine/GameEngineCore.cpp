@@ -7,7 +7,7 @@
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
 #include <GameEngine/GameEngineCollision.h>
-#include <GameEngine\GameEngineLevelControlWindow.h>
+#include <GameEngine\GameEngineGUI.h>
 
 GameEngineThreadQueue GameEngineCore::ThreadQueue_ = GameEngineThreadQueue("GameEngineThread");
 
@@ -37,8 +37,6 @@ void GameEngineCore::EngineInitialize()
 
 	GameEngineSoundManager::GetInstance().Initialize();
 	GameEngineInput::GetInstance();
-
-	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
 }
 
 

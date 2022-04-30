@@ -14,6 +14,7 @@
 #include <GameApp\CustomVertex.h>
 
 #include "DevilLevel.h"
+#include "GameEngineLevelControlWindow.h"
 
 UserGame::UserGame() // default constructer 디폴트 생성자
 {
@@ -27,6 +28,7 @@ UserGame::~UserGame() // default destructer 디폴트 소멸자
 
 void UserGame::Initialize()
 {
+	GameEngineGUI::GetInst()->CreateGUIWindow<GameEngineLevelControlWindow>("LevelControlWindow");
 }
 
 void UserGame::Release()

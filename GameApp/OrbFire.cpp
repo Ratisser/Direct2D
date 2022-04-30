@@ -6,6 +6,7 @@
 #include "DevilLevel.h"
 
 #include "OrbFire.h"
+#include "Player.h"
 #include "Map.h"
 
 OrbFire::OrbFire()
@@ -171,7 +172,7 @@ void OrbFire::startMove(float _deltaTime)
 		return;
 	}
 
-	GameEngineActor* player = devilLevel->GetPlayer();
+	Player* player = devilLevel->GetPlayer();
 	float4 playerLocation = player->GetTransform()->GetWorldLocation();
 	float4 orbLocation = transform_->GetWorldLocation();
 	direction_ = playerLocation - orbLocation;

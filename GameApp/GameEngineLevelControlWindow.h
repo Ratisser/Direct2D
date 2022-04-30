@@ -1,7 +1,6 @@
 #pragma once
-#include "GameEngineGUI.h"
-#include "GameEngineRenderTarget.h"
-#include <unordered_map>
+#include <GameEngine\GameEngineGUI.h>
+#include <GameEngine\GameEngineRenderTarget.h>
 
 // Ό³Έν :
 class GameEngineLevelControlWindow : public GameEngineGUIWindow

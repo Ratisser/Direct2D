@@ -610,8 +610,6 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 	GameEngineRandom random;
 	eOrbType orbType = static_cast<eOrbType>(random.RandomInt(1, 3));
 
-	orbType = eOrbType::fire;
-
 	switch (orbType)
 	{
 	case eOrbType::Bubble:

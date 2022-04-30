@@ -297,9 +297,6 @@
     <ClInclude Include="imstb_textedit.h">
       <Filter>Core&amp;Window\imgui\Code</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineLevelControlWindow.h">
-      <Filter>Core&amp;Window\imgui\Window</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -454,9 +451,6 @@
     </ClCompile>
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>Core&amp;Window\imgui\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineLevelControlWindow.cpp">
-      <Filter>Core&amp;Window\imgui\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
