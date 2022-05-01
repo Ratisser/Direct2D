@@ -23,6 +23,11 @@ GameEngineLevelControlWindow::~GameEngineLevelControlWindow()
 {
 }
 
+void GameEngineLevelControlWindow::AddText(const std::string& _str)
+{
+	texts_.push_back(_str);
+}
+
 void GameEngineLevelControlWindow::OnGUI()
 {
 	static float Acc = 0.0f;
@@ -87,5 +92,13 @@ void GameEngineLevelControlWindow::OnGUI()
 			ImGui::NextColumn();
 		}
 	}
+
+	for (const std::string& str : texts_)
+	{
+		ImGui::Text(str.c_str());
+		ImGui::NextColumn();
+	}
+
+	texts_.clear();
 }
 
