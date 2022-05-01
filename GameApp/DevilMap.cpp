@@ -4,6 +4,7 @@
 #include <GameEngine\GameEngineLevel.h>
 
 DevilMap::DevilMap()
+	: hallFrontLayer_(nullptr)
 {
 
 }
@@ -23,6 +24,7 @@ void DevilMap::Start()
 	ImageRenderer->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 3.f);
 	ImageRenderer->Off();
 
+	// background
 	{
 		GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
 		mapObjects->SetTexture("BossDevil_Phase1Background.png", true);
@@ -30,13 +32,15 @@ void DevilMap::Start()
 		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 2.f);
 	}
 
-	//{
-	//	GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
-	//	mapObjects->SetTexture("BossDevil_Phase1Background2.png", true);
-	//	float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
-	//	mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 1.f);
-	//}
+	// chair layer
+	{
+		GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
+		mapObjects->SetTexture("BossDevil_Phase1BackgroundChair.png", true);
+		float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
+		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 1.5f);
+	}
 
+	// hall front layer
 	{
 		hallFrontLayer_ = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
 		hallFrontLayer_->SetTexture("HallFront.png", true);
@@ -45,12 +49,15 @@ void DevilMap::Start()
 		hallFrontLayer_->Off();
 	}
 
+	// pot layer
 	{
 		GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
 		mapObjects->SetTexture("BossDevil_Phase1FrontLayerBackground.png", true);
 		float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
 		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, -2.f);
 	}
+
+
 }
 
 void DevilMap::Update(float _deltaTime)
