@@ -2,6 +2,7 @@
 #include "GameEngineLevelControlWindow.h"
 
 #include <GameEngineBase\GameEngineTime.h>
+#include <GameEngine\GameEngineInput.h>
 #include <GameEngine\GameEngineWindow.h>
 #include <GameEngine\GameEngineCore.h>
 #include <GameEngine\GameEngineLevel.h>
@@ -43,6 +44,20 @@ void GameEngineLevelControlWindow::OnGUI()
 	ImGui::NextColumn();
 
 	ImGui::Text("Game FPS : %.2f", GameEngineWindow::GetFPS());
+	ImGui::NextColumn();
+
+	float4 mousePos = GameEngineInput::GetInstance().GetMousePosition();
+	ImGui::Text("Mouse X, Y : %d, %d", mousePos.ix(), mousePos.iy());
+	ImGui::NextColumn();
+
+	GameEngineActor* camera = GameEngineCore::currentLevel_->GetMainCameraActor();
+	float4 cameraPos = float4::ZERO;
+
+	if (nullptr != camera)
+	{
+		cameraPos = camera->GetTransform()->GetWorldLocation();
+	}
+	ImGui::Text("World Mouse X, Y : %d, %d", mousePos.ix() + cameraPos.ix(), mousePos.iy() + cameraPos.iy());
 	ImGui::NextColumn();
 
 	ImGui::Text("LevelSelect");

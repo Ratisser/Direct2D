@@ -189,8 +189,8 @@ void GameEngineInput::update()
 
 	float4 windowSize = GameEngineWindow::GetInst().GetSize();
 	
-	mousePoint.x -= windowSize.ix();
-	mousePoint.y -= windowSize.iy();
+	mousePoint.x -= windowSize.ihx();
+	mousePoint.y -= windowSize.ihy();
 
 	currentMousePos_.x = static_cast<float>(mousePoint.x);
 	currentMousePos_.y = -static_cast<float>(mousePoint.y);

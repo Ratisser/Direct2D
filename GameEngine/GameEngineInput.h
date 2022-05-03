@@ -58,6 +58,8 @@ public:
 
 	float4 GetMouseDirection();
 
+	inline float4 GetMousePosition() { return currentMousePos_; }
+
 private:
 	GameEngineInput();
 	void update();
