@@ -145,6 +145,12 @@ void GameEngineImageRenderer::Animation2D::Update(float _DeltaTime)
 				Renderer->SetLocationX(-size.x / 2.f);
 				Renderer->SetLocationY(size.y / 2.f);
 				break;
+			case eImagePivot::LEFT:
+				Renderer->SetLocationX(size.x / 2.f);
+				break;
+			case eImagePivot::RIGHT:
+				Renderer->SetLocationX(-size.x / 2.f);
+				break;
 			default:
 				break;
 			}

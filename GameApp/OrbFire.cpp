@@ -17,7 +17,7 @@ OrbFire::OrbFire()
 	, sparkEffectCount_(0)
 	, timeCounter_(0.0f)
 	, direction_(float4::RIGHT)
-	, moveDelay_(0.0f)
+	, seekDelay_(0.0f)
 {
 
 }
@@ -70,12 +70,12 @@ void OrbFire::Update(float _deltaTime)
 	state_.Update(_deltaTime);
 }
 
-void OrbFire::Initialize(const float4& _startPosition, float _moveDelay, bool _bParryable)
+void OrbFire::Initialize(const float4& _startPosition, float _seekDelay, bool _bParryable)
 {
 	transform_->SetLocation(_startPosition);
 	transform_->AddLocation(0.0f, 0.0f, -0.1f);
 
-	moveDelay_ = _moveDelay;
+	seekDelay_ = _seekDelay;
 
 	SetParryable(_bParryable);
 
@@ -156,7 +156,7 @@ void OrbFire::updateSummonComplete(float _deltaTime)
 		renderer_->On();
 	}
 
-	if (timeCounter_ > 2.0f + moveDelay_)
+	if (timeCounter_ > 2.0f + seekDelay_)
 	{
 		state_ << "Move";
 	}

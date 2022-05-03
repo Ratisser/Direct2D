@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "DevilMap.h"
 #include "Devil.h"
+#include "Demon.h"
 
 DevilLevel::DevilLevel()
 	: player_(nullptr)

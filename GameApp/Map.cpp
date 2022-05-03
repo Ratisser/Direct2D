@@ -24,19 +24,35 @@ void Map::levelChangeStartEvent()
 
 void Map::Start()
 {
+	//{
+	//	GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
+	//	float4 color = float4::ONE;
+	//	color.r = 0.5f;
+	//	color.g = 0.5f;
+	//	color.b = 0.5f;
+	//	color.a = 1.0f;
+	//	r->SetColor(color);
+	//	r->CreateAnimationFolder("OldFilmEffect", 0.034f, true, false);
+	//	r->SetScale(1280.f, 720.f);
+	//	r->SetLocationZ(-9.0f);
+	//	r->ChangeAnimation("OldFilmEffect");
+	//}
+
 	{
 		GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
-		float4 color;
-		color.r = 0.7f;
-		color.g = 0.7f;
-		color.b = 0.7f;
-		color.a = 0.7f;
-		r->SetLocationZ(-10.0f);
+		float4 color = float4::ONE;
+		//float4 color = float4::ONE * -1.f;
+		//color.r = 0.7f;
+		//color.g = 0.7f;
+		//color.b = 0.7f;
+		color.a = 1.0f;
 		r->SetColor(color);
+		r->SetLocationZ(-10.0f);
 		r->CreateAnimationFolder("OldFilmEffect", 0.034f, true, false);
 		r->SetScale(1280.f, 720.f);
 		r->ChangeAnimation("OldFilmEffect");
 	}
+
 	//{
 	//	GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
 	//	float4 color;

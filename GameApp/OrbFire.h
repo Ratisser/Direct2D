@@ -22,7 +22,7 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 public:
-	void Initialize(const float4& _startPosition, float _moveDelay, bool _bParryable = false);
+	void Initialize(const float4& _startPosition, float _seekDelay, bool _bParryable = false);
 
 protected:
 	virtual void onParry() override;
@@ -57,6 +57,6 @@ private:
 
 	float timeCounter_;
 
-	float moveDelay_;
+	float seekDelay_;
 };
 

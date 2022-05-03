@@ -46,10 +46,39 @@ SamplerState Sample : register(s0);
 float4 Texture_PS(PS_INPUT _in) : SV_Target0
 {
     float4 color = Tex.Sample(Sample, float2(_in.TexCoord.xy)) * bufferColor;
-    if (0.0f == color.a)
+ 
+    if (color.a < 0.0f)
     {
-        clip(-1);
+        color.a = 1 - color.a;
+        
+        if (1.0f == color.a)
+        {
+            clip(-1);
+        }
     }
+    else
+    {
+        if (0.0f == color.a)
+        {
+            clip(-1);
+        }
+    }
+        
+    if (color.r < 0.0f)
+    {
+        color.r = 1 - color.r;
+    }
+    
+    if (color.g < 0.0f)
+    {
+        color.g = 1 - color.g;
+    }
+    
+    if (color.b < 0.0f)
+    {
+        color.b = 1 - color.b;
+    }
+    
     return color;
 }
 

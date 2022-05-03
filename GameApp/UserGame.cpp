@@ -529,6 +529,22 @@ void UserGame::loadTexture()
 		}
 	);
 
+	GameEngineCore::ThreadQueue_.JobPost(
+		[]()
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParent("Direct2D");
+			Dir / "Resources" / "Image" / "Effect";
+
+			std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+			for (size_t i = 0; i < AllFile.size(); i++)
+			{
+				GameEngineFolderTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+			}
+		}
+	);
+
 	Sleep(50);
 
 	while (GameEngineCore::ThreadQueue_.GetWorkingCount() > 0)

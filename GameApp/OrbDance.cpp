@@ -59,7 +59,7 @@ void OrbDance::Start()
 	}
 
 	spinTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
-	float4 spawnLocation = { 250.f, 0.0f };
+	float4 spawnLocation = { 300.f, 0.0f };
 	spawnLocation.RotateZDegree(-30.f);
 
 	for (size_t i = 0; i < 4; i++)

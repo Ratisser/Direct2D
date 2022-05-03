@@ -12,6 +12,7 @@
 #include "DevilLevel.h"
 #include "eCollisionGroup.h"
 #include "eOrbType.h"
+#include "Demon.h"
 
 Devil::Devil()
 	: devilRenderer_(nullptr)
@@ -33,6 +34,7 @@ Devil::Devil()
 	, spiderCollision_(nullptr)
 	, timeCounter_(0.0f)
 	, hitEffectTime_(0.0f)
+	, demonSpawnDelay_(0.0f)
 	, spiderFallCount_(0)
 	, nextState_(0)
 	, prevState_(0)
@@ -86,6 +88,14 @@ void Devil::Update(float _deltaTime)
 		devilRenderer_->SetColor(float4::ONE);
 		dragonHeadRenderer_->SetColor(float4::ONE);
 		spiderRenderer_->SetColor(float4::ONE);
+	}
+
+	demonSpawnDelay_ += _deltaTime;
+
+	if (demonSpawnDelay_ >= DEMON_SPAWN_DELAY)
+	{
+		Demon* demon = level_->CreateActor<Demon>("Demon");
+		demonSpawnDelay_ = 0.0f;
 	}
 }
 
@@ -291,7 +301,6 @@ void Devil::initSpider()
 {
 	spiderTransform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
 	spiderTransform_->SetLocationZ(0.5f);
-	spiderTransform_->SetScale(0.8f);
 
 	spiderRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(spiderTransform_);
 	spiderRenderer_->CreateAnimationFolder("SpiderHead_FallFromSky");
@@ -477,6 +486,11 @@ void Devil::startDragonTransform(float _deltaTime)
 
 void Devil::updateDragonTransform(float _deltaTime)
 {
+	if (devilRenderer_->GetCurrentAnimation()->CurFrame_ == 29)
+	{
+		headCollision_->Off();
+	}
+
 	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		state_ << "DragonAttack";
@@ -529,8 +543,14 @@ void Devil::startDragonEnd(float _deltaTime)
 
 void Devil::updateDragonEnd(float _deltaTime)
 {
+	if (devilRenderer_->GetCurrentAnimation()->CurFrame_ == 29)
+	{
+		headCollision_->On();
+	}
+
 	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
+
 		state_ << "Idle";
 		return;
 	}
@@ -544,6 +564,11 @@ void Devil::startSpiderTransform(float _deltaTime)
 
 void Devil::updateSpiderTransform(float _deltaTime)
 {
+	if (devilRenderer_->GetCurrentAnimation()->CurFrame_ == 44)
+	{
+		headCollision_->Off();
+	}
+
 	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		state_ << "SpiderAttack";
@@ -567,11 +592,15 @@ void Devil::updateSpiderAttack(float _deltaTime)
 void Devil::startSpiderEnd(float _deltaTime)
 {
 	devilRenderer_->ChangeAnimation("SpiderTransformReverse");
-
 }
 
 void Devil::updateSpiderEnd(float _deltaTime)
 {
+	if (devilRenderer_->GetCurrentAnimation()->CurFrame_ == 44)
+	{
+		headCollision_->On();
+	}
+
 	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		state_ << "Idle";
@@ -631,7 +660,7 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 	case eOrbType::Dance:
 	{
 		OrbDance* parentOrb = level_->CreateActor<OrbDance>();
-		parentOrb->GetTransform()->SetLocation(transform_->GetWorldLocation() + float4(-40.0f, 350.f, 0.0f));
+		parentOrb->GetTransform()->SetLocation(transform_->GetWorldLocation() + float4(-40.0f, 300.f, 0.0f));
 	}
 	break;
 	case eOrbType::fire:
@@ -641,15 +670,27 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 		float4 direction = float4::RIGHT;
 		direction.RotateZDegree(45.f);
 
+		float seekDelay = 0.5f;
+		float seekDelayAfterThree = 0.0f;
+
 		for (size_t i = 0; i < 6; i++)
 		{
+			if (i == 3)
+			{
+				seekDelayAfterThree = 1.0f;
+			}
+
 			summonLocation.RotateZDegree(60.f);
 			direction.RotateZDegree(60.f);
 			OrbFire* newBubble = level_->CreateActor<OrbFire>();
-			newBubble->Initialize(summonLocation + (transform_->GetWorldLocation() + float4(-40.0f, 300.f, 0.0f)), 0.5f * static_cast<float>(i), i == parryBubbleIndex ? true : false);
+			newBubble->Initialize(
+				summonLocation + (transform_->GetWorldLocation() + float4(-40.0f, 300.f, 0.0f))
+				, seekDelay * static_cast<float>(i) + seekDelayAfterThree
+				, i == parryBubbleIndex ? true : false
+			);
 		}
 	}
-		break;
+	break;
 	default:
 		break;
 	}

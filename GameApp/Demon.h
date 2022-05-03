@@ -19,15 +19,10 @@ public:
 public:
 	virtual void Start() override;
 	virtual void Update(float _deltaTime) override;
+	virtual void OnHit() override;
 
 private:
 #pragma region State
-	void startIntro(float _deltaTime);
-	void updateIntro(float _deltaTime);
-
-	void startJump(float _deltaTime);
-	void updateJump(float _deltaTime);
-
 	void startRun(float _deltaTime);
 	void updateRun(float _deltaTime);
 
@@ -42,6 +37,16 @@ private:
 
 #pragma endregion
 
+private:
+	const int DEMON_HP = 3;
+	const float HIT_EFFECT_TIME = 0.1f;
+	const float RUN_TIME = 2.0f;
+	const float ATTACK_TIME = 4.0f;
+	const float4 START_LOCATION = { 720.f, -560.f, 1.0f };
+	const float4 LEFT_RUN_END = { -160.f, -560.f, 1.0f };
+	const float4 RIGHT_RUN_END = { 1600.f, -560.f, 1.0f };
+	const float4 LEFT_ATTACK_START_LOCATION = { -160.f, -660.f, 0.1f };
+	const float4 RIGHT_ATTACK_START_LOCATION = { 1600.f, -660.f, 0.1f };
 
 private:
 	GameEngineFSM state_;
@@ -50,5 +55,7 @@ private:
 	GameEngineCollision* bodyCollision_;
 
 	bool bLeft_;
+	float timeCounter_;
+	float hitEffectTime_;
 };
 

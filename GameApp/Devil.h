@@ -101,6 +101,7 @@ private:
 	const float4 CENTER_ARM_LOCATION = float4(721.f, -600.f);
 
 	const float HIT_EFFECT_TIME = 0.034f;
+	const float DEMON_SPAWN_DELAY = 5.0f;
 
 	const int SPIDER_FALL_COUNT_MIN = 2;
 	const int SPIDER_FALL_COUNT_MAX = 4;
@@ -144,6 +145,8 @@ private:
 	int prevPrevState_;
 
 	float timeCounter_;
+
+	float demonSpawnDelay_;
 	float hitEffectTime_;
 };
 
