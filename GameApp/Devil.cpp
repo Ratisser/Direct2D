@@ -16,6 +16,8 @@
 
 Devil::Devil()
 	: devilRenderer_(nullptr)
+	, skeleton_(nullptr)
+	, holefront_(nullptr)
 	, devilCastingHeadRenderer_(nullptr)
 	, tridentRenderer_(nullptr)
 	, dragonHeadRenderer_(nullptr)
@@ -61,11 +63,12 @@ void Devil::Start()
 
 	initSpider();
 
-	SetHP(100);
+	SetHP(DEVIL_HP);
 }
 
 void Devil::Update(float _deltaTime)
 {
+	// 다음 스테이트 예약
 	GameEngineInput& input = GameEngineInput::GetInstance();
 	for (int i = 0; i < 10; i++)
 	{
@@ -74,7 +77,6 @@ void Devil::Update(float _deltaTime)
 			nextState_ = i;
 		}
 	}
-
 
 
 	state_.Update(_deltaTime);
@@ -92,7 +94,7 @@ void Devil::Update(float _deltaTime)
 
 	demonSpawnDelay_ += _deltaTime;
 
-	if (demonSpawnDelay_ >= DEMON_SPAWN_DELAY)
+	if (demonSpawnDelay_ >= DEMON_SPAWN_DELAY && hp_ > 0)
 	{
 		Demon* demon = level_->CreateActor<Demon>("Demon");
 		demonSpawnDelay_ = 0.0f;
@@ -171,6 +173,8 @@ void Devil::initRendererAndAnimation()
 	devilRenderer_->CreateAnimationFolder("CreateOrbsIntro", 0.034f, false);
 	devilRenderer_->CreateAnimationFolderReverse("CreateOrbsIntroReverse", "CreateOrbsIntro", 0.034f, false);
 	devilRenderer_->CreateAnimationFolder("CreateOrbsBody");
+
+	devilRenderer_->CreateAnimationFolder("Phase1Death", 0.034f, false);
 
 	devilRenderer_->ChangeAnimation("DevilIdle");
 
@@ -294,6 +298,8 @@ void Devil::initState()
 	state_.CreateState("SummonOrb", std::bind(&Devil::startSummonOrb, this, std::placeholders::_1), std::bind(&Devil::updateSummonOrb, this, std::placeholders::_1));
 	state_.CreateState("SummonOrbEnd", std::bind(&Devil::startSummonOrbEnd, this, std::placeholders::_1), std::bind(&Devil::updateSummonOrbEnd, this, std::placeholders::_1));
 
+	state_.CreateState("PhaseTwo", std::bind(&Devil::startPhaseTwo, this, std::placeholders::_1), std::bind(&Devil::updatePhaseTwo, this, std::placeholders::_1));
+
 	state_.ChangeState("Intro");
 }
 
@@ -358,6 +364,15 @@ void Devil::updateIdle(float _deltaTime)
 
 	if (timeCounter_ > 2.f)
 	{
+		if (hp_ < 0)
+		{
+			if (state_.GetCurrentStateName() != "PhaseTwo")
+			{
+				state_ << "PhaseTwo";
+			}
+			return;
+		}
+
 		if (nextState_ == 0)
 		{
 			GameEngineRandom random;
@@ -733,6 +748,45 @@ void Devil::updateSummonOrbEnd(float _deltaTime)
 		devilRenderer_->GetCurrentAnimation()->CurFrame_ = 19;
 		state_ << "Idle";
 		return;
+	}
+}
+
+void Devil::startPhaseTwo(float _deltaTime)
+{
+	devilRenderer_->ChangeAnimation("Phase1Death", true);
+	transform_->SetLocation(750.f, -680.f, 0.5f);
+	headCollision_->Off();
+	timeCounter_ = 0.0f;
+
+	devilRenderer_->SetLocationX(30.f);
+
+	skeleton_ = CreateTransformComponent<GameEngineImageRenderer>();
+	skeleton_->CreateAnimationFolder("Skeleton_Hole", 0.034f, false);
+	skeleton_->CreateAnimationFolder("HoleBack", 0.0678f);
+	skeleton_->ChangeAnimation("Skeleton_Hole");
+	skeleton_->Off();
+	skeleton_->SetLocation(30.0f, 0.0f, -0.4f);
+
+	holefront_ = CreateTransformComponent<GameEngineImageRenderer>();
+	holefront_->CreateAnimationFolder("HoleFront", 0.0678f);
+	holefront_->ChangeAnimation("HoleFront");
+	holefront_->SetLocationZ(-3.f);
+	holefront_->Off();
+}
+
+void Devil::updatePhaseTwo(float _deltaTime)
+{
+	if (skeleton_->GetCurrentAnimation()->IsEnd_)
+	{
+		skeleton_->ChangeAnimation("HoleBack");
+		holefront_->On();
+		skeleton_->SetLocationX(0.0f);
+		return;
+	}
+
+	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		skeleton_->On();
 	}
 }
 

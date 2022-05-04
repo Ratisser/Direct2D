@@ -80,6 +80,9 @@ private:
 	void startSummonOrbEnd(float _deltaTime);
 	void updateSummonOrbEnd(float _deltaTime);
 
+	void startPhaseTwo(float _deltaTime);
+	void updatePhaseTwo(float _deltaTime);
+
 #pragma region SubState
 	void startSpiderFallFromSky(float _deltaTime);
 	void updateSpiderFallFromSky(float _deltaTime);
@@ -105,6 +108,7 @@ private:
 
 	const int SPIDER_FALL_COUNT_MIN = 2;
 	const int SPIDER_FALL_COUNT_MAX = 4;
+	const int DEVIL_HP = 1;
 
 private:
 	// Devil
@@ -113,6 +117,8 @@ private:
 	GameEngineImageRenderer* devilCastingHeadRenderer_;
 	GameEngineImageRenderer* tridentRenderer_;
 	GameEngineImageRenderer* pupil_;
+	GameEngineImageRenderer* skeleton_;
+	GameEngineImageRenderer* holefront_;
 	GameEngineCollision* headCollision_;
 	GameEngineFSM state_;
 
