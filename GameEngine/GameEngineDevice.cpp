@@ -137,33 +137,28 @@ void GameEngineDevice::CreateSwapChain()
 
 	DXGI_SWAP_CHAIN_DESC ScInfo = { 0, };
 
-	// 그래픽카드에 버퍼는 들어있어야 겠죠.
 	ScInfo.BufferDesc.Width = ScreenSize.uix();
 	ScInfo.BufferDesc.Height = ScreenSize.uiy();
 
-	// 모니터에 간섭해서 
-	// 1초에
 	ScInfo.BufferDesc.RefreshRate.Denominator = 1;
-	// 60프레임 백버퍼를 스왑해라.
 	ScInfo.BufferDesc.RefreshRate.Numerator = 60;
 
 	ScInfo.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	ScInfo.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	ScInfo.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 
-	// 화면에 띄우기 위해서는 그런 용도로 만든다는걸 알려줘야 하는데
-	ScInfo.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT;
+	ScInfo.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT | DXGI_USAGE_BACK_BUFFER;
 
 	ScInfo.SampleDesc.Quality = 0;
 	ScInfo.SampleDesc.Count = 1;
 
 	ScInfo.OutputWindow = GameEngineWindow::GetInst().GetWindowHWND();
 
-	ScInfo.BufferCount = 3;
+	ScInfo.BufferCount = 2;
 
-	//ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_DISCARD;
+	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_DISCARD;
 	//ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_DISCARD;
-	ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
+	//ScInfo.SwapEffect = DXGI_SWAP_EFFECT::DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;
 
 	// 전체화면 모드 가능
 	ScInfo.Flags = DXGI_SWAP_CHAIN_FLAG::DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
@@ -171,12 +166,6 @@ void GameEngineDevice::CreateSwapChain()
 	// 전체화면 안함.
 	ScInfo.Windowed = true;
 
-	// 그래픽카드의 화면출력에 관련된 리소스에 관여할수 있는 
-	// 기능들의 포인터를 얻어오고
-	// 그 기능들을 통해서 백버퍼의 텍스처를 직업 얻어올 것이다.
-
-	// ID3D11Device* != IDXGIDevice;
-	// 그래픽카드의 메모리에 관리자를 접근한다..
 	IDXGIDevice* pD = nullptr;
 	IDXGIAdapter* pA = nullptr;
 	IDXGIFactory* pF = nullptr;
@@ -271,13 +260,9 @@ void GameEngineDevice::RenderStart()
 
 void GameEngineDevice::RenderEnd()
 {
-	// 화면에 그려라 인데.
 	HRESULT Result = SwapChain_->Present(0, 0);
 	if (Result == DXGI_ERROR_DEVICE_REMOVED || Result == DXGI_ERROR_DEVICE_RESET)
 	{
 		int a = 0;
 	}
-
-	// 화면에 뿌려라
-	// BackBufferTarget_;
 }
