@@ -282,6 +282,11 @@ GameEngineCamera* GameEngineLevel::GetMainCameraActor()
 	return mainCamera_;
 }
 
+GameEngineCamera* GameEngineLevel::GetFreeCameraActor()
+{
+	return freeCamera_;
+}
+
 GameEngineCameraComponent* GameEngineLevel::GetMainCameraComponent()
 {
 	return mainCamera_->GetCameraComponent();
@@ -298,7 +303,6 @@ void GameEngineLevel::init()
 	mainCameraBackup_ = mainCamera_;
 	uiCamera_ = nullptr;
 	freeCamera_ = CreateActor<GameEngineCamera>("FreeCamera");
-	freeCamera_->GetCameraComponent()->SetProjectionMode(ProjectionMode::Perspective);
 
 	static bool a = false;
 

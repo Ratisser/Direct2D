@@ -192,6 +192,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DevilPhaseTwo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineLevelControlWindow.cpp" />
     <ClCompile Include="Map.cpp">
       <SubType>
@@ -295,6 +299,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DevilMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DevilPhaseTwo.h">
       <SubType>
       </SubType>
     </ClInclude>

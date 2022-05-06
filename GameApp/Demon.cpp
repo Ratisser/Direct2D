@@ -125,6 +125,8 @@ void Demon::startAttack(float _deltaTime)
 	// 갔던 곳에서 다시 오기 때문에 반대로 뒤집어준다.
 	bLeft_ = !bLeft_;
 
+	bodyCollision_->SetLocationX(40.f * (-1 * static_cast<int>(bLeft_)));
+
 	timeCounter_ = 0.0f;
 }
 

@@ -14,6 +14,9 @@ public:
 	Map& operator=(Map&& _Other) noexcept = delete;
 
 public:
+	static Map* GetCurrentMap() { return currentMap; }
+
+public:
 	virtual void Start() override;
 
 public:

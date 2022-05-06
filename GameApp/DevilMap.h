@@ -23,6 +23,7 @@ public:
 public:
 	void HallFrontLayerOn();
 	void HallFrontLayerOff();
+	void ChangeCollisionPhaseTwo();
 
 
 private:

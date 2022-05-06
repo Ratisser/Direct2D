@@ -43,6 +43,7 @@ public:
 	bool IsFreeCamera();
 
 	GameEngineCamera* GetMainCameraActor();
+	GameEngineCamera* GetFreeCameraActor();
 	GameEngineCameraComponent* GetMainCameraComponent();
 
 	std::list<GameEngineCollision*>& GetCollisionGroup(int _group);

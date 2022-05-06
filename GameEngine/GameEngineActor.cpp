@@ -92,7 +92,7 @@ void GameEngineActor::Release(float _delay)
 		}
 		Death();
 	}
-	else
+	else if (!bDestroyed_)
 	{
 		bDestroyed_ = true;
 		aliveTime_ = _delay;

@@ -103,6 +103,10 @@ private:
 	const float4 RIGHT_ARM_LOCATION = float4(1542.f, -600.f);
 	const float4 CENTER_ARM_LOCATION = float4(721.f, -600.f);
 
+	const float4 PHASE_TWO_HOLE_LOCATION = float4(778, -660.f);
+	
+	const float PHASE_TWO_HOLE_OFFSET = 80.f;
+
 	const float HIT_EFFECT_TIME = 0.034f;
 	const float DEMON_SPAWN_DELAY = 5.0f;
 

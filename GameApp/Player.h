@@ -9,11 +9,11 @@ class GameEngineRenderer;
 class Player : public GameEngineActor
 {
 public:
-	Player(); 
+	Player();
 	~Player();
 
-	Player(const Player& _other) = delete; 
-	Player(Player&& _other) = delete; 
+	Player(const Player& _other) = delete;
+	Player(Player&& _other) = delete;
 
 	Player& operator=(const Player& _other) = delete;
 	Player& operator=(const Player&& _other) = delete;
@@ -23,11 +23,16 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 public:
-	std::string& GetNormalState();
-	std::string& GetParentState();
+	std::string GetNormalState();
+	std::string GetParentState();
 
 	void Damage();
 	void ParryJump();
+
+	void SetStateNormal();
+	void SetStateCinematic();
+
+	void SetCineState(const std::string& _cinematicStateName);
 
 private:
 	void initRendererAndAnimation();
@@ -38,7 +43,7 @@ private:
 	void addGravity(float _deltaTime);
 
 private:
-	// PlayerState
+// Player state can controlled by other objects
 #pragma region PlayerState
 	void startNormalState(float _deltaTime);
 	void updateNormalState(float _deltaTime);
@@ -49,6 +54,11 @@ private:
 	void startDamagedState(float _deltaTime);
 	void updateDamagedState(float _deltaTime);
 
+	void startCinematicState(float _deltaTime);
+	void updateCinematicState(float _deltaTime);
+#pragma endregion 
+
+#pragma region PlayerNormalState
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
@@ -63,7 +73,7 @@ private:
 
 	void startDamaged(float _deltaTime);
 	void updateDamaged(float _deltaTime);
-	
+
 	void startDash(float _deltaTime);
 	void updateDash(float _deltaTime);
 
@@ -93,7 +103,18 @@ private:
 
 	void startParry(float _deltaTime);
 	void updateParry(float _deltaTime);
+#pragma endregion
 
+// Cinematic state can controlled by other objects
+#pragma region PlayerCinematicState
+	void startCinematicIdle(float _deltaTime);
+	void updateCinematicIdle(float _deltaTime);
+
+	void startScared(float _deltaTime);
+	void updateScared(float _deltaTime);
+
+	void startDevilPhaseOneEndFalling(float _deltaTime);
+	void updateDevilPhaseOneEndFalling(float _deltaTime);
 #pragma endregion
 
 private:
@@ -124,6 +145,7 @@ private:
 private:
 	GameEngineFSM state_;
 	GameEngineFSM normalState_;
+	GameEngineFSM cinematicState_;
 	GameEngineImageRenderer* renderer_;
 	GameEngineImageRenderer* fireStartRenderer_;
 	GameEngineCollision* collider_;
@@ -157,5 +179,7 @@ private:
 	float shootDelay_;
 	float invincibleTime_;
 	float blinkTime_;
+
+	float timeCounter_;
 };
 

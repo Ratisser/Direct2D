@@ -71,3 +71,16 @@ GameEngineFSM::State::State(const std::string& _stateName, std::function<void(fl
 	, end_(_end)
 {
 }
+
+
+std::string GameEngineFSM::GetCurrentStateName()
+{
+	if (nullptr == currentState_)
+	{
+		return std::string();
+	}
+	else
+	{
+		return currentState_->stateName_;
+	}
+}

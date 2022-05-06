@@ -14,6 +14,9 @@
 #include "eOrbType.h"
 #include "Demon.h"
 
+#include "Player.h"
+#include "DevilMap.h"
+
 Devil::Devil()
 	: devilRenderer_(nullptr)
 	, skeleton_(nullptr)
@@ -344,6 +347,17 @@ void Devil::updateIntro(float _deltaTime)
 		if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
 		{
 			state_ << "Idle";
+
+			DevilLevel* level = dynamic_cast<DevilLevel*>(level_);
+			if (nullptr == level)
+			{
+				GameEngineDebug::MsgBoxError("Down Casting failed");
+				return;
+			}
+
+			Player* player = level->GetPlayer();
+			player->SetStateNormal();
+
 			transform_->AddLocation(61.f, 0.0f);
 			return;
 		}
@@ -772,21 +786,71 @@ void Devil::startPhaseTwo(float _deltaTime)
 	holefront_->ChangeAnimation("HoleFront");
 	holefront_->SetLocationZ(-3.f);
 	holefront_->Off();
+
+	DevilMap* map = dynamic_cast<DevilMap*>(Map::GetCurrentMap());
+
+	assert(nullptr != map);
+
+	map->HallFrontLayerOn();
+
+	timeCounter_ = 0.0f;
 }
 
 void Devil::updatePhaseTwo(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
 	if (skeleton_->GetCurrentAnimation()->IsEnd_)
 	{
 		skeleton_->ChangeAnimation("HoleBack");
 		holefront_->On();
 		skeleton_->SetLocationX(0.0f);
-		return;
 	}
 
 	if (devilRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		skeleton_->On();
+	}
+
+	if (timeCounter_ > 3.0f)
+	{
+		DevilLevel* level = dynamic_cast<DevilLevel*>(level_);
+		if (nullptr == level)
+		{
+			GameEngineDebug::MsgBoxError("Down Casting failed");
+			return;
+		}
+
+		Player* player = level->GetPlayer();
+
+		if (nullptr == player)
+		{
+			GameEngineDebug::MsgBoxError("Player is nullptr");
+			return;
+		}
+
+		float4 playerWorldLocation = player->GetTransform()->GetWorldLocation();
+
+		if (playerWorldLocation.x > PHASE_TWO_HOLE_LOCATION.x - PHASE_TWO_HOLE_OFFSET
+			&& playerWorldLocation.x < PHASE_TWO_HOLE_LOCATION.x + PHASE_TWO_HOLE_OFFSET)
+		{
+			DevilMap* map = dynamic_cast<DevilMap*>(Map::GetCurrentMap());
+
+			assert(nullptr != map);
+
+			map->ChangeCollisionPhaseTwo();
+
+			//player->SetStateCinematic();
+			//player->SetCineState("DevilPhaseOneEndFalling");
+
+			static bool bTemp = true;
+			if (bTemp)
+			{
+				level->ChangeStateEnterPhaseTwo();
+				bTemp = false;
+			}
+
+			Release(5.0f);
+		}
 	}
 }
 

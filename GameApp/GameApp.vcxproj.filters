@@ -77,6 +77,9 @@
     <ClCompile Include="Demon.cpp">
       <Filter>01.GameObject\03.Level\DevilLevel</Filter>
     </ClCompile>
+    <ClCompile Include="DevilPhaseTwo.cpp">
+      <Filter>01.GameObject\03.Level\DevilLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -211,6 +214,9 @@
       <Filter>00.GameApp\01.UserCore\Window</Filter>
     </ClInclude>
     <ClInclude Include="Demon.h">
+      <Filter>01.GameObject\03.Level\DevilLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="DevilPhaseTwo.h">
       <Filter>01.GameObject\03.Level\DevilLevel</Filter>
     </ClInclude>
   </ItemGroup>

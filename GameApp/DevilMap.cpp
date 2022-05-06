@@ -73,3 +73,12 @@ void DevilMap::HallFrontLayerOff()
 {
 	hallFrontLayer_->Off();
 }
+
+void DevilMap::ChangeCollisionPhaseTwo()
+{
+	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
+	ImageRenderer->SetTexture("BossDevil_Phase2PixelCheck.png", true);
+	float4 textureSize = ImageRenderer->GetCurrentTexture()->GetTextureSize();
+	ImageRenderer->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 3.f);
+	ImageRenderer->Off();
+}

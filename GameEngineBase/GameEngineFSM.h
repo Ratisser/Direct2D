@@ -35,7 +35,7 @@ public:
 
 	void Update(float _deltaTime);
 
-	inline std::string& GetCurrentStateName() { return currentState_->stateName_; }
+	std::string GetCurrentStateName();
 
 private:
 	std::map<std::string, GameEngineFSM::State*> allState_;

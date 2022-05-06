@@ -44,6 +44,7 @@ Player::Player()
 	, bulletSpawnLocation_(nullptr)
 	, bulletDirection_(float4::RIGHT)
 	, bulletRotation_(float4::ZERO)
+	, timeCounter_(0.0f)
 {
 
 }
@@ -71,6 +72,11 @@ void Player::Start()
 void Player::Update(float _deltaTime)
 {
 	state_.Update(_deltaTime);
+
+	if (state_.GetCurrentStateName() == "CinematicState")
+	{
+		return;
+	}
 
 	//GameEngineDebug::OutPutDebugString(normalState_.GetCurrentStateName() + "\n");
 
@@ -133,12 +139,12 @@ void Player::Update(float _deltaTime)
 	}
 }
 
-std::string& Player::GetNormalState()
+std::string Player::GetNormalState()
 {
 	return normalState_.GetCurrentStateName();
 }
 
-std::string& Player::GetParentState()
+std::string Player::GetParentState()
 {
 	return state_.GetCurrentStateName();
 }
@@ -154,6 +160,21 @@ void Player::ParryJump()
 {
 	bGround_ = true;
 	normalState_ << "Jump";
+}
+
+void Player::SetStateNormal()
+{
+	state_ << "NormalState";
+}
+
+void Player::SetStateCinematic()
+{
+	state_ << "CinematicState";
+}
+
+void Player::SetCineState(const std::string& _cinematicStateName)
+{
+	cinematicState_ << _cinematicStateName;
 }
 
 void Player::initRendererAndAnimation()
@@ -202,6 +223,8 @@ void Player::initRendererAndAnimation()
 	renderer_->CreateAnimationFolder("Duck_Shoot");
 
 	renderer_->CreateAnimationFolder("Hit_Ground", 0.05f, false);
+
+	renderer_->CreateAnimationFolder("Scared", 0.034f, false);
 
 	renderer_->ChangeAnimation("Idle");
 
@@ -294,6 +317,7 @@ void Player::initState()
 	state_.CreateState("NormalState", std::bind(&Player::startNormalState, this, std::placeholders::_1), std::bind(&Player::updateNormalState, this, std::placeholders::_1));
 	state_.CreateState("ShootState", std::bind(&Player::startShootState, this, std::placeholders::_1), std::bind(&Player::updateShootState, this, std::placeholders::_1));
 	state_.CreateState("DamagedState", std::bind(&Player::startDamagedState, this, std::placeholders::_1), std::bind(&Player::updateDamagedState, this, std::placeholders::_1));
+	state_.CreateState("CinematicState", std::bind(&Player::startCinematicState, this, std::placeholders::_1), std::bind(&Player::updateCinematicState, this, std::placeholders::_1));
 
 	normalState_.CreateState("Idle", std::bind(&Player::startIdle, this, std::placeholders::_1), std::bind(&Player::updateIdle, this, std::placeholders::_1));
 	normalState_.CreateState("Run", std::bind(&Player::startRun, this, std::placeholders::_1), std::bind(&Player::updateRun, this, std::placeholders::_1));
@@ -310,6 +334,9 @@ void Player::initState()
 	normalState_.CreateState("ShootWhileDucking", std::bind(&Player::startShootWhileDucking, this, std::placeholders::_1), std::bind(&Player::updateShootWhileDucking, this, std::placeholders::_1));
 	normalState_.CreateState("ShootWhileRunning", std::bind(&Player::startShootWhileRunning, this, std::placeholders::_1), std::bind(&Player::updateShootWhileRunning, this, std::placeholders::_1));
 	normalState_.CreateState("Parry", std::bind(&Player::startParry, this, std::placeholders::_1), std::bind(&Player::updateParry, this, std::placeholders::_1));
+
+	cinematicState_.CreateState("DevilPhaseOneEndFalling", std::bind(&Player::startDevilPhaseOneEndFalling, this, std::placeholders::_1), std::bind(&Player::updateDevilPhaseOneEndFalling, this, std::placeholders::_1));
+	cinematicState_.CreateState("Scared", std::bind(&Player::startScared, this, std::placeholders::_1), std::bind(&Player::updateScared, this, std::placeholders::_1));
 
 	normalState_.ChangeState("Idle");
 	state_.ChangeState("NormalState");
@@ -453,6 +480,16 @@ void Player::updateDamagedState(float _deltaTime)
 		state_ << "NormalState";
 		return;
 	}
+}
+
+void Player::startCinematicState(float _deltaTime)
+{
+
+}
+
+void Player::updateCinematicState(float _deltaTime)
+{
+	cinematicState_.Update(_deltaTime);
 }
 
 void Player::startIdle(float _deltaTime)
@@ -1819,5 +1856,48 @@ void Player::updateParry(float _deltaTime)
 			transform_->AddLocation(MOVE_SPEED * _deltaTime, 0.0f);
 		}
 		bLeft_ = false;
+	}
+}
+
+void Player::startCinematicIdle(float _deltaTime)
+{
+	renderer_->ChangeAnimation("Idle", true);
+}
+
+void Player::updateCinematicIdle(float _deltaTime)
+{
+}
+
+void Player::startScared(float _deltaTime)
+{
+	renderer_->ChangeAnimation("Scared", true);
+}
+
+void Player::updateScared(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		renderer_->ChangeAnimation("Idle", true);
+	}
+}
+
+void Player::startDevilPhaseOneEndFalling(float _deltaTime)
+{
+	renderer_->ChangeAnimation("Air");
+}
+
+void Player::updateDevilPhaseOneEndFalling(float _deltaTime)
+{
+	timeCounter_ += _deltaTime;
+
+	if (timeCounter_ < 2.0f)
+	{
+		transform_->AddLocation(0.0f, -1000.f * _deltaTime);
+	}
+	else
+	{
+		transform_->SetLocationY(-4000.f);
+		state_ << "NormalState";
+		normalState_ << "Idle";
 	}
 }

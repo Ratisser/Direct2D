@@ -60,6 +60,18 @@ void GameEngineLevelControlWindow::OnGUI()
 	ImGui::Text("World Mouse X, Y : %d, %d", mousePos.ix() + cameraPos.ix(), mousePos.iy() + cameraPos.iy());
 	ImGui::NextColumn();
 
+	{
+		GameEngineCameraComponent* camera = GameEngineCore::currentLevel_->GetFreeCameraActor()->GetCameraComponent();
+		float4 cameraPos = float4::ZERO;
+
+		if (nullptr != camera)
+		{
+			cameraPos = camera->GetWorldLocation();
+		}
+		ImGui::Text("World Mouse by FC X, Y : %d, %d", mousePos.ix() + cameraPos.ix(), mousePos.iy() + cameraPos.iy());
+		ImGui::NextColumn();
+	}
+
 	ImGui::Text("LevelSelect");
 	ImGui::NextColumn();
 
