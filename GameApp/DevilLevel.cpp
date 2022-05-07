@@ -61,6 +61,8 @@ void DevilLevel::LevelStart()
 
 	mainCamera_->GetTransform()->SetLocation(640.f, -360.f, -320.f);
 	mainCamera_->GetCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);
+
+	GameEngineInput::GetInstance().CreateKey("L", 'L');
 }
 
 void DevilLevel::LevelUpdate(float _deltaTime)
@@ -85,6 +87,15 @@ void DevilLevel::LevelUpdate(float _deltaTime)
 		float cameraY = random.RandomFloat(0.0f, cameraShakeIntensity_) - cameraShakeIntensity_ * 0.5f;
 		mainCameraBackup_->GetCameraComponent()->SetLocationX(cameraX);
 		mainCameraBackup_->GetCameraComponent()->SetLocationY(cameraY);
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyDown("L"))
+	{
+		devil_->Release();
+		player_->GetTransform()->SetLocationY(-4200.f);
+		player_->SetStateNormal();
+		dynamic_cast<DevilMap*>(Map::GetCurrentMap())->ChangeCollisionPhaseTwo();
+		levelState_ << "PhaseTwo";
 	}
 }
 
@@ -143,7 +154,7 @@ void DevilLevel::startPhaseTwo(float _deltaTime)
 	// TODO : play devil laugh
 
 	devilPhaseTwo_ = CreateActor<DevilPhaseTwo>("DevilPhaseTwo");
-	devilPhaseTwo_->GetTransform()->SetLocation(731.f, PHASE_TWO_BOTTOM, 1.0f);
+	devilPhaseTwo_->GetTransform()->SetLocation(731.f, PHASE_TWO_BOTTOM + 80.f, 1.0f);
 
 }
 

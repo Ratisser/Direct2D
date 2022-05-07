@@ -6,6 +6,8 @@
 DevilPhaseTwo::DevilPhaseTwo()
 	: neckRenderer_(nullptr)
 	, headRenderer_(nullptr)
+	, neckTransform_(nullptr)
+	, headTransform_(nullptr)
 {
 
 }
@@ -39,15 +41,23 @@ void DevilPhaseTwo::initInput()
 
 void DevilPhaseTwo::initTransform()
 {
+	neckTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
+	neckTransform_->SetLocationX(30.f);
+	neckTransform_->SetLocationY(-100.f);
+	neckTransform_->SetLocationZ(0.01f);
+	neckTransform_->SetScale(0.8f);
+	
+	headTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
+	headTransform_->SetScale(0.7f);
 }
 
 void DevilPhaseTwo::initRendererAndAnimation()
 {
-	neckRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
-	neckRenderer_->CreateAnimationFolder("DevilNeck");
+	neckRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(neckTransform_);
+	neckRenderer_->CreateAnimationFolder("DevilNeck", 0.1f);
 	neckRenderer_->ChangeAnimation("DevilNeck");
 
-	headRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	headRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(headTransform_);
 	headRenderer_->CreateAnimationFolder("DevilPhase2Idle", 0.034f, true);
 
 	headRenderer_->ChangeAnimation("DevilPhase2Idle");

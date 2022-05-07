@@ -768,7 +768,8 @@ void Devil::updateSummonOrbEnd(float _deltaTime)
 void Devil::startPhaseTwo(float _deltaTime)
 {
 	devilRenderer_->ChangeAnimation("Phase1Death", true);
-	transform_->SetLocation(750.f, -680.f, 0.5f);
+	transform_->SetLocationX(750.f);
+	transform_->SetLocationY(-680.f);
 	headCollision_->Off();
 	timeCounter_ = 0.0f;
 

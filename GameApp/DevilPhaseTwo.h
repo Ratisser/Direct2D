@@ -43,5 +43,8 @@ private:
 
 	GameEngineImageRenderer* neckRenderer_;
 	GameEngineImageRenderer* headRenderer_;
+
+	GameEngineTransformComponent* neckTransform_;
+	GameEngineTransformComponent* headTransform_;
 };
 
