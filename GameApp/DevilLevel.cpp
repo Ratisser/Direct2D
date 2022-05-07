@@ -11,6 +11,7 @@
 #include "Devil.h"
 #include "Demon.h"
 #include "DevilPhaseTwo.h"
+#include "DevilPlatform.h"
 
 DevilLevel::DevilLevel()
 	: player_(nullptr)
@@ -95,6 +96,7 @@ void DevilLevel::LevelUpdate(float _deltaTime)
 		player_->GetTransform()->SetLocationY(-4200.f);
 		player_->SetStateNormal();
 		dynamic_cast<DevilMap*>(Map::GetCurrentMap())->ChangeCollisionPhaseTwo();
+		createActorPhaseTwo();
 		levelState_ << "PhaseTwo";
 	}
 }
@@ -108,6 +110,20 @@ void DevilLevel::CameraShake(float _ShakeTime, float _intensity)
 void DevilLevel::ChangeStateEnterPhaseTwo()
 {
 	levelState_ << "EnterPhaseTwo";
+}
+
+void DevilLevel::createActorPhaseTwo()
+{
+	devilPhaseTwo_ = CreateActor<DevilPhaseTwo>("DevilPhaseTwo");
+	devilPhaseTwo_->GetTransform()->SetLocation(731.f, PHASE_TWO_BOTTOM + 80.f, 1.0f);
+
+	for (int i = 0; i < 5; i++)
+	{
+		DevilPlatform* newDevilPlatform = CreateActor<DevilPlatform>();
+		newDevilPlatform->GetTransform()->SetLocation(200.f + 267.f * i, -4400.f, 0.2f);
+		newDevilPlatform->GetTransform()->SetScale(0.8f);
+		newDevilPlatform->SetPlatformAppearance(i);
+	}
 }
 
 void DevilLevel::startPhaseOne(float _detaTime)
@@ -131,6 +147,8 @@ void DevilLevel::startEnterPhaseTwo(float _deltaTime)
 	PhaseTwoCamEndLocation_ = { mainCamera_->GetTransform()->GetWorldLocation().x, PHASE_TWO_BOTTOM_CAMERA };
 
 	timeCounter_ = 0;
+
+	createActorPhaseTwo();
 }
 
 void DevilLevel::updateEnterPhaseTwo(float _deltaTime)
@@ -153,8 +171,7 @@ void DevilLevel::startPhaseTwo(float _deltaTime)
 {
 	// TODO : play devil laugh
 
-	devilPhaseTwo_ = CreateActor<DevilPhaseTwo>("DevilPhaseTwo");
-	devilPhaseTwo_->GetTransform()->SetLocation(731.f, PHASE_TWO_BOTTOM + 80.f, 1.0f);
+
 
 }
 

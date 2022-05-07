@@ -31,6 +31,7 @@ public:
 	void ChangeStateEnterPhaseTwo();
 
 private:
+	void createActorPhaseTwo();
 
 #pragma region LevelState
 	void startPhaseOne(float _detaTime);

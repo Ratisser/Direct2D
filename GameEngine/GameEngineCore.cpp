@@ -213,6 +213,10 @@ void GameEngineCore::MainLoop()
 
 
 	float deltaTime = GameEngineTime::GetInst().GetDeltaTime();
+	if (deltaTime > 0.0166666f)
+	{
+		deltaTime = 0.0166666f;
+	}
 
 	currentLevel_->LevelUpdate(deltaTime);
 	currentLevel_->ActorUpdate(deltaTime);

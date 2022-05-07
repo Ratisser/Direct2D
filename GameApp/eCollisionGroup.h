@@ -10,5 +10,6 @@ enum class eCollisionGroup
 	ParryMonster,
 	Location,
 	PlayerBullet,
-	MonsterProjectile
+	MonsterProjectile,
+	Platform
 };

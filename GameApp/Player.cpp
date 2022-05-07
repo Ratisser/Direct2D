@@ -344,7 +344,8 @@ void Player::initState()
 
 void Player::addGravity(float _deltaTime)
 {
-	if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_))
+	if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_)
+		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bGround_ = false;
 		gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
@@ -359,13 +360,12 @@ void Player::addGravity(float _deltaTime)
 		transform_->SetLocationY(static_cast<float>(static_cast<int>(transform_->GetLocation().y)));
 	}
 
-	while (float4::BLACK == Map::GetColor(bottomCenterCollision_) || float4::BLUE == Map::GetColor(bottomCenterCollision_))
+	while (float4::BLACK == Map::GetColor(bottomCenterCollision_) || float4::BLUE == Map::GetColor(bottomCenterCollision_)
+		||  nullptr != bottomCenterCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		transform_->AddLocation(0.0f, 1.0f);
-		float4 location = transform_->GetLocation();
-		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
-
-		transform_->UpdateTransform();
+		//float4 location = transform_->GetWorldLocation();
+		//transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
 	}
 }
 
@@ -514,7 +514,8 @@ void Player::updateIdle(float _deltaTime)
 {
 	addGravity(_deltaTime);
 
-	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
+	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_)
+		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bGround_ = false;
 		normalState_ << "Jump";
@@ -663,7 +664,8 @@ void Player::updateRun(float _deltaTime)
 		return;
 	}
 
-	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
+	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_)
+		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bGround_ = false;
 		normalState_ << "Jump";
@@ -753,13 +755,14 @@ void Player::updateJump(float _deltaTime)
 	}
 	else
 	{
-		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_))
+		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_)
+			&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 		{
 			bGround_ = false;
 			transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
 			gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
 		}
-		else
+		else if (gravitySpeed_ < 0.0f)
 		{
 			bGround_ = true;
 			bCanJump_ = true;
@@ -883,7 +886,8 @@ void Player::updateDownJump(float _deltaTime)
 		return;
 	}
 
-	if (float4::BLUE != Map::GetColor(groundCheckCollision_))
+	if (float4::BLUE != Map::GetColor(groundCheckCollision_)
+		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bDownJump_ = false;
 	}
@@ -895,7 +899,8 @@ void Player::updateDownJump(float _deltaTime)
 	}
 	else
 	{
-		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_))
+		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_)
+			&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 		{
 			bGround_ = false;
 			transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
@@ -986,7 +991,8 @@ void Player::updateDuck(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		if (float4::BLUE == Map::GetColor(groundCheckCollision_))
+		if (float4::BLUE == Map::GetColor(groundCheckCollision_)
+			|| nullptr != groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 		{
 			bGround_ = false;
 			normalState_ << "DownJump";
@@ -1025,7 +1031,8 @@ void Player::updateDuckIdle(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		if (float4::BLUE == Map::GetColor(groundCheckCollision_))
+		if (float4::BLUE == Map::GetColor(groundCheckCollision_)
+			|| nullptr != groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 		{
 			bGround_ = false;
 			normalState_ << "DownJump";
@@ -1118,7 +1125,8 @@ void Player::startShoot(float _deltaTime)
 void Player::updateShoot(float _deltaTime)
 {
 	addGravity(_deltaTime);
-	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
+	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_)
+		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bGround_ = false;
 		normalState_ << "Jump";
@@ -1496,7 +1504,8 @@ void Player::updateShootWhileDucking(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		if (float4::BLUE == Map::GetColor(groundCheckCollision_))
+		if (float4::BLUE == Map::GetColor(groundCheckCollision_)
+			|| nullptr != groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 		{
 			bGround_ = false;
 			normalState_ << "DownJump";
@@ -1643,7 +1652,8 @@ void Player::updateShootWhileRunning(float _deltaTime)
 		return;
 	}
 
-	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_))
+	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_)
+		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bGround_ = false;
 		normalState_ << "Jump";
@@ -1747,7 +1757,8 @@ void Player::updateParry(float _deltaTime)
 	}
 	else
 	{
-		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_))
+		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_)
+			&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 		{
 			bGround_ = false;
 			transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
