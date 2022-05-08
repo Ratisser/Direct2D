@@ -260,13 +260,13 @@ void Player::initCollision()
 
 	bottomCenterCollision_ = CreateTransformComponent<GameEngineCollision>(transform_);
 	bottomCenterCollision_->SetCollisionType(eCollisionType::Rect);
-	bottomCenterCollision_->SetLocation(0.0f, 5.0f, 0.0f);
+	bottomCenterCollision_->SetLocation(0.0f, 3.0f, 0.0f);
 	//bottomCenterCollision_->SetScale(2.0f);
 
 	groundCheckCollision_ = CreateTransformComponent<GameEngineCollision>(transform_);
 	groundCheckCollision_->SetCollisionType(eCollisionType::Rect);
-	groundCheckCollision_->SetLocation(0.0f, 4.0f, 0.0f);
-	//groundCheckCollision_->SetScale(2.0f);
+	groundCheckCollision_->SetLocation(0.0f, 0.0f, 0.0f);
+	groundCheckCollision_->SetScale(2.0f);
 
 	leftSideCollision_ = CreateTransformComponent<GameEngineCollision>(transform_);
 	leftSideCollision_->SetCollisionType(eCollisionType::Rect);
@@ -361,11 +361,11 @@ void Player::addGravity(float _deltaTime)
 	}
 
 	while (float4::BLACK == Map::GetColor(bottomCenterCollision_) || float4::BLUE == Map::GetColor(bottomCenterCollision_)
-		||  nullptr != bottomCenterCollision_->IsCollideOne(eCollisionGroup::Platform))
+		|| nullptr != bottomCenterCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
-		transform_->AddLocation(0.0f, 1.0f);
-		//float4 location = transform_->GetWorldLocation();
-		//transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
+		transform_->AddLocation(0.0f, 0.5f);
+		float4 location = transform_->GetWorldLocation();
+		transform_->SetLocation(static_cast<float>(location.ix()), static_cast<float>(location.iy()));
 	}
 }
 
@@ -514,7 +514,7 @@ void Player::updateIdle(float _deltaTime)
 {
 	addGravity(_deltaTime);
 
-	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_)
+	if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_)
 		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bGround_ = false;
@@ -755,21 +755,46 @@ void Player::updateJump(float _deltaTime)
 	}
 	else
 	{
-		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_)
-			&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+		if (gravitySpeed_ <= 0.0f)
+		{
+			if (float4::BLACK == Map::GetColor(groundCheckCollision_) || float4::BLUE == Map::GetColor(groundCheckCollision_)
+				|| nullptr != groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+			{
+				gravitySpeed_ = 0.0f;
+				bGround_ = true;
+				bCanJump_ = true;
+				bCanDash_ = true;
+				normalState_ << "Idle";
+			}
+			else
+			{
+				bGround_ = false;
+				transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
+				gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
+			}
+		}
+		else
 		{
 			bGround_ = false;
 			transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
 			gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
 		}
-		else if (gravitySpeed_ < 0.0f)
-		{
-			bGround_ = true;
-			bCanJump_ = true;
-			bCanDash_ = true;
-			normalState_ << "Idle";
-			return;
-		}
+
+		//if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_)
+		//	&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+		//{
+		//	bGround_ = false;
+		//	transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
+		//	gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
+		//}
+		//else if ()
+		//{
+		//	bGround_ = true;
+		//	bCanJump_ = true;
+		//	bCanDash_ = true;
+		//	normalState_ << "Idle";
+		//	return;
+		//}
 	}
 
 	// ÃÑ¾Ë ½î´Â ¹æÇâ
@@ -1757,20 +1782,29 @@ void Player::updateParry(float _deltaTime)
 	}
 	else
 	{
-		if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_)
-			&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+		if (gravitySpeed_ <= 0.0f)
+		{
+			if (float4::BLACK == Map::GetColor(groundCheckCollision_) || float4::BLUE == Map::GetColor(groundCheckCollision_)
+				|| nullptr != groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+			{
+				gravitySpeed_ = 0.0f;
+				bGround_ = true;
+				bCanJump_ = true;
+				bCanDash_ = true;
+				normalState_ << "Idle";
+			}
+			else
+			{
+				bGround_ = false;
+				transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
+				gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
+			}
+		}
+		else
 		{
 			bGround_ = false;
 			transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
 			gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
-		}
-		else
-		{
-			bGround_ = true;
-			bCanJump_ = true;
-			bCanDash_ = true;
-			normalState_ << "Idle";
-			return;
 		}
 	}
 
