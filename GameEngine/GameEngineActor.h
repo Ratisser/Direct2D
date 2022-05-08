@@ -86,6 +86,10 @@ ComponentType* GameEngineActor::CreateComponent()
 
 	allComponents_.push_back(newComponent);
 
+#ifdef _DEBUG
+	GameEngineDebug::OutPutDebugString("Create component\n");
+#endif // _DEBUG
+
 	return dynamic_cast<ComponentType*>(newComponent);
 }
 
@@ -99,6 +103,11 @@ ComponentType* GameEngineActor::CreateTransformComponent()
 	newComponent->Start();
 
 	allTransformComponents_.push_back(newComponent);
+
+#ifdef _DEBUG
+	GameEngineDebug::OutPutDebugString("Create transformcomponent\n");
+#endif // _DEBUG
+
 	return dynamic_cast<ComponentType*>(newComponent);
 }
 
@@ -112,6 +121,11 @@ ComponentType* GameEngineActor::CreateTransformComponent(GameEngineTransformComp
 	newComponent->Start();
 
 	allTransformComponents_.push_back(newComponent);
+
+#ifdef _DEBUG
+	GameEngineDebug::OutPutDebugString("Create transformcomponent has parent\n");
+#endif // _DEBUG
+
 	return dynamic_cast<ComponentType*>(newComponent);
 }
 

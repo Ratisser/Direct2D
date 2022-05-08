@@ -110,6 +110,12 @@ ActorType* GameEngineLevel::CreateActor(int _updateOrder)
 	newActor->Start();
 
 	allActors_[_updateOrder].push_back(newActor);
+
+#ifdef _DEBUG
+	GameEngineDebug::OutPutDebugString("Create Actor unnamed\n");
+#endif // _DEBUG
+
+
 	return dynamic_cast<ActorType*>(newActor);
 }
 
@@ -123,5 +129,10 @@ ActorType* GameEngineLevel::CreateActor(const std::string& _name, int _updateOrd
 	newActor->Start();
 
 	allActors_[_updateOrder].push_back(newActor);
+
+#ifdef _DEBUG
+	GameEngineDebug::OutPutDebugString("Create Actor " + _name + "\n");
+#endif // _DEBUG
+
 	return dynamic_cast<ActorType*>(newActor);
 }
