@@ -10,6 +10,7 @@
 
 #include "DevilLevel.h"
 #include "Devil.h"
+#include "Player.h"
 
 GameEngineLevelControlWindow::GameEngineLevelControlWindow()
 	: volume_(50.f)
@@ -31,6 +32,8 @@ void GameEngineLevelControlWindow::AddText(const std::string& _str)
 
 void GameEngineLevelControlWindow::OnGUI()
 {
+	ImGui::SetWindowSize({ 370.f, 500.f });
+
 	static float Acc = 0.0f;
 	
 	Acc += GameEngineTime::GetInst().GetDeltaTime();
@@ -115,8 +118,23 @@ void GameEngineLevelControlWindow::OnGUI()
 		DevilLevel* devilLevel = dynamic_cast<DevilLevel*>(GameEngineCore::currentLevel_);
 		if (nullptr != devilLevel)
 		{
-			ImGui::Text("Devil HP : %d", devilLevel->GetDevil()->GetHP());
-			ImGui::NextColumn();
+			Devil* devil = devilLevel->GetDevil();
+			if (devil != nullptr)
+			{
+				ImGui::Text("Devil HP : %d", devil->GetHP());
+				ImGui::NextColumn();
+			}
+
+			Player* player = dynamic_cast<Player*>(devilLevel->GetPlayer());
+			
+			if (nullptr != player)
+			{
+				ImGui::Text("PlayerState : ");
+				ImGui::SameLine();
+				ImGui::Text(player->GetNormalState().c_str());
+				ImGui::NextColumn();
+			}
+
 		}
 	}
 

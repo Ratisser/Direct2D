@@ -51,7 +51,7 @@ private:
 
 
 private:
-	Player * player_;
+	Player* player_;
 	Devil* devil_;
 	DevilPhaseTwo* devilPhaseTwo_;
 

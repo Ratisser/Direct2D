@@ -92,7 +92,6 @@ void DevilLevel::LevelUpdate(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("L"))
 	{
-		devil_->Release();
 		player_->GetTransform()->SetLocationY(-4200.f);
 		player_->SetStateNormal();
 		dynamic_cast<DevilMap*>(Map::GetCurrentMap())->ChangeCollisionPhaseTwo();
@@ -172,7 +171,8 @@ void DevilLevel::startPhaseTwo(float _deltaTime)
 	// TODO : play devil laugh
 
 
-
+	devil_->Release();
+	devil_ = nullptr;
 }
 
 void DevilLevel::updatePhaseTwo(float _deltaTime)

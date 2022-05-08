@@ -5,6 +5,7 @@
 
 DevilMap::DevilMap()
 	: hallFrontLayer_(nullptr)
+	, chairLayer_(nullptr)
 {
 
 }
@@ -34,10 +35,10 @@ void DevilMap::Start()
 
 	// chair layer
 	{
-		GameEngineImageRenderer* mapObjects = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
-		mapObjects->SetTexture("BossDevil_Phase1BackgroundChair.png", true);
-		float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
-		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 1.5f);
+		chairLayer_ = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
+		chairLayer_->SetTexture("BossDevil_Phase1BackgroundChair.png", true);
+		float4 textureSize = chairLayer_->GetCurrentTexture()->GetTextureSize();
+		chairLayer_->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 1.5f);
 	}
 
 	// hall front layer
@@ -81,4 +82,5 @@ void DevilMap::ChangeCollisionPhaseTwo()
 	float4 textureSize = ImageRenderer->GetCurrentTexture()->GetTextureSize();
 	ImageRenderer->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 3.f);
 	ImageRenderer->Off();
+	chairLayer_->Off();
 }

@@ -22,15 +22,15 @@ void DevilPlatform::Start()
 	collision_ = CreateTransformComponent<GameEngineCollision>();
 	collision_->SetCollisionGroup(eCollisionGroup::Platform);
 	collision_->SetCollisionType(eCollisionType::Rect);
-	collision_->SetScale(240.f, 50.f);
+	collision_->SetScale(230.f, 50.f);
 	collision_->SetLocationY(80.f);
 	
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
-	renderer_->CreateAnimationFolder("DevilPlatform0");
-	renderer_->CreateAnimationFolder("DevilPlatform1");
-	renderer_->CreateAnimationFolder("DevilPlatform2");
-	renderer_->CreateAnimationFolder("DevilPlatform3");
-	renderer_->CreateAnimationFolder("DevilPlatform4");
+	renderer_->CreateAnimationFolder("DevilPlatform0", 0.067f);
+	renderer_->CreateAnimationFolder("DevilPlatform1", 0.067f);
+	renderer_->CreateAnimationFolder("DevilPlatform2", 0.067f);
+	renderer_->CreateAnimationFolder("DevilPlatform3", 0.067f);
+	renderer_->CreateAnimationFolder("DevilPlatform4", 0.067f);
 	renderer_->ChangeAnimation("DevilPlatform0");
 
 	state_.CreateState("Idle", std::bind(&DevilPlatform::startIdle, this, std::placeholders::_1), std::bind(&DevilPlatform::updateIdle, this, std::placeholders::_1));

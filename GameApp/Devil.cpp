@@ -838,19 +838,18 @@ void Devil::updatePhaseTwo(float _deltaTime)
 
 			assert(nullptr != map);
 
-			map->ChangeCollisionPhaseTwo();
-
-			//player->SetStateCinematic();
-			//player->SetCineState("DevilPhaseOneEndFalling");
-
 			static bool bTemp = true;
 			if (bTemp)
 			{
+				map->ChangeCollisionPhaseTwo();
 				level->ChangeStateEnterPhaseTwo();
 				bTemp = false;
 			}
 
-			Release(5.0f);
+			if (timeCounter_ > 5.0f)
+			{
+				map->HallFrontLayerOff();
+			}
 		}
 	}
 }

@@ -28,5 +28,6 @@ public:
 
 private:
 	GameEngineImageRenderer* hallFrontLayer_;
+	GameEngineImageRenderer* chairLayer_;
 };
 

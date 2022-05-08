@@ -48,7 +48,7 @@ void DevilPhaseTwo::initTransform()
 	neckTransform_->SetScale(0.8f);
 	
 	headTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
-	headTransform_->SetScale(0.7f);
+	headTransform_->SetScale(0.75f);
 }
 
 void DevilPhaseTwo::initRendererAndAnimation()
