@@ -317,6 +317,7 @@ void Player::initState()
 	state_.CreateState("NormalState", std::bind(&Player::startNormalState, this, std::placeholders::_1), std::bind(&Player::updateNormalState, this, std::placeholders::_1));
 	state_.CreateState("ShootState", std::bind(&Player::startShootState, this, std::placeholders::_1), std::bind(&Player::updateShootState, this, std::placeholders::_1));
 	state_.CreateState("DamagedState", std::bind(&Player::startDamagedState, this, std::placeholders::_1), std::bind(&Player::updateDamagedState, this, std::placeholders::_1));
+	state_.CreateState("FallDamagedState", std::bind(&Player::startFallDamagedState, this, std::placeholders::_1), std::bind(&Player::updateFallDamagedState, this, std::placeholders::_1));
 	state_.CreateState("CinematicState", std::bind(&Player::startCinematicState, this, std::placeholders::_1), std::bind(&Player::updateCinematicState, this, std::placeholders::_1));
 
 	normalState_.CreateState("Idle", std::bind(&Player::startIdle, this, std::placeholders::_1), std::bind(&Player::updateIdle, this, std::placeholders::_1));
@@ -397,6 +398,21 @@ void Player::updateNormalState(float _deltaTime)
 		}
 	}
 
+	if (float4::RED == Map::GetColor(groundCheckCollision_))
+	{
+		if (bInvincible_)
+		{
+			bGround_ = true;
+			normalState_ << "Jump";
+		}
+		else
+		{
+			normalState_ << "Idle";
+			state_ << "FallDamagedState";
+			return;
+		}
+	}
+
 	if (GameEngineInput::GetInstance().IsKeyPress("X") && normalState_.GetCurrentStateName() != "Dash")
 	{
 		state_ << "ShootState";
@@ -435,6 +451,21 @@ void Player::updateShootState(float _deltaTime)
 		fireLoopSound_->Stop();
 		fireStartRenderer_->Off();
 		return;
+	}
+
+	if (float4::RED == Map::GetColor(groundCheckCollision_))
+	{
+		if (bInvincible_)
+		{
+			bGround_ = true;
+			normalState_ << "Jump";
+		}
+		else
+		{
+			normalState_ << "Idle";
+			state_ << "FallDamagedState";
+			return;
+		}
 	}
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Down")
@@ -478,6 +509,30 @@ void Player::updateDamagedState(float _deltaTime)
 		blinkTime_ = 0.0f;
 
 		state_ << "NormalState";
+		return;
+	}
+}
+
+void Player::startFallDamagedState(float _deltaTime)
+{
+	renderer_->ChangeAnimation("Hit_Ground");
+}
+
+void Player::updateFallDamagedState(float _deltaTime)
+{
+	transform_->AddLocation(0.0f, 850.f * _deltaTime);
+
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		bInvincible_ = true;
+		bBlink_ = false;
+		invincibleTime_ = 0.0f;
+		blinkTime_ = 0.0f;
+
+		bGround_ = true;
+
+		state_ << "NormalState";
+		normalState_ << "Jump";
 		return;
 	}
 }

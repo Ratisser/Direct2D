@@ -54,6 +54,9 @@ private:
 	void startDamagedState(float _deltaTime);
 	void updateDamagedState(float _deltaTime);
 
+	void startFallDamagedState(float _deltaTime);
+	void updateFallDamagedState(float _deltaTime);
+
 	void startCinematicState(float _deltaTime);
 	void updateCinematicState(float _deltaTime);
 #pragma endregion 

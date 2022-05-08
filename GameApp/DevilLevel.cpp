@@ -20,6 +20,7 @@ DevilLevel::DevilLevel()
 	, cameraShakeTime_(0.0f)
 	, cameraShakeIntensity_(0.0f)
 	, timeCounter_(0.0f)
+	, currentPhase_(1)
 {
 
 }
@@ -90,14 +91,19 @@ void DevilLevel::LevelUpdate(float _deltaTime)
 		mainCameraBackup_->GetCameraComponent()->SetLocationY(cameraY);
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyDown("L"))
+
+	if (currentPhase_ < 2)
 	{
-		player_->GetTransform()->SetLocationY(-4200.f);
-		player_->SetStateNormal();
-		dynamic_cast<DevilMap*>(Map::GetCurrentMap())->ChangeCollisionPhaseTwo();
-		createActorPhaseTwo();
-		levelState_ << "PhaseTwo";
+		if (GameEngineInput::GetInstance().IsKeyDown("L"))
+		{
+			player_->GetTransform()->SetLocationY(-4200.f);
+			player_->SetStateNormal();
+			dynamic_cast<DevilMap*>(Map::GetCurrentMap())->ChangeCollisionPhaseTwo();
+			createActorPhaseTwo();
+			levelState_ << "PhaseTwo";
+		}
 	}
+
 }
 
 void DevilLevel::CameraShake(float _ShakeTime, float _intensity)
@@ -114,7 +120,7 @@ void DevilLevel::ChangeStateEnterPhaseTwo()
 void DevilLevel::createActorPhaseTwo()
 {
 	devilPhaseTwo_ = CreateActor<DevilPhaseTwo>("DevilPhaseTwo");
-	devilPhaseTwo_->GetTransform()->SetLocation(731.f, PHASE_TWO_BOTTOM + 80.f, 1.0f);
+	devilPhaseTwo_->GetTransform()->SetLocation(731.f, PHASE_TWO_BOTTOM, 1.0f);
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -169,7 +175,7 @@ void DevilLevel::updateEnterPhaseTwo(float _deltaTime)
 void DevilLevel::startPhaseTwo(float _deltaTime)
 {
 	// TODO : play devil laugh
-
+	currentPhase_ = 2;
 
 	devil_->Release();
 	devil_ = nullptr;

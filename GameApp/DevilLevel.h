@@ -66,5 +66,7 @@ private:
 	float timeCounter_;
 
 	std::unique_ptr<GameEngineSoundPlayer> bgmPlayer_;
+
+	int currentPhase_;
 };
 

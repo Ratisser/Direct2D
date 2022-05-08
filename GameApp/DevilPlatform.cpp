@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "DevilPlatform.h"
 
+#include <GameEngineBase\GameEngineRandom.h>
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineCollision.h>
 
@@ -52,10 +53,30 @@ void DevilPlatform::SetPlatformAppearance(int _num)
 
 void DevilPlatform::startIdle(float _deltaTime)
 {
+	timeCounter_ = 0.0f;
 }
 
 void DevilPlatform::updateIdle(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+
+	if (timeCounter_ > ACTION_COOLTIME)
+	{
+		GameEngineRandom random;
+		eAction action = static_cast<eAction>(random.RandomInt(0, eAction::MAX_COUNT - 1));
+
+		switch (action)
+		{
+		case DevilPlatform::MOVE:
+			break;
+		case DevilPlatform::STAY:
+			break;
+		case DevilPlatform::REVERT:
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void DevilPlatform::startMove(float _deltaTime)
@@ -63,6 +84,14 @@ void DevilPlatform::startMove(float _deltaTime)
 }
 
 void DevilPlatform::updateMove(float _deltaTime)
+{
+}
+
+void DevilPlatform::startRevertMove(float _deltaTime)
+{
+}
+
+void DevilPlatform::updateRevertMove(float _deltaTime)
 {
 }
 

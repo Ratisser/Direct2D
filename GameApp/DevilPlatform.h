@@ -23,6 +23,8 @@ public:
 	// Appearance range : 0 ~ 4
 	void SetPlatformAppearance(int _num);
 
+	void SetMoveable(bool _bMoveable) { bMoveable_ = _bMoveable; }
+
 
 private:
 	void startIdle(float _deltaTime);
@@ -31,8 +33,17 @@ private:
 	void startMove(float _deltaTime);
 	void updateMove(float _deltaTime);
 
+	void startRevertMove(float _deltaTime);
+	void updateRevertMove(float _deltaTime);
+
 	void startFall(float _deltaTime);
 	void updateFall(float _deltaTime);
+
+private:
+	enum eAction { MOVE, STAY, REVERT, MAX_COUNT };
+
+private:
+	const float ACTION_COOLTIME = 3.0f;
 
 private:
 	GameEngineFSM state_;
@@ -41,5 +52,10 @@ private:
 	GameEngineCollision* collision_;
 
 	float timeCounter_;
+
+	float4 moveStartPosition_;
+	float4 moveEndPosition_;
+
+	bool bMoveable_;
 };
 
