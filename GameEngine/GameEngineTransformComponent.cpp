@@ -150,6 +150,62 @@ void GameEngineTransformComponent::AddLocation(const float4& _location)
 	UpdateTransform();
 }
 
+void GameEngineTransformComponent::SetWorldLocation(const float4& _location)
+{
+	if (nullptr != parent_)
+	{
+		location_ = _location - parent_->GetWorldLocation();
+	}
+	else
+	{
+		location_ = _location;
+	}
+
+	UpdateTransform();
+}
+
+void GameEngineTransformComponent::SetWorldLocation(float _x, float _y, float _z)
+{
+	if (nullptr != parent_)
+	{
+		float4 parentLocation = parent_->GetWorldLocation();
+		location_.x = _x - parentLocation.x;
+		location_.y = _y - parentLocation.y;
+		location_.z = _z - parentLocation.z;
+		location_.w = 1.0f;
+	}
+	else
+	{
+		location_.x = _x;
+		location_.y = _y;
+		location_.z = _z;
+		location_.w = 1.0f;
+	}
+
+
+	UpdateTransform();
+}
+
+void GameEngineTransformComponent::SetWorldLocationXY(float _x, float _y)
+{
+	if (nullptr != parent_)
+	{
+		float4 parentLocation = parent_->GetWorldLocation();
+		location_.x = _x - parentLocation.x;
+		location_.y = _y - parentLocation.y;
+		location_.w = 1.0f;
+	}
+	else
+	{
+		location_.x = _x;
+		location_.y = _y;
+		location_.w = 1.0f;
+	}
+
+
+	UpdateTransform();
+}
+
 float4 GameEngineTransformComponent::GetScale() const
 {
 	return scale_;

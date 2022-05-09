@@ -50,6 +50,9 @@ public:
 	inline void SetLocationY(float _y) { location_.y = _y; }
 	inline void SetLocationZ(float _z) { location_.z = _z; }
 
+	void SetWorldLocation(const float4& _location);
+	void SetWorldLocation(float _x, float _y, float _z = 0.0f);
+	void SetWorldLocationXY(float _x, float _y);
 
 	float4 GetScale() const;
 	float4 GetRotation() const;
