@@ -26,6 +26,7 @@ Player::Player()
 	, bGround_(false)
 	, bottomCenterCollision_(nullptr)
 	, groundCheckCollision_(nullptr)
+	, fallCheckCollision_(nullptr)
 	, headCollision_(nullptr)
 	, leftSideCollision_(nullptr)
 	, rightSideCollision_(nullptr)
@@ -267,6 +268,11 @@ void Player::initCollision()
 	groundCheckCollision_->SetCollisionType(eCollisionType::Rect);
 	groundCheckCollision_->SetLocation(0.0f, 0.0f, 0.0f);
 	groundCheckCollision_->SetScale(2.0f);
+
+	fallCheckCollision_ = CreateTransformComponent<GameEngineCollision>(transform_);
+	fallCheckCollision_->SetCollisionType(eCollisionType::Rect);
+	fallCheckCollision_->SetLocation(0.0f, -10.0f, 0.0f);
+	fallCheckCollision_->SetScale(2.0f);
 
 	leftSideCollision_ = CreateTransformComponent<GameEngineCollision>(transform_);
 	leftSideCollision_->SetCollisionType(eCollisionType::Rect);
@@ -569,8 +575,8 @@ void Player::updateIdle(float _deltaTime)
 {
 	addGravity(_deltaTime);
 
-	if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_)
-		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+	if (float4::BLACK != Map::GetColor(fallCheckCollision_) && float4::BLUE != Map::GetColor(fallCheckCollision_)
+		&& nullptr == fallCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bGround_ = false;
 		normalState_ << "Jump";
@@ -719,8 +725,8 @@ void Player::updateRun(float _deltaTime)
 		return;
 	}
 
-	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_)
-		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+	if (float4::BLACK != Map::GetColor(fallCheckCollision_) && float4::BLUE != Map::GetColor(fallCheckCollision_)
+		&& nullptr == fallCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bGround_ = false;
 		normalState_ << "Jump";
@@ -812,8 +818,8 @@ void Player::updateJump(float _deltaTime)
 	{
 		if (gravitySpeed_ <= 0.0f)
 		{
-			if (float4::BLACK == Map::GetColor(groundCheckCollision_) || float4::BLUE == Map::GetColor(groundCheckCollision_)
-				|| nullptr != groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+			if (float4::BLACK == Map::GetColor(bottomCenterCollision_) || float4::BLUE == Map::GetColor(bottomCenterCollision_)
+				|| nullptr != bottomCenterCollision_->IsCollideOne(eCollisionGroup::Platform))
 			{
 				gravitySpeed_ = 0.0f;
 				bGround_ = true;
@@ -1205,8 +1211,8 @@ void Player::startShoot(float _deltaTime)
 void Player::updateShoot(float _deltaTime)
 {
 	addGravity(_deltaTime);
-	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_)
-		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+	if (float4::BLACK != Map::GetColor(fallCheckCollision_) && float4::BLUE != Map::GetColor(fallCheckCollision_)
+		&& nullptr == fallCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bGround_ = false;
 		normalState_ << "Jump";
@@ -1732,8 +1738,8 @@ void Player::updateShootWhileRunning(float _deltaTime)
 		return;
 	}
 
-	if (float4::BLACK != Map::GetColor(transform_) && float4::BLUE != Map::GetColor(transform_)
-		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+	if (float4::BLACK != Map::GetColor(fallCheckCollision_) && float4::BLUE != Map::GetColor(fallCheckCollision_)
+		&& nullptr == fallCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
 		bGround_ = false;
 		normalState_ << "Jump";

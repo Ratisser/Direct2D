@@ -155,6 +155,7 @@ private:
 
 	GameEngineCollision* bottomCenterCollision_;
 	GameEngineCollision* groundCheckCollision_;
+	GameEngineCollision* fallCheckCollision_;
 	GameEngineCollision* leftSideCollision_;
 	GameEngineCollision* rightSideCollision_;
 	GameEngineCollision* headCollision_;
