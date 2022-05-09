@@ -8,6 +8,8 @@
 DevilPlatform::DevilPlatform()
 	: renderer_(nullptr)
 	, collision_(nullptr)
+	, rootTransform_(nullptr)
+	, bMoveable_(true)
 	, timeCounter_(0.0f)
 {
 
@@ -20,13 +22,15 @@ DevilPlatform::~DevilPlatform()
 
 void DevilPlatform::Start()
 {
-	collision_ = CreateTransformComponent<GameEngineCollision>();
+	rootTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
+
+	collision_ = CreateTransformComponent<GameEngineCollision>(rootTransform_);
 	collision_->SetCollisionGroup(eCollisionGroup::Platform);
 	collision_->SetCollisionType(eCollisionType::Rect);
 	collision_->SetScale(230.f, 50.f);
 	collision_->SetLocationY(80.f);
 	
-	renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(rootTransform_);
 	renderer_->CreateAnimationFolder("DevilPlatform0", 0.067f);
 	renderer_->CreateAnimationFolder("DevilPlatform1", 0.067f);
 	renderer_->CreateAnimationFolder("DevilPlatform2", 0.067f);
@@ -35,6 +39,9 @@ void DevilPlatform::Start()
 	renderer_->ChangeAnimation("DevilPlatform0");
 
 	state_.CreateState("Idle", std::bind(&DevilPlatform::startIdle, this, std::placeholders::_1), std::bind(&DevilPlatform::updateIdle, this, std::placeholders::_1));
+	state_.CreateState("Move", std::bind(&DevilPlatform::startMove, this, std::placeholders::_1), std::bind(&DevilPlatform::updateMove, this, std::placeholders::_1));
+	state_.CreateState("RevertMove", std::bind(&DevilPlatform::startRevertMove, this, std::placeholders::_1), std::bind(&DevilPlatform::updateRevertMove, this, std::placeholders::_1));
+	state_.CreateState("Fall", std::bind(&DevilPlatform::startFall, this, std::placeholders::_1), std::bind(&DevilPlatform::updateFall, this, std::placeholders::_1));
 
 	state_.ChangeState("Idle");
 }
@@ -47,8 +54,18 @@ void DevilPlatform::Update(float _deltaTime)
 void DevilPlatform::SetPlatformAppearance(int _num)
 {
 	_num = _num % 5;
+	assert(_num >= 0 && _num < 5);
 
 	renderer_->ChangeAnimation("DevilPlatform" + std::to_string(_num));
+}
+
+void DevilPlatform::SetMoveable(bool _bMoveable) 
+{
+	bMoveable_ = _bMoveable;
+	if (!bMoveable_)
+	{
+		state_ << "RevertMove";
+	}
 }
 
 void DevilPlatform::startIdle(float _deltaTime)
@@ -58,6 +75,11 @@ void DevilPlatform::startIdle(float _deltaTime)
 
 void DevilPlatform::updateIdle(float _deltaTime)
 {
+	if (!bMoveable_)
+	{
+		return;
+	}
+
 	timeCounter_ += _deltaTime;
 
 	if (timeCounter_ > ACTION_COOLTIME)
@@ -68,10 +90,13 @@ void DevilPlatform::updateIdle(float _deltaTime)
 		switch (action)
 		{
 		case DevilPlatform::MOVE:
+			state_ << "Move";
 			break;
 		case DevilPlatform::STAY:
+			timeCounter_ = 0.0f;
 			break;
 		case DevilPlatform::REVERT:
+			state_ << "RevertMove";
 			break;
 		default:
 			break;
@@ -81,25 +106,60 @@ void DevilPlatform::updateIdle(float _deltaTime)
 
 void DevilPlatform::startMove(float _deltaTime)
 {
+	moveStartPosition_ = rootTransform_->GetLocation();
+	moveEndPosition_ = moveStartPosition_;
+
+	GameEngineRandom random;
+	moveEndPosition_.y = random.RandomFloat(0.0f, MAX_MOVE_HEIGHT);
+
+	timeCounter_ = 0.0f;
 }
 
 void DevilPlatform::updateMove(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+
+	rootTransform_->SetLocation(GameEngineMath::Lerp(moveStartPosition_, moveEndPosition_, timeCounter_, MOVE_DELAY));
+
+	if (timeCounter_ > MOVE_DELAY)
+	{
+		state_ << "Idle";
+	}
 }
 
 void DevilPlatform::startRevertMove(float _deltaTime)
 {
+	moveStartPosition_ = rootTransform_->GetLocation();
+	moveEndPosition_ = float4(0.0f, 0.0f);
+
+	timeCounter_ = 0.0f;
 }
 
 void DevilPlatform::updateRevertMove(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+
+	rootTransform_->SetLocation(GameEngineMath::Lerp(moveStartPosition_, moveEndPosition_, timeCounter_, MOVE_DELAY));
+
+	if (timeCounter_ > MOVE_DELAY)
+	{
+		state_ << "Idle";
+	}
 }
 
 void DevilPlatform::startFall(float _deltaTime)
 {
+	timeCounter_ = 0.0f;
 }
 
 void DevilPlatform::updateFall(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+
+	transform_->AddLocation(0.0f, 200.f * _deltaTime);
+	if (timeCounter_ > 5.0f)
+	{
+		Release();
+	}
 }
 

@@ -23,7 +23,7 @@ public:
 	// Appearance range : 0 ~ 4
 	void SetPlatformAppearance(int _num);
 
-	void SetMoveable(bool _bMoveable) { bMoveable_ = _bMoveable; }
+	void SetMoveable(bool _bMoveable);
 
 
 private:
@@ -44,10 +44,13 @@ private:
 
 private:
 	const float ACTION_COOLTIME = 3.0f;
+	const float MAX_MOVE_HEIGHT = 300.f;
+	const float MOVE_DELAY = 1.0f;
 
 private:
 	GameEngineFSM state_;
 
+	GameEngineTransformComponent* rootTransform_;
 	GameEngineImageRenderer* renderer_;
 	GameEngineCollision* collision_;
 
