@@ -35,6 +35,7 @@ private:
 #pragma region State
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
+
 #pragma endregion
 
 
@@ -46,5 +47,7 @@ private:
 
 	GameEngineTransformComponent* neckTransform_;
 	GameEngineTransformComponent* headTransform_;
+
+	float timeCounter_;
 };
 

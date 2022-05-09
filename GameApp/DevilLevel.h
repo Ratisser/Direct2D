@@ -7,6 +7,7 @@
 class Player;
 class Devil;
 class DevilPhaseTwo;
+class DevilPlatform;
 class DevilLevel : public GameEngineLevel
 {
 public:
@@ -53,12 +54,14 @@ private:
 private:
 	Player* player_;
 	Devil* devil_;
-	DevilPhaseTwo* devilPhaseTwo_;
+
 
 	GameEngineFSM levelState_;
 
+	DevilPhaseTwo* devilPhaseTwo_;
 	float4 PhaseTwoCamStartLocation_;
 	float4 PhaseTwoCamEndLocation_;
+	std::vector<DevilPlatform*> platforms_;
 
 	float cameraShakeTime_;
 	float cameraShakeIntensity_;

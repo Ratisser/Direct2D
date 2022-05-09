@@ -40,7 +40,7 @@ private:
 	void updateFall(float _deltaTime);
 
 private:
-	enum eAction { MOVE, STAY, REVERT, MAX_COUNT };
+	enum eAction { MOVE, STAY, REVERT, CHIP, MAX_COUNT };
 
 private:
 	const float ACTION_COOLTIME = 2.0f;

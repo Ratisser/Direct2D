@@ -184,6 +184,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DevilChip.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="DevilChipPiece.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="DevilLevel.cpp">
       <SubType>
       </SubType>
@@ -295,6 +303,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Devil.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DevilChip.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DevilChipPiece.h">
       <SubType>
       </SubType>
     </ClInclude>

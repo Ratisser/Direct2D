@@ -8,6 +8,7 @@ DevilPhaseTwo::DevilPhaseTwo()
 	, headRenderer_(nullptr)
 	, neckTransform_(nullptr)
 	, headTransform_(nullptr)
+	, timeCounter_(0.0f)
 {
 
 }

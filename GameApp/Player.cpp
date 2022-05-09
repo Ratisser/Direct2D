@@ -1793,6 +1793,7 @@ void Player::updateParry(float _deltaTime)
 		{
 			parryObject->SetParryable(false);
 			parryObject->Parry();
+			GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_parry_slap_01.wav");
 			bGround_ = true;
 			normalState_ << "Jump";
 			return;
@@ -1807,6 +1808,7 @@ void Player::updateParry(float _deltaTime)
 		{
 			parryObject->SetParryable(false);
 			parryObject->Parry();
+			GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_parry_slap_01.wav");
 			bGround_ = true;
 			normalState_ << "Jump";
 			return;

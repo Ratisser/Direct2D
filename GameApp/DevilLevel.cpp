@@ -128,6 +128,7 @@ void DevilLevel::createActorPhaseTwo()
 		newDevilPlatform->GetTransform()->SetLocation(200.f + 267.f * i, -4400.f, 0.2f);
 		newDevilPlatform->GetTransform()->SetScale(0.8f);
 		newDevilPlatform->SetPlatformAppearance(i);
+		platforms_.push_back(newDevilPlatform);
 	}
 }
 
@@ -176,6 +177,8 @@ void DevilLevel::startPhaseTwo(float _deltaTime)
 {
 	// TODO : play devil laugh
 	currentPhase_ = 2;
+	bgmPlayer_->Stop();
+	bgmPlayer_->ChangeSound("MUS_DevilPhase3.wav");
 
 	devil_->Release();
 	devil_ = nullptr;

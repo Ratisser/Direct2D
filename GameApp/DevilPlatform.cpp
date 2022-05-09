@@ -4,6 +4,9 @@
 #include <GameEngineBase\GameEngineRandom.h>
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineCollision.h>
+#include <GameEngine\GameEngineLevel.h>
+
+#include "DevilChip.h"
 
 DevilPlatform::DevilPlatform()
 	: renderer_(nullptr)
@@ -97,6 +100,16 @@ void DevilPlatform::updateIdle(float _deltaTime)
 			break;
 		case DevilPlatform::REVERT:
 			state_ << "RevertMove";
+			break;
+		case DevilPlatform::CHIP:
+		{
+			if (false == DevilChip::IsFalling())
+			{
+				DevilChip* chip = level_->CreateActor<DevilChip>();
+				chip->GetTransform()->SetLocation(transform_->GetWorldLocation() + float4(0.0f, 1000.f, -0.1f));
+				DevilChip::FallStart();
+			}
+		}
 			break;
 		default:
 			break;
