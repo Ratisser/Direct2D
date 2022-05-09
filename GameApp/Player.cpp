@@ -354,7 +354,6 @@ void Player::addGravity(float _deltaTime)
 	if (float4::BLACK != Map::GetColor(groundCheckCollision_) && float4::BLUE != Map::GetColor(groundCheckCollision_)
 		&& nullptr == groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 	{
-		bGround_ = false;
 		gravitySpeed_ -= GRAVITY_POWER * _deltaTime;
 		transform_->AddLocation(0.0f, gravitySpeed_ * _deltaTime);
 	}
@@ -761,7 +760,6 @@ void Player::startJump(float _deltaTime)
 		bCanJump_ = true;
 		jumpTime_ = 0.2f;
 		gravitySpeed_ = JUMP_POWER;
-		transform_->AddLocation(0.0f, 10.0f);
 	}
 	else
 	{
