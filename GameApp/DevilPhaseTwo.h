@@ -75,6 +75,8 @@ private:
 	GameEngineTransformComponent* neckTransform_;
 	GameEngineTransformComponent* headTransform_;
 
+	float4 BombBatSpawnLocation_;
+
 	float timeCounter_;
 
 	bool bLeft_;

@@ -55,7 +55,7 @@ void DevilLevel::LevelStart()
 	player_ = CreateActor<Player>("Player");
 	player_->GetTransform()->SetLocation(400.f, -660.f);
 	player_->SetStateCinematic();
-	player_->SetCineState("Scared");
+	player_->SetCineState("ScaredWait");
 
 	CreateActor<DevilMap>("DevilMap");
 
@@ -175,7 +175,8 @@ void DevilLevel::updateEnterPhaseTwo(float _deltaTime)
 
 void DevilLevel::startPhaseTwo(float _deltaTime)
 {
-	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_sitting_devil_ram_morph_start.wav");
+	player_->SetStateCinematic();
+	player_->SetCineState("Scared");
 
 	currentPhase_ = 2;
 	bgmPlayer_->Stop();

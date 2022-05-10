@@ -141,13 +141,15 @@ void DevilPhaseTwo::updateIdle(float _deltaTime)
 		GameEngineRandom random;
 
 		eAttackStatePhase2 asp2 = static_cast<eAttackStatePhase2>(random.RandomInt(0, static_cast<int>(eAttackStatePhase2::MAX_COUNT) - 1));
+		asp2 = eAttackStatePhase2::BOMB;
+
 		switch (asp2)
 		{
 		case eAttackStatePhase2::AXE:
 			state_ << "SpiralAttack";
 			break;
 		case eAttackStatePhase2::BOMB:
-			//state_ << "Bomb";
+			state_ << "BombAttack";
 			break;
 		default:
 			break;
@@ -212,8 +214,17 @@ void DevilPhaseTwo::startBombAttack(float _deltaTime)
 {
 	GameEngineRandom random;
 	bLeft_ = static_cast<bool>(random.RandomInt(0, 1));
+
+	headRenderer_->ChangeAnimation("BombAttack");
+
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_head_devil_bomb_attack.wav");
 }
 
 void DevilPhaseTwo::updateBombAttack(float _deltaTime)
 {
+	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "Idle";
+		return;
+	}
 }

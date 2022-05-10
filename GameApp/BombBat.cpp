@@ -34,6 +34,7 @@ void BombBat::Initialize(bool _bLeft)
 
 void BombBat::startSummon(float _deltaTime)
 {
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_head_devil_bomb_appear.wav");
 }
 
 void BombBat::updateSummon(float _deltaTime)

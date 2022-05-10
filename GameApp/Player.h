@@ -116,6 +116,9 @@ private:
 	void startScared(float _deltaTime);
 	void updateScared(float _deltaTime);
 
+	void startScaredWait(float _deltaTime);
+	void updateScaredWait(float _deltaTime);
+
 	void startDevilPhaseOneEndFalling(float _deltaTime);
 	void updateDevilPhaseOneEndFalling(float _deltaTime);
 #pragma endregion

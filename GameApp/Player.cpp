@@ -344,6 +344,7 @@ void Player::initState()
 
 	cinematicState_.CreateState("DevilPhaseOneEndFalling", std::bind(&Player::startDevilPhaseOneEndFalling, this, std::placeholders::_1), std::bind(&Player::updateDevilPhaseOneEndFalling, this, std::placeholders::_1));
 	cinematicState_.CreateState("Scared", std::bind(&Player::startScared, this, std::placeholders::_1), std::bind(&Player::updateScared, this, std::placeholders::_1));
+	cinematicState_.CreateState("ScaredWait", std::bind(&Player::startScaredWait, this, std::placeholders::_1), std::bind(&Player::updateScaredWait, this, std::placeholders::_1));
 
 	normalState_.ChangeState("Idle");
 	state_.ChangeState("NormalState");
@@ -2000,6 +2001,21 @@ void Player::startScared(float _deltaTime)
 }
 
 void Player::updateScared(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "NormalState";
+		return;
+	}
+}
+
+void Player::startScaredWait(float _deltaTime)
+{
+	renderer_->ChangeAnimation("Scared", true);
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_intro_scared.wav");
+}
+
+void Player::updateScaredWait(float _deltaTime)
 {
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
