@@ -141,7 +141,7 @@ void DevilPhaseTwo::updateIdle(float _deltaTime)
 		GameEngineRandom random;
 
 		eAttackStatePhase2 asp2 = static_cast<eAttackStatePhase2>(random.RandomInt(0, static_cast<int>(eAttackStatePhase2::MAX_COUNT) - 1));
-		asp2 = eAttackStatePhase2::BOMB;
+		//asp2 = eAttackStatePhase2::BOMB;
 
 		switch (asp2)
 		{
