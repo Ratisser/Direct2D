@@ -225,7 +225,7 @@ void Player::initRendererAndAnimation()
 
 	renderer_->CreateAnimationFolder("Hit_Ground", 0.05f, false);
 
-	renderer_->CreateAnimationFolder("Scared", 0.067f, false);
+	renderer_->CreateAnimationFolder("Scared", 0.034f, false);
 
 	renderer_->ChangeAnimation("Idle");
 

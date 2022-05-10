@@ -352,7 +352,7 @@ void Devil::startIntro(float _deltaTime)
 	GameEngineSoundPlayer player("sfx_level_devil_sitting_devil_intro_pupils.wav");
 	player.Play();
 	player.SetVolume(0.7f);
-	player.SetPosition(1000);
+	player.SetPosition(900);
 }
 
 void Devil::updateIntro(float _deltaTime)
@@ -678,6 +678,9 @@ void Devil::startSummonOrbIntro(float _deltaTime)
 	devilRenderer_->SetLocationX(-35.f);
 	transform_->AddLocation(0.0f, 10.f);
 	headTransform_->AddLocation(0.0f, -20.f);
+
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_sitting_devil_trident_attack_01.wav");
+	GameEngineSoundManager::GetInstance().PlaySoundByName("devil_projectile_attack_generic_start.wav");
 }
 
 void Devil::updateSummonOrbIntro(float _deltaTime)
@@ -691,6 +694,10 @@ void Devil::updateSummonOrbIntro(float _deltaTime)
 
 void Devil::startSummonOrbCasting(float _deltaTime)
 {
+	GameEngineSoundPlayer player("sfx_level_devil_sitting_devil_trident_head.wav");
+	player.Play();
+	player.SetVolume(0.7f);
+
 	devilCastingHeadRenderer_->On();
 	devilCastingHeadRenderer_->ChangeAnimation("CreateOrbsHead", true);
 
@@ -774,6 +781,8 @@ void Devil::startSummonOrb(float _deltaTime)
 {
 	devilCastingHeadRenderer_->Off();
 	tridentRenderer_->Off();
+
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_sitting_devil_trident_end.wav");
 }
 
 void Devil::updateSummonOrb(float _deltaTIme)
@@ -907,7 +916,7 @@ void Devil::startSpiderFallFromSky(float _deltaTime)
 	spiderFallToFloorDest_ = { spiderX, -700.f, 0.1f };
 	spiderFlyToSkyDest_ = { spiderX, 0.0f, 0.1f };
 
-	int soundNumber = random.RandomInt(1, 3);
+	int soundNumber = random.RandomInt(1, 6);
 	std::string soundName = "devil_spider_fall_00" + std::to_string(soundNumber) + ".wav";
 	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 

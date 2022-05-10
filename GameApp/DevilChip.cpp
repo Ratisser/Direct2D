@@ -31,7 +31,7 @@ void DevilChip::Start()
 
 	GameEngineTransformComponent* tc = CreateTransformComponent<GameEngineTransformComponent>();
 	tc->SetLocationY(20.f);
-	tc->SetLocationZ(-0.01f);
+	tc->SetLocationZ(-0.02f);
 
 	GameEngineImageRenderer* effect = CreateTransformComponent<GameEngineImageRenderer>(tc);
 	effect->CreateAnimationFolder("BurningChip");
