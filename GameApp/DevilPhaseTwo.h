@@ -64,7 +64,7 @@ private:
 	enum class eAttackStatePhase3 { IMP, FAT_DEMON, MAX_COUNT};
 
 private:
-	const float ACTION_DELAY = 3.0f;
+	const float ACTION_DELAY = 5.0f;
 
 private:
 	GameEngineFSM state_;
@@ -78,6 +78,8 @@ private:
 	float4 BombBatSpawnLocation_;
 
 	float timeCounter_;
+
+	int prevState_;
 
 	bool bLeft_;
 };
