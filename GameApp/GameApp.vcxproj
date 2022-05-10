@@ -176,6 +176,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Appmain.cpp" />
+    <ClCompile Include="Axe.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Demon.cpp">
       <SubType>
       </SubType>
@@ -297,6 +301,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Axe.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="CustomVertex.h" />
     <ClInclude Include="Demon.h">
       <SubType>

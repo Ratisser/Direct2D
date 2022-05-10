@@ -16,6 +16,7 @@
 
 #include "Player.h"
 #include "DevilMap.h"
+#include "GameEngineLevelControlWindow.h"
 
 Devil::Devil()
 	: devilRenderer_(nullptr)
@@ -101,6 +102,12 @@ void Devil::Update(float _deltaTime)
 	{
 		Demon* demon = level_->CreateActor<Demon>("Demon");
 		demonSpawnDelay_ = 0.0f;
+	}
+
+	GameEngineLevelControlWindow* controlWindow = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineLevelControlWindow>("LevelControlWindow");
+	if (nullptr != controlWindow)
+	{
+		controlWindow->AddText("DevilPhase1 Hp : " + std::to_string(hp_));
 	}
 }
 

@@ -2,7 +2,6 @@
 #include <GameEngine\GameEngineGUI.h>
 #include <GameEngine\GameEngineRenderTarget.h>
 
-// 설명 :
 class GameEngineLevelControlWindow : public GameEngineGUIWindow
 {
 public:
@@ -14,6 +13,13 @@ public:
 	GameEngineLevelControlWindow& operator=(GameEngineLevelControlWindow&& _Other) noexcept = delete;
 
 public:
+	/* AddText 사용 예
+	GameEngineLevelControlWindow* controlWindow = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineLevelControlWindow>("LevelControlWindow");
+	if (nullptr != controlWindow)
+	{
+		controlWindow->AddText("블라블라");
+	}
+	*/
 	void AddText(const std::string& _str);
 
 protected:

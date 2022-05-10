@@ -23,8 +23,8 @@ public:
 private:
 	struct Piece
 	{
-		GameEngineTransformComponent* Transform;
-		GameEngineImageRenderer* Renderer;
+		GameEngineTransformComponent* Transform = nullptr;
+		GameEngineImageRenderer* Renderer = nullptr;
 		float4 Speed;
 	};
 

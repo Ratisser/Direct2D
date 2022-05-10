@@ -113,30 +113,30 @@ void GameEngineLevelControlWindow::OnGUI()
 	ImGui::NextColumn();
 
 
-	if (GameEngineCore::currentLevel_->GetName() == "DevilLevel")
-	{
-		DevilLevel* devilLevel = dynamic_cast<DevilLevel*>(GameEngineCore::currentLevel_);
-		if (nullptr != devilLevel)
-		{
-			Devil* devil = devilLevel->GetDevil();
-			if (devil != nullptr)
-			{
-				ImGui::Text("Devil HP : %d", devil->GetHP());
-				ImGui::NextColumn();
-			}
+	//if (GameEngineCore::currentLevel_->GetName() == "DevilLevel")
+	//{
+	//	DevilLevel* devilLevel = dynamic_cast<DevilLevel*>(GameEngineCore::currentLevel_);
+	//	if (nullptr != devilLevel)
+	//	{
+	//		Devil* devil = devilLevel->GetDevil();
+	//		if (devil != nullptr)
+	//		{
+	//			ImGui::Text("Devil HP : %d", devil->GetHP());
+	//			ImGui::NextColumn();
+	//		}
 
-			Player* player = dynamic_cast<Player*>(devilLevel->GetPlayer());
-			
-			if (nullptr != player)
-			{
-				ImGui::Text("PlayerState : ");
-				ImGui::SameLine();
-				ImGui::Text(player->GetNormalState().c_str());
-				ImGui::NextColumn();
-			}
+	//		Player* player = dynamic_cast<Player*>(devilLevel->GetPlayer());
+	//		
+	//		if (nullptr != player)
+	//		{
+	//			ImGui::Text("PlayerState : ");
+	//			ImGui::SameLine();
+	//			ImGui::Text(player->GetNormalState().c_str());
+	//			ImGui::NextColumn();
+	//		}
 
-		}
-	}
+	//	}
+	//}
 
 	for (const std::string& str : texts_)
 	{

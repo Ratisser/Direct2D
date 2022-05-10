@@ -36,21 +36,24 @@ private:
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
-	void startAxe(float _deltaTime);
-	void updateAxe(float _deltaTime);
+	void startIdlePhase3(float _deltaTime);
+	void updateIdlePhase3(float _deltaTime);
 
-	void startSummonAxe(float _deltaTime);
-	void updateSummonAxe(float _deltaTime);
+	void startSpiralAttack(float _deltaTime);
+	void updateSpiralAttack(float _deltaTime);
 
-	void startEndAxe(float _deltaTime);
-	void updateEndAxe(float _deltaTime);
+	void startSpiralAttackSummonAxe(float _deltaTime);
+	void updateSpiralAttackSummonAxe(float _deltaTime);
+
+	void startSpiralAttackEnd(float _deltaTime);
+	void updateSpiralAttackEnd(float _deltaTime);
 
 
 #pragma endregion
 
 private:
-	enum eAttackStatePhase2 { AXE, BOMB };
-	enum eAttackStatePhase3;
+	enum class eAttackStatePhase2 { AXE, BOMB, MAX_COUNT };
+	enum class eAttackStatePhase3 { IMP, FAT_DEMON, MAX_COUNT};
 
 private:
 	GameEngineFSM state_;
