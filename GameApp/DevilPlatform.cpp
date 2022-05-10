@@ -41,12 +41,13 @@ void DevilPlatform::Start()
 	renderer_->CreateAnimationFolder("DevilPlatform4", 0.067f);
 	renderer_->ChangeAnimation("DevilPlatform0");
 
+	state_.CreateState("Wait", std::bind(&DevilPlatform::startWait, this, std::placeholders::_1), std::bind(&DevilPlatform::updateWait, this, std::placeholders::_1));
 	state_.CreateState("Idle", std::bind(&DevilPlatform::startIdle, this, std::placeholders::_1), std::bind(&DevilPlatform::updateIdle, this, std::placeholders::_1));
 	state_.CreateState("Move", std::bind(&DevilPlatform::startMove, this, std::placeholders::_1), std::bind(&DevilPlatform::updateMove, this, std::placeholders::_1));
 	state_.CreateState("RevertMove", std::bind(&DevilPlatform::startRevertMove, this, std::placeholders::_1), std::bind(&DevilPlatform::updateRevertMove, this, std::placeholders::_1));
 	state_.CreateState("Fall", std::bind(&DevilPlatform::startFall, this, std::placeholders::_1), std::bind(&DevilPlatform::updateFall, this, std::placeholders::_1));
 
-	state_.ChangeState("Idle");
+	state_.ChangeState("Wait");
 }
 
 void DevilPlatform::Update(float _deltaTime)
@@ -68,6 +69,21 @@ void DevilPlatform::SetMoveable(bool _bMoveable)
 	if (!bMoveable_)
 	{
 		state_ << "RevertMove";
+	}
+}
+
+void DevilPlatform::startWait(float _deltaTime)
+{
+	timeCounter_ = 0.0f;
+}
+
+void DevilPlatform::updateWait(float _deltaTime)
+{
+	timeCounter_ += _deltaTime;
+	if (timeCounter_ > 5.0f)
+	{
+		state_ << "Idle";
+		return;
 	}
 }
 

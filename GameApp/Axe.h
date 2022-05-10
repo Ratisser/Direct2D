@@ -38,6 +38,7 @@ private:
 private:
 	const float SPIN_SPEED = 180.f;
 	const float RADIUS_SPEED = 140.f;
+	const float LIFE_TIME = 4.5f;
 
 private:
 	GameEngineFSM state_;

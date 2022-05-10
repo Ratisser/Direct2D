@@ -27,6 +27,9 @@ public:
 
 
 private:
+	void startWait(float _deltaTime);
+	void updateWait(float _deltaTime);
+
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 

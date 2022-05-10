@@ -24,6 +24,9 @@ public:
 	// MonsterBase을(를) 통해 상속됨
 	virtual void OnHit() override;
 
+public:
+	void StartIdle() { state_ << "Idle"; }
+
 private:
 	void initInput();
 	void initTransform();
@@ -33,6 +36,9 @@ private:
 
 private:
 #pragma region State
+	void startWait(float _deltaTime);
+	void updateWait(float _deltaTime);
+
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
@@ -48,6 +54,8 @@ private:
 	void startSpiralAttackEnd(float _deltaTime);
 	void updateSpiralAttackEnd(float _deltaTime);
 
+	void startBombAttack(float _deltaTime);
+	void updateBombAttack(float _deltaTime);
 
 #pragma endregion
 

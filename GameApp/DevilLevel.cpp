@@ -175,10 +175,13 @@ void DevilLevel::updateEnterPhaseTwo(float _deltaTime)
 
 void DevilLevel::startPhaseTwo(float _deltaTime)
 {
-	// TODO : play devil laugh
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_sitting_devil_ram_morph_start.wav");
+
 	currentPhase_ = 2;
 	bgmPlayer_->Stop();
 	bgmPlayer_->ChangeSound("MUS_DevilPhase3.wav");
+
+	devilPhaseTwo_->StartIdle();
 
 	devil_->Release();
 	devil_ = nullptr;

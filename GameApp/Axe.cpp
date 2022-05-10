@@ -61,7 +61,7 @@ void Axe::updateSummon(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
 	
-	if (timeCounter_ < 0.5f)
+	if (timeCounter_ < 1.0f)
 	{
 		return;
 	}
@@ -117,7 +117,7 @@ void Axe::updateAttack(float _deltaTime)
 
 	childTransform_->AddLocation(RADIUS_SPEED * _deltaTime, 0.f);
 
-	if (timeCounter_ > 5.0f)
+	if (timeCounter_ > LIFE_TIME)
 	{
 		state_ << "End";
 	}

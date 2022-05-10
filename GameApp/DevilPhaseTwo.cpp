@@ -83,9 +83,10 @@ void DevilPhaseTwo::initRendererAndAnimation()
 	neckRenderer_->ChangeAnimation("DevilNeck");
 
 	headRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(headTransform_);
-	headRenderer_->CreateAnimationFolder("DevilPhase2Idle", 0.034f, true);
+	headRenderer_->CreateAnimationFolder("DevilPhase2Idle", 0.0678f, true);
 	headRenderer_->CreateAnimationFolder("SpiralAttack", 0.034f, false);
 	headRenderer_->CreateAnimationFolder("SpiralAttackEnd", 0.034f, false);
+	headRenderer_->CreateAnimationFolder("BombAttack", 0.034f, false); // summon bomb frame 40
 
 	headRenderer_->ChangeAnimation("DevilPhase2Idle");
 }
@@ -96,13 +97,23 @@ void DevilPhaseTwo::initCollision()
 
 void DevilPhaseTwo::initState()
 {
+	state_.CreateState("Wait", std::bind(&DevilPhaseTwo::startWait, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateWait, this, std::placeholders::_1));
 	state_.CreateState("Idle", std::bind(&DevilPhaseTwo::startIdle, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateIdle, this, std::placeholders::_1));
 
 	state_.CreateState("SpiralAttack", std::bind(&DevilPhaseTwo::startSpiralAttack, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSpiralAttack, this, std::placeholders::_1));
 	state_.CreateState("SpiralAttackSummonAxe", std::bind(&DevilPhaseTwo::startSpiralAttackSummonAxe, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSpiralAttackSummonAxe, this, std::placeholders::_1));
 	state_.CreateState("SpiralAttackEnd", std::bind(&DevilPhaseTwo::startSpiralAttackEnd, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSpiralAttackEnd, this, std::placeholders::_1));
+	state_.CreateState("BombAttack", std::bind(&DevilPhaseTwo::startBombAttack, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateBombAttack, this, std::placeholders::_1));
 
-	state_ << "Idle";
+	state_ << "Wait";
+}
+
+void DevilPhaseTwo::startWait(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::updateWait(float _deltaTime)
+{
 }
 
 void DevilPhaseTwo::startIdle(float _deltaTime)
@@ -136,7 +147,7 @@ void DevilPhaseTwo::updateIdle(float _deltaTime)
 			state_ << "SpiralAttack";
 			break;
 		case eAttackStatePhase2::BOMB:
-			state_ << "Bomb";
+			//state_ << "Bomb";
 			break;
 		default:
 			break;
@@ -156,11 +167,12 @@ void DevilPhaseTwo::updateIdlePhase3(float _deltaTime)
 void DevilPhaseTwo::startSpiralAttack(float _deltaTime)
 {
 	headRenderer_->ChangeAnimation("SpiralAttack");
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_head_devil_spiral_attack.wav");
 }
 
 void DevilPhaseTwo::updateSpiralAttack(float _deltaTime)
 {
-	if (4 == headRenderer_->GetCurrentAnimation()->CurFrame_)
+	if (10 == headRenderer_->GetCurrentAnimation()->CurFrame_)
 	{
 		state_ << "SpiralAttackSummonAxe";
 		return;
@@ -194,4 +206,14 @@ void DevilPhaseTwo::updateSpiralAttackEnd(float _deltaTime)
 		state_ << "Idle";
 		return;
 	}
+}
+
+void DevilPhaseTwo::startBombAttack(float _deltaTime)
+{
+	GameEngineRandom random;
+	bLeft_ = static_cast<bool>(random.RandomInt(0, 1));
+}
+
+void DevilPhaseTwo::updateBombAttack(float _deltaTime)
+{
 }

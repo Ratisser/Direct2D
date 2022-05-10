@@ -2,9 +2,12 @@
 #include "Devil.h"
 
 #include <GameEngineBase\GameEngineRandom.h>
+#include <GameEngineBase\GameEngineSoundPlayer.h>
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineCollision.h>
 #include <GameEngine\GameEngineInput.h>
+
+
 
 #include "OrbBubble.h"
 #include "OrbDance.h"
@@ -27,6 +30,7 @@ Devil::Devil()
 	, dragonHeadRenderer_(nullptr)
 	, leftArmRenderer_(nullptr)
 	, rightArmRenderer_(nullptr)
+	, handClapSound_(nullptr)
 	, pupil_(nullptr)
 	, headCollision_(nullptr)
 	, dragonHeadCollision_(nullptr)
@@ -68,6 +72,8 @@ void Devil::Start()
 	initSpider();
 
 	SetHP(DEVIL_HP);
+
+	handClapSound_ = std::make_unique<GameEngineSoundPlayer>("sfx_level_devil_ram_hand_clap_03.wav");
 }
 
 void Devil::Update(float _deltaTime)
@@ -342,6 +348,11 @@ void Devil::startIntro(float _deltaTime)
 	devilRenderer_->ChangeAnimation("DevilIntroIdle");
 	transform_->AddLocation(-61.f, 0.0f);
 	pupil_->ChangeAnimation("PupilIntro", true);
+
+	GameEngineSoundPlayer player("sfx_level_devil_sitting_devil_intro_pupils.wav");
+	player.Play();
+	player.SetVolume(0.7f);
+	player.SetPosition(1000);
 }
 
 void Devil::updateIntro(float _deltaTime)
@@ -447,6 +458,8 @@ void Devil::startRamTransform(float _deltaTime)
 	devilRenderer_->SetLocationX(-30.f);
 	headCollision_->SetLocation(0.0f, 100.f);
 
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_sitting_devil_ram_morph_start.wav");
+
 	timeCounter_ = 0.0f;
 }
 
@@ -473,6 +486,10 @@ void Devil::updateRamAttack(float _deltaTime)
 
 	if (7 == leftArmRenderer_->GetCurrentAnimation()->CurFrame_)
 	{
+		if (false == handClapSound_->IsPlaying())
+		{
+			handClapSound_->Play();
+		}
 		DevilLevel* level = dynamic_cast<DevilLevel*>(level_);
 		if (nullptr != level)
 		{
@@ -504,6 +521,8 @@ void Devil::updateRamAttack(float _deltaTime)
 void Devil::startRamEnd(float _deltaTime)
 {
 	devilRenderer_->ChangeAnimation("RamTransformReverse");
+
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_sitting_devil_ram_morph_end.wav");
 }
 
 void Devil::updateRamEnd(float _deltaTime)
@@ -518,6 +537,10 @@ void Devil::updateRamEnd(float _deltaTime)
 void Devil::startDragonTransform(float _deltaTime)
 {
 	devilRenderer_->ChangeAnimation("DragonTransform");
+
+	GameEngineSoundPlayer player("devil_handclap_snake_001.wav");
+	player.Play();
+	player.SetPosition(1000);
 }
 
 void Devil::updateDragonTransform(float _deltaTime)
@@ -575,6 +598,7 @@ void Devil::updateDragonAttack(float _deltaTime)
 void Devil::startDragonEnd(float _deltaTime)
 {
 	devilRenderer_->ChangeAnimation("DragonTransformReverse");
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_sitting_devil_dragon_morph_end.wav");
 }
 
 void Devil::updateDragonEnd(float _deltaTime)
@@ -596,6 +620,8 @@ void Devil::startSpiderTransform(float _deltaTime)
 {
 	devilRenderer_->ChangeAnimation("SpiderTransform");
 	devilRenderer_->SetLocationX(-40.f);
+
+	GameEngineSoundManager::GetInstance().PlaySoundByName("devil_spider_head_intro.wav");
 }
 
 void Devil::updateSpiderTransform(float _deltaTime)
@@ -628,6 +654,8 @@ void Devil::updateSpiderAttack(float _deltaTime)
 void Devil::startSpiderEnd(float _deltaTime)
 {
 	devilRenderer_->ChangeAnimation("SpiderTransformReverse");
+
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_sitting_devil_spider_morph_end.wav");
 }
 
 void Devil::updateSpiderEnd(float _deltaTime)
@@ -802,6 +830,8 @@ void Devil::startPhaseTwo(float _deltaTime)
 	map->HallFrontLayerOn();
 
 	timeCounter_ = 0.0f;
+
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_sitting_devil_p1_death_start.wav");
 }
 
 void Devil::updatePhaseTwo(float _deltaTime)
@@ -877,6 +907,10 @@ void Devil::startSpiderFallFromSky(float _deltaTime)
 	spiderFallToFloorDest_ = { spiderX, -700.f, 0.1f };
 	spiderFlyToSkyDest_ = { spiderX, 0.0f, 0.1f };
 
+	int soundNumber = random.RandomInt(1, 3);
+	std::string soundName = "devil_spider_fall_00" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+
 	timeCounter_ = 0.0f;
 }
 
@@ -900,6 +934,12 @@ void Devil::updateSpiderFallFromSky(float _deltaTime)
 void Devil::startSpiderFallToFloor(float _deltaTime)
 {
 	spiderRenderer_->ChangeAnimation("SpiderHead_FallToFloor");
+
+	GameEngineRandom random;
+	int soundNumber = random.RandomInt(1, 3);
+	std::string soundName = "devil_spiderhead_hitfloor_00" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+
 	timeCounter_ = 0.0f;
 }
 
