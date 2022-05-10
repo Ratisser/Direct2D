@@ -36,8 +36,21 @@ private:
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
+	void startAxe(float _deltaTime);
+	void updateAxe(float _deltaTime);
+
+	void startSummonAxe(float _deltaTime);
+	void updateSummonAxe(float _deltaTime);
+
+	void startEndAxe(float _deltaTime);
+	void updateEndAxe(float _deltaTime);
+
+
 #pragma endregion
 
+private:
+	enum eAttackStatePhase2 { AXE, BOMB };
+	enum eAttackStatePhase3;
 
 private:
 	GameEngineFSM state_;

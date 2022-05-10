@@ -84,5 +84,41 @@ void DevilPhaseTwo::startIdle(float _deltaTime)
 
 void DevilPhaseTwo::updateIdle(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
 
+	if (timeCounter_ > 2.f)
+	{
+		if (hp_ < 0)
+		{
+			if (state_.GetCurrentStateName() != "PhaseTwo")
+			{
+				state_ << "PhaseTwo";
+			}
+			return;
+		}
+	}
+}
+
+void DevilPhaseTwo::startAxe(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::updateAxe(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::startSummonAxe(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::updateSummonAxe(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::startEndAxe(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::updateEndAxe(float _deltaTime)
+{
 }
