@@ -15,6 +15,7 @@ DevilPhaseTwo::DevilPhaseTwo()
 	, neckTransform_(nullptr)
 	, headTransform_(nullptr)
 	, timeCounter_(0.0f)
+	, bLeft_(false)
 {
 
 }
@@ -37,6 +38,15 @@ void DevilPhaseTwo::Start()
 void DevilPhaseTwo::Update(float _deltaTime)
 {
 	state_.Update(_deltaTime);
+
+	if (bLeft_)
+	{
+		headRenderer_->SetFlip(true, false);
+	}
+	else
+	{
+		headRenderer_->SetFlip(false, false);
+	}
 
 	GameEngineLevelControlWindow* controlWindow = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineLevelControlWindow>("LevelControlWindow");
 	if (nullptr != controlWindow)

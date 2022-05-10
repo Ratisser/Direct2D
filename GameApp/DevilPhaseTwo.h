@@ -65,5 +65,7 @@ private:
 	GameEngineTransformComponent* headTransform_;
 
 	float timeCounter_;
+
+	bool bLeft_;
 };
 

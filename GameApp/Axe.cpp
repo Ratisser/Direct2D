@@ -105,16 +105,19 @@ void Axe::updateSeekPlayer(float _deltaTime)
 
 void Axe::startAttack(float _deltaTime)
 {
+	timeCounter_ = 0.0f;
 }
 
 void Axe::updateAttack(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+
 	transform_->AddRotation(0.0f, 0.0f, SPIN_SPEED * GameEngineMath::DegreeToRadian * _deltaTime);
 	childTransform_->AddRotation(0.0f, 0.f, -SPIN_SPEED * GameEngineMath::DegreeToRadian * _deltaTime);
 
 	childTransform_->AddLocation(RADIUS_SPEED * _deltaTime, 0.f);
 
-	if (childTransform_->GetLocation().x > 840.f)
+	if (timeCounter_ > 5.0f)
 	{
 		state_ << "End";
 	}

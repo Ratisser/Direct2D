@@ -527,6 +527,25 @@ void Player::updateFallDamagedState(float _deltaTime)
 {
 	transform_->AddLocation(0.0f, 850.f * _deltaTime);
 
+	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+	{
+		if (float4::BLACK != Map::GetColor(leftSideCollision_))
+		{
+			transform_->AddLocation(-MOVE_SPEED * _deltaTime, 0.0f);
+		}
+
+		bLeft_ = true;
+	}
+	else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+	{
+		if (float4::BLACK != Map::GetColor(rightSideCollision_))
+		{
+			transform_->AddLocation(MOVE_SPEED * _deltaTime, 0.0f);
+		}
+
+		bLeft_ = false;
+	}
+
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		bInvincible_ = true;
