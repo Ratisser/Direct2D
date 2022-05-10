@@ -49,6 +49,7 @@ Devil::Devil()
 	, nextState_(0)
 	, prevState_(0)
 	, prevPrevState_(0)
+	, nextOrb_(0)
 {
 
 }
@@ -80,11 +81,19 @@ void Devil::Update(float _deltaTime)
 {
 	// 다음 스테이트 예약
 	GameEngineInput& input = GameEngineInput::GetInstance();
-	for (int i = 0; i < 10; i++)
+	for (int i = 1; i < 5; i++)
 	{
 		if (input.IsKeyDown(std::to_string(i)))
 		{
 			nextState_ = i;
+		}
+	}
+
+	for (int i = 5; i < 8; i++)
+	{
+		if (input.IsKeyDown(std::to_string(i)))
+		{
+			nextOrb_ = i - 4;
 		}
 	}
 
@@ -710,6 +719,11 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 	GameEngineRandom random;
 	eOrbType orbType = static_cast<eOrbType>(random.RandomInt(1, 3));
 
+	if (nextOrb_ != 0)
+	{
+		orbType = static_cast<eOrbType>(nextOrb_);
+	}
+
 	switch (orbType)
 	{
 	case eOrbType::Bubble:
@@ -766,6 +780,7 @@ void Devil::startSummonOrbCasting(float _deltaTime)
 		break;
 	}
 
+	nextOrb_ = 0;
 }
 
 void Devil::updateSummonOrbCasting(float _deltaTime)

@@ -112,7 +112,7 @@ private:
 
 	const int SPIDER_FALL_COUNT_MIN = 2;
 	const int SPIDER_FALL_COUNT_MAX = 4;
-	const int DEVIL_HP = 1;
+	const int DEVIL_HP = 100;
 
 private:
 	// Devil
@@ -154,6 +154,8 @@ private:
 	int nextState_;
 	int prevState_;
 	int prevPrevState_;
+
+	int nextOrb_;
 
 	float timeCounter_;
 

@@ -79,6 +79,10 @@ void Demon::startRun(float _deltaTime)
 
 	GameEngineRandom random;
 	bLeft_ = static_cast<bool>(random.RandomInt(0, 1));
+
+	int soundNumber = random.RandomInt(1, 2);
+	std::string soundName = "sfx_devil_imp_spawn_0" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 }
 
 void Demon::updateRun(float _deltaTime)
@@ -156,6 +160,11 @@ void Demon::startDie(float _deltaTime)
 	renderer_->ChangeAnimation("Explosion", true);
 	renderer_->SetPivot(eImagePivot::CENTER);
 	bodyCollision_->Off();
+
+	GameEngineRandom random;
+	int soundNumber = random.RandomInt(1, 4);
+	std::string soundName = "sfx_devil_imp_death_0" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 }
 
 void Demon::updateDie(float _deltaTime)

@@ -27,11 +27,12 @@ void DevilChip::Start()
 	renderer_->CreateAnimationFolder("PokerChip", 0.034f, false);
 	renderer_->CreateAnimationFolderReverse("PokerChipReverse", "PokerChip", 0.034f, false);
 	renderer_->ChangeAnimation("PokerChip");
+	renderer_->SetLocationZ(0.01f);
 	bReverse_ = false;
 
 	GameEngineTransformComponent* tc = CreateTransformComponent<GameEngineTransformComponent>();
 	tc->SetLocationY(20.f);
-	tc->SetLocationZ(-0.02f);
+	tc->SetLocationZ(-0.01f);
 
 	GameEngineImageRenderer* effect = CreateTransformComponent<GameEngineImageRenderer>(tc);
 	effect->CreateAnimationFolder("BurningChip");
