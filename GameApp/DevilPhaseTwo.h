@@ -56,6 +56,9 @@ private:
 	enum class eAttackStatePhase3 { IMP, FAT_DEMON, MAX_COUNT};
 
 private:
+	const float ACTION_DELAY = 3.0f;
+
+private:
 	GameEngineFSM state_;
 
 	GameEngineImageRenderer* neckRenderer_;
@@ -68,4 +71,3 @@ private:
 
 	bool bLeft_;
 };
-
