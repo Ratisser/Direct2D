@@ -137,6 +137,11 @@ void BombBat::updateFly(float _deltaTime)
 
 void BombBat::startExplosion(float _deltaTime)
 {
+	GameEngineRandom random;
+	int soundNumber = random.RandomInt(1, 2);
+	std::string soundName = "sfx_player_plane_shmup_bomb_explode_0" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+
 	renderer_->ChangeAnimation("BombExplosion");
 	SetParryable(false);
 	collision_->SetParent(renderer_);

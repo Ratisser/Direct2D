@@ -110,6 +110,7 @@ private:
 
 	void startParry(float _deltaTime);
 	void updateParry(float _deltaTime);
+	void endParry(float _deltaTime);
 #pragma endregion
 
 // Cinematic state can controlled by other objects

@@ -17,6 +17,7 @@
 #include "Peashot.h"
 #include "ParryObjectBase.h"
 #include <GameEngineBase\GameEngineRandom.h>
+#include <GameApp\ParryEffect.h>
 
 Player::Player()
 	: collider_(nullptr)
@@ -341,7 +342,7 @@ void Player::initState()
 	normalState_.CreateState("LockedShot", std::bind(&Player::startLockedShot, this, std::placeholders::_1), std::bind(&Player::updateLockedShot, this, std::placeholders::_1));
 	normalState_.CreateState("ShootWhileDucking", std::bind(&Player::startShootWhileDucking, this, std::placeholders::_1), std::bind(&Player::updateShootWhileDucking, this, std::placeholders::_1));
 	normalState_.CreateState("ShootWhileRunning", std::bind(&Player::startShootWhileRunning, this, std::placeholders::_1), std::bind(&Player::updateShootWhileRunning, this, std::placeholders::_1));
-	normalState_.CreateState("Parry", std::bind(&Player::startParry, this, std::placeholders::_1), std::bind(&Player::updateParry, this, std::placeholders::_1));
+	normalState_.CreateState("Parry", std::bind(&Player::startParry, this, std::placeholders::_1), std::bind(&Player::updateParry, this, std::placeholders::_1), std::bind(&Player::endParry, this, std::placeholders::_1));
 
 	cinematicState_.CreateState("DevilPhaseOneEndFalling", std::bind(&Player::startDevilPhaseOneEndFalling, this, std::placeholders::_1), std::bind(&Player::updateDevilPhaseOneEndFalling, this, std::placeholders::_1));
 	cinematicState_.CreateState("Scared", std::bind(&Player::startScared, this, std::placeholders::_1), std::bind(&Player::updateScared, this, std::placeholders::_1));
@@ -1838,6 +1839,8 @@ void Player::startParry(float _deltaTime)
 	}
 	bulletRotation_ = float4::ZERO;
 
+	collider_->SetScale(120.f);
+
 	renderer_->ChangeAnimation("Parry");
 }
 
@@ -1860,6 +1863,11 @@ void Player::updateParry(float _deltaTime)
 			std::string soundName = "sfx_player_parry_power_up_hit_0" + std::to_string(soundNumber) + ".wav";
 			GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 
+			GameEngineActor* parryEffect = level_->CreateActor<ParryEffect>();
+			float4 parryEffectLocation = parryObject->GetTransform()->GetWorldLocation() - transform_->GetWorldLocation();
+			parryEffectLocation = transform_->GetWorldLocation() + (parryEffectLocation.operator/({ 2.0f, 2.0f, 2.0f, 2.0f }));
+			parryEffect->GetTransform()->SetLocation(parryEffectLocation);
+
 			bGround_ = true;
 			normalState_ << "Jump";
 			return;
@@ -1880,6 +1888,11 @@ void Player::updateParry(float _deltaTime)
 			int soundNumber = random.RandomInt(1, 2);
 			std::string soundName = "sfx_player_parry_power_up_hit_0" + std::to_string(soundNumber) + ".wav";
 			GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+
+			GameEngineActor* parryEffect = level_->CreateActor<ParryEffect>();
+			float4 parryEffectLocation = parryObject->GetTransform()->GetWorldLocation() - transform_->GetWorldLocation();
+			parryEffectLocation = transform_->GetWorldLocation() + (parryEffectLocation.operator/({ 2.0f, 2.0f, 2.0f, 2.0f }));
+			parryEffect->GetTransform()->SetLocation(parryEffectLocation);
 
 			bGround_ = true;
 			normalState_ << "Jump";
@@ -2036,6 +2049,11 @@ void Player::updateParry(float _deltaTime)
 		}
 		bLeft_ = false;
 	}
+}
+
+void Player::endParry(float _deltaTime)
+{
+	collider_->SetScale(70.f);
 }
 
 void Player::startCinematicIdle(float _deltaTime)
