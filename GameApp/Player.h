@@ -42,6 +42,10 @@ private:
 
 	void addGravity(float _deltaTime);
 
+	void playHitSound();
+	void playJumpSound();
+	void playLandingSound();
+
 private:
 // Player state can controlled by other objects
 #pragma region PlayerState

@@ -4,7 +4,7 @@
 
 #include "ParryObjectBase.h"
 
-class GameEngineImageRendrerer;
+class GameEngineImageRenderer;
 class GameEngineCollision;
 class BombBat : public ParryObjectBase
 {
@@ -25,6 +25,9 @@ public:
 public:
 	void Initialize(bool _bLeft);
 
+protected:
+	void onParry() override;
+
 private:
 	void startSummon(float _deltaTime);
 	void updateSummon(float _deltaTime);
@@ -37,7 +40,16 @@ private:
 
 private:
 	GameEngineFSM state_;
-	GameEngineImageRendrerer* renderer_;
+	GameEngineImageRenderer* renderer_;
 
+	float4 moveSpeed_;
+
+	float4 prevRotation_;
+
+	bool bLeft_;
+
+	float timeCounter_;
+	float flyTime_;
+	float horizontalDirectionChangeDelay_;
 };
 

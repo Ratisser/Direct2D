@@ -63,6 +63,6 @@ void TutorialLevel::LevelUpdate(float _deltaTime)
 	if (!bgmPlayer_->IsPlaying())
 	{
 		bgmPlayer_->Play();
-		//bgmPlayer_->SetVolume(0.5f);
+		bgmPlayer_->SetVolume(0.5f);
 	}
 }

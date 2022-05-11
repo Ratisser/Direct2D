@@ -8,11 +8,11 @@ class GameEngineImageRenderer;
 class DevilPhaseTwo : public MonsterBase
 {
 public:
-	DevilPhaseTwo(); 
+	DevilPhaseTwo();
 	~DevilPhaseTwo();
 
-	DevilPhaseTwo(const DevilPhaseTwo& _other) = delete; 
-	DevilPhaseTwo(DevilPhaseTwo&& _other) = delete; 
+	DevilPhaseTwo(const DevilPhaseTwo& _other) = delete;
+	DevilPhaseTwo(DevilPhaseTwo&& _other) = delete;
 
 	DevilPhaseTwo& operator=(const DevilPhaseTwo& _other) = delete;
 	DevilPhaseTwo& operator=(const DevilPhaseTwo&& _other) = delete;
@@ -61,11 +61,14 @@ private:
 
 private:
 	enum class eAttackStatePhase2 { AXE, BOMB, MAX_COUNT };
-	enum class eAttackStatePhase3 { IMP, FAT_DEMON, MAX_COUNT};
+	enum class eAttackStatePhase3 { IMP, FAT_DEMON, MAX_COUNT };
 
 private:
 	const float ACTION_DELAY = 5.0f;
 
+	float4 LEFT_BOMB_SPAWN_LOCATION = { 620.f, -4050.f, -0.2f };
+
+	float4 RIGHT_BOMB_SPAWN_LOCATION = { 830.f, -4050.f, -0.2f };
 private:
 	GameEngineFSM state_;
 
@@ -75,11 +78,10 @@ private:
 	GameEngineTransformComponent* neckTransform_;
 	GameEngineTransformComponent* headTransform_;
 
-	float4 BombBatSpawnLocation_;
-
 	float timeCounter_;
 
 	int prevState_;
 
 	bool bLeft_;
+	bool bBombSpawned_;
 };

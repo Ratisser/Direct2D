@@ -16,6 +16,7 @@
 #include "eCollisionGroup.h"
 #include "Peashot.h"
 #include "ParryObjectBase.h"
+#include <GameEngineBase\GameEngineRandom.h>
 
 Player::Player()
 	: collider_(nullptr)
@@ -376,6 +377,30 @@ void Player::addGravity(float _deltaTime)
 	}
 }
 
+void Player::playHitSound()
+{
+	GameEngineRandom random;
+	int soundNumber = random.RandomInt(1, 5);
+	std::string soundName = "sfx_player_hit_0" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+}
+
+void Player::playJumpSound()
+{
+	GameEngineRandom random;
+	int soundNumber = random.RandomInt(1, 3);
+	std::string soundName = "sfx_player_jump_0" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+}
+
+void Player::playLandingSound()
+{
+	GameEngineRandom random;
+	int soundNumber = random.RandomInt(1, 1);
+	std::string soundName = "sfx_player_land_ground_0" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+}
+
 void Player::startNormalState(float _deltaTime)
 {
 }
@@ -503,6 +528,8 @@ void Player::updateShootState(float _deltaTime)
 void Player::startDamagedState(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Hit_Ground");
+
+	playHitSound();
 }
 
 void Player::updateDamagedState(float _deltaTime)
@@ -522,6 +549,7 @@ void Player::updateDamagedState(float _deltaTime)
 void Player::startFallDamagedState(float _deltaTime)
 {
 	renderer_->ChangeAnimation("Hit_Ground");
+	playHitSound();
 }
 
 void Player::updateFallDamagedState(float _deltaTime)
@@ -631,6 +659,7 @@ void Player::updateIdle(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
+		playJumpSound();
 		normalState_ << "Jump";
 		return;
 	}
@@ -754,6 +783,7 @@ void Player::updateRun(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
+		playJumpSound();
 		normalState_ << "Jump";
 		return;
 	}
@@ -843,6 +873,7 @@ void Player::updateJump(float _deltaTime)
 				bGround_ = true;
 				bCanJump_ = true;
 				bCanDash_ = true;
+				playLandingSound();
 				normalState_ << "Idle";
 			}
 			else
@@ -1015,6 +1046,7 @@ void Player::updateDownJump(float _deltaTime)
 			bGround_ = true;
 			bCanJump_ = true;
 			bCanDash_ = true;
+			playLandingSound();
 			normalState_ << "Idle";
 			return;
 		}
@@ -1103,6 +1135,7 @@ void Player::updateDuck(float _deltaTime)
 		}
 		else
 		{
+			playJumpSound();
 			normalState_ << "Jump";
 		}
 		return;
@@ -1143,6 +1176,7 @@ void Player::updateDuckIdle(float _deltaTime)
 		}
 		else
 		{
+			playJumpSound();
 			normalState_ << "Jump";
 		}
 		return;
@@ -1194,6 +1228,7 @@ void Player::updateStandUp(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
+		playJumpSound();
 		normalState_ << "Jump";
 		return;
 	}
@@ -1251,6 +1286,7 @@ void Player::updateShoot(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
+		playJumpSound();
 		normalState_ << "Jump";
 		return;
 	}
@@ -1330,6 +1366,7 @@ void Player::updateLock(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
+		playJumpSound();
 		normalState_ << "Jump";
 		return;
 	}
@@ -1477,6 +1514,7 @@ void Player::updateLockedShot(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
+		playJumpSound();
 		normalState_ << "Jump";
 		return;
 	}
@@ -1616,6 +1654,7 @@ void Player::updateShootWhileDucking(float _deltaTime)
 		}
 		else
 		{
+			playJumpSound();
 			normalState_ << "Jump";
 		}
 		return;
@@ -1766,6 +1805,7 @@ void Player::updateShootWhileRunning(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
+		playJumpSound();
 		normalState_ << "Jump";
 		return;
 	}
@@ -1814,6 +1854,12 @@ void Player::updateParry(float _deltaTime)
 			parryObject->SetParryable(false);
 			parryObject->Parry();
 			GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_parry_slap_01.wav");
+
+			GameEngineRandom random;
+			int soundNumber = random.RandomInt(1, 2);
+			std::string soundName = "sfx_player_parry_power_up_hit_0" + std::to_string(soundNumber) + ".wav";
+			GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+
 			bGround_ = true;
 			normalState_ << "Jump";
 			return;
@@ -1829,6 +1875,12 @@ void Player::updateParry(float _deltaTime)
 			parryObject->SetParryable(false);
 			parryObject->Parry();
 			GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_parry_slap_01.wav");
+
+			GameEngineRandom random;
+			int soundNumber = random.RandomInt(1, 2);
+			std::string soundName = "sfx_player_parry_power_up_hit_0" + std::to_string(soundNumber) + ".wav";
+			GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+
 			bGround_ = true;
 			normalState_ << "Jump";
 			return;
@@ -1872,6 +1924,7 @@ void Player::updateParry(float _deltaTime)
 				bGround_ = true;
 				bCanJump_ = true;
 				bCanDash_ = true;
+				playLandingSound();
 				normalState_ << "Idle";
 			}
 			else

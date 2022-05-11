@@ -8,6 +8,7 @@
 #include "GameEngineLevelControlWindow.h"
 
 #include "Axe.h"
+#include <GameApp\BombBat.h>
 
 DevilPhaseTwo::DevilPhaseTwo()
 	: neckRenderer_(nullptr)
@@ -15,7 +16,9 @@ DevilPhaseTwo::DevilPhaseTwo()
 	, neckTransform_(nullptr)
 	, headTransform_(nullptr)
 	, timeCounter_(0.0f)
+	, prevState_(0)
 	, bLeft_(false)
+	, bBombSpawned_(false)
 {
 
 }
@@ -218,6 +221,7 @@ void DevilPhaseTwo::startBombAttack(float _deltaTime)
 {
 	GameEngineRandom random;
 	bLeft_ = static_cast<bool>(random.RandomInt(0, 1));
+	bBombSpawned_ = false;
 
 	headRenderer_->ChangeAnimation("BombAttack");
 	headTransform_->AddLocation(0.0f, -85.f);
@@ -227,6 +231,24 @@ void DevilPhaseTwo::startBombAttack(float _deltaTime)
 
 void DevilPhaseTwo::updateBombAttack(float _deltaTime)
 {
+	if (!bBombSpawned_ && headRenderer_->GetCurrentAnimation()->CurFrame_ == 40)
+	{
+		bBombSpawned_ = true;
+
+		if (bLeft_)
+		{
+			BombBat* newBomb = level_->CreateActor<BombBat>();
+			newBomb->GetTransform()->SetLocation(LEFT_BOMB_SPAWN_LOCATION);
+			newBomb->Initialize(bLeft_);
+		}
+		else
+		{
+			BombBat* newBomb = level_->CreateActor<BombBat>();
+			newBomb->GetTransform()->SetLocation(RIGHT_BOMB_SPAWN_LOCATION);
+			newBomb->Initialize(bLeft_);
+		}
+	}
+
 	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		headTransform_->AddLocation(0.0f, 85);
