@@ -72,6 +72,11 @@ void DevilPlatform::SetMoveable(bool _bMoveable)
 	}
 }
 
+void DevilPlatform::FallAndRelease()
+{
+	state_ << "Fall";
+}
+
 void DevilPlatform::startWait(float _deltaTime)
 {
 	timeCounter_ = 0.0f;

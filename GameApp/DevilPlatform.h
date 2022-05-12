@@ -24,7 +24,7 @@ public:
 	void SetPlatformAppearance(int _num);
 
 	void SetMoveable(bool _bMoveable);
-
+	void FallAndRelease();
 
 private:
 	void startWait(float _deltaTime);
