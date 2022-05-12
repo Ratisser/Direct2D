@@ -155,6 +155,8 @@ std::string Player::GetParentState()
 void Player::Damage()
 {
 	normalState_ << "Jump";
+	fireLoopSound_->Stop();
+	fireStartRenderer_->Off();
 	bGround_ = false;
 	state_ << "DamagedState";
 }
@@ -415,6 +417,8 @@ void Player::updateNormalState(float _deltaTime)
 	{
 		normalState_ << "Jump";
 		bGround_ = false;
+		fireLoopSound_->Stop();
+		fireStartRenderer_->Off();
 		state_ << "DamagedState";
 		return;
 	}
@@ -425,6 +429,8 @@ void Player::updateNormalState(float _deltaTime)
 		{
 			normalState_ << "Jump";
 			bGround_ = false;
+			fireLoopSound_->Stop();
+			fireStartRenderer_->Off();
 			state_ << "DamagedState";
 			return;
 		}
@@ -439,6 +445,8 @@ void Player::updateNormalState(float _deltaTime)
 		}
 		else
 		{
+			fireLoopSound_->Stop();
+			fireStartRenderer_->Off();
 			normalState_ << "Idle";
 			state_ << "FallDamagedState";
 			return;
@@ -494,6 +502,8 @@ void Player::updateShootState(float _deltaTime)
 		}
 		else
 		{
+			fireLoopSound_->Stop();
+			fireStartRenderer_->Off();
 			normalState_ << "Idle";
 			state_ << "FallDamagedState";
 			return;
@@ -535,6 +545,12 @@ void Player::startDamagedState(float _deltaTime)
 
 void Player::updateDamagedState(float _deltaTime)
 {
+	if (!GameEngineInput::GetInstance().IsKeyPress("X"))
+	{
+		fireLoopSound_->Stop();
+		fireStartRenderer_->Off();
+	}
+
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		bInvincible_ = true;
@@ -555,6 +571,12 @@ void Player::startFallDamagedState(float _deltaTime)
 
 void Player::updateFallDamagedState(float _deltaTime)
 {
+	if (!GameEngineInput::GetInstance().IsKeyPress("X"))
+	{
+		fireLoopSound_->Stop();
+		fireStartRenderer_->Off();
+	}
+
 	transform_->AddLocation(0.0f, 850.f * _deltaTime);
 
 	if (GameEngineInput::GetInstance().IsKeyPress("Left"))
@@ -1839,7 +1861,7 @@ void Player::startParry(float _deltaTime)
 	}
 	bulletRotation_ = float4::ZERO;
 
-	collider_->SetScale(120.f);
+	collider_->SetScale(150.f);
 
 	renderer_->ChangeAnimation("Parry");
 }
