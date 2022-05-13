@@ -1,21 +1,26 @@
 #include "PreCompile.h"
 #include "DevilPhaseTwo.h"
 
-#include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngineBase\GameEngineRandom.h>
+#include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineLevel.h>
+#include <GameEngine\GameEngineCollision.h>
 
 #include "GameEngineLevelControlWindow.h"
 
 #include "Axe.h"
 #include <GameApp\BombBat.h>
+#include <GameApp\DevilLevel.h>
 
 DevilPhaseTwo::DevilPhaseTwo()
 	: neckRenderer_(nullptr)
 	, headRenderer_(nullptr)
 	, neckTransform_(nullptr)
 	, headTransform_(nullptr)
+	, leftEyeCollision_(nullptr)
+	, rightEyeCollision_(nullptr)
 	, timeCounter_(0.0f)
+	, hitEffectTime_(0.0f)
 	, prevState_(0)
 	, bLeft_(false)
 	, bBombSpawned_(false)
@@ -30,7 +35,7 @@ DevilPhaseTwo::~DevilPhaseTwo()
 
 void DevilPhaseTwo::Start()
 {
-	SetHP(100);
+	SetHP(DEVIL_HP);
 	initInput();
 	initTransform();
 	initRendererAndAnimation();
@@ -51,6 +56,15 @@ void DevilPhaseTwo::Update(float _deltaTime)
 		headRenderer_->SetFlip(false, false);
 	}
 
+	if (hitEffectTime_ > 0.0f)
+	{
+		hitEffectTime_ -= _deltaTime;
+	}
+	else
+	{
+		headRenderer_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+	}
+
 	GameEngineLevelControlWindow* controlWindow = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineLevelControlWindow>("LevelControlWindow");
 	if (nullptr != controlWindow)
 	{
@@ -60,6 +74,9 @@ void DevilPhaseTwo::Update(float _deltaTime)
 
 void DevilPhaseTwo::OnHit()
 {
+	const float4 onHitColor = { 0.6f, 0.8f, 1.0f, 1.0f };
+	headRenderer_->SetColor(onHitColor);
+	hitEffectTime_ = HIT_EFFECT_TIME;
 }
 
 void DevilPhaseTwo::initInput()
@@ -73,7 +90,7 @@ void DevilPhaseTwo::initTransform()
 	neckTransform_->SetLocationY(-100.f);
 	neckTransform_->SetLocationZ(0.01f);
 	neckTransform_->SetScale(0.8f);
-	
+
 	headTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
 	headTransform_->SetLocationY(40.f);
 	headTransform_->SetScale(0.75f);
@@ -91,11 +108,25 @@ void DevilPhaseTwo::initRendererAndAnimation()
 	headRenderer_->CreateAnimationFolder("SpiralAttackEnd", 0.034f, false);
 	headRenderer_->CreateAnimationFolder("BombAttack", 0.034f, false); // summon bomb frame 40
 
+	headRenderer_->CreateAnimationFolder("Phase2ToPhase3", 0.067f, false);
+	headRenderer_->CreateAnimationFolder("Phase3Idle", 0.034f);
+
 	headRenderer_->ChangeAnimation("DevilPhase2Idle");
 }
 
 void DevilPhaseTwo::initCollision()
 {
+	leftEyeCollision_ = CreateTransformComponent<GameEngineCollision>(nullptr);
+	leftEyeCollision_->SetCollisionGroup(eCollisionGroup::MonsterHitBox);
+	leftEyeCollision_->SetCollisionType(eCollisionType::Rect);
+	leftEyeCollision_->SetScale(100.f, 150.f);
+	leftEyeCollision_->SetLocation(LEFT_EYE_LOCATION);
+
+	rightEyeCollision_ = CreateTransformComponent<GameEngineCollision>(nullptr);
+	rightEyeCollision_->SetCollisionGroup(eCollisionGroup::MonsterHitBox);
+	rightEyeCollision_->SetCollisionType(eCollisionType::Rect);
+	rightEyeCollision_->SetScale(100.f, 150.f);
+	rightEyeCollision_->SetLocation(RIGHT_EYE_LOCATION);
 }
 
 void DevilPhaseTwo::initState()
@@ -107,6 +138,12 @@ void DevilPhaseTwo::initState()
 	state_.CreateState("SpiralAttackSummonAxe", std::bind(&DevilPhaseTwo::startSpiralAttackSummonAxe, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSpiralAttackSummonAxe, this, std::placeholders::_1));
 	state_.CreateState("SpiralAttackEnd", std::bind(&DevilPhaseTwo::startSpiralAttackEnd, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSpiralAttackEnd, this, std::placeholders::_1));
 	state_.CreateState("BombAttack", std::bind(&DevilPhaseTwo::startBombAttack, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateBombAttack, this, std::placeholders::_1));
+
+	state_.CreateState("EnterPhaseThree", std::bind(&DevilPhaseTwo::startEnterPhaseThree, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEnterPhaseThree, this, std::placeholders::_1));
+	state_.CreateState("PhaseThreeIdle", std::bind(&DevilPhaseTwo::startPhaseThreeIdle, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updatePhaseThreeIdle, this, std::placeholders::_1));
+
+	state_.CreateState("EnterPhaseFour", std::bind(&DevilPhaseTwo::startEnterPhaseFour, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEnterPhaseFour, this, std::placeholders::_1));
+	state_.CreateState("PhaseFourIdle", std::bind(&DevilPhaseTwo::startPhaseFourIdle, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updatePhaseFourIdle, this, std::placeholders::_1));
 
 	state_ << "Wait";
 }
@@ -132,12 +169,10 @@ void DevilPhaseTwo::updateIdle(float _deltaTime)
 
 	if (timeCounter_ > ACTION_DELAY)
 	{
-		if (hp_ < 0)
+		if (hp_ < 200)
 		{
-			if (state_.GetCurrentStateName() != "PhaseThree")
-			{
-				state_ << "PhaseThree";
-			}
+
+			state_ << "EnterPhaseThree";
 			return;
 		}
 
@@ -165,11 +200,54 @@ void DevilPhaseTwo::updateIdle(float _deltaTime)
 	}
 }
 
-void DevilPhaseTwo::startIdlePhase3(float _deltaTime)
+void DevilPhaseTwo::startEnterPhaseThree(float _deltaTime)
+{
+	headRenderer_->ChangeAnimation("Phase2ToPhase3");
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_head_devil_hurt_trans_A_003.wav");
+
+	headTransform_->AddLocation(0.0f, -150.f);
+}
+
+void DevilPhaseTwo::updateEnterPhaseThree(float _deltaTime)
+{
+	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		DevilLevel* level = dynamic_cast<DevilLevel*>(level_);
+		if (nullptr != level)
+		{
+			level->ChangeStatePhaseThree();
+		}
+
+		headRenderer_->ChangeAnimation("Phase3Idle");
+		headTransform_->AddLocation(0.0f, 150.f);
+
+		state_ << "PhaseThreeIdle";
+		return;
+	}
+}
+
+void DevilPhaseTwo::startPhaseThreeIdle(float _deltaTime)
+{
+	headRenderer_->ChangeAnimation("Phase3Idle");
+}
+
+void DevilPhaseTwo::updatePhaseThreeIdle(float _deltaTime)
 {
 }
 
-void DevilPhaseTwo::updateIdlePhase3(float _deltaTime)
+void DevilPhaseTwo::startEnterPhaseFour(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::updateEnterPhaseFour(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::startPhaseFourIdle(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::updatePhaseFourIdle(float _deltaTime)
 {
 }
 
@@ -177,10 +255,17 @@ void DevilPhaseTwo::startSpiralAttack(float _deltaTime)
 {
 	headRenderer_->ChangeAnimation("SpiralAttack");
 	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_head_devil_spiral_attack.wav");
+
+	timeCounter_ = 0.0f;
 }
 
 void DevilPhaseTwo::updateSpiralAttack(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+
+	leftEyeCollision_->SetLocation(GameEngineMath::Lerp(LEFT_EYE_LOCATION, CENTER_EYE_LOCATION, timeCounter_, 0.6f));
+	rightEyeCollision_->SetLocation(GameEngineMath::Lerp(RIGHT_EYE_LOCATION, CENTER_EYE_LOCATION, timeCounter_, 0.6f));
+
 	if (10 == headRenderer_->GetCurrentAnimation()->CurFrame_)
 	{
 		state_ << "SpiralAttackSummonAxe";
@@ -196,6 +281,10 @@ void DevilPhaseTwo::startSpiralAttackSummonAxe(float _deltaTime)
 
 void DevilPhaseTwo::updateSpiralAttackSummonAxe(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+	leftEyeCollision_->SetLocation(GameEngineMath::Lerp(LEFT_EYE_LOCATION, CENTER_EYE_LOCATION, timeCounter_, 0.3f));
+	rightEyeCollision_->SetLocation(GameEngineMath::Lerp(RIGHT_EYE_LOCATION, CENTER_EYE_LOCATION, timeCounter_, 0.3f));
+
 	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		state_ << "SpiralAttackEnd";
@@ -206,10 +295,19 @@ void DevilPhaseTwo::updateSpiralAttackSummonAxe(float _deltaTime)
 void DevilPhaseTwo::startSpiralAttackEnd(float _deltaTime)
 {
 	headRenderer_->ChangeAnimation("SpiralAttackEnd");
+	timeCounter_ = 0.0f;
 }
 
 void DevilPhaseTwo::updateSpiralAttackEnd(float _deltaTime)
 {
+	if (21 < headRenderer_->GetCurrentAnimation()->CurFrame_)
+	{
+		timeCounter_ += _deltaTime;
+		leftEyeCollision_->SetLocation(GameEngineMath::Lerp(CENTER_EYE_LOCATION, LEFT_EYE_LOCATION, timeCounter_, 0.3f));
+		rightEyeCollision_->SetLocation(GameEngineMath::Lerp(CENTER_EYE_LOCATION, RIGHT_EYE_LOCATION, timeCounter_, 0.3f));
+	}
+
+
 	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		state_ << "Idle";

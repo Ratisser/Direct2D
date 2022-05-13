@@ -942,13 +942,13 @@ void Devil::updateSpiderFallFromSky(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
 
-	if (timeCounter_ > 0.8f)
+	if (timeCounter_ > 0.5f)
 	{
-		spiderTransform_->SetLocation(GameEngineMath::Lerp(spiderFallStartLocation_, spiderFallFromSkyDest_, timeCounter_ - 0.8f, 0.5f));
+		spiderTransform_->SetLocation(GameEngineMath::Lerp(spiderFallStartLocation_, spiderFallFromSkyDest_, timeCounter_ - 0.5f, 0.5f));
 	}
 
 
-	if (timeCounter_ > 1.4f)
+	if (timeCounter_ > 1.0f)
 	{
 		spiderState_ << "SpiderFallToFloor";
 		return;

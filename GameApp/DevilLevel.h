@@ -30,6 +30,8 @@ public:
 	Devil* GetDevil() { return devil_; }
 
 	void ChangeStateEnterPhaseTwo();
+	void ChangeStatePhaseThree();
+	void ChangeStatePhaseFour();
 
 private:
 	void createActorPhaseTwo();
@@ -43,6 +45,12 @@ private:
 
 	void startPhaseTwo(float _deltaTime);
 	void updatePhaseTwo(float _deltaTime);
+
+	void startPhaseThree(float _deltaTime);
+	void updatePhaseThree(float _deltaTime);
+
+	void startPhaseFour(float _deltaTime);
+	void updatePhaseFour(float _deltaTime);
 
 #pragma endregion
 
@@ -61,7 +69,7 @@ private:
 	DevilPhaseTwo* devilPhaseTwo_;
 	float4 PhaseTwoCamStartLocation_;
 	float4 PhaseTwoCamEndLocation_;
-	std::vector<DevilPlatform*> platforms_;
+	std::list<DevilPlatform*> platforms_;
 
 	float cameraShakeTime_;
 	float cameraShakeIntensity_;

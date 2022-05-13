@@ -46,6 +46,9 @@ void DevilLevel::LevelStart()
 		levelState_.CreateState("PhaseOne", std::bind(&DevilLevel::startPhaseOne, this, std::placeholders::_1), std::bind(&DevilLevel::updatePhaseOne, this, std::placeholders::_1));
 		levelState_.CreateState("EnterPhaseTwo", std::bind(&DevilLevel::startEnterPhaseTwo, this, std::placeholders::_1), std::bind(&DevilLevel::updateEnterPhaseTwo, this, std::placeholders::_1));
 		levelState_.CreateState("PhaseTwo", std::bind(&DevilLevel::startPhaseTwo, this, std::placeholders::_1), std::bind(&DevilLevel::updatePhaseTwo, this, std::placeholders::_1));
+		levelState_.CreateState("PhaseThree", std::bind(&DevilLevel::startPhaseThree, this, std::placeholders::_1), std::bind(&DevilLevel::updatePhaseThree, this, std::placeholders::_1));
+		levelState_.CreateState("PhaseFour", std::bind(&DevilLevel::startPhaseFour, this, std::placeholders::_1), std::bind(&DevilLevel::updatePhaseFour, this, std::placeholders::_1));
+
 
 		levelState_.ChangeState("PhaseOne");
 	}
@@ -115,6 +118,16 @@ void DevilLevel::CameraShake(float _ShakeTime, float _intensity)
 void DevilLevel::ChangeStateEnterPhaseTwo()
 {
 	levelState_ << "EnterPhaseTwo";
+}
+
+void DevilLevel::ChangeStatePhaseThree()
+{
+	levelState_ << "PhaseThree";
+}
+
+void DevilLevel::ChangeStatePhaseFour()
+{
+	levelState_ << "PhaseFour";
 }
 
 void DevilLevel::createActorPhaseTwo()
@@ -189,6 +202,50 @@ void DevilLevel::startPhaseTwo(float _deltaTime)
 }
 
 void DevilLevel::updatePhaseTwo(float _deltaTime)
+{
+	float4 camPos = mainCamera_->GetTransform()->GetWorldLocation();
+	float4 playerPos = player_->GetTransform()->GetWorldLocation();
+
+	if (false == IsFreeCamera())
+	{
+		mainCamera_->GetTransform()->SetLocationX(640.f + (playerPos.x / 8.9f));
+		mainCamera_->GetTransform()->SetLocationY(365.f + PHASE_TWO_BOTTOM + (playerPos.y - PHASE_TWO_BOTTOM) / 7.5454f);
+	}
+}
+
+void DevilLevel::startPhaseThree(float _deltaTime)
+{
+	currentPhase_ = 3;
+
+	platforms_.front()->FallAndRelease();
+	platforms_.back()->FallAndRelease();
+	platforms_.pop_front();
+	platforms_.pop_back();
+}
+
+void DevilLevel::updatePhaseThree(float _deltaTime)
+{
+	float4 camPos = mainCamera_->GetTransform()->GetWorldLocation();
+	float4 playerPos = player_->GetTransform()->GetWorldLocation();
+
+	if (false == IsFreeCamera())
+	{
+		mainCamera_->GetTransform()->SetLocationX(640.f + (playerPos.x / 8.9f));
+		mainCamera_->GetTransform()->SetLocationY(365.f + PHASE_TWO_BOTTOM + (playerPos.y - PHASE_TWO_BOTTOM) / 7.5454f);
+	}
+}
+
+void DevilLevel::startPhaseFour(float _deltaTime)
+{
+	platforms_.front()->FallAndRelease();
+	platforms_.back()->FallAndRelease();
+	platforms_.pop_front();
+	platforms_.pop_back();
+
+	platforms_.front()->SetMoveable(false);
+}
+
+void DevilLevel::updatePhaseFour(float _deltaTime)
 {
 	float4 camPos = mainCamera_->GetTransform()->GetWorldLocation();
 	float4 playerPos = player_->GetTransform()->GetWorldLocation();

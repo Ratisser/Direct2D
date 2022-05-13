@@ -4,6 +4,7 @@
 #include <GameEngineBase\GameEngineRandom.h>
 #include <GameEngine\GameEngineCollision.h>
 #include <GameEngine\GameEngineImageRenderer.h>
+#include <GameApp\DevilLevel.h>
 
 BombBat::BombBat()
 	: renderer_(nullptr)
@@ -143,9 +144,17 @@ void BombBat::startExplosion(float _deltaTime)
 	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 
 	renderer_->ChangeAnimation("BombExplosion");
+	transform_->AddLocation(0.0f, 0.0f, 1.0f);
 	SetParryable(false);
-	collision_->SetParent(renderer_);
-	collision_->SetScale(0.7f);
+	collision_->SetScale(800.f);
+	collision_->SetCollisionGroup(eCollisionGroup::MonsterProjectile);
+	
+
+	DevilLevel* level = dynamic_cast<DevilLevel*>(level_);
+	if (nullptr != level)
+	{
+		level->CameraShake(0.5f, 50.f);
+	}
 }
 
 void BombBat::updateExplosion(float _deltaTime)

@@ -42,8 +42,17 @@ private:
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
-	void startIdlePhase3(float _deltaTime);
-	void updateIdlePhase3(float _deltaTime);
+	void startEnterPhaseThree(float _deltaTime);
+	void updateEnterPhaseThree(float _deltaTime);
+
+	void startPhaseThreeIdle(float _deltaTime);
+	void updatePhaseThreeIdle(float _deltaTime);
+
+	void startEnterPhaseFour(float _deltaTime);
+	void updateEnterPhaseFour(float _deltaTime);
+
+	void startPhaseFourIdle(float _deltaTime);
+	void updatePhaseFourIdle(float _deltaTime);
 
 	void startSpiralAttack(float _deltaTime);
 	void updateSpiralAttack(float _deltaTime);
@@ -56,7 +65,6 @@ private:
 
 	void startBombAttack(float _deltaTime);
 	void updateBombAttack(float _deltaTime);
-
 #pragma endregion
 
 private:
@@ -64,11 +72,18 @@ private:
 	enum class eAttackStatePhase3 { IMP, FAT_DEMON, MAX_COUNT };
 
 private:
-	const float ACTION_DELAY = 5.0f;
+	const float ACTION_DELAY = 4.0f;
+	const float HIT_EFFECT_TIME = 0.034f;
 
-	float4 LEFT_BOMB_SPAWN_LOCATION = { 620.f, -4050.f, -0.2f };
+	const int DEVIL_HP = 250;
 
-	float4 RIGHT_BOMB_SPAWN_LOCATION = { 830.f, -4050.f, -0.2f };
+	float4 LEFT_BOMB_SPAWN_LOCATION = { 610.f, -4050.f, -0.2f };
+	float4 RIGHT_BOMB_SPAWN_LOCATION = { 840.f, -4050.f, -0.2f };
+
+	float4 LEFT_EYE_LOCATION = { 600.f , -4000.f };
+	float4 RIGHT_EYE_LOCATION = { 860.f , -4000.f };
+	float4 CENTER_EYE_LOCATION = { 736.f, -4000.f };
+
 private:
 	GameEngineFSM state_;
 
@@ -78,7 +93,11 @@ private:
 	GameEngineTransformComponent* neckTransform_;
 	GameEngineTransformComponent* headTransform_;
 
+	GameEngineCollision* leftEyeCollision_;
+	GameEngineCollision* rightEyeCollision_;
+
 	float timeCounter_;
+	float hitEffectTime_;
 
 	int prevState_;
 
