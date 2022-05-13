@@ -145,6 +145,11 @@ void DevilPhaseTwo::initState()
 	state_.CreateState("EnterPhaseFour", std::bind(&DevilPhaseTwo::startEnterPhaseFour, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEnterPhaseFour, this, std::placeholders::_1));
 	state_.CreateState("PhaseFourIdle", std::bind(&DevilPhaseTwo::startPhaseFourIdle, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updatePhaseFourIdle, this, std::placeholders::_1));
 
+	state_.CreateState("SummonImp", std::bind(&DevilPhaseTwo::startSummonImp, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSummonImp, this, std::placeholders::_1));
+	state_.CreateState("SummonFatDemon", std::bind(&DevilPhaseTwo::startSummonFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSummonFatDemon, this, std::placeholders::_1));
+	state_.CreateState("ReleaseFatDemon", std::bind(&DevilPhaseTwo::startReleaseFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateReleaseFatDemon, this, std::placeholders::_1));
+	state_.CreateState("EndFatDemon", std::bind(&DevilPhaseTwo::startEndFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEndFatDemon, this, std::placeholders::_1));
+
 	state_ << "Wait";
 }
 
@@ -353,4 +358,36 @@ void DevilPhaseTwo::updateBombAttack(float _deltaTime)
 		state_ << "Idle";
 		return;
 	}
+}
+
+void DevilPhaseTwo::startSummonImp(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::updateSummonImp(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::startSummonFatDemon(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::updateSummonFatDemon(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::startReleaseFatDemon(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::updateReleaseFatDemon(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::startEndFatDemon(float _deltaTime)
+{
+}
+
+void DevilPhaseTwo::updateEndFatDemon(float _deltaTime)
+{
 }
