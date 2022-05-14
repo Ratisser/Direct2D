@@ -106,6 +106,13 @@ void DevilLevel::LevelUpdate(float _deltaTime)
 			levelState_ << "PhaseTwo";
 		}
 	}
+	else
+	{
+		if (GameEngineInput::GetInstance().IsKeyDown("L"))
+		{
+			devilPhaseTwo_->SubtractHP(50);
+		}
+	}
 
 }
 
