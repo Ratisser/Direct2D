@@ -3,6 +3,7 @@
 
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineCollision.h>
+#include <GameEngineBase\GameEngineSoundPlayer.h>
 
 #include "MonsterBase.h"
 #include "Map.h"
@@ -138,6 +139,14 @@ void Peashot::updateIdle(float _deltaTime)
 void Peashot::startPop(float _deltaTime)
 {
 	bulletRenderer_->ChangeAnimation("Peashot_Death");
+
+	GameEngineSoundPlayer player("sfx_player_shoot_hit_01.wav");
+	player.Play();
+	player.SetVolume(0.3f);
+
+	GameEngineSoundPlayer player2("sfx_player_weapon_peashot_death_001.wav");
+	player2.Play();
+	player2.SetVolume(1.0f);
 }
 
 void Peashot::updatePop(float _deltaTime)
