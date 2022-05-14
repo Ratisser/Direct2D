@@ -187,7 +187,7 @@ void Demon::updateEnd(float _deltaTime)
 
 void Demon::OnHit()
 {
-	renderer_->SetColor({ 0.8f, 0.8f, 1.0f, 0.9f });
+	renderer_->SetAddColor({ 0.1f, 0.2f, 0.3f });
 	hitEffectTime_ = HIT_EFFECT_TIME;
 
 	if (hp_ <= 0)

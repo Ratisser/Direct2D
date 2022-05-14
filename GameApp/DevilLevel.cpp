@@ -203,6 +203,7 @@ void DevilLevel::startPhaseTwo(float _deltaTime)
 	bgmPlayer_->ChangeSound("MUS_DevilPhase3.wav");
 
 	devilPhaseTwo_->StartIdle();
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_head_devil_intro_end.wav");
 
 	devil_->Release();
 	devil_ = nullptr;

@@ -156,8 +156,10 @@ void OrbFire::updateSummonComplete(float _deltaTime)
 		renderer_->On();
 	}
 
-	if (timeCounter_ > 2.0f + seekDelay_)
+	if (timeCounter_ > 1.0f + seekDelay_)
 	{
+		summonEffectRenderer_->Off();
+		renderer_->On();
 		state_ << "Move";
 	}
 }

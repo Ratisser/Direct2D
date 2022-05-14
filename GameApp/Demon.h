@@ -38,7 +38,7 @@ private:
 #pragma endregion
 
 private:
-	const int DEMON_HP = 3;
+	const int DEMON_HP = 2;
 	const float HIT_EFFECT_TIME = 0.1f;
 	const float RUN_TIME = 2.0f;
 	const float ATTACK_TIME = 4.0f;

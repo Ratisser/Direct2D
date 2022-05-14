@@ -47,7 +47,7 @@ private:
 
 private:
 	const float ACTION_COOLTIME = 2.0f;
-	const float MAX_MOVE_HEIGHT = 300.f;
+	const float MAX_MOVE_HEIGHT = 200.f;
 	const float MOVE_DELAY = 1.0f;
 
 private:

@@ -31,6 +31,7 @@ Devil::Devil()
 	, leftArmRenderer_(nullptr)
 	, rightArmRenderer_(nullptr)
 	, handClapSound_(nullptr)
+	, handReleaseSound_(nullptr)
 	, pupil_(nullptr)
 	, headCollision_(nullptr)
 	, dragonHeadCollision_(nullptr)
@@ -75,6 +76,7 @@ void Devil::Start()
 	SetHP(DEVIL_HP);
 
 	handClapSound_ = std::make_unique<GameEngineSoundPlayer>("sfx_level_devil_ram_hand_clap_03.wav");
+	handReleaseSound_ = std::make_unique<GameEngineSoundPlayer>("sfx_level_devil_head_devil_hand_release_start.wav");
 }
 
 void Devil::Update(float _deltaTime)
@@ -106,9 +108,9 @@ void Devil::Update(float _deltaTime)
 	}
 	else
 	{
-		devilRenderer_->SetColor(float4::ONE);
-		dragonHeadRenderer_->SetColor(float4::ONE);
-		spiderRenderer_->SetColor(float4::ONE);
+		devilRenderer_->SetAddColor(float4::ZERO);
+		dragonHeadRenderer_->SetAddColor(float4::ZERO);
+		spiderRenderer_->SetAddColor(float4::ZERO);
 	}
 
 	demonSpawnDelay_ += _deltaTime;
@@ -487,6 +489,8 @@ void Devil::startRamAttack(float _deltaTime)
 	leftArmRenderer_->ChangeAnimation("RamArmsStart", true);
 	rightArmRenderer_->ChangeAnimation("RamArmsStart", true);
 	timeCounter_ = 0;
+
+	
 }
 
 void Devil::updateRamAttack(float _deltaTime)
@@ -499,6 +503,12 @@ void Devil::updateRamAttack(float _deltaTime)
 		{
 			handClapSound_->Play();
 		}
+
+		if (false == handReleaseSound_->IsPlaying())
+		{
+			handReleaseSound_->Play();
+		}
+
 		DevilLevel* level = dynamic_cast<DevilLevel*>(level_);
 		if (nullptr != level)
 		{
@@ -1021,10 +1031,10 @@ void Devil::updateSpiderFlyToSky(float _deltaTime)
 
 void Devil::OnHit()
 {
-	const float4 onHitColor = { 0.6f, 0.8f, 1.0f, 1.0f };
-	devilRenderer_->SetColor(onHitColor);
-	dragonHeadRenderer_->SetColor(onHitColor);
-	spiderRenderer_->SetColor(onHitColor);
+	const float4 onHitColor = { 0.1f, 0.2f, 0.3f };
+	devilRenderer_->SetAddColor(onHitColor);
+	dragonHeadRenderer_->SetAddColor(onHitColor);
+	spiderRenderer_->SetAddColor(onHitColor);
 	hitEffectTime_ = HIT_EFFECT_TIME;
 }
 

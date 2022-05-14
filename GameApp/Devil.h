@@ -132,6 +132,7 @@ private:
 	GameEngineImageRenderer* leftArmRenderer_;
 	GameEngineImageRenderer* rightArmRenderer_;
 	std::unique_ptr<GameEngineSoundPlayer> handClapSound_;
+	std::unique_ptr<GameEngineSoundPlayer> handReleaseSound_;
 
 	// Dragon
 	GameEngineTransformComponent* leftDragonHeadTransform_;
