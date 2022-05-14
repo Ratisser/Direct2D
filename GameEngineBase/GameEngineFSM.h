@@ -15,6 +15,8 @@ class GameEngineFSM
 		std::function<void(float)> start_;
 		std::function<void(float)> update_;
 		std::function<void(float)> end_;
+
+		float elapsedTime_;
 	};
 
 public:

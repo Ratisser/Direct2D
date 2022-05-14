@@ -55,11 +55,13 @@ void GameEngineFSM::Update(float _deltaTime)
 		}
 		nextState_->start_(_deltaTime);
 		currentState_ = nextState_;
+		currentState_->elapsedTime_ = 0.0f;
 		nextState_ = nullptr;
 	}
 
 	if (nullptr != currentState_)
 	{
+		currentState_->elapsedTime_ += _deltaTime;
 		currentState_->update_(_deltaTime);
 	}
 }
@@ -69,6 +71,7 @@ GameEngineFSM::State::State(const std::string& _stateName, std::function<void(fl
 	, start_(_start)
 	, update_(_update)
 	, end_(_end)
+	, elapsedTime_(0.0f)
 {
 }
 
