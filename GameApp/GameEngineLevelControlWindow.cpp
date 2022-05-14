@@ -109,7 +109,7 @@ void GameEngineLevelControlWindow::OnGUI()
 	ImGui::NextColumn();
 	ImGui::NextColumn();
 	
-	ImGui::Checkbox("PostProcess", &GameEngineLevel::PostProcess_);
+	ImGui::Checkbox("Blur", &GameEngineLevel::PostProcess_);
 	ImGui::NextColumn();
 
 
