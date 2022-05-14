@@ -8,36 +8,45 @@
 #include "DevilLevel.h"
 #include "Player.h"
 
+int DevilImp::refCounter_ = 0;
+
 DevilImp::DevilImp()
-	: spawnRenderer_(nullptr)
+	: childTransform_(nullptr)
+	, spawnRenderer_(nullptr)
 	, renderer_(nullptr)
 	, collision_(nullptr)
+	, nextAttackDelay_(0.0f)
 	, accelerationY_(0.0f)
 {
-
+	refCounter_++;
 }
 
 DevilImp::~DevilImp()
 {
-
+	refCounter_--;
 }
 
 void DevilImp::Start()
 {
-	spawnRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	SetHP(HP);
+
+	childTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
+
+	spawnRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(childTransform_);
 	spawnRenderer_->CreateAnimationFolder("SpawnImp", 0.034f, false);
 	spawnRenderer_->ChangeAnimation("SpawnImp");
 
-	renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
+	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(childTransform_);
 	renderer_->CreateAnimationFolder("ImpFlyingUp", 0.067f);
 	renderer_->CreateAnimationFolder("ImpFlying");
 	renderer_->CreateAnimationFolder("ImpAttack");
 	renderer_->CreateAnimationFolder("ImpAttackEnd", 0.034f, false);
+	renderer_->CreateAnimationFolder("Explosion", 0.034f, false);
 	renderer_->ChangeAnimation("ImpFlyingUp");
-	renderer_->SetLocationZ(0.1f);
 	renderer_->Off();
+	pushHitEffectRenderer(renderer_);
 
-	collision_ = CreateTransformComponent<GameEngineCollision>();
+	collision_ = CreateTransformComponent<GameEngineCollision>(childTransform_);
 	collision_->SetCollisionGroup(eCollisionGroup::Monster);
 	collision_->SetCollisionType(eCollisionType::Rect);
 	collision_->SetScale(100.f);
@@ -57,7 +66,18 @@ void DevilImp::Start()
 
 void DevilImp::Update(float _deltaTime)
 {
+	MonsterBase::Update(_deltaTime);
+
 	state_.Update(_deltaTime);
+}
+
+void DevilImp::OnHit()
+{
+	MonsterBase::OnHit();
+	if (hp_ < 1)
+	{
+		state_ << "Death";
+	}
 }
 
 void DevilImp::startSpawn(float _deltaTime)
@@ -69,7 +89,11 @@ void DevilImp::startSpawn(float _deltaTime)
 	float x, y;
 	x = random.RandomFloat(SPAWN_MIN_X, SPAWN_MAX_X);
 	y = -random.RandomFloat(SPAWN_MIN_Y, SPAWN_MAX_Y);
-	transform_->SetLocation(x, y);
+	childTransform_->SetLocation(x, y);
+
+	int soundNumber = random.RandomInt(1, 3);
+	std::string soundName = "sfx_devil_imp_spawn_0" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 }
 
 void DevilImp::updateSpawn(float _deltaTime)
@@ -93,7 +117,7 @@ void DevilImp::startFlyUp(float _deltaTime)
 
 void DevilImp::updateFlyUp(float _deltaTime)
 {
-	transform_->AddLocation(0.0f, 100.f * _deltaTime);
+	childTransform_->AddLocation(0.0f, 200.f * _deltaTime);
 	if (state_.GetTime() > 2.0f)
 	{
 		state_ << "Fly";
@@ -107,16 +131,21 @@ void DevilImp::startFly(float _deltaTime)
 
 	GameEngineRandom random;
 	float x = random.RandomFloat(FLY_MIN_X, FLY_MAX_X);
-	prevLocation_ = transform_->GetWorldLocation();
+	prevLocation_ = childTransform_->GetWorldLocation();
 	nextLocation_.x = x;
 	nextLocation_.y = FLY_HEIGHT;
+	nextAttackDelay_ = random.RandomFloat(2.0f, 5.0f);
+
+	collision_->On();
 }
 
 void DevilImp::updateFly(float _deltaTime)
 {
-	transform_->SetLocation(GameEngineMath::Lerp(prevLocation_, nextLocation_, state_.GetTime(), 1.0f));
+	float4 location = GameEngineMath::Lerp(prevLocation_, nextLocation_, state_.GetTime(), 1.0f);
 
-	if (state_.GetTime() > 3.0f)
+	childTransform_->SetWorldLocationXY(location.x, location.y);
+
+	if (state_.GetTime() > nextAttackDelay_)
 	{
 		state_ << "Attack";
 		return;
@@ -130,33 +159,86 @@ void DevilImp::startAttack(float _deltaTime)
 	DevilLevel* level = level_->GetLevel<DevilLevel>();
 	GameEngineActor* player = level->GetPlayer();
 
-	speed_ = transform_->GetWorldLocation() - player->GetTransform()->GetWorldLocation();
+	speed_ = player->GetTransform()->GetWorldLocation() - childTransform_->GetWorldLocation();
 	speed_.z = 0.0f;
 	speed_.y *= 2.0f;
 	accelerationY_ = -speed_.y;
+
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sxf_level_devil_bat_bomb_spin_01.wav");
 }
 
 void DevilImp::updateAttack(float _deltaTime)
 {
-	transform_->AddLocation(speed_);
+	childTransform_->AddLocation(speed_ * _deltaTime);
 
 	speed_.y += accelerationY_ * _deltaTime;
+
+	if (state_.GetTime() > 2.5f)
+	{
+		state_ << "EndAttack";
+		return;
+	}
 }
 
 void DevilImp::startEndAttack(float _deltaTime)
 {
+	GameEngineRandom random;
+	float x = random.RandomFloat(FLY_MIN_X, FLY_MAX_X);
+	prevLocation_ = childTransform_->GetWorldLocation();
+	nextLocation_.x = x;
+	nextLocation_.y = FLY_HEIGHT;
 }
 
 void DevilImp::updateEndAttack(float _deltaTime)
 {
+	float4 location = GameEngineMath::Lerp(prevLocation_, nextLocation_, state_.GetTime(), 1.0f);
+
+	childTransform_->SetWorldLocationXY(location.x, location.y);
+
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		renderer_->ChangeAnimation("ImpFlying");
+		GameEngineRandom random;
+		int soundNumber = random.RandomInt(1, 2);
+		std::string soundName = "sxf_level_devil_bat_bomb_spin_stop_0" + std::to_string(soundNumber) + ".wav";
+		GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+	}
+
+	if (state_.GetTime() > 1.0f && renderer_->GetCurrentAnimation()->Name_ == "ImpAttack")
+	{
+		renderer_->ChangeAnimation("ImpAttackEnd");
+	}
+
+	if (state_.GetTime() > 3.0f)
+	{
+		state_ << "Attack";
+		return;
+	}
+
+
 }
 
 void DevilImp::startDeath(float _deltaTime)
 {
+	childTransform_->SetScale(0.5f);
+	childTransform_->AddLocation(0.0f, 50.f, 0.0f);
+	renderer_->ChangeAnimation("Explosion");
+	renderer_->SetPivot(eImagePivot::CENTER);
+	collision_->Off();
+
+	GameEngineRandom random;
+	int soundNumber = random.RandomInt(1, 4);
+	std::string soundName = "sfx_level_flying_bird_smallbird_death_0" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 }
 
 void DevilImp::updateDeath(float _deltaTime)
 {
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "Release";
+		return;
+	}
 }
 
 void DevilImp::startRelease(float _deltaTime)
@@ -165,8 +247,5 @@ void DevilImp::startRelease(float _deltaTime)
 
 void DevilImp::updateRelease(float _deltaTime)
 {
-}
-
-void DevilImp::OnHit()
-{
+	Release();
 }

@@ -101,6 +101,9 @@ private:
 	float4 RIGHT_EYE_LOCATION = { 860.f , -4000.f };
 	float4 CENTER_EYE_LOCATION = { 736.f, -4000.f };
 
+	float4 LEFT_EYE_LOCATION_PHASE3 = { 600.f, -4000.f };
+	float4 RIGHT_EYE_LOCATION_PHASE3 = { 860.f, -4000.f };
+
 private:
 	GameEngineFSM state_;
 

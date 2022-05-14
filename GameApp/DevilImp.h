@@ -19,11 +19,13 @@ public:
 	DevilImp& operator=(const DevilImp&& _other) = delete;
 
 public:
+	static int GetRefCount() { return refCounter_; }
+
+public:
 	virtual void Start() override;
 	virtual void Update(float _deltaTime) override;
-
-	// MonsterBase을(를) 통해 상속됨
 	virtual void OnHit() override;
+
 private:
 #pragma region State
 	void startSpawn(float _deltaTime);
@@ -50,16 +52,26 @@ private:
 #pragma endregion
 
 private:
-	const float FLY_HEIGHT = -3800.f;
+	static int refCounter_;
+
+private:
+	const int HP = 2;
+
+	const float FLY_HEIGHT = -3900.f;
+
 	const float FLY_MIN_X = 200.f;
 	const float FLY_MAX_X = 1200.f;
+
 	const float SPAWN_MIN_X = 600.f;
 	const float SPAWN_MAX_X = 860.f;
+
 	const float SPAWN_MIN_Y = 3900.f; // should be negative
 	const float SPAWN_MAX_Y = 4000.f; // should be negative
 
 
+
 private:
+	GameEngineTransformComponent* childTransform_;
 	GameEngineImageRenderer* renderer_;
 	GameEngineImageRenderer* spawnRenderer_;
 	GameEngineCollision* collision_;
@@ -67,11 +79,11 @@ private:
 	float4 speed_;
 
 	float accelerationY_;
+	float nextAttackDelay_;
 
 	float4 prevLocation_;
 	float4 nextLocation_;
 
 	GameEngineFSM state_;
-
 };
 

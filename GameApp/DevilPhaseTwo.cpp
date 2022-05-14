@@ -63,7 +63,7 @@ void DevilPhaseTwo::Update(float _deltaTime)
 	}
 	else
 	{
-		headRenderer_->SetColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+		headRenderer_->SetAddColor(float4::ZERO);
 	}
 
 	GameEngineLevelControlWindow* controlWindow = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineLevelControlWindow>("LevelControlWindow");
@@ -75,8 +75,8 @@ void DevilPhaseTwo::Update(float _deltaTime)
 
 void DevilPhaseTwo::OnHit()
 {
-	const float4 onHitColor = { 0.6f, 0.8f, 1.0f, 1.0f };
-	headRenderer_->SetColor(onHitColor);
+	const float4 onHitColor = { 0.1f, 0.2f, 0.3f};
+	headRenderer_->SetAddColor(onHitColor);
 	hitEffectTime_ = HIT_EFFECT_TIME;
 }
 
@@ -217,6 +217,11 @@ void DevilPhaseTwo::startEnterPhaseThree(float _deltaTime)
 	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_head_devil_hurt_trans_A_003.wav");
 
 	headTransform_->AddLocation(0.0f, -150.f);
+
+	leftEyeCollision_->SetLocation(LEFT_EYE_LOCATION_PHASE3);
+	leftEyeCollision_->SetScale(100.f);
+	rightEyeCollision_->SetLocation(RIGHT_EYE_LOCATION_PHASE3);
+	rightEyeCollision_->SetScale(100.f);
 }
 
 void DevilPhaseTwo::updateEnterPhaseThree(float _deltaTime)
@@ -268,6 +273,10 @@ void DevilPhaseTwo::updatePhaseThreeIdle(float _deltaTime)
 		switch (asp3)
 		{
 		case eAttackStatePhase3::IMP:
+			if (DevilImp::GetRefCount() >= 5)
+			{
+				return;
+			}
 			state_ << "SummonImp";
 			break;
 		case eAttackStatePhase3::FAT_DEMON:
@@ -276,6 +285,7 @@ void DevilPhaseTwo::updatePhaseThreeIdle(float _deltaTime)
 		default:
 			break;
 		}
+		timeCounter_ = 0.0f;
 		prevState_ = static_cast<int>(asp3);
 	}
 }
@@ -411,9 +421,18 @@ void DevilPhaseTwo::updateSummonImp(float _deltaTime)
 	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		headRenderer_->ChangeAnimation("DevilSummonImpIdle");
-		level_->CreateActor<DevilImp>();
-		level_->CreateActor<DevilImp>();
-		level_->CreateActor<DevilImp>();
+		GameEngineRandom random;
+
+		for (size_t i = 0; i < 3; i++)
+		{
+			if (DevilImp::GetRefCount() >= 5)
+			{
+				break;
+			}
+
+			DevilImp* newImp = level_->CreateActor<DevilImp>();
+			newImp->GetTransform()->SetLocationZ(random.RandomFloat(0.01f, 0.2f));
+		}
 	}
 
 	if (state_.GetTime() > 2.0f)
