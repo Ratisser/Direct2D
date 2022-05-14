@@ -907,8 +907,11 @@ void Devil::updatePhaseTwo(float _deltaTime)
 				bTemp = false;
 			}
 
-			if (timeCounter_ > 5.0f)
+			if (timeCounter_ > 6.0f)
 			{
+				player->GetTransform()->SetLocation({ 467.f, -4200.f });
+				player->SetStateCinematic();
+				player->SetCineState("Idle");
 				map->HallFrontLayerOff();
 			}
 		}
