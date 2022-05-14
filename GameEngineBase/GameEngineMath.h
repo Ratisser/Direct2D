@@ -11,6 +11,7 @@ public:
 	static const float RadianToDegree;
 
 	static float4 Lerp(const float4 _startPos, const float4 _endPos, float _startTime, float _endTime);
+	static float LerpFloat(const float _startValue, const float _endValue, float _startTime, float _endTime);
 };
 
 class float4x4;

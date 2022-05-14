@@ -75,3 +75,17 @@ float4 GameEngineMath::Lerp(const float4 _startPos, const float4 _endPos, float 
 
 	return _startPos + (delta * ratio);
 }
+
+float GameEngineMath::LerpFloat(const float _startValue, const float _endValue, float _startTime, float _endTime)
+{
+	float delta;
+	delta = _endValue - _startValue;
+
+	float ratio = (_startTime / _endTime);
+	if (ratio > 1.0f)
+	{
+		ratio = 1.0f;
+	}
+
+	return _startValue + (delta * ratio);
+}
