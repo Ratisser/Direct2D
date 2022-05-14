@@ -1109,9 +1109,13 @@ void Player::startDash(float _deltaTime)
 {
 	fireLoopSound_->Stop();
 	renderer_->ChangeAnimation("Dash", true);
-	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_dash_01.wav");
 	gravitySpeed_ = 0.0f;
 	bCanDash_ = false;
+
+	GameEngineRandom random;
+	int soundNumber = random.RandomInt(1, 3);
+	std::string soundName = "sfx_player_dash_0" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 }
 
 void Player::updateDash(float _deltaTime)
