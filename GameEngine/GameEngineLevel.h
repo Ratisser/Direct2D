@@ -58,6 +58,9 @@ public:
 	template<typename ActorType>
 	ActorType* CreateActor(const std::string& _name, int _updateOrder = 0);
 
+	template<typename LevelType>
+	LevelType* GetLevel();
+
 private:
 	void init();
 	void pushRenderer(GameEngineRenderer* _renderingComponent);
@@ -135,4 +138,16 @@ ActorType* GameEngineLevel::CreateActor(const std::string& _name, int _updateOrd
 #endif // _DEBUG
 
 	return dynamic_cast<ActorType*>(newActor);
+}
+
+template<typename LevelType>
+inline LevelType* GameEngineLevel::GetLevel()
+{
+	LevelType* level = dynamic_cast<LevelType*>(this);
+	if (nullptr == level)
+	{
+		GameEngineDebug::MsgBoxError("Down casting failed");
+		return nullptr;
+	}
+	return level;
 }
