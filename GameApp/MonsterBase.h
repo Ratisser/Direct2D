@@ -3,6 +3,7 @@
 #include <GameEngine\GameEngineActor.h>
 
 class GameEngineCollision;
+class GameEngineImageRenderer;
 class MonsterBase : public GameEngineActor
 {
 public:
@@ -15,7 +16,8 @@ public:
 	MonsterBase& operator=(const MonsterBase& _other) = delete;
 	MonsterBase& operator=(const MonsterBase&& _other) = delete;
 public:
-	virtual void OnHit() = 0;
+	virtual void Update(float _deltaTime);
+	virtual void OnHit();
 
 public:
 	void SetHP(int _hp);
@@ -24,7 +26,16 @@ public:
 	int GetHP() { return hp_; }
 
 protected:
-	int hp_;
+	void pushHitEffectRenderer(GameEngineImageRenderer* _renderer);
 
+protected:
+	const float HIT_EFFECT_TIME = 0.34f;
+
+protected:
+	int hp_;
+	float hitEffectTime_;
+
+private:
+	std::vector<GameEngineImageRenderer*> onHitEffectedRenderers_;
 };
 

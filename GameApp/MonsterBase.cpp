@@ -6,9 +6,11 @@
 #include <GameEngine\GameEngineRenderer.h>
 
 #include "eCollisionGroup.h"
+#include <GameEngine\GameEngineImageRenderer.h>
 
 MonsterBase::MonsterBase()
 	: hp_(0)
+	, hitEffectTime_(0.0f)
 {
 
 }
@@ -16,6 +18,34 @@ MonsterBase::MonsterBase()
 MonsterBase::~MonsterBase()
 {
 
+}
+
+void MonsterBase::Update(float _deltaTime)
+{
+	hitEffectTime_ -= _deltaTime;
+	if (hitEffectTime_ > 0.0f)
+	{
+		hitEffectTime_ -= _deltaTime;
+	}
+	else
+	{
+		for (GameEngineImageRenderer* renderer : onHitEffectedRenderers_)
+		{
+			renderer->SetAddColor(float4::ZERO);
+		}
+	}
+}
+
+void MonsterBase::OnHit()
+{
+	const float4 onHitColor = { 0.1f, 0.2f, 0.3f };
+
+	for (GameEngineImageRenderer* renderer : onHitEffectedRenderers_)
+	{
+		renderer->SetAddColor(onHitColor);
+	}
+
+	hitEffectTime_ = HIT_EFFECT_TIME;
 }
 
 void MonsterBase::SetHP(int _hp)
@@ -26,4 +56,9 @@ void MonsterBase::SetHP(int _hp)
 void MonsterBase::SubtractHP(int _damage)
 {
 	hp_ -= _damage;
+}
+
+void MonsterBase::pushHitEffectRenderer(GameEngineImageRenderer* _renderer)
+{
+	onHitEffectedRenderers_.push_back(_renderer);
 }
