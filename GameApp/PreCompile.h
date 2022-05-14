@@ -8,3 +8,4 @@
 #include <GameEngine/GameEngineManagerHelper.h>
 
 #include "eCollisionGroup.h"
+#include "Macro.h"
