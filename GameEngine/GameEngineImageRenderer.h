@@ -76,6 +76,8 @@ public:
 	void SetColor(float4 _color) { color_ = _color; }
 	float4 GetColor() const { return color_; }
 
+	void SetAddColor(float4 _color) { addColor_ = _color; }
+	float4 GetAddColor() const { return addColor_; }
 
 	void Stop() { bStop_ = true; }
 	void Resume() { bStop_ = false; }
@@ -90,6 +92,7 @@ private:
 
 	float4 CutData_;
 	float4 color_;
+	float4 addColor_;
 
 	bool bFlipHorizontal_;
 	bool bFlipVertical_;
