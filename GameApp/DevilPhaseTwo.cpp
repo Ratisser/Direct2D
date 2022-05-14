@@ -11,6 +11,7 @@
 #include "Axe.h"
 #include <GameApp\BombBat.h>
 #include <GameApp\DevilLevel.h>
+#include <GameApp\DevilImp.h>
 
 DevilPhaseTwo::DevilPhaseTwo()
 	: neckRenderer_(nullptr)
@@ -110,6 +111,9 @@ void DevilPhaseTwo::initRendererAndAnimation()
 
 	headRenderer_->CreateAnimationFolder("Phase2ToPhase3", 0.067f, false);
 	headRenderer_->CreateAnimationFolder("Phase3Idle", 0.034f);
+	headRenderer_->CreateAnimationFolder("DevilImpIntro", 0.034f, false);
+	headRenderer_->CreateAnimationFolderReverse("DevilImpIntroReverse", "DevilImpIntro", 0.034f, false);
+	headRenderer_->CreateAnimationFolder("DevilSummonImpIdle");
 
 	headRenderer_->ChangeAnimation("DevilPhase2Idle");
 }
@@ -149,6 +153,8 @@ void DevilPhaseTwo::initState()
 	state_.CreateState("SummonFatDemon", std::bind(&DevilPhaseTwo::startSummonFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSummonFatDemon, this, std::placeholders::_1));
 	state_.CreateState("ReleaseFatDemon", std::bind(&DevilPhaseTwo::startReleaseFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateReleaseFatDemon, this, std::placeholders::_1));
 	state_.CreateState("EndFatDemon", std::bind(&DevilPhaseTwo::startEndFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEndFatDemon, this, std::placeholders::_1));
+	state_.CreateState("EndSummonImp", std::bind(&DevilPhaseTwo::startEndSummonImp, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEndSummonImp, this, std::placeholders::_1));
+
 
 	state_ << "Wait";
 }
@@ -234,10 +240,44 @@ void DevilPhaseTwo::updateEnterPhaseThree(float _deltaTime)
 void DevilPhaseTwo::startPhaseThreeIdle(float _deltaTime)
 {
 	headRenderer_->ChangeAnimation("Phase3Idle");
+	timeCounter_ = 0.0f;
 }
 
 void DevilPhaseTwo::updatePhaseThreeIdle(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
+
+	if (timeCounter_ > ACTION_DELAY)
+	{
+		if (hp_ < 100)
+		{
+
+			state_ << "EnterPhaseFour";
+			return;
+		}
+
+		GameEngineRandom random;
+
+		eAttackStatePhase3 asp3 = static_cast<eAttackStatePhase3>(random.RandomInt(0, static_cast<int>(eAttackStatePhase3::MAX_COUNT) - 1));
+		if (static_cast<int>(asp3) == prevState_)
+		{
+			return;
+		}
+		asp3 = eAttackStatePhase3::IMP;
+
+		switch (asp3)
+		{
+		case eAttackStatePhase3::IMP:
+			state_ << "SummonImp";
+			break;
+		case eAttackStatePhase3::FAT_DEMON:
+			state_ << "SummonFatDemon";
+			break;
+		default:
+			break;
+		}
+		prevState_ = static_cast<int>(asp3);
+	}
 }
 
 void DevilPhaseTwo::startEnterPhaseFour(float _deltaTime)
@@ -362,10 +402,40 @@ void DevilPhaseTwo::updateBombAttack(float _deltaTime)
 
 void DevilPhaseTwo::startSummonImp(float _deltaTime)
 {
+	headRenderer_->ChangeAnimation("DevilImpIntro");
+	headTransform_->AddLocation(0.0f, -40.f);
 }
 
 void DevilPhaseTwo::updateSummonImp(float _deltaTime)
 {
+	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		headRenderer_->ChangeAnimation("DevilSummonImpIdle");
+		level_->CreateActor<DevilImp>();
+		level_->CreateActor<DevilImp>();
+		level_->CreateActor<DevilImp>();
+	}
+
+	if (state_.GetTime() > 2.0f)
+	{
+		state_ << "EndSummonImp";
+		return;
+	}
+}
+
+void DevilPhaseTwo::startEndSummonImp(float _deltaTime)
+{
+	headRenderer_->ChangeAnimation("DevilImpIntroReverse");
+}
+
+void DevilPhaseTwo::updateEndSummonImp(float _deltaTime)
+{
+	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		headTransform_->AddLocation(0.0f, 40.f);
+		state_ << "PhaseThreeIdle";
+		return;
+	}
 }
 
 void DevilPhaseTwo::startSummonFatDemon(float _deltaTime)

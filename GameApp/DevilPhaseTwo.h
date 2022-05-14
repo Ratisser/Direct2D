@@ -69,6 +69,9 @@ private:
 	void startSummonImp(float _deltaTime);
 	void updateSummonImp(float _deltaTime);
 
+	void startEndSummonImp(float _deltaTime);
+	void updateEndSummonImp(float _deltaTime);
+
 	void startSummonFatDemon(float _deltaTime);
 	void updateSummonFatDemon(float _deltaTime);
 
