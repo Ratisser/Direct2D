@@ -97,12 +97,12 @@ private:
 	float4 LEFT_BOMB_SPAWN_LOCATION = { 610.f, -4050.f, -0.2f };
 	float4 RIGHT_BOMB_SPAWN_LOCATION = { 840.f, -4050.f, -0.2f };
 
-	float4 LEFT_EYE_LOCATION = { 590.f , -4000.f };
-	float4 RIGHT_EYE_LOCATION = { 860.f , -4000.f };
+	float4 LEFT_EYE_LOCATION = { 580.f , -4000.f };
+	float4 RIGHT_EYE_LOCATION = { 880.f , -4000.f };
 	float4 CENTER_EYE_LOCATION = { 736.f, -4000.f };
 
-	float4 LEFT_EYE_LOCATION_PHASE3 = { 590.f, -4000.f };
-	float4 RIGHT_EYE_LOCATION_PHASE3 = { 860.f, -4000.f };
+	float4 LEFT_EYE_LOCATION_PHASE3 = { 580.f, -4000.f };
+	float4 RIGHT_EYE_LOCATION_PHASE3 = { 900.f, -4000.f };
 
 
 
