@@ -88,7 +88,7 @@ std::string GameEngineFSM::GetCurrentStateName()
 	}
 }
 
-float GameEngineFSM::GetCurrentStateTime()
+float GameEngineFSM::GetTime()
 {
 	if (nullptr != currentState_)
 	{
