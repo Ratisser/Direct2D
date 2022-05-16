@@ -29,7 +29,7 @@ protected:
 	void pushHitEffectRenderer(GameEngineImageRenderer* _renderer);
 
 protected:
-	const float HIT_EFFECT_TIME = 0.34f;
+	const float HIT_EFFECT_TIME = 0.034f;
 
 protected:
 	int hp_;
