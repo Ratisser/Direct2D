@@ -206,6 +206,26 @@ void GameEngineTransformComponent::SetWorldLocationXY(float _x, float _y)
 	UpdateTransform();
 }
 
+void GameEngineTransformComponent::SetWorldLocationXY(const float4& _location)
+{
+	if (nullptr != parent_)
+	{
+		float4 parentLocation = parent_->GetWorldLocation();
+		location_.x = _location.x - parentLocation.x;
+		location_.y = _location.y - parentLocation.y;
+		location_.w = 1.0f;
+	}
+	else
+	{
+		location_.x = _location.x;
+		location_.y = _location.y;
+		location_.w = 1.0f;
+	}
+
+
+	UpdateTransform();
+}
+
 float4 GameEngineTransformComponent::GetScale() const
 {
 	return scale_;

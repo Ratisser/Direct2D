@@ -53,6 +53,8 @@ public:
 	void SetWorldLocation(const float4& _location);
 	void SetWorldLocation(float _x, float _y, float _z = 0.0f);
 	void SetWorldLocationXY(float _x, float _y);
+	void SetWorldLocationXY(const float4& _location);
+
 
 	float4 GetScale() const;
 	float4 GetRotation() const;
