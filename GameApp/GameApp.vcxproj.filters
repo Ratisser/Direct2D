@@ -107,6 +107,9 @@
     <ClCompile Include="FatDemonSkull.cpp">
       <Filter>01.GameObject\03.Level\DevilLevel\Phase2</Filter>
     </ClCompile>
+    <ClCompile Include="DevilTear.cpp">
+      <Filter>01.GameObject\03.Level\DevilLevel\Phase2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -280,6 +283,9 @@
       <Filter>01.GameObject\00.Constant</Filter>
     </ClInclude>
     <ClInclude Include="FatDemonSkull.h">
+      <Filter>01.GameObject\03.Level\DevilLevel\Phase2</Filter>
+    </ClInclude>
+    <ClInclude Include="DevilTear.h">
       <Filter>01.GameObject\03.Level\DevilLevel\Phase2</Filter>
     </ClInclude>
   </ItemGroup>

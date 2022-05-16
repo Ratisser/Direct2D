@@ -220,6 +220,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DevilTear.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FatDemon.cpp">
       <SubType>
       </SubType>
@@ -363,6 +367,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DevilPlatform.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="DevilTear.h">
       <SubType>
       </SubType>
     </ClInclude>

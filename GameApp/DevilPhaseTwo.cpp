@@ -76,7 +76,7 @@ void DevilPhaseTwo::Update(float _deltaTime)
 
 void DevilPhaseTwo::OnHit()
 {
-	const float4 onHitColor = { 0.1f, 0.2f, 0.3f};
+	const float4 onHitColor = { 0.1f, 0.2f, 0.3f };
 	headRenderer_->SetAddColor(onHitColor);
 	hitEffectTime_ = HIT_EFFECT_TIME;
 
@@ -124,6 +124,7 @@ void DevilPhaseTwo::initRendererAndAnimation()
 	headRenderer_->CreateAnimationFolderReverse("DevilImpIntroReverse", "DevilImpIntro", 0.034f, false);
 	headRenderer_->CreateAnimationFolder("DevilSummonImpIdle");
 	headRenderer_->CreateAnimationFolder("DevilCrying", 0.034f, false);
+	headRenderer_->CreateAnimationFolder("DevilStartCrying", 0.034f, false);
 
 	headRenderer_->ChangeAnimation("DevilPhase2Idle");
 }
@@ -162,6 +163,8 @@ void DevilPhaseTwo::initState()
 	state_.CreateState("SummonImp", std::bind(&DevilPhaseTwo::startSummonImp, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSummonImp, this, std::placeholders::_1));
 	state_.CreateState("SummonFatDemon", std::bind(&DevilPhaseTwo::startSummonFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSummonFatDemon, this, std::placeholders::_1));
 	state_.CreateState("EndSummonImp", std::bind(&DevilPhaseTwo::startEndSummonImp, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEndSummonImp, this, std::placeholders::_1));
+
+	state_.CreateState(MakeState(DevilPhaseTwo, BeforePhaseFourIdle));
 
 
 	state_ << "Wait";
@@ -319,6 +322,20 @@ void DevilPhaseTwo::updateEnterPhaseFour(float _deltaTime)
 		headRenderer_->ChangeAnimation("DevilCrying");
 		headTransform_->AddLocation(0.0f, 150.f);
 
+		state_ << "BeforePhaseFourIdle";
+		return;
+	}
+}
+
+void DevilPhaseTwo::startBeforePhaseFourIdle(float _deltaTime)
+{
+	headRenderer_->ChangeAnimation("DevilStartCrying");
+}
+
+void DevilPhaseTwo::updateBeforePhaseFourIdle(float _deltaTime)
+{
+	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
 		state_ << "PhaseFourIdle";
 		return;
 	}

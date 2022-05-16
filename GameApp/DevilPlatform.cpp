@@ -112,6 +112,11 @@ void DevilPlatform::updateIdle(float _deltaTime)
 		GameEngineRandom random;
 		eAction action = static_cast<eAction>(random.RandomInt(0, eAction::MAX_COUNT - 1));
 
+		if (false == bMoveable_)
+		{
+			action = eAction::CHIP;
+		}
+
 		switch (action)
 		{
 		case DevilPlatform::MOVE:
