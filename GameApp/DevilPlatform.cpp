@@ -13,6 +13,7 @@ DevilPlatform::DevilPlatform()
 	, collision_(nullptr)
 	, rootTransform_(nullptr)
 	, bMoveable_(true)
+	, bActivate_(false)
 	, timeCounter_(0.0f)
 {
 
@@ -99,7 +100,7 @@ void DevilPlatform::startIdle(float _deltaTime)
 
 void DevilPlatform::updateIdle(float _deltaTime)
 {
-	if (!bMoveable_)
+	if (!bActivate_)
 	{
 		return;
 	}

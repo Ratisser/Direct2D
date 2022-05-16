@@ -24,6 +24,8 @@ public:
 	void SetPlatformAppearance(int _num);
 
 	void SetMoveable(bool _bMoveable);
+	void Activate() { bActivate_ = true; }
+	void Deactivate() { bActivate_ = false; }
 	void FallAndRelease();
 
 private:
@@ -63,5 +65,6 @@ private:
 	float4 moveEndPosition_;
 
 	bool bMoveable_;
+	bool bActivate_;
 };
 

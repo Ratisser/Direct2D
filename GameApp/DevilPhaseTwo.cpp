@@ -12,6 +12,7 @@
 #include <GameApp\BombBat.h>
 #include <GameApp\DevilLevel.h>
 #include <GameApp\DevilImp.h>
+#include "FatDemon.h"
 
 DevilPhaseTwo::DevilPhaseTwo()
 	: neckRenderer_(nullptr)
@@ -78,6 +79,14 @@ void DevilPhaseTwo::OnHit()
 	const float4 onHitColor = { 0.1f, 0.2f, 0.3f};
 	headRenderer_->SetAddColor(onHitColor);
 	hitEffectTime_ = HIT_EFFECT_TIME;
+
+	if (hp_ <= 0)
+	{
+		leftEyeCollision_->Off();
+		rightEyeCollision_->Off();
+
+		//state_ << "Knockout";
+	}
 }
 
 void DevilPhaseTwo::initInput()
@@ -114,6 +123,7 @@ void DevilPhaseTwo::initRendererAndAnimation()
 	headRenderer_->CreateAnimationFolder("DevilImpIntro", 0.034f, false);
 	headRenderer_->CreateAnimationFolderReverse("DevilImpIntroReverse", "DevilImpIntro", 0.034f, false);
 	headRenderer_->CreateAnimationFolder("DevilSummonImpIdle");
+	headRenderer_->CreateAnimationFolder("DevilCrying", 0.034f, false);
 
 	headRenderer_->ChangeAnimation("DevilPhase2Idle");
 }
@@ -151,8 +161,6 @@ void DevilPhaseTwo::initState()
 
 	state_.CreateState("SummonImp", std::bind(&DevilPhaseTwo::startSummonImp, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSummonImp, this, std::placeholders::_1));
 	state_.CreateState("SummonFatDemon", std::bind(&DevilPhaseTwo::startSummonFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSummonFatDemon, this, std::placeholders::_1));
-	state_.CreateState("ReleaseFatDemon", std::bind(&DevilPhaseTwo::startReleaseFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateReleaseFatDemon, this, std::placeholders::_1));
-	state_.CreateState("EndFatDemon", std::bind(&DevilPhaseTwo::startEndFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEndFatDemon, this, std::placeholders::_1));
 	state_.CreateState("EndSummonImp", std::bind(&DevilPhaseTwo::startEndSummonImp, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEndSummonImp, this, std::placeholders::_1));
 
 
@@ -180,7 +188,7 @@ void DevilPhaseTwo::updateIdle(float _deltaTime)
 
 	if (timeCounter_ > ACTION_DELAY)
 	{
-		if (hp_ < 200)
+		if (hp_ <= 200)
 		{
 
 			state_ << "EnterPhaseThree";
@@ -254,7 +262,7 @@ void DevilPhaseTwo::updatePhaseThreeIdle(float _deltaTime)
 
 	if (timeCounter_ > ACTION_DELAY)
 	{
-		if (hp_ < 100)
+		if (hp_ <= 100)
 		{
 
 			state_ << "EnterPhaseFour";
@@ -268,7 +276,7 @@ void DevilPhaseTwo::updatePhaseThreeIdle(float _deltaTime)
 		{
 			return;
 		}
-		asp3 = eAttackStatePhase3::IMP;
+		//asp3 = eAttackStatePhase3::FAT_DEMON;
 
 		switch (asp3)
 		{
@@ -292,18 +300,48 @@ void DevilPhaseTwo::updatePhaseThreeIdle(float _deltaTime)
 
 void DevilPhaseTwo::startEnterPhaseFour(float _deltaTime)
 {
+	headRenderer_->ChangeAnimation("Phase2ToPhase3");
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_head_devil_hurt_trans_A_001.wav");
+
+	headTransform_->AddLocation(0.0f, -150.f);
 }
 
 void DevilPhaseTwo::updateEnterPhaseFour(float _deltaTime)
 {
+	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		DevilLevel* level = dynamic_cast<DevilLevel*>(level_);
+		if (nullptr != level)
+		{
+			level->ChangeStatePhaseFour();
+		}
+
+		headRenderer_->ChangeAnimation("DevilCrying");
+		headTransform_->AddLocation(0.0f, 150.f);
+
+		state_ << "PhaseFourIdle";
+		return;
+	}
 }
 
 void DevilPhaseTwo::startPhaseFourIdle(float _deltaTime)
 {
+	headRenderer_->ChangeAnimation("DevilCrying", true);
+
+	GameEngineRandom random;
+	int soundNumber = random.RandomInt(1, 3);
+	std::string soundName = "sfx_level_devil_head_devil_cry_idle_00" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+
 }
 
 void DevilPhaseTwo::updatePhaseFourIdle(float _deltaTime)
 {
+	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "PhaseFourIdle";
+		return;
+	}
 }
 
 void DevilPhaseTwo::startSpiralAttack(float _deltaTime)
@@ -459,24 +497,18 @@ void DevilPhaseTwo::updateEndSummonImp(float _deltaTime)
 
 void DevilPhaseTwo::startSummonFatDemon(float _deltaTime)
 {
+	if (FatDemon::LeftExist && FatDemon::RightExist)
+	{
+		return;
+	}
+
+	level_->CreateActor<FatDemon>();
 }
 
 void DevilPhaseTwo::updateSummonFatDemon(float _deltaTime)
 {
-}
-
-void DevilPhaseTwo::startReleaseFatDemon(float _deltaTime)
-{
-}
-
-void DevilPhaseTwo::updateReleaseFatDemon(float _deltaTime)
-{
-}
-
-void DevilPhaseTwo::startEndFatDemon(float _deltaTime)
-{
-}
-
-void DevilPhaseTwo::updateEndFatDemon(float _deltaTime)
-{
+	if (state_.GetTime() > 2.0f)
+	{
+		state_ << "PhaseThreeIdle";
+	}
 }

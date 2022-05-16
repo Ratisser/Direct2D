@@ -5,6 +5,7 @@
 #include "MonsterBase.h"
 
 class GameEngineImageRenderer;
+class GameEngineCollision;
 class FatDemon : public MonsterBase
 {
 public:
@@ -23,8 +24,8 @@ public:
 	virtual void OnHit();
 
 public:
-	static bool Left;
-	static bool Right;
+	static bool LeftExist;
+	static bool RightExist;
 
 private:
 #pragma region State
@@ -50,21 +51,30 @@ private:
 
 
 private:
-	const int HP = 10;
+	const int MAX_HP = 10;
 
-	const float4 LEFT_SPAWN_LOCATION = { 175.f, -4700.f };
-	const float4 RIGHT_SPAWN_LOCATION = { 1250.f, -4700.f };
+	const float4 LEFT_SPAWN_LOCATION = { 175.f, -5500.f, 0.4f };
+	const float4 RIGHT_SPAWN_LOCATION = { 1250.f, -5500.f, 0.4f };
 
-	const float4 LEFT_START_LOCATION = { 175.f, -4100.f };
-	const float4 RIGHT_START_LOCATION = { 1250.f, -4100.f };
+	const float4 LEFT_START_LOCATION = { 175.f, -4300.f, 0.4f };
+	const float4 RIGHT_START_LOCATION = { 1250.f, -4300.f, 0.4f };
 
 private:
 	GameEngineTransformComponent* childTransform_;
+	GameEngineTransformComponent* handTransform_;
 	GameEngineImageRenderer* handRenderer_;
 	GameEngineImageRenderer* renderer_;
+	GameEngineCollision* collision_;
 
 	GameEngineFSM state_;
 
+	float4 prevLocation_;
+	float4 nextLocation_;
+
 	bool bLeft_;
+	bool bShoot_;
+
+	float attackDelay_;
+	float moveTime_;
 };
 

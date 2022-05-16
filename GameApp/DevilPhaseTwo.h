@@ -75,12 +75,6 @@ private:
 	void startSummonFatDemon(float _deltaTime);
 	void updateSummonFatDemon(float _deltaTime);
 
-	void startReleaseFatDemon(float _deltaTime);
-	void updateReleaseFatDemon(float _deltaTime);
-
-	void startEndFatDemon(float _deltaTime);
-	void updateEndFatDemon(float _deltaTime);
-
 
 #pragma endregion
 

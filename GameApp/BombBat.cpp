@@ -41,8 +41,6 @@ void BombBat::Start()
 	state_.CreateState("Explosion", std::bind(&BombBat::startExplosion, this, std::placeholders::_1), std::bind(&BombBat::updateExplosion, this, std::placeholders::_1));
 
 	state_ << "Summon";
-
-	GameEngineRandom random;
 }
 
 void BombBat::Update(float _deltaTime)

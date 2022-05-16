@@ -207,6 +207,11 @@ void DevilLevel::startPhaseTwo(float _deltaTime)
 
 	devil_->Release();
 	devil_ = nullptr;
+
+	for (DevilPlatform* p : platforms_)
+	{
+		p->Activate();
+	}
 }
 
 void DevilLevel::updatePhaseTwo(float _deltaTime)
