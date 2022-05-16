@@ -48,6 +48,7 @@ Player::Player()
 	, bulletDirection_(float4::RIGHT)
 	, bulletRotation_(float4::ZERO)
 	, timeCounter_(0.0f)
+	, bParryJump_(false)
 {
 
 }
@@ -402,6 +403,16 @@ void Player::playLandingSound()
 	GameEngineRandom random;
 	int soundNumber = random.RandomInt(1, 1);
 	std::string soundName = "sfx_player_land_ground_0" + std::to_string(soundNumber) + ".wav";
+	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+}
+
+void Player::playParrySound()
+{
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_parry_slap_01.wav");
+
+	GameEngineRandom random;
+	int soundNumber = random.RandomInt(1, 2);
+	std::string soundName = "sfx_player_parry_power_up_hit_0" + std::to_string(soundNumber) + ".wav";
 	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 }
 
@@ -853,12 +864,22 @@ void Player::startJump(float _deltaTime)
 	}
 	bulletRotation_ = float4::ZERO;
 
+	if (bParryJump_)
+	{
+		bParryJump_ = false;
+		return;
+	}
 	renderer_->ChangeAnimation("Air");
 }
 
 void Player::updateJump(float _deltaTime)
 {
 	bGround_ = false;
+
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		renderer_->ChangeAnimation("Air");
+	}
 
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
@@ -1883,12 +1904,9 @@ void Player::updateParry(float _deltaTime)
 		{
 			parryObject->SetParryable(false);
 			parryObject->Parry();
-			GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_parry_slap_01.wav");
 
-			GameEngineRandom random;
-			int soundNumber = random.RandomInt(1, 2);
-			std::string soundName = "sfx_player_parry_power_up_hit_0" + std::to_string(soundNumber) + ".wav";
-			GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+			level_->SetBulletTime(0.05f, 0.2f);
+			playParrySound();
 
 			GameEngineActor* parryEffect = level_->CreateActor<ParryEffect>();
 			float4 parryEffectLocation = parryObject->GetTransform()->GetWorldLocation() - transform_->GetWorldLocation();
@@ -1896,6 +1914,7 @@ void Player::updateParry(float _deltaTime)
 			parryEffect->GetTransform()->SetLocation(parryEffectLocation);
 
 			bGround_ = true;
+			bParryJump_ = true;
 			normalState_ << "Jump";
 			return;
 		}
@@ -1909,12 +1928,9 @@ void Player::updateParry(float _deltaTime)
 		{
 			parryObject->SetParryable(false);
 			parryObject->Parry();
-			GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_parry_slap_01.wav");
 
-			GameEngineRandom random;
-			int soundNumber = random.RandomInt(1, 2);
-			std::string soundName = "sfx_player_parry_power_up_hit_0" + std::to_string(soundNumber) + ".wav";
-			GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+			level_->SetBulletTime(0.05f, 0.2f);
+			playParrySound();
 
 			GameEngineActor* parryEffect = level_->CreateActor<ParryEffect>();
 			float4 parryEffectLocation = parryObject->GetTransform()->GetWorldLocation() - transform_->GetWorldLocation();
@@ -1922,6 +1938,7 @@ void Player::updateParry(float _deltaTime)
 			parryEffect->GetTransform()->SetLocation(parryEffectLocation);
 
 			bGround_ = true;
+			bParryJump_ = true;
 			normalState_ << "Jump";
 			return;
 		}

@@ -48,6 +48,8 @@ public:
 
 	std::list<GameEngineCollision*>& GetCollisionGroup(int _group);
 
+	void SetBulletTime(float _ratio, float _effectTime);
+
 public:
 	static bool PostProcess_;
 
@@ -83,6 +85,10 @@ private:
 	std::map<int, std::list<GameEngineActor*>> allActors_;
 	std::map<int, std::list<GameEngineCollision*>> allCollisions_;
 	std::list<GameEngineRenderer*> allRenderer_;
+
+private:
+	float bulletTimeRatio_;
+	float bulletTime_;
 };
 
 

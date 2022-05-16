@@ -45,7 +45,7 @@ private:
 	void playHitSound();
 	void playJumpSound();
 	void playLandingSound();
-
+	void playParrySound();
 private:
 // Player state can controlled by other objects
 #pragma region PlayerState
@@ -185,6 +185,7 @@ private:
 	bool bDownJump_;
 	bool bInvincible_;
 	bool bBlink_;
+	bool bParryJump_;
 
 	float jumpTime_;
 	float gravitySpeed_;

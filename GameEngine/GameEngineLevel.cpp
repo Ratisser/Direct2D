@@ -20,6 +20,8 @@ GameEngineLevel::GameEngineLevel()
 	, uiCamera_(nullptr)
 	, freeCamera_(nullptr)
 	, mainCameraBackup_(nullptr)
+	, bulletTimeRatio_(1.0f)
+	, bulletTime_(0.0f)
 {
 
 }
@@ -95,6 +97,13 @@ void GameEngineLevel::LevelUpdateAfter(float _deltaTime)
 
 void GameEngineLevel::ActorUpdate(float _deltaTime)
 {
+	bulletTime_ -= _deltaTime;
+
+	if (bulletTime_ > 0.0f)
+	{
+		_deltaTime = _deltaTime * bulletTimeRatio_;
+	}
+
 	for (std::pair<int, std::list<GameEngineActor*>> pair : allActors_)
 	{
 		for (GameEngineActor* actor : pair.second)
@@ -295,6 +304,12 @@ GameEngineCameraComponent* GameEngineLevel::GetMainCameraComponent()
 std::list<GameEngineCollision*>& GameEngineLevel::GetCollisionGroup(int _group)
 {
 	return allCollisions_[_group];
+}
+
+void GameEngineLevel::SetBulletTime(float _ratio, float _effectTime)
+{
+	bulletTimeRatio_ = _ratio;
+	bulletTime_ = _effectTime;
 }
 
 void GameEngineLevel::init()
