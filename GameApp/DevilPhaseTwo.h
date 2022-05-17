@@ -51,9 +51,6 @@ private:
 	void startEnterPhaseFour(float _deltaTime);
 	void updateEnterPhaseFour(float _deltaTime);
 
-	void startBeforePhaseFourIdle(float _deltaTime);
-	void updateBeforePhaseFourIdle(float _deltaTime);
-
 	void startPhaseFourIdle(float _deltaTime);
 	void updatePhaseFourIdle(float _deltaTime);
 

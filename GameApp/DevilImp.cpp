@@ -161,7 +161,7 @@ void DevilImp::startAttack(float _deltaTime)
 
 	speed_ = player->GetTransform()->GetWorldLocation() - childTransform_->GetWorldLocation();
 	speed_.z = 0.0f;
-	speed_.y *= 2.0f;
+	speed_.y *= 1.5f;
 	accelerationY_ = -speed_.y;
 
 	GameEngineSoundManager::GetInstance().PlaySoundByName("sxf_level_devil_bat_bomb_spin_01.wav");

@@ -169,7 +169,6 @@ void DevilPhaseTwo::initState()
 	state_.CreateState("SummonFatDemon", std::bind(&DevilPhaseTwo::startSummonFatDemon, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateSummonFatDemon, this, std::placeholders::_1));
 	state_.CreateState("EndSummonImp", std::bind(&DevilPhaseTwo::startEndSummonImp, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEndSummonImp, this, std::placeholders::_1));
 
-	state_.CreateState(MakeState(DevilPhaseTwo, BeforePhaseFourIdle));
 	state_.CreateState(MakeState(DevilPhaseTwo, Death));
 
 
@@ -329,20 +328,6 @@ void DevilPhaseTwo::updateEnterPhaseFour(float _deltaTime)
 		headRenderer_->ChangeAnimation("DevilCrying");
 		headTransform_->AddLocation(0.0f, 150.f);
 
-		state_ << "BeforePhaseFourIdle";
-		return;
-	}
-}
-
-void DevilPhaseTwo::startBeforePhaseFourIdle(float _deltaTime)
-{
-	headRenderer_->ChangeAnimation("DevilStartCrying");
-}
-
-void DevilPhaseTwo::updateBeforePhaseFourIdle(float _deltaTime)
-{
-	if (headRenderer_->GetCurrentAnimation()->IsEnd_)
-	{
 		state_ << "PhaseFourIdle";
 		return;
 	}
