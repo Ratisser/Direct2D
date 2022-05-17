@@ -228,6 +228,8 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FadeIn.cpp" />
+    <ClCompile Include="FadeOut.cpp" />
     <ClCompile Include="FatDemon.cpp">
       <SubType>
       </SubType>
@@ -254,6 +256,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MonsterBase.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MovePoint.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -400,6 +406,8 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="FadeIn.h" />
+    <ClInclude Include="FadeOut.h" />
     <ClInclude Include="FatDemon.h">
       <SubType>
       </SubType>
@@ -427,6 +435,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MonsterBase.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MovePoint.h">
       <SubType>
       </SubType>
     </ClInclude>

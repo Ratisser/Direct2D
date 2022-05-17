@@ -125,6 +125,15 @@
     <ClCompile Include="Hourglass.cpp">
       <Filter>01.GameObject\02.GlobalActor</Filter>
     </ClCompile>
+    <ClCompile Include="MovePoint.cpp">
+      <Filter>01.GameObject\03.Level\WorldLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeIn.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeOut.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -329,6 +338,15 @@
     </ClInclude>
     <ClInclude Include="Hourglass.h">
       <Filter>01.GameObject\02.GlobalActor</Filter>
+    </ClInclude>
+    <ClInclude Include="MovePoint.h">
+      <Filter>01.GameObject\03.Level\WorldLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeIn.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeOut.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

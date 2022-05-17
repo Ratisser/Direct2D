@@ -5,6 +5,7 @@
 
 #include "WorldMapPlayer.h"
 #include <GameApp\WorldMap.h>
+#include "MovePoint.h"
 
 WorldLevel::WorldLevel()
 	: player_(nullptr)
@@ -38,6 +39,14 @@ void WorldLevel::LevelStart()
 	player_ = CreateActor<WorldMapPlayer>("Player");
 	player_->GetTransform()->SetLocation(800.f, -800.f, 3.5f);
 	CreateActor<WorldMap>("Map");
+
+	MovePoint* mp = CreateActor<MovePoint>("MovePointDevilLevel");
+	mp->GetTransform()->SetWorldLocation({ 2618.f, -1531.f, 4.5f });
+	mp->SetDestination("DevilLevel");
+
+	mp = CreateActor<MovePoint>("MovePointFlowerLevel");
+	mp->GetTransform()->SetWorldLocation({ 2136.f, -761.f, 4.5f });
+	mp->SetDestination(""); // flower level
 }
 
 void WorldLevel::LevelUpdate(float _deltaTime)
