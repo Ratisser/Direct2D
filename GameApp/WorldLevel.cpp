@@ -6,6 +6,7 @@
 #include "WorldMapPlayer.h"
 #include <GameApp\WorldMap.h>
 #include "MovePoint.h"
+#include <GameApp\FadeIn.h>
 
 WorldLevel::WorldLevel()
 	: player_(nullptr)
@@ -26,6 +27,7 @@ void WorldLevel::LevelChangeEndEvent()
 
 void WorldLevel::LevelChangeStartEvent()
 {
+	CreateActor<FadeIn>();
 }
 
 void WorldLevel::LevelStart()

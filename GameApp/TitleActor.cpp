@@ -9,6 +9,7 @@
 #include <GameEngine\GameEngineInput.h>
 
 #include <GameEngine\GameEngineCore.h>
+#include <GameApp\FadeOut.h>
 
 TitleActor::TitleActor()
     : titleRenderer_(nullptr)
@@ -57,6 +58,7 @@ void TitleActor::Start()
     }
 
     GameEngineInput::GetInstance().CreateKey("P", 'P');
+    GameEngineInput::GetInstance().CreateKey("Z", 'Z');
 
     bgmPlayer_ = new GameEngineSoundPlayer("MUS_Intro_DontDealWithDevil_Vocal.wav");
     state_.CreateState("Start", std::bind(&TitleActor::startStart, this, std::placeholders::_1), std::bind(&TitleActor::updateStart, this, std::placeholders::_1));
@@ -94,7 +96,27 @@ void TitleActor::startStart(float _deltaTime)
 
 void TitleActor::updateStart(float _deltaTime)
 {
-    if (GameEngineInput::GetInstance().IsKeyDown("P"))
+    //if (GameEngineInput::GetInstance().IsKeyDown("P"))
+    //{
+    //    bgmPlayer_->Stop();
+    //    GameEngineCore::ChangeLevel("TutorialLevel");
+    //}
+
+    if (GameEngineInput::GetInstance().IsKeyDown("Z"))
+    {
+        state_ << "Press";
+    }
+}
+
+void TitleActor::startPress(float _deltaTime)
+{
+    GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_WorldMap_LevelSelect_DiffucultySettings_Appear.wav");
+    level_->CreateActor<FadeOut>();
+}
+
+void TitleActor::updatePress(float _deltaTime)
+{
+    if (state_.GetTime() > 0.55f)
     {
         bgmPlayer_->Stop();
         GameEngineCore::ChangeLevel("TutorialLevel");

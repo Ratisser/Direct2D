@@ -21,6 +21,7 @@
 #include "DevilMap.h"
 #include "GameEngineLevelControlWindow.h"
 #include <GameApp\Ready.h>
+#include <GameApp\FadeIn.h>
 
 Devil::Devil()
 	: devilRenderer_(nullptr)
@@ -369,6 +370,7 @@ void Devil::startIntro(float _deltaTime)
 	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_announcer_0001_b.wav");
 
 	level_->CreateActor<Ready>();
+	level_->CreateActor<FadeIn>();
 }
 
 void Devil::updateIntro(float _deltaTime)

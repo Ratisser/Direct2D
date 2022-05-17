@@ -6,6 +6,7 @@
 #include "TutorialMap.h"
 
 #include "ParryObjectTutorial.h"
+#include <GameApp\FadeIn.h>
 
 
 TutorialLevel::TutorialLevel()
@@ -27,6 +28,7 @@ void TutorialLevel::LevelChangeEndEvent()
 
 void TutorialLevel::LevelChangeStartEvent()
 {
+	CreateActor<FadeIn>();
 }
 
 void TutorialLevel::LevelStart()

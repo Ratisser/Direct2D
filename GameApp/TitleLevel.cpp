@@ -2,6 +2,7 @@
 
 #include "TitleLevel.h"
 #include "TitleActor.h"
+#include <GameApp\FadeIn.h>
 
 TitleLevel::TitleLevel()
 {
@@ -19,8 +20,7 @@ void TitleLevel::LevelChangeEndEvent()
 
 void TitleLevel::LevelChangeStartEvent()
 {
-
-
+	CreateActor<FadeIn>();
 }
 
 void TitleLevel::LevelStart()

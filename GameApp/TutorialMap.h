@@ -19,5 +19,7 @@ public:
 
 private:
 	GameEngineCollision* exitDoor_;
+
+	bool nextLevel_;
 };
 

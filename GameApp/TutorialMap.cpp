@@ -8,9 +8,11 @@
 #include <GameEngine\GameEngineCore.h>
 
 #include "eCollisionGroup.h"
+#include <GameApp\FadeOut.h>
 
 TutorialMap::TutorialMap()
 	: exitDoor_(nullptr)
+	, nextLevel_(false)
 {
 
 }
@@ -72,11 +74,22 @@ void TutorialMap::Start()
 
 void TutorialMap::Update(float _deltaTime)
 {
-	if (nullptr != exitDoor_->IsCollideOne(eCollisionGroup::Player))
+	if (nextLevel_)
 	{
-		if (GameEngineInput::GetInstance().IsKeyDown("Z"))
+		static float time = 0.0f;
+		time += _deltaTime;
+		if (time > 0.55f)
 		{
 			GameEngineCore::ChangeLevel("WorldLevel");
+		}
+	}
+
+	if (nullptr != exitDoor_->IsCollideOne(eCollisionGroup::Player))
+	{
+		if (nextLevel_ == false && GameEngineInput::GetInstance().IsKeyDown("Z"))
+		{
+			nextLevel_ = true;
+			level_->CreateActor<FadeOut>();
 		}
 	}
 

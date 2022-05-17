@@ -28,6 +28,8 @@ private:
 	void startStart(float  _deltaTime);
 	void updateStart(float  _deltaTime);
 
+	void startPress(float _deltaTime);
+	void updatePress(float _deltaTime);
 private:
 	GameEngineImageRenderer* titleRenderer_;
 	GameEngineSoundPlayer* bgmPlayer_;
