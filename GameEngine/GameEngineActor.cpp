@@ -10,6 +10,7 @@ GameEngineActor::GameEngineActor()
 	: level_(nullptr)
 	, bDestroyed_(false)
 	, aliveTime_(-1.f)
+	, bBulletTimeEffect_(true)
 {
 	transform_ = new GameEngineTransformComponent();
 	transform_->InitComponent(this);

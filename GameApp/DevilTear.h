@@ -20,5 +20,13 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 	virtual void onParry() override;
+
+private:
+	const float FALL_SPEED = -300.f;
+
+private:
+	GameEngineImageRenderer* renderer_;
+
+	float timeCounter_;
 };
 

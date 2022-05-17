@@ -38,7 +38,8 @@ public:
 	void Update(float _deltaTime);
 
 	std::string GetCurrentStateName();
-	float GetTime();
+	float GetTime() const;
+	void SetTime(float _time);
 
 private:
 	std::map<std::string, GameEngineFSM::State*> allState_;

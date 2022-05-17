@@ -58,7 +58,7 @@ void Demon::Update(float _deltaTime)
 	}
 	else
 	{
-		renderer_->SetColor(float4::ONE);
+		renderer_->SetAddColor(float4::ZERO);
 	}
 
 	if (bLeft_)

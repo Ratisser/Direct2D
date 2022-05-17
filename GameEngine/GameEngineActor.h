@@ -44,6 +44,9 @@ public:
 
 	GameEngineTransformComponent* GetTransform();
 
+	bool GetBulletTimeEffect() const { return bBulletTimeEffect_; }
+	void SetBulletTimeEffect(bool _bBulletTimeEffect) { bBulletTimeEffect_ = _bBulletTimeEffect; }
+
 protected:
 	virtual void levelChangeEndEvent() {}
 	virtual void levelChangeStartEvent() {}
@@ -61,6 +64,7 @@ private:
 	std::list<GameEngineTransformComponent*> allTransformComponents_;
 
 	bool bDestroyed_;
+	bool bBulletTimeEffect_;
 	float aliveTime_;
 };
 

@@ -13,6 +13,10 @@
 #include <GameApp\DevilLevel.h>
 #include <GameApp\DevilImp.h>
 #include "FatDemon.h"
+#include "DevilTear.h"
+#include "Knockout.h"
+#include "Player.h"
+#include "Explosion.h"
 
 DevilPhaseTwo::DevilPhaseTwo()
 	: neckRenderer_(nullptr)
@@ -85,7 +89,7 @@ void DevilPhaseTwo::OnHit()
 		leftEyeCollision_->Off();
 		rightEyeCollision_->Off();
 
-		//state_ << "Knockout";
+		state_ << "Death";
 	}
 }
 
@@ -125,6 +129,7 @@ void DevilPhaseTwo::initRendererAndAnimation()
 	headRenderer_->CreateAnimationFolder("DevilSummonImpIdle");
 	headRenderer_->CreateAnimationFolder("DevilCrying", 0.034f, false);
 	headRenderer_->CreateAnimationFolder("DevilStartCrying", 0.034f, false);
+	headRenderer_->CreateAnimationFolder("DevilKnockout");
 
 	headRenderer_->ChangeAnimation("DevilPhase2Idle");
 }
@@ -165,6 +170,7 @@ void DevilPhaseTwo::initState()
 	state_.CreateState("EndSummonImp", std::bind(&DevilPhaseTwo::startEndSummonImp, this, std::placeholders::_1), std::bind(&DevilPhaseTwo::updateEndSummonImp, this, std::placeholders::_1));
 
 	state_.CreateState(MakeState(DevilPhaseTwo, BeforePhaseFourIdle));
+	state_.CreateState(MakeState(DevilPhaseTwo, Death));
 
 
 	state_ << "Wait";
@@ -304,6 +310,7 @@ void DevilPhaseTwo::updatePhaseThreeIdle(float _deltaTime)
 void DevilPhaseTwo::startEnterPhaseFour(float _deltaTime)
 {
 	headRenderer_->ChangeAnimation("Phase2ToPhase3");
+	headRenderer_->GetCurrentAnimation()->CurFrame_ = 3;
 	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_head_devil_hurt_trans_A_001.wav");
 
 	headTransform_->AddLocation(0.0f, -150.f);
@@ -350,6 +357,19 @@ void DevilPhaseTwo::startPhaseFourIdle(float _deltaTime)
 	std::string soundName = "sfx_level_devil_head_devil_cry_idle_00" + std::to_string(soundNumber) + ".wav";
 	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 
+	DevilTear* tear = level_->CreateActor<DevilTear>();
+
+	if (random.RandomInt(0, 2) == 0)
+	{
+		if (random.RandomInt(0, 1))
+		{
+			tear->GetTransform()->SetWorldLocationXY(leftEyeCollision_->GetWorldLocation());
+		}
+		else
+		{
+			tear->GetTransform()->SetWorldLocationXY(rightEyeCollision_->GetWorldLocation());
+		}
+	}
 }
 
 void DevilPhaseTwo::updatePhaseFourIdle(float _deltaTime)
@@ -527,5 +547,44 @@ void DevilPhaseTwo::updateSummonFatDemon(float _deltaTime)
 	if (state_.GetTime() > 2.0f)
 	{
 		state_ << "PhaseThreeIdle";
+	}
+}
+
+void DevilPhaseTwo::startDeath(float _deltaTime)
+{
+	headTransform_->AddLocation(0.0f, -300.f);
+	level_->CreateActor<Knockout>();
+
+	GameEngineSoundManager& sm = GameEngineSoundManager::GetInstance();
+	sm.PlaySoundByName("sfx_level_announcer_knockout_0004.wav");
+	sm.PlaySoundByName("sfx_level_knockout_boom_01.wav");
+	sm.PlaySoundByName("sfx_level_knockout_bell.wav");
+	sm.PlaySoundByName("sfx_level_devil_head_devil_dead_loop.wav");
+
+	level_->SetBulletTime(0.2f, 2.0f);
+
+	headRenderer_->ChangeAnimation("DevilKnockout");
+	timeCounter_ = 0.0f;
+}
+
+void DevilPhaseTwo::updateDeath(float _deltaTime)
+{
+	timeCounter_ += _deltaTime;
+
+	GameEngineRandom random;
+	float x = random.RandomFloat(400.f, 1000.f);
+	float y = -random.RandomFloat(4000.f, 4600.f);
+
+	if (timeCounter_ > 0.5f)
+	{
+		Explosion* newExplosion = level_->CreateActor<Explosion>();
+		newExplosion->GetTransform()->SetWorldLocationXY(x, y);
+		timeCounter_ = 0.0f;
+	}
+
+
+	if (state_.GetTime() > 5.f)
+	{
+
 	}
 }

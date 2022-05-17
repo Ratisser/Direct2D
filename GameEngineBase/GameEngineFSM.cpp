@@ -88,11 +88,19 @@ std::string GameEngineFSM::GetCurrentStateName()
 	}
 }
 
-float GameEngineFSM::GetTime()
+float GameEngineFSM::GetTime() const
 {
 	if (nullptr != currentState_)
 	{
 		return currentState_->elapsedTime_;
 	}
 	return 0.0f;
+}
+
+void GameEngineFSM::SetTime(float _time)
+{
+	if (nullptr != currentState_)
+	{
+		currentState_->elapsedTime_ = _time;
+	}
 }

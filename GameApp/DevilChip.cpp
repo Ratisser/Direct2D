@@ -38,8 +38,9 @@ void DevilChip::Start()
 	effect->CreateAnimationFolder("BurningChip");
 	effect->ChangeAnimation("BurningChip");
 
-
-	collision_ = CreateTransformComponent<GameEngineCollision>(renderer_);
+	GameEngineTransformComponent* temp = CreateTransformComponent<GameEngineTransformComponent>(renderer_);
+	temp->SetScale(0.8f);
+	collision_ = CreateTransformComponent<GameEngineCollision>(temp);
 	collision_->SetCollisionType(eCollisionType::Rect);
 	collision_->SetCollisionGroup(eCollisionGroup::MonsterProjectile);
 }

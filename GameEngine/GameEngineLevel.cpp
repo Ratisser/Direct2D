@@ -99,9 +99,14 @@ void GameEngineLevel::ActorUpdate(float _deltaTime)
 {
 	bulletTime_ -= _deltaTime;
 
+	float effectedTime;
 	if (bulletTime_ > 0.0f)
 	{
-		_deltaTime = _deltaTime * bulletTimeRatio_;
+		effectedTime = _deltaTime * bulletTimeRatio_;
+	}
+	else
+	{
+		effectedTime = _deltaTime;
 	}
 
 	for (std::pair<int, std::list<GameEngineActor*>> pair : allActors_)
@@ -110,8 +115,16 @@ void GameEngineLevel::ActorUpdate(float _deltaTime)
 		{
 			if (actor->IsUpdate())
 			{
-				actor->Update(_deltaTime);
-				actor->updateComponent(_deltaTime);
+				if (actor->GetBulletTimeEffect())
+				{
+					actor->Update(effectedTime);
+					actor->updateComponent(effectedTime);
+				}
+				else
+				{
+					actor->Update(_deltaTime);
+					actor->updateComponent(_deltaTime);
+				}
 			}
 		}
 	}

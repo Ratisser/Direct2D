@@ -347,7 +347,7 @@ void Player::initState()
 	normalState_.CreateState("ShootWhileRunning", std::bind(&Player::startShootWhileRunning, this, std::placeholders::_1), std::bind(&Player::updateShootWhileRunning, this, std::placeholders::_1));
 	normalState_.CreateState("Parry", std::bind(&Player::startParry, this, std::placeholders::_1), std::bind(&Player::updateParry, this, std::placeholders::_1), std::bind(&Player::endParry, this, std::placeholders::_1));
 
-	cinematicState_.CreateState("Idle", std::bind(&Player::startIdle, this, std::placeholders::_1), std::bind(&Player::updateIdle, this, std::placeholders::_1));
+	cinematicState_.CreateState("Idle", std::bind(&Player::startCinematicIdle, this, std::placeholders::_1), std::bind(&Player::updateCinematicIdle, this, std::placeholders::_1));
 	cinematicState_.CreateState("DevilPhaseOneEndFalling", std::bind(&Player::startDevilPhaseOneEndFalling, this, std::placeholders::_1), std::bind(&Player::updateDevilPhaseOneEndFalling, this, std::placeholders::_1));
 	cinematicState_.CreateState("Scared", std::bind(&Player::startScared, this, std::placeholders::_1), std::bind(&Player::updateScared, this, std::placeholders::_1));
 	cinematicState_.CreateState("ScaredWait", std::bind(&Player::startScaredWait, this, std::placeholders::_1), std::bind(&Player::updateScaredWait, this, std::placeholders::_1));
@@ -2107,6 +2107,7 @@ void Player::startCinematicIdle(float _deltaTime)
 
 void Player::updateCinematicIdle(float _deltaTime)
 {
+	addGravity(_deltaTime);
 }
 
 void Player::startScared(float _deltaTime)

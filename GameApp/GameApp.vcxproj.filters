@@ -95,9 +95,6 @@
     <ClCompile Include="BombBat.cpp">
       <Filter>01.GameObject\03.Level\DevilLevel\Phase2</Filter>
     </ClCompile>
-    <ClCompile Include="ParryEffect.cpp">
-      <Filter>01.GameObject\02.GlobalActor</Filter>
-    </ClCompile>
     <ClCompile Include="DevilImp.cpp">
       <Filter>01.GameObject\03.Level\DevilLevel\Phase2</Filter>
     </ClCompile>
@@ -109,6 +106,24 @@
     </ClCompile>
     <ClCompile Include="DevilTear.cpp">
       <Filter>01.GameObject\03.Level\DevilLevel\Phase2</Filter>
+    </ClCompile>
+    <ClCompile Include="ParryEffect.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Knockout.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Ready.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingLevel.cpp">
+      <Filter>01.GameObject\03.Level\LoadingLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="Hourglass.cpp">
+      <Filter>01.GameObject\02.GlobalActor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +180,18 @@
     </Filter>
     <Filter Include="01.GameObject\03.Level\DevilLevel\Phase1\DevilOrbs">
       <UniqueIdentifier>{96dfd9f6-15e3-402f-bc76-d4d71f6d1b41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\02.GlobalActor\Effect">
+      <UniqueIdentifier>{8dd7dfc3-d064-4987-8e0f-f3b67ef7ffe6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\03.Level\EndingLevel">
+      <UniqueIdentifier>{c82987cb-e023-4d36-a203-73f9e41446ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\03.Level\FlowerLevel">
+      <UniqueIdentifier>{57d752fc-db9c-4f5c-8048-a62c8427f3a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\03.Level\LoadingLevel">
+      <UniqueIdentifier>{bbd0c290-4e5e-4533-ade8-38678e390b31}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -270,9 +297,6 @@
     <ClInclude Include="BombBat.h">
       <Filter>01.GameObject\03.Level\DevilLevel\Phase2</Filter>
     </ClInclude>
-    <ClInclude Include="ParryEffect.h">
-      <Filter>01.GameObject\02.GlobalActor</Filter>
-    </ClInclude>
     <ClInclude Include="DevilImp.h">
       <Filter>01.GameObject\03.Level\DevilLevel\Phase2</Filter>
     </ClInclude>
@@ -287,6 +311,24 @@
     </ClInclude>
     <ClInclude Include="DevilTear.h">
       <Filter>01.GameObject\03.Level\DevilLevel\Phase2</Filter>
+    </ClInclude>
+    <ClInclude Include="ParryEffect.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Knockout.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Ready.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingLevel.h">
+      <Filter>01.GameObject\03.Level\LoadingLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Hourglass.h">
+      <Filter>01.GameObject\02.GlobalActor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,6 +20,7 @@
 #include "Player.h"
 #include "DevilMap.h"
 #include "GameEngineLevelControlWindow.h"
+#include <GameApp\Ready.h>
 
 Devil::Devil()
 	: devilRenderer_(nullptr)
@@ -362,14 +363,24 @@ void Devil::startIntro(float _deltaTime)
 
 	GameEngineSoundPlayer player("sfx_level_devil_sitting_devil_intro_pupils.wav");
 	player.Play();
-	player.SetVolume(0.7f);
+	player.SetVolume(0.5f);
 	player.SetPosition(900);
+
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_announcer_0001_b.wav");
+
+	level_->CreateActor<Ready>();
 }
 
 void Devil::updateIntro(float _deltaTime)
 {
 	if (pupil_->GetCurrentAnimation()->IsEnd_)
 	{
+		if (state_.GetTime() > 2.0f)
+		{
+			GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_announcer_0002_c.wav");
+			state_.SetTime(-10.f);
+		}
+
 		pupil_->Off();
 		devilRenderer_->ChangeAnimation("DevilIntro");
 

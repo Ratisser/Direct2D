@@ -31,9 +31,9 @@ void DevilPlatform::Start()
 	collision_ = CreateTransformComponent<GameEngineCollision>(rootTransform_);
 	collision_->SetCollisionGroup(eCollisionGroup::Platform);
 	collision_->SetCollisionType(eCollisionType::Rect);
-	collision_->SetScale(230.f, 50.f);
+	collision_->SetScale(240.f, 50.f);
 	collision_->SetLocationY(80.f);
-	
+
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(rootTransform_);
 	renderer_->CreateAnimationFolder("DevilPlatform0", 0.067f);
 	renderer_->CreateAnimationFolder("DevilPlatform1", 0.067f);
@@ -64,7 +64,7 @@ void DevilPlatform::SetPlatformAppearance(int _num)
 	renderer_->ChangeAnimation("DevilPlatform" + std::to_string(_num));
 }
 
-void DevilPlatform::SetMoveable(bool _bMoveable) 
+void DevilPlatform::SetMoveable(bool _bMoveable)
 {
 	bMoveable_ = _bMoveable;
 	if (!bMoveable_)
@@ -114,7 +114,11 @@ void DevilPlatform::updateIdle(float _deltaTime)
 
 		if (false == bMoveable_)
 		{
-			action = eAction::CHIP;
+			if (action != eAction::CHIP)
+			{
+				timeCounter_ = 0.0f;
+				return;
+			}
 		}
 
 		switch (action)
@@ -137,7 +141,7 @@ void DevilPlatform::updateIdle(float _deltaTime)
 				DevilChip::FallStart();
 			}
 		}
-			break;
+		break;
 		default:
 			break;
 		}

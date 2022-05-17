@@ -78,7 +78,8 @@ private:
 	void startSummonFatDemon(float _deltaTime);
 	void updateSummonFatDemon(float _deltaTime);
 
-
+	void startDeath(float _deltaTime);
+	void updateDeath(float _deltaTime);
 #pragma endregion
 
 private:
