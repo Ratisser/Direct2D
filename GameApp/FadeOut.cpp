@@ -24,6 +24,8 @@ void FadeOut::Start()
 
 	renderer_->ChangeAnimation("Iris");
 	
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_WorldMap_LevelSelect_DiffucultySettings_Appear.wav");
+
 	SetBulletTimeEffect(false);
 }
 

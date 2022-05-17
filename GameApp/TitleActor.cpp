@@ -62,6 +62,7 @@ void TitleActor::Start()
 
     bgmPlayer_ = new GameEngineSoundPlayer("MUS_Intro_DontDealWithDevil_Vocal.wav");
     state_.CreateState("Start", std::bind(&TitleActor::startStart, this, std::placeholders::_1), std::bind(&TitleActor::updateStart, this, std::placeholders::_1));
+    state_.CreateState(MakeState(TitleActor, Press));
     state_.ChangeState("Start");
 
     titleRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
@@ -110,7 +111,6 @@ void TitleActor::updateStart(float _deltaTime)
 
 void TitleActor::startPress(float _deltaTime)
 {
-    GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_WorldMap_LevelSelect_DiffucultySettings_Appear.wav");
     level_->CreateActor<FadeOut>();
 }
 
