@@ -18,6 +18,7 @@
 LoadingLevel::LoadingLevel()
 	: bLoading_(false)
 	, bFinish_(false)
+	, timeCounter_(0.0f)
 {
 
 }
@@ -44,6 +45,7 @@ void LoadingLevel::LevelStart()
 
 void LoadingLevel::LevelUpdate(float _deltaTime)
 {
+	timeCounter_ += _deltaTime;
 	if (bLoading_ == false)
 	{
 		loadSound();
@@ -64,6 +66,9 @@ void LoadingLevel::LevelUpdate(float _deltaTime)
 	else
 	{
 		loadLevel();
+
+		GameEngineDebug::OutPutDebugString("Load finish\nElapsedTime : " + std::to_string(timeCounter_) + "\n");
+
 		bFinish_ = true;
 	}
 
