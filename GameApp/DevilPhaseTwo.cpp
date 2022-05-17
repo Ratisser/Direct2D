@@ -5,6 +5,7 @@
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineLevel.h>
 #include <GameEngine\GameEngineCollision.h>
+#include <GameEngine\GameEngineCore.h>
 
 #include "GameEngineLevelControlWindow.h"
 
@@ -17,6 +18,7 @@
 #include "Knockout.h"
 #include "Player.h"
 #include "Explosion.h"
+#include <GameApp\FadeOut.h>
 
 DevilPhaseTwo::DevilPhaseTwo()
 	: neckRenderer_(nullptr)
@@ -554,22 +556,29 @@ void DevilPhaseTwo::startDeath(float _deltaTime)
 
 void DevilPhaseTwo::updateDeath(float _deltaTime)
 {
+	static float fadeOutDelay = 4.45f;
+	fadeOutDelay -= _deltaTime;
 	timeCounter_ += _deltaTime;
 
 	GameEngineRandom random;
 	float x = random.RandomFloat(400.f, 1000.f);
 	float y = -random.RandomFloat(4000.f, 4600.f);
 
-	if (timeCounter_ > 0.5f)
+	if (timeCounter_ > 0.3f)
 	{
 		Explosion* newExplosion = level_->CreateActor<Explosion>();
 		newExplosion->GetTransform()->SetWorldLocationXY(x, y);
 		timeCounter_ = 0.0f;
 	}
 
+	if (fadeOutDelay < 0.0f)
+	{
+		fadeOutDelay = 100.f;
+		level_->CreateActor<FadeOut>();
+	}
 
 	if (state_.GetTime() > 5.f)
 	{
-
+		GameEngineCore::ChangeLevel("EndingLevel");
 	}
 }

@@ -14,6 +14,7 @@
 #include <GameApp\CustomVertex.h>
 
 #include "Hourglass.h"
+#include <GameApp\EndingLevel.h>
 
 LoadingLevel::LoadingLevel()
 	: bLoading_(false)
@@ -85,6 +86,7 @@ void LoadingLevel::loadLevel()
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<WorldLevel>("WorldLevel");
 	GameEngineCore::CreateLevel<DevilLevel>("DevilLevel");
+	GameEngineCore::CreateLevel<EndingLevel>("EndingLevel");
 }
 
 void LoadingLevel::loadSound()

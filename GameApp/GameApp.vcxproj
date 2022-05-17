@@ -224,6 +224,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EndingActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EndingLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Explosion.cpp">
       <SubType>
       </SubType>
@@ -401,6 +409,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="eCollisionGroup.h" />
+    <ClInclude Include="EndingActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EndingLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="eOrbType.h" />
     <ClInclude Include="Explosion.h">
       <SubType>

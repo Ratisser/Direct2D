@@ -87,7 +87,7 @@ private:
 	const float ACTION_DELAY = 4.0f;
 	const float HIT_EFFECT_TIME = 0.034f;
 
-	const int DEVIL_HP = 250;
+	const int DEVIL_HP = 301;
 
 	float4 LEFT_BOMB_SPAWN_LOCATION = { 610.f, -4050.f, -0.2f };
 	float4 RIGHT_BOMB_SPAWN_LOCATION = { 840.f, -4050.f, -0.2f };
