@@ -140,6 +140,15 @@
     <ClCompile Include="EndingActor.cpp">
       <Filter>01.GameObject\03.Level\EndingLevel</Filter>
     </ClCompile>
+    <ClCompile Include="FlowerLevel.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowerPlatform.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowerMap.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -359,6 +368,15 @@
     </ClInclude>
     <ClInclude Include="EndingActor.h">
       <Filter>01.GameObject\03.Level\EndingLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowerLevel.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowerPlatform.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowerMap.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

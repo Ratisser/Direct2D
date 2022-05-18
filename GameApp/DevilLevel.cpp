@@ -12,6 +12,7 @@
 #include "Demon.h"
 #include "DevilPhaseTwo.h"
 #include "DevilPlatform.h"
+#include <GameApp\FadeIn.h>
 
 DevilLevel::DevilLevel()
 	: player_(nullptr)
@@ -37,6 +38,7 @@ void DevilLevel::LevelChangeEndEvent()
 
 void DevilLevel::LevelChangeStartEvent()
 {
+	CreateActor<FadeIn>();
 }
 
 void DevilLevel::LevelStart()

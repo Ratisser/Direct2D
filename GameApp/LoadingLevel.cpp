@@ -15,10 +15,12 @@
 
 #include "Hourglass.h"
 #include <GameApp\EndingLevel.h>
+#include <GameApp\FlowerLevel.h>
 
 LoadingLevel::LoadingLevel()
 	: bLoading_(false)
 	, bFinish_(false)
+	, bLevelLoadFinish_(false)
 	, timeCounter_(0.0f)
 {
 
@@ -47,6 +49,13 @@ void LoadingLevel::LevelStart()
 void LoadingLevel::LevelUpdate(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
+
+
+	if (bFinish_)
+	{
+		GameEngineCore::ChangeLevel("TitleLevel");
+	}
+
 	if (bLoading_ == false)
 	{
 		loadSound();
@@ -64,19 +73,16 @@ void LoadingLevel::LevelUpdate(float _deltaTime)
 	{
 		Sleep(1);
 	}
-	else
+	else if (bLevelLoadFinish_ == false)
 	{
 		loadLevel();
 
 		GameEngineDebug::OutPutDebugString("Load finish\nElapsedTime : " + std::to_string(timeCounter_) + "\n");
 
+		bLevelLoadFinish_ = true;
 		bFinish_ = true;
 	}
 
-	if (bFinish_)
-	{
-		GameEngineCore::ChangeLevel("TitleLevel");
-	}
 }
 
 void LoadingLevel::loadLevel()
@@ -87,6 +93,7 @@ void LoadingLevel::loadLevel()
 	GameEngineCore::CreateLevel<WorldLevel>("WorldLevel");
 	GameEngineCore::CreateLevel<DevilLevel>("DevilLevel");
 	GameEngineCore::CreateLevel<EndingLevel>("EndingLevel");
+	GameEngineCore::CreateLevel<FlowerLevel>("FlowerLevel");
 }
 
 void LoadingLevel::loadSound()
@@ -380,6 +387,38 @@ void LoadingLevel::loadTexture()
 			for (size_t i = 0; i < AllFile.size(); i++)
 			{
 				GameEngineFolderTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+			}
+		}
+	);
+
+	GameEngineCore::ThreadQueue_.JobPost(
+		[]()
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParent("Direct2D");
+			Dir / "Resources" / "Image" / "Flower" / "Boss_flower";
+
+			std::vector<GameEngineFile> AllFile = Dir.GetAllFile();
+
+			for (size_t i = 0; i < AllFile.size(); i++)
+			{
+				GameEngineFolderTextureManager::GetInst().Load(AllFile[i].GetFullPath());
+			}
+		}
+	);
+
+	GameEngineCore::ThreadQueue_.JobPost(
+		[]()
+		{
+			GameEngineDirectory Dir;
+			Dir.MoveParent("Direct2D");
+			Dir / "Resources" / "Image" / "Flower" / "Background";
+
+			std::vector<GameEngineFile> AllFile = Dir.GetAllFileWithoutDirectory();
+
+			for (size_t i = 0; i < AllFile.size(); i++)
+			{
+				GameEngineTextureManager::GetInst().Load(AllFile[i].GetFullPath());
 			}
 		}
 	);

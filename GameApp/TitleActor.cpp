@@ -81,6 +81,10 @@ void TitleActor::Start()
 
 void TitleActor::Update(float _deltaTime)
 {
+    if (bgmPlayer_->IsPlaying() == false)
+    {
+        bgmPlayer_->Play();
+    }
     state_.Update(_deltaTime);
 }
 
@@ -91,8 +95,7 @@ void TitleActor::levelChangeEndEvent()
 
 void TitleActor::startStart(float _deltaTime)
 {
-    bgmPlayer_->Play();
-    bgmPlayer_->SetVolume(0.5f);
+
 }
 
 void TitleActor::updateStart(float _deltaTime)
@@ -119,6 +122,7 @@ void TitleActor::updatePress(float _deltaTime)
     if (state_.GetTime() > 0.55f)
     {
         bgmPlayer_->Stop();
+        state_ << "Start";
         GameEngineCore::ChangeLevel("TutorialLevel");
     }
 }

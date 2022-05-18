@@ -33,6 +33,7 @@ private:
 private:
 	bool bLoading_;
 	bool bFinish_;
+	bool bLevelLoadFinish_;
 
 	float timeCounter_;
 };

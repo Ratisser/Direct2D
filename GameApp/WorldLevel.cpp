@@ -48,7 +48,7 @@ void WorldLevel::LevelStart()
 
 	mp = CreateActor<MovePoint>("MovePointFlowerLevel");
 	mp->GetTransform()->SetWorldLocation({ 2136.f, -761.f, 4.5f });
-	mp->SetDestination(""); // flower level
+	mp->SetDestination("FlowerLevel"); // flower level
 }
 
 void WorldLevel::LevelUpdate(float _deltaTime)

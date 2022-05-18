@@ -21,4 +21,6 @@ public:
 
 private:
 	GameEngineImageRenderer* renderer_;
+
+	float timeCounter_;
 };
