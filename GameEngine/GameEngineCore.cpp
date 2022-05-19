@@ -197,6 +197,7 @@ void GameEngineCore::MainLoop()
 		{
 			currentLevel_->LevelChangeEndEvent();
 			currentLevel_->levelChangeEndActorEvent();
+			currentLevel_->Release(GameEngineTime::GetInst().GetDeltaTime());
 		}
 
 		nextLevel_->LevelChangeStartEvent();
