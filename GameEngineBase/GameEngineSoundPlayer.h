@@ -28,8 +28,12 @@ public:
 	unsigned int GetPositionMillisecond();
 	unsigned int GetLengthMillisecond();
 
+	float GetVolume() const { return volume_; }
+
 private:
 	FMOD::Sound* sound_;
 	FMOD::Channel* channel_;
+
+	float volume_;
 };
 

@@ -4,6 +4,7 @@
 GameEngineSoundPlayer::GameEngineSoundPlayer(const std::string& _soundName)
 	: sound_(nullptr)
 	, channel_(nullptr)
+	, volume_(1.0f)
 {
 	sound_ = GameEngineSoundManager::GetInstance().getSound(_soundName);
 }
@@ -20,7 +21,7 @@ void GameEngineSoundPlayer::ChangeSound(const std::string& _soundName)
 void GameEngineSoundPlayer::Play()
 {
 	GameEngineSoundManager::GetInstance().system_->playSound(sound_, nullptr, false, &channel_);
-	SetVolume(GameEngineSoundManager::globalVolume_);
+	SetVolume(GameEngineSoundManager::globalVolume_ * volume_);
 }
 
 void GameEngineSoundPlayer::Stop()
@@ -55,9 +56,10 @@ void GameEngineSoundPlayer::SetPaused(bool _bPause)
 
 void GameEngineSoundPlayer::SetVolume(float _volume)
 {
+	volume_ = _volume;
 	if (channel_ != nullptr)
 	{
-		FMOD_RESULT result = channel_->setVolume(GameEngineSoundManager::globalVolume_ * _volume);
+		FMOD_RESULT result = channel_->setVolume(GameEngineSoundManager::globalVolume_ * volume_);
 	}
 }
 
