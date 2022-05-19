@@ -187,7 +187,7 @@ void Player::initRendererAndAnimation()
 {
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
 
-	renderer_->CreateAnimationFolder("Intro", "Intro");
+	renderer_->CreateAnimationFolder("Intro", 0.0416f, false);
 	renderer_->CreateAnimationFolder("Idle", "Idle", 0.04f);
 	renderer_->CreateAnimationFolder("Run", "Run", 0.033f);
 	renderer_->CreateAnimationFolder("Air", 0.034f);
@@ -289,9 +289,9 @@ void Player::initCollision()
 	rightSideCollision_->SetLocation(50.0f, 10.0f, 0.0f);
 	//rightSideCollision_->SetScale(2.0f);
 
-	headCollision_ = CreateTransformComponent<GameEngineCollision>(transform_);
-	headCollision_->SetCollisionType(eCollisionType::Rect);
-	headCollision_->SetLocation(0.0f, 145.0f, 0.0f);
+	//headCollision_ = CreateTransformComponent<GameEngineCollision>(transform_);
+	//headCollision_->SetCollisionType(eCollisionType::Rect);
+	//headCollision_->SetLocation(0.0f, 145.0f, 0.0f);
 	//headCollision_->SetScale(2.0f);
 
 #ifdef _DEBUG
@@ -1905,7 +1905,7 @@ void Player::updateParry(float _deltaTime)
 			parryObject->SetParryable(false);
 			parryObject->Parry();
 
-			level_->SetBulletTime(0.05f, 0.2f);
+			level_->SetBulletTime(0.01f, 0.2f);
 			playParrySound();
 
 			GameEngineActor* parryEffect = level_->CreateActor<ParryEffect>();
@@ -1929,7 +1929,7 @@ void Player::updateParry(float _deltaTime)
 			parryObject->SetParryable(false);
 			parryObject->Parry();
 
-			level_->SetBulletTime(0.05f, 0.2f);
+			level_->SetBulletTime(0.01f, 0.2f);
 			playParrySound();
 
 			GameEngineActor* parryEffect = level_->CreateActor<ParryEffect>();
@@ -2108,6 +2108,20 @@ void Player::startCinematicIdle(float _deltaTime)
 void Player::updateCinematicIdle(float _deltaTime)
 {
 	addGravity(_deltaTime);
+}
+
+void Player::startIntro(float _deltaTime)
+{
+	renderer_->ChangeAnimation("Intro");
+}
+
+void Player::updateIntro(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		normalState_ << "Idle";
+		state_ << "NormalState";
+	}
 }
 
 void Player::startScared(float _deltaTime)

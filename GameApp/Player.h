@@ -118,6 +118,9 @@ private:
 	void startCinematicIdle(float _deltaTime);
 	void updateCinematicIdle(float _deltaTime);
 
+	void startIntro(float _deltaTime);
+	void updateIntro(float _deltaTime);
+
 	void startScared(float _deltaTime);
 	void updateScared(float _deltaTime);
 

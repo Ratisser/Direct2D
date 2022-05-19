@@ -3,6 +3,7 @@
 #include <GameEngine\GameEngineLevel.h>
 
 class Player;
+class Flower;
 class FlowerLevel : public GameEngineLevel
 {
 public:
@@ -24,10 +25,12 @@ public:
 
 public:
 	Player* GetPlayer();
-
+	Flower* GetFlower();
 
 private:
 	Player* player_;
+	Flower* flower_;
+
 
 	std::unique_ptr<GameEngineSoundPlayer> bgmPlayer_;
 };

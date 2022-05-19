@@ -246,6 +246,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Flower.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FlowerLevel.cpp">
       <SubType>
       </SubType>
@@ -435,6 +439,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="FatDemonSkull.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Flower.h">
       <SubType>
       </SubType>
     </ClInclude>

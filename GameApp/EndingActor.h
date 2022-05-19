@@ -3,7 +3,7 @@
 #include <GameEngineBase\GameEngineFSM.h>
 #include <GameEngine\GameEngineActor.h>
 
-
+class GameEngineSoundPlayer;
 class GameEngineImageRenderer;
 class EndingActor : public GameEngineActor
 {
@@ -25,5 +25,7 @@ public:
 private:
 	GameEngineFSM state_;
 	GameEngineImageRenderer* renderer_;
+
+	std::unique_ptr<GameEngineSoundPlayer> bgmPlayer_;
 };
 

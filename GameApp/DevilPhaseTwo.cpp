@@ -315,6 +315,9 @@ void DevilPhaseTwo::startEnterPhaseFour(float _deltaTime)
 	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_devil_head_devil_hurt_trans_A_001.wav");
 
 	headTransform_->AddLocation(0.0f, -150.f);
+
+	leftEyeCollision_->SetScale(300.f, 100.f);
+	rightEyeCollision_->SetScale(300.f, 100.f);
 }
 
 void DevilPhaseTwo::updateEnterPhaseFour(float _deltaTime)

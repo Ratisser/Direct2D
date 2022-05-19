@@ -7,13 +7,14 @@
 #include <GameEngine\GameEngineLevel.h>
 
 #include "DevilChip.h"
+#include <GameApp\Player.h>
 
 FlowerPlatform::FlowerPlatform()
 	: renderer_(nullptr)
 	, collision_(nullptr)
 	, rootTransform_(nullptr)
-	, bMoveable_(true)
-	, bActivate_(false)
+	, shadowRenderer_(nullptr)
+	, propellerRenderer_(nullptr)
 	, timeCounter_(0.0f)
 {
 
@@ -27,26 +28,35 @@ FlowerPlatform::~FlowerPlatform()
 void FlowerPlatform::Start()
 {
 	rootTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
+	rootTransform_->SetLocationZ(-0.01f);
 
 	collision_ = CreateTransformComponent<GameEngineCollision>(rootTransform_);
 	collision_->SetCollisionGroup(eCollisionGroup::Platform);
 	collision_->SetCollisionType(eCollisionType::Rect);
-	collision_->SetScale(240.f, 50.f);
-	collision_->SetLocationY(80.f);
+	collision_->SetScale(150.f, 30.f);
+	collision_->SetLocationY(40.f);
 
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(rootTransform_);
-	renderer_->CreateAnimationFolder("DevilPlatform0", 0.067f);
-	renderer_->CreateAnimationFolder("DevilPlatform1", 0.067f);
-	renderer_->CreateAnimationFolder("DevilPlatform2", 0.067f);
-	renderer_->CreateAnimationFolder("DevilPlatform3", 0.067f);
-	renderer_->CreateAnimationFolder("DevilPlatform4", 0.067f);
-	renderer_->ChangeAnimation("DevilPlatform0");
+	renderer_->CreateAnimationFolder("FlowerPlatform0", 0.067f);
+	renderer_->CreateAnimationFolder("FlowerPlatform1", 0.067f);
+	renderer_->CreateAnimationFolder("FlowerPlatform2", 0.067f);
+	renderer_->ChangeAnimation("FlowerPlatform0");
 
-	state_.CreateState("Wait", std::bind(&FlowerPlatform::startWait, this, std::placeholders::_1), std::bind(&FlowerPlatform::updateWait, this, std::placeholders::_1));
-	state_.CreateState("Idle", std::bind(&FlowerPlatform::startIdle, this, std::placeholders::_1), std::bind(&FlowerPlatform::updateIdle, this, std::placeholders::_1));
-	state_.CreateState("Move", std::bind(&FlowerPlatform::startMove, this, std::placeholders::_1), std::bind(&FlowerPlatform::updateMove, this, std::placeholders::_1));
-	state_.CreateState("RevertMove", std::bind(&FlowerPlatform::startRevertMove, this, std::placeholders::_1), std::bind(&FlowerPlatform::updateRevertMove, this, std::placeholders::_1));
-	state_.CreateState("Fall", std::bind(&FlowerPlatform::startFall, this, std::placeholders::_1), std::bind(&FlowerPlatform::updateFall, this, std::placeholders::_1));
+	propellerRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(rootTransform_);
+	propellerRenderer_->CreateAnimationFolder("FlowerPlatformPropellor", 0.067f);
+	propellerRenderer_->ChangeAnimation("FlowerPlatformPropellor");
+	propellerRenderer_->SetPivot(eImagePivot::CENTER);
+	propellerRenderer_->SetLocationX(5.0f);
+
+	shadowRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(transform_);
+	shadowRenderer_->CreateAnimationFolder("PlatformShadow", 0.067f);
+	shadowRenderer_->ChangeAnimation("PlatformShadow");
+	shadowRenderer_->SetPivot(eImagePivot::CENTER);
+	shadowRenderer_->SetLocationY(-120.f);
+
+	state_.CreateState(MakeState(FlowerPlatform, Wait));
+	state_.CreateState(MakeState(FlowerPlatform, Idle));
+	state_.CreateState(MakeState(FlowerPlatform, Stop));
 
 	state_.ChangeState("Wait");
 }
@@ -58,35 +68,26 @@ void FlowerPlatform::Update(float _deltaTime)
 
 void FlowerPlatform::SetPlatformAppearance(int _num)
 {
-	_num = _num % 5;
-	assert(_num >= 0 && _num < 5);
+	_num = _num % 3;
+	assert(_num >= 0 && _num < 3);
 
-	renderer_->ChangeAnimation("DevilPlatform" + std::to_string(_num));
+	renderer_->ChangeAnimation("FlowerPlatform" + std::to_string(_num));
 }
 
-void FlowerPlatform::SetMoveable(bool _bMoveable)
+void FlowerPlatform::SetPlatformMoveFactor(float _sinfValue)
 {
-	bMoveable_ = _bMoveable;
-	if (!bMoveable_)
-	{
-		state_ << "RevertMove";
-	}
+	timeCounter_ = _sinfValue;
 }
 
-void FlowerPlatform::FallAndRelease()
-{
-	state_ << "Fall";
-}
+
 
 void FlowerPlatform::startWait(float _deltaTime)
 {
-	timeCounter_ = 0.0f;
 }
 
 void FlowerPlatform::updateWait(float _deltaTime)
 {
-	timeCounter_ += _deltaTime;
-	if (timeCounter_ > 5.0f)
+	if (state_.GetTime() > 2.0f)
 	{
 		state_ << "Idle";
 		return;
@@ -95,115 +96,47 @@ void FlowerPlatform::updateWait(float _deltaTime)
 
 void FlowerPlatform::startIdle(float _deltaTime)
 {
-	timeCounter_ = 0.0f;
 }
 
 void FlowerPlatform::updateIdle(float _deltaTime)
 {
-	if (!bActivate_)
-	{
-		return;
-	}
-
 	timeCounter_ += _deltaTime;
 
-	if (timeCounter_ > ACTION_COOLTIME)
-	{
-		GameEngineRandom random;
-		eAction action = static_cast<eAction>(random.RandomInt(0, eAction::MAX_COUNT - 1));
+	rootTransform_->SetLocationY(sinf(timeCounter_) * MAX_MOVE_HEIGHT);
 
-		if (false == bMoveable_)
+	GameEngineCollision* col = collision_->IsCollideOne(eCollisionGroup::Player);
+	if (nullptr != col)
+	{
+		Player* player = dynamic_cast<Player*>(col->GetActor());
+
+		if (nullptr != player)
 		{
-			if (action != eAction::CHIP)
+			if (player->GetNormalState() != "Jump" && player->GetNormalState() != "Parry")
 			{
-				timeCounter_ = 0.0f;
+				state_ << "Stop";
 				return;
 			}
 		}
-
-		switch (action)
-		{
-		case FlowerPlatform::MOVE:
-			state_ << "Move";
-			break;
-		case FlowerPlatform::STAY:
-			timeCounter_ = 0.0f;
-			break;
-		case FlowerPlatform::REVERT:
-			state_ << "RevertMove";
-			break;
-		case FlowerPlatform::CHIP:
-		{
-			if (false == DevilChip::IsFalling())
-			{
-				DevilChip* chip = level_->CreateActor<DevilChip>();
-				chip->GetTransform()->SetLocation(transform_->GetWorldLocation() + float4(0.0f, 1000.f, -0.1f));
-				DevilChip::FallStart();
-			}
-		}
-		break;
-		default:
-			break;
-		}
 	}
 }
 
-void FlowerPlatform::startMove(float _deltaTime)
+void FlowerPlatform::startStop(float _deltaTime)
 {
-	moveStartPosition_ = rootTransform_->GetLocation();
-	moveEndPosition_ = moveStartPosition_;
+	prevLocation_ = rootTransform_->GetLocation();
+	nextLocation_ = prevLocation_;
 
-	GameEngineRandom random;
-	moveEndPosition_.y = random.RandomFloat(0.0f, MAX_MOVE_HEIGHT);
+	timeCounter_ = -0.5f;
 
-	timeCounter_ = 0.0f;
+	nextLocation_.y = sinf(-1.f) * MAX_MOVE_HEIGHT;
 }
 
-void FlowerPlatform::updateMove(float _deltaTime)
+void FlowerPlatform::updateStop(float _deltaTime)
 {
-	timeCounter_ += _deltaTime;
+	rootTransform_->SetLocation(GameEngineMath::Lerp(prevLocation_, nextLocation_, state_.GetTime(), 0.1f));
 
-	rootTransform_->SetLocation(GameEngineMath::Lerp(moveStartPosition_, moveEndPosition_, timeCounter_, MOVE_DELAY));
-
-	if (timeCounter_ > MOVE_DELAY)
+	if (nullptr == collision_->IsCollideOne(eCollisionGroup::Player))
 	{
 		state_ << "Idle";
+		return;
 	}
 }
-
-void FlowerPlatform::startRevertMove(float _deltaTime)
-{
-	moveStartPosition_ = rootTransform_->GetLocation();
-	moveEndPosition_ = float4(0.0f, 0.0f);
-
-	timeCounter_ = 0.0f;
-}
-
-void FlowerPlatform::updateRevertMove(float _deltaTime)
-{
-	timeCounter_ += _deltaTime;
-
-	rootTransform_->SetLocation(GameEngineMath::Lerp(moveStartPosition_, moveEndPosition_, timeCounter_, MOVE_DELAY));
-
-	if (timeCounter_ > MOVE_DELAY)
-	{
-		state_ << "Idle";
-	}
-}
-
-void FlowerPlatform::startFall(float _deltaTime)
-{
-	timeCounter_ = 0.0f;
-}
-
-void FlowerPlatform::updateFall(float _deltaTime)
-{
-	timeCounter_ += _deltaTime;
-
-	transform_->AddLocation(0.0f, -200.f * _deltaTime);
-	if (timeCounter_ > 5.0f)
-	{
-		Release();
-	}
-}
-

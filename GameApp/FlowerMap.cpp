@@ -59,7 +59,7 @@ void FlowerMap::Start()
 		mapObjects->SetTexture("Flower_Background_Front.png", true);
 		float4 textureSize = mapObjects->GetCurrentTexture()->GetTextureSize();
 		mapObjects->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, -1.f);
-		mapObjects->AddLocation(0.0f, -480.f);
+		mapObjects->AddLocation(-30.0f, -480.f);
 	}
 
 }

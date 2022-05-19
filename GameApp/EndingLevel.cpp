@@ -22,6 +22,8 @@ void EndingLevel::LevelChangeEndEvent()
 		endingActor_->Release();
 		endingActor_ = nullptr;
 	}
+
+	
 }
 
 void EndingLevel::LevelChangeStartEvent()

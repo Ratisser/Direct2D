@@ -149,6 +149,9 @@
     <ClCompile Include="FlowerMap.cpp">
       <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
     </ClCompile>
+    <ClCompile Include="Flower.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -376,6 +379,9 @@
       <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
     </ClInclude>
     <ClInclude Include="FlowerMap.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="Flower.h">
       <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
     </ClInclude>
   </ItemGroup>

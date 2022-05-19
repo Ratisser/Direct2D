@@ -2,23 +2,29 @@
 #include "EndingActor.h"
 
 #include <GameEngineBase\GameEngineRandom.h>
+#include <GameEngineBase\GameEngineSoundPlayer.h>
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineLevel.h>
 
 EndingActor::EndingActor()
 	: renderer_(nullptr)
+	, bgmPlayer_(nullptr)
 {
 
 }
 
 EndingActor::~EndingActor()
 {
-
+	if (bgmPlayer_->IsPlaying())
+	{
+		bgmPlayer_->Stop();
+	}
 }
 
 void EndingActor::Start()
 {
-	GameEngineSoundManager::GetInstance().PlaySoundByName("MUS_GoodEnding.wav");
+	bgmPlayer_ = std::make_unique<GameEngineSoundPlayer>("MUS_GoodEnding.wav");
+	bgmPlayer_->Play();
 
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraComponent());
 	renderer_->CreateAnimationFolder("TheEnd", 5.0f, false, false);
