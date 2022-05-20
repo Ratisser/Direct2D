@@ -87,7 +87,12 @@ void FlowerLevel::LevelUpdate(float _deltaTime)
 
 	if (false == IsFreeCamera())
 	{
-		mainCamera_->GetTransform()->SetLocationX(640.f + playerPos.x / 14.06f);
+		float xFactor = 670.f + playerPos.x / 20.265f;
+		if (xFactor < 670.f)
+		{
+			xFactor = 670.f;
+		}
+		mainCamera_->GetTransform()->SetLocationX(xFactor);
 		mainCamera_->GetTransform()->SetLocationY(-808.f + 360.f + (playerPos.y + 808) / 9.1818f);
 	}
 

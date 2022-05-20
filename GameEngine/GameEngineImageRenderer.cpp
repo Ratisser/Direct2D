@@ -178,6 +178,7 @@ GameEngineImageRenderer::GameEngineImageRenderer()
 	, color_(float4::ONE)
 	, addColor_({0.0f, 0.0f, 0.0f, 1.0f})
 	, bStop_(false)
+	, addUV_(float4::ZERO)
 {
 }
 
@@ -204,6 +205,7 @@ void GameEngineImageRenderer::Start()
 	ShaderHelper_.SettingConstantBufferLink("TextureCutData", CutData_);
 	ShaderHelper_.SettingConstantBufferLink("ResultColor", color_);
 	ShaderHelper_.SettingConstantBufferLink("AddColor", addColor_);
+	ShaderHelper_.SettingConstantBufferLink("AddUV", addUV_);
 }
 
 void GameEngineImageRenderer::SetIndex(const int Index)

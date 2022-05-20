@@ -2,6 +2,7 @@
 
 #include "Map.h"
 
+class GameEngineImageRenderer;
 class GameEngineCollision;
 class FlowerMap : public Map
 {
@@ -18,6 +19,7 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 private:
-
+	GameEngineImageRenderer* cloud1_;
+	GameEngineImageRenderer* cloud2_;
 };
 

@@ -38,10 +38,28 @@ private:
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
+	void startFaceAttackHighBegin(float _deltaTime);
+	void updateFaceAttackHighBegin(float _deltaTime);
+	void startFaceAttackHighIdle(float _deltaTime);
+	void updateFaceAttackHighIdle(float _deltaTime);
+	void startFaceAttackHighEnd(float _deltaTime);
+	void updateFaceAttackHighEnd(float _deltaTime);
+
+	void startFaceAttackLowBegin(float _deltaTime);
+	void updateFaceAttackLowBegin(float _deltaTime);
+	void startFaceAttackLowIdle(float _deltaTime);
+	void updateFaceAttackLowIdle(float _deltaTime);
+	void startFaceAttackLowEnd(float _deltaTime);
+	void updateFaceAttackLowEnd(float _deltaTime);
+
 #pragma endregion
 
 private:
-	const int HP = 400;
+	enum eAttackState { FACE_ATTACK_HIGH = 1, FACE_ATTACK_LOW, GATLING, MAX_COUNT };
+
+private:
+	const int HP = 300;
+	const float ACTION_DELAY = 2.0f;
 
 private:
 	GameEngineFSM state_;
@@ -49,5 +67,8 @@ private:
 	GameEngineTransformComponent* bodyTransform_;
 	GameEngineImageRenderer* renderer_;
 
+	GameEngineCollision* collision_;
+
+	int nextState_;
 };
 

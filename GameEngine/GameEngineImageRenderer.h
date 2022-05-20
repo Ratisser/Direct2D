@@ -79,6 +79,10 @@ public:
 	void SetAddColor(float4 _color) { addColor_ = _color; }
 	float4 GetAddColor() const { return addColor_; }
 
+	void SetAddUV(float4 _uv) { addUV_ = _uv; }
+	float4 GetAddUV() const { return addUV_; }
+	void AddAddUV(float4 _uv) { addUV_ += _uv; }
+
 	void Stop() { bStop_ = true; }
 	void Resume() { bStop_ = false; }
 
@@ -93,6 +97,7 @@ private:
 	float4 CutData_;
 	float4 color_;
 	float4 addColor_;
+	float4 addUV_;
 
 	bool bFlipHorizontal_;
 	bool bFlipVertical_;

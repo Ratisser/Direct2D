@@ -30,6 +30,11 @@ cbuffer AddColor : register(b3)
     float4 addColor;
 }
 
+cbuffer AddUV : register(b4)
+{
+    float4 addUV;
+}
+
 PS_INPUT Texture_VS(VS_INPUT _in)
 {
     PS_INPUT output;
@@ -50,6 +55,8 @@ SamplerState Sample : register(s0);
 
 float4 Texture_PS(PS_INPUT _in) : SV_Target0
 {
+    _in.TexCoord.x += addUV.x;
+    _in.TexCoord.y += addUV.y;
     float4 color = (Tex.Sample(Sample, float2(_in.TexCoord.xy)) * bufferColor);
     
     color.r += addColor.r;
