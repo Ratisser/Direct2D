@@ -11,7 +11,7 @@
 Peashot::Peashot()
 	: direction_(float4::RIGHT)
 	, rotation_(float4::ZERO)
-	, lifeTime_(0.5f)
+	, lifeTime_(LIFE_TIME)
 	, bulletRenderer_(nullptr)
 	, bulletTransform_(nullptr)
 	, collision_(nullptr)
@@ -32,7 +32,7 @@ void Peashot::Start()
 	state_.ChangeState("Idle");
 
 	bulletTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
-	transform_->SetScale(0.9f);
+	transform_->SetScale(0.8f, 1.0f);
 
 	bulletRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(bulletTransform_);
 

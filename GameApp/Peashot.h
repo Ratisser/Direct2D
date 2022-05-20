@@ -31,7 +31,8 @@ private:
 	void updatePop(float _deltaTime);
 
 private:
-	float BULLET_SPEED = 3000.f;
+	float BULLET_SPEED = 2500.f;
+	float LIFE_TIME = 1.0f;
 
 private:
 	GameEngineImageRenderer* bulletRenderer_;
