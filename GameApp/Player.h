@@ -142,16 +142,16 @@ private:
 	const float BLINK_DELAY = 0.1f;
 
 	const float BULLET_UP_OFFSET = 110.f;
-	const float BULLET_DOWN_OFFSET = -20.f;
-	const float BULLET_LEFT_OFFSET = -60.f;
-	const float BULLET_RIGHT_OFFSET = 60.f;
+	const float BULLET_DOWN_OFFSET = -10.f;
+	const float BULLET_LEFT_OFFSET = -70.f;
+	const float BULLET_RIGHT_OFFSET = 70.f;
 
-	const float BULLET_DIAGONALUP_OFFSET = 90.f;
+	const float BULLET_DIAGONALUP_OFFSET = 80.f;
 	const float BULLET_LEFTUP_OFFSET = -20.f;
 	const float BULLET_RIGHTUP_OFFSET = 20.f;
 
-	const float BULLET_STRAIGHT_OFFSET = 60.f;
-	const float BULLET_DUCK_OFFSET = 20.f;
+	const float BULLET_STRAIGHT_OFFSET = 40.f;
+	const float BULLET_DUCK_OFFSET = 10.f;
 
 
 #pragma endregion
