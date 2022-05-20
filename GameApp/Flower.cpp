@@ -5,12 +5,17 @@
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineCollision.h>
 #include <GameEngine\GameEngineInput.h>
+#include <GameApp\GameEngineLevelControlWindow.h>
 
 Flower::Flower()
 	: renderer_(nullptr)
-	, bodyTransform_(nullptr)
-	, collision_(nullptr)
 	, nextState_(0)
+	, bodyTransform_(nullptr)
+	, headCollision_(nullptr)
+	, handCollision_(nullptr)
+	, bodyCollision_(nullptr)
+	, FaceAttackHighCollision_(nullptr)
+	, FaceAttackLowCollision_(nullptr)
 {
 
 }
@@ -42,6 +47,12 @@ void Flower::Update(float _deltaTime)
 	}
 
 	state_.Update(_deltaTime);
+
+	GameEngineLevelControlWindow* controlWindow = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineLevelControlWindow>("LevelControlWindow");
+	if (nullptr != controlWindow)
+	{
+		controlWindow->AddText("Flower Hp : " + std::to_string(hp_));
+	}
 }
 
 void Flower::OnHit()
@@ -76,11 +87,45 @@ void Flower::initRendererAndAnimation()
 
 void Flower::initCollision()
 {
-	collision_ = CreateTransformComponent<GameEngineCollision>(bodyTransform_);
-	collision_->SetScale(400.f, 600.f);
-	collision_->SetLocation(-290.f, 300.f);
-	collision_->SetCollisionGroup(eCollisionGroup::Monster);
-	collision_->SetCollisionType(eCollisionType::Rect);
+	headCollision_ = CreateTransformComponent<GameEngineCollision>(bodyTransform_);
+	headCollision_->SetScale(250.f, 250.f);
+	headCollision_->SetLocation(-300.f, 470.f);
+	headCollision_->SetCollisionGroup(eCollisionGroup::Monster);
+	headCollision_->SetCollisionType(eCollisionType::Rect);
+
+	handCollision_ = CreateTransformComponent<GameEngineCollision>(nullptr);
+	handCollision_->SetScale(120.f);
+	handCollision_->SetLocation(916.f, -532.f);
+	handCollision_->SetCollisionGroup(eCollisionGroup::MonsterProjectile);
+	handCollision_->SetCollisionType(eCollisionType::Rect);
+	handCollision_->Off();
+
+	bodyCollision_ = CreateTransformComponent<GameEngineCollision>(bodyTransform_);
+	bodyCollision_->SetScale(180.f, 300.f);
+	bodyCollision_->SetLocation(-300.f, -200.f);
+	bodyCollision_->SetCollisionGroup(eCollisionGroup::MonsterProjectile);
+	bodyCollision_->SetCollisionType(eCollisionType::Rect);
+	
+	handCollision_ = CreateTransformComponent<GameEngineCollision>(nullptr);
+	handCollision_->SetScale(120.f);
+	handCollision_->SetLocation(916.f, -532.f);
+	handCollision_->SetCollisionGroup(eCollisionGroup::MonsterProjectile);
+	handCollision_->SetCollisionType(eCollisionType::Rect);
+	handCollision_->Off();
+
+	FaceAttackHighCollision_ = CreateTransformComponent<GameEngineCollision>(nullptr);
+	FaceAttackHighCollision_->SetScale(900.f, 280.f);
+	FaceAttackHighCollision_->SetLocation(625.f, -300.f);
+	FaceAttackHighCollision_->SetCollisionGroup(eCollisionGroup::Monster);
+	FaceAttackHighCollision_->SetCollisionType(eCollisionType::Rect);
+	FaceAttackHighCollision_->Off();
+
+	FaceAttackLowCollision_ = CreateTransformComponent<GameEngineCollision>(nullptr);
+	FaceAttackLowCollision_->SetScale(900.f, 280.f);
+	FaceAttackLowCollision_->SetLocation(625.f, -630.f);
+	FaceAttackLowCollision_->SetCollisionGroup(eCollisionGroup::Monster);
+	FaceAttackLowCollision_->SetCollisionType(eCollisionType::Rect);
+	FaceAttackLowCollision_->Off();
 }
 
 void Flower::initState()
@@ -125,12 +170,21 @@ void Flower::startIdle(float _deltaTime)
 void Flower::updateIdle(float _deltaTime)
 {
 	float time = state_.GetTime();
+
+	if (renderer_->GetCurrentAnimation()->CurFrame_ < 5 || renderer_->GetCurrentAnimation()->CurFrame_ > 21)
+	{
+		handCollision_->On();
+	}
+	else
+	{
+		handCollision_->Off();
+	}
+
 	if (time > ACTION_DELAY)
 	{
 		if (hp_ <= 100)
 		{
 
-			state_ << "EnterPhaseFour";
 			return;
 		}
 
@@ -182,12 +236,17 @@ void Flower::startFaceAttackHighIdle(float _deltaTime)
 {
 	renderer_->ChangeAnimation("FaceAttackHighIdle");
 	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_top_laser_attack_hold_loop.wav");
+
+	FaceAttackHighCollision_->On();
+	headCollision_->Off();
 }
 
 void Flower::updateFaceAttackHighIdle(float _deltaTime)
 {
 	if (state_.GetTime() > 1.0f)
 	{
+		FaceAttackHighCollision_->Off();
+		headCollision_->On();
 		state_ << "FaceAttackHighEnd";
 	}
 }
@@ -227,12 +286,16 @@ void Flower::startFaceAttackLowIdle(float _deltaTime)
 {
 	renderer_->ChangeAnimation("FaceAttackLowIdle");
 	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_top_laser_attack_hold_loop.wav");
+	FaceAttackLowCollision_->On();
+	headCollision_->Off();
 }
 
 void Flower::updateFaceAttackLowIdle(float _deltaTime)
 {
 	if (state_.GetTime() > 1.0f)
 	{
+		FaceAttackLowCollision_->Off();
+		headCollision_->On();
 		state_ << "FaceAttackLowEnd";
 	}
 }

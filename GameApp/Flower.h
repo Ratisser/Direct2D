@@ -67,7 +67,12 @@ private:
 	GameEngineTransformComponent* bodyTransform_;
 	GameEngineImageRenderer* renderer_;
 
-	GameEngineCollision* collision_;
+	GameEngineCollision* headCollision_;
+	GameEngineCollision* handCollision_;
+	GameEngineCollision* bodyCollision_;
+
+	GameEngineCollision* FaceAttackHighCollision_;
+	GameEngineCollision* FaceAttackLowCollision_;
 
 	int nextState_;
 };
