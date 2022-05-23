@@ -21,7 +21,10 @@ void GameEngineSoundPlayer::ChangeSound(const std::string& _soundName)
 void GameEngineSoundPlayer::Play()
 {
 	GameEngineSoundManager::GetInstance().system_->playSound(sound_, nullptr, false, &channel_);
-	SetVolume(GameEngineSoundManager::globalVolume_ * volume_);
+	if (channel_ != nullptr)
+	{
+		FMOD_RESULT result = channel_->setVolume(GameEngineSoundManager::globalVolume_ * volume_);
+	}
 }
 
 void GameEngineSoundPlayer::Stop()
