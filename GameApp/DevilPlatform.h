@@ -51,6 +51,7 @@ private:
 	const float ACTION_COOLTIME = 2.0f;
 	const float MAX_MOVE_HEIGHT = 200.f;
 	const float MOVE_DELAY = 1.0f;
+	const float FALLING_SPEED = -150.f;
 
 private:
 	GameEngineFSM state_;

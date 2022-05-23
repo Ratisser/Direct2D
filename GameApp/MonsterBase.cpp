@@ -11,6 +11,7 @@
 MonsterBase::MonsterBase()
 	: hp_(0)
 	, hitEffectTime_(0.0f)
+	, hitEffectColor_(0.1f, 0.2f, 0.3f)
 {
 
 }
@@ -38,11 +39,9 @@ void MonsterBase::Update(float _deltaTime)
 
 void MonsterBase::OnHit()
 {
-	const float4 onHitColor = { 0.1f, 0.2f, 0.3f };
-
 	for (GameEngineImageRenderer* renderer : onHitEffectedRenderers_)
 	{
-		renderer->SetAddColor(onHitColor);
+		renderer->SetAddColor(hitEffectColor_);
 	}
 
 	hitEffectTime_ = HIT_EFFECT_TIME;

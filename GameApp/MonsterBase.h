@@ -23,7 +23,9 @@ public:
 	void SetHP(int _hp);
 	void SubtractHP(int _damage);
 
-	int GetHP() { return hp_; }
+	void SetHitEffectColor(const float4& _hitEffectColor) { hitEffectColor_ = _hitEffectColor; };
+
+	int GetHP() const { return hp_; }
 
 protected:
 	void pushHitEffectRenderer(GameEngineImageRenderer* _renderer);
@@ -34,6 +36,7 @@ protected:
 protected:
 	int hp_;
 	float hitEffectTime_;
+	float4 hitEffectColor_;
 
 private:
 	std::vector<GameEngineImageRenderer*> onHitEffectedRenderers_;

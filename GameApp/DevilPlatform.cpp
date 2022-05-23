@@ -200,7 +200,7 @@ void DevilPlatform::updateFall(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
 
-	transform_->AddLocation(0.0f, -200.f * _deltaTime);
+	transform_->AddLocation(0.0f, FALLING_SPEED * _deltaTime);
 	if (timeCounter_ > 5.0f)
 	{
 		Release();
