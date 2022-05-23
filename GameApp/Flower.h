@@ -52,14 +52,30 @@ private:
 	void startFaceAttackLowEnd(float _deltaTime);
 	void updateFaceAttackLowEnd(float _deltaTime);
 
+	void startGatlingBegin(float _deltaTime);
+	void updateGatlingBegin(float _deltaTime);
+	void startGatlingIdle(float _deltaTime);
+	void updateGatlingIdle(float _deltaTime);
+	void startGatlingEnd(float _deltaTime);
+	void updateGatlingEnd(float _deltaTime);
+
+	void startSummonObjectBegin(float _deltaTime);
+	void updateSummonObjectBegin(float _deltaTime);
+	void startSummonObjectAttack(float _deltaTime);
+	void updateSummonObjectAttack(float _deltaTime);
+	void startSummonObjectEnd(float _deltaTime);
+	void updateSummonObjectEnd(float _deltaTime);
+
 #pragma endregion
 
 private:
-	enum eAttackState { FACE_ATTACK_HIGH = 1, FACE_ATTACK_LOW, GATLING, MAX_COUNT };
+	enum eAttackState { FACE_ATTACK_HIGH = 1, FACE_ATTACK_LOW, GATLING, SUMMON_OBEJCT, MAX_COUNT };
 
 private:
 	const int HP = 300;
-	const float ACTION_DELAY = 2.0f;
+	const float ACTION_DELAY = 3.0f;
+
+	const float4 MISSILE_SPAWN_LOCATION = { 1125.f, -160.f, -0.2f };
 
 private:
 	GameEngineFSM state_;
@@ -74,6 +90,10 @@ private:
 	GameEngineCollision* FaceAttackHighCollision_;
 	GameEngineCollision* FaceAttackLowCollision_;
 
+	std::unique_ptr<GameEngineSoundPlayer> gatlingLoopSound_;
+
 	int nextState_;
+
+	float timeCounter_;
 };
 

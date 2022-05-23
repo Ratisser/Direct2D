@@ -2,10 +2,14 @@
 #include "Flower.h"
 
 #include <GameEngineBase\GameEngineRandom.h>
+#include <GameEngineBase\GameEngineSoundPlayer.h>
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineCollision.h>
 #include <GameEngine\GameEngineInput.h>
+#include <GameEngine\GameEngineLevel.h>
+
 #include <GameApp\GameEngineLevelControlWindow.h>
+#include "GatlingMissile.h"
 
 Flower::Flower()
 	: renderer_(nullptr)
@@ -16,6 +20,8 @@ Flower::Flower()
 	, bodyCollision_(nullptr)
 	, FaceAttackHighCollision_(nullptr)
 	, FaceAttackLowCollision_(nullptr)
+	, gatlingLoopSound_(nullptr)
+	, timeCounter_(0.0f)
 {
 
 }
@@ -33,10 +39,14 @@ void Flower::Start()
 	initRendererAndAnimation();
 	initCollision();
 	initState();
+
+	gatlingLoopSound_ = std::make_unique<GameEngineSoundPlayer>("sfx_flower_gattling_loop.wav");
 }
 
 void Flower::Update(float _deltaTime)
 {
+	MonsterBase::Update(_deltaTime);
+
 	GameEngineInput& input = GameEngineInput::GetInstance();
 	for (int i = 1; i < 5; i++)
 	{
@@ -57,6 +67,7 @@ void Flower::Update(float _deltaTime)
 
 void Flower::OnHit()
 {
+	MonsterBase::OnHit();
 }
 
 void Flower::initInput()
@@ -80,8 +91,14 @@ void Flower::initRendererAndAnimation()
 	renderer_->CreateAnimationFolder("FaceAttackLowIdle", 0.067f);
 	renderer_->CreateAnimationFolder("FaceAttackLowEnd", 0.067f, false);
 
+	renderer_->CreateAnimationFolder("GatlingBegin", 0.0416f, false);
+	renderer_->CreateAnimationFolder("GatlingIdle", 0.0416f, true);
+	renderer_->CreateAnimationFolder("GatlingEnd", 0.0416f, false);
+
 	renderer_->SetPivot(eImagePivot::BOTTOM_RIGHT);
 	renderer_->ChangeAnimation("FlowerIntro");
+
+	pushHitEffectRenderer(renderer_);
 	
 }
 
@@ -102,7 +119,7 @@ void Flower::initCollision()
 
 	bodyCollision_ = CreateTransformComponent<GameEngineCollision>(bodyTransform_);
 	bodyCollision_->SetScale(180.f, 300.f);
-	bodyCollision_->SetLocation(-300.f, -200.f);
+	bodyCollision_->SetLocation(-300.f, 200.f);
 	bodyCollision_->SetCollisionGroup(eCollisionGroup::MonsterProjectile);
 	bodyCollision_->SetCollisionType(eCollisionType::Rect);
 	
@@ -138,6 +155,9 @@ void Flower::initState()
 	state_.CreateState(MakeState(Flower, FaceAttackLowBegin));
 	state_.CreateState(MakeState(Flower, FaceAttackLowIdle));
 	state_.CreateState(MakeState(Flower, FaceAttackLowEnd));
+	state_.CreateState(MakeState(Flower, GatlingBegin));
+	state_.CreateState(MakeState(Flower, GatlingIdle));
+	state_.CreateState(MakeState(Flower, GatlingEnd));
 
 	state_ << "Intro";
 }
@@ -182,10 +202,9 @@ void Flower::updateIdle(float _deltaTime)
 
 	if (time > ACTION_DELAY)
 	{
-		if (hp_ <= 100)
+		if (hp_ <= 150)
 		{
-
-			return;
+			// phase 2
 		}
 
 		GameEngineRandom random;
@@ -206,8 +225,10 @@ void Flower::updateIdle(float _deltaTime)
 			state_ << "FaceAttackLowBegin";
 			break;
 		case Flower::GATLING:
+			state_ << "GatlingBegin";
 			break;
-		case Flower::MAX_COUNT:
+		case Flower::SUMMON_OBEJCT:
+
 			break;
 		default:
 			break;
@@ -314,4 +335,101 @@ void Flower::updateFaceAttackLowEnd(float _deltaTime)
 		bodyTransform_->AddLocation(0.0f, 110.f);
 		state_ << "Idle";
 	}
+}
+
+void Flower::startGatlingBegin(float _deltaTime)
+{
+	renderer_->ChangeAnimation("GatlingBegin");
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_gattling_start.wav");
+}
+
+void Flower::updateGatlingBegin(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "GatlingIdle";
+	}
+}
+
+void Flower::startGatlingIdle(float _deltaTime)
+{
+	renderer_->ChangeAnimation("GatlingIdle");
+	gatlingLoopSound_->Play();
+}
+
+void Flower::updateGatlingIdle(float _deltaTime)
+{
+	timeCounter_ += _deltaTime;
+	
+	if (timeCounter_ > 0.1f)
+	{
+		
+		GameEngineRandom random;
+		bool bFire = random.RandomBool();
+
+		if (bFire)
+		{
+			GameEngineActor* missile = level_->CreateActor<GatlingMissile>();
+			missile->GetTransform()->SetLocation(MISSILE_SPAWN_LOCATION);
+			
+
+			timeCounter_ = 0.0f;
+		}
+		else
+		{
+			timeCounter_ = 0.05f;
+		}
+	}
+
+
+
+	if (gatlingLoopSound_->IsPlaying() == false)
+	{
+		gatlingLoopSound_->Play();
+		gatlingLoopSound_->SetPosition(500.f);
+	}
+
+	if (state_.GetTime() > 5.0f)
+	{
+		gatlingLoopSound_->Stop();
+		state_ << "GatlingEnd";
+	}
+}
+
+void Flower::startGatlingEnd(float _deltaTime)
+{
+	renderer_->ChangeAnimation("GatlingEnd");
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_gattling_end.wav");
+}
+
+void Flower::updateGatlingEnd(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "Idle";
+	}
+}
+
+void Flower::startSummonObjectBegin(float _deltaTime)
+{
+}
+
+void Flower::updateSummonObjectBegin(float _deltaTime)
+{
+}
+
+void Flower::startSummonObjectAttack(float _deltaTime)
+{
+}
+
+void Flower::updateSummonObjectAttack(float _deltaTime)
+{
+}
+
+void Flower::startSummonObjectEnd(float _deltaTime)
+{
+}
+
+void Flower::updateSummonObjectEnd(float _deltaTime)
+{
 }

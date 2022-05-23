@@ -152,6 +152,12 @@
     <ClCompile Include="Flower.cpp">
       <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
     </ClCompile>
+    <ClCompile Include="GatlingSmokeEffect.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClCompile>
+    <ClCompile Include="GatlingMissile.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -219,6 +225,9 @@
     </Filter>
     <Filter Include="01.GameObject\03.Level\LoadingLevel">
       <UniqueIdentifier>{bbd0c290-4e5e-4533-ade8-38678e390b31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.GameObject\03.Level\FlowerLevel\Gatling">
+      <UniqueIdentifier>{dbea2f73-3580-4fac-8111-dfccf135589b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -383,6 +392,12 @@
     </ClInclude>
     <ClInclude Include="Flower.h">
       <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="GatlingSmokeEffect.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClInclude>
+    <ClInclude Include="GatlingMissile.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

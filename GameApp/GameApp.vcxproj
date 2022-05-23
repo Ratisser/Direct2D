@@ -257,6 +257,14 @@
     <ClCompile Include="FlowerMap.cpp" />
     <ClCompile Include="FlowerPlatform.cpp" />
     <ClCompile Include="GameEngineLevelControlWindow.cpp" />
+    <ClCompile Include="GatlingMissile.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GatlingSmokeEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Hourglass.cpp">
       <SubType>
       </SubType>
@@ -453,6 +461,14 @@
     <ClInclude Include="FlowerMap.h" />
     <ClInclude Include="FlowerPlatform.h" />
     <ClInclude Include="GameEngineLevelControlWindow.h" />
+    <ClInclude Include="GatlingMissile.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GatlingSmokeEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Hourglass.h">
       <SubType>
       </SubType>
