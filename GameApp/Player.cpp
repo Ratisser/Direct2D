@@ -1174,12 +1174,14 @@ void Player::startDuck(float _deltaTime)
 
 void Player::updateDuck(float _deltaTime)
 {
+	addGravity(_deltaTime);
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		if (float4::BLUE == Map::GetColor(groundCheckCollision_)
-			|| nullptr != groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+		if (float4::BLUE == Map::GetColor(fallCheckCollision_)
+			|| nullptr != fallCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 		{
 			bGround_ = false;
+			transform_->AddLocation(0.0f, -5.0f);
 			normalState_ << "DownJump";
 		}
 		else
@@ -1217,10 +1219,11 @@ void Player::updateDuckIdle(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("Z"))
 	{
-		if (float4::BLUE == Map::GetColor(groundCheckCollision_)
-			|| nullptr != groundCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
+		if (float4::BLUE == Map::GetColor(fallCheckCollision_)
+			|| nullptr != fallCheckCollision_->IsCollideOne(eCollisionGroup::Platform))
 		{
 			bGround_ = false;
+			transform_->AddLocation(0.0f, -5.0f);
 			normalState_ << "DownJump";
 		}
 		else
