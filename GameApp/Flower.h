@@ -37,6 +37,7 @@ private:
 
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
+	void endIdle(float _deltaTime);
 
 	void startFaceAttackHighBegin(float _deltaTime);
 	void updateFaceAttackHighBegin(float _deltaTime);
@@ -69,8 +70,8 @@ private:
 #pragma endregion
 
 private:
-	enum eAttackState { FACE_ATTACK_HIGH = 1, FACE_ATTACK_LOW, GATLING, SUMMON_OBEJCT, MAX_COUNT };
-
+	enum class eAttackState { FACE_ATTACK_HIGH = 1, FACE_ATTACK_LOW, GATLING, SUMMON_OBEJCT, MAX_COUNT };
+	enum class eSeedColor { BLUE = 0, PURPLE, PINK, MAX_COUNT };
 private:
 	const int HP = 300;
 	const float ACTION_DELAY = 3.0f;
@@ -95,5 +96,6 @@ private:
 	int nextState_;
 
 	float timeCounter_;
+	float gatlingSeedSpawnTime_;
 };
 

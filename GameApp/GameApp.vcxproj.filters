@@ -158,6 +158,15 @@
     <ClCompile Include="GatlingMissile.cpp">
       <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
     </ClCompile>
+    <ClCompile Include="GatlingSeedBlue.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClCompile>
+    <ClCompile Include="GatlingSeedPink.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClCompile>
+    <ClCompile Include="GatlingSeedPurple.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -397,6 +406,15 @@
       <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
     </ClInclude>
     <ClInclude Include="GatlingMissile.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClInclude>
+    <ClInclude Include="GatlingSeedBlue.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClInclude>
+    <ClInclude Include="GatlingSeedPink.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClInclude>
+    <ClInclude Include="GatlingSeedPurple.h">
       <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
     </ClInclude>
   </ItemGroup>

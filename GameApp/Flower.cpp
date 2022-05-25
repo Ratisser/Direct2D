@@ -10,6 +10,9 @@
 
 #include <GameApp\GameEngineLevelControlWindow.h>
 #include "GatlingMissile.h"
+#include "GatlingSeedBlue.h"
+#include "GatlingSeedPink.h"
+#include "GatlingSeedPurple.h"
 
 Flower::Flower()
 	: renderer_(nullptr)
@@ -22,6 +25,7 @@ Flower::Flower()
 	, FaceAttackLowCollision_(nullptr)
 	, gatlingLoopSound_(nullptr)
 	, timeCounter_(0.0f)
+	, gatlingSeedSpawnTime_(0.0f)
 {
 
 }
@@ -148,7 +152,7 @@ void Flower::initCollision()
 void Flower::initState()
 {
 	state_.CreateState(MakeState(Flower, Intro));
-	state_.CreateState(MakeState(Flower, Idle));
+	state_.CreateState(MakeStateWithEnd(Flower, Idle));
 	state_.CreateState(MakeState(Flower, FaceAttackHighBegin));
 	state_.CreateState(MakeState(Flower, FaceAttackHighIdle));
 	state_.CreateState(MakeState(Flower, FaceAttackHighEnd));
@@ -218,16 +222,16 @@ void Flower::updateIdle(float _deltaTime)
 
 		switch (as)
 		{
-		case Flower::FACE_ATTACK_HIGH:
+		case Flower::eAttackState::FACE_ATTACK_HIGH:
 			state_ << "FaceAttackHighBegin";
 			break;
-		case Flower::FACE_ATTACK_LOW:
+		case Flower::eAttackState::FACE_ATTACK_LOW:
 			state_ << "FaceAttackLowBegin";
 			break;
-		case Flower::GATLING:
+		case Flower::eAttackState::GATLING:
 			state_ << "GatlingBegin";
 			break;
-		case Flower::SUMMON_OBEJCT:
+		case Flower::eAttackState::SUMMON_OBEJCT:
 
 			break;
 		default:
@@ -236,6 +240,11 @@ void Flower::updateIdle(float _deltaTime)
 
 		nextState_ = 0;
 	}
+}
+
+void Flower::endIdle(float _deltaTime)
+{
+	handCollision_->Off();
 }
 
 void Flower::startFaceAttackHighBegin(float _deltaTime)
@@ -360,11 +369,44 @@ void Flower::startGatlingIdle(float _deltaTime)
 void Flower::updateGatlingIdle(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
+	gatlingSeedSpawnTime_ += _deltaTime;
 	
+	GameEngineRandom random;
+
+	if (gatlingSeedSpawnTime_ > 1.0f)
+	{
+		gatlingSeedSpawnTime_ = 0.0f;
+
+		float x = random.RandomFloat(200.f, 800.f);
+
+		eSeedColor seedColor = static_cast<eSeedColor>(random.RandomInt(0, 2));
+
+		switch (seedColor)
+		{
+		case Flower::eSeedColor::BLUE:
+		{
+			GatlingSeedBlue* gs = level_->CreateActor<GatlingSeedBlue>();
+			gs->GetTransform()->SetWorldLocation(x, -50.0f, 0.1f);
+		}
+			break;
+		case Flower::eSeedColor::PURPLE:
+			break;
+		case Flower::eSeedColor::PINK:
+		{
+			GatlingSeedPink* gs = level_->CreateActor<GatlingSeedPink>();
+			gs->GetTransform()->SetWorldLocation(x, -50.0f, 0.1f);
+		}
+			break;
+		default:
+			break;
+		}
+
+	}
+
 	if (timeCounter_ > 0.1f)
 	{
 		
-		GameEngineRandom random;
+		
 		bool bFire = random.RandomBool();
 
 		if (bFire)
@@ -386,7 +428,7 @@ void Flower::updateGatlingIdle(float _deltaTime)
 	if (gatlingLoopSound_->IsPlaying() == false)
 	{
 		gatlingLoopSound_->Play();
-		gatlingLoopSound_->SetPosition(500.f);
+		gatlingLoopSound_->SetPosition(500);
 	}
 
 	if (state_.GetTime() > 5.0f)

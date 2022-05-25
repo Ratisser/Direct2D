@@ -261,6 +261,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GatlingSeedBlue.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GatlingSeedPink.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GatlingSeedPurple.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GatlingSmokeEffect.cpp">
       <SubType>
       </SubType>
@@ -462,6 +474,18 @@
     <ClInclude Include="FlowerPlatform.h" />
     <ClInclude Include="GameEngineLevelControlWindow.h" />
     <ClInclude Include="GatlingMissile.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GatlingSeedBlue.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GatlingSeedPink.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GatlingSeedPurple.h">
       <SubType>
       </SubType>
     </ClInclude>
