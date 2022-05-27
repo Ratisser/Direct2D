@@ -65,7 +65,7 @@ void LoadingLevel::LevelUpdate(float _deltaTime)
 
 		loadPipeLine();
 
-		Sleep(50);
+		Sleep(100);
 		bLoading_ = true;
 	}
 
@@ -423,7 +423,7 @@ void LoadingLevel::loadTexture()
 		}
 	);
 
-	Sleep(50);
+	Sleep(100);
 }
 
 void LoadingLevel::loadMesh()

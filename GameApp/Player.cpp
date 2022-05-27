@@ -1612,16 +1612,16 @@ void Player::updateLockedShot(float _deltaTime)
 		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
 		{
 			bulletSpawnParentLocation_->SetLocation(BULLET_LEFT_OFFSET, 0.0f);
-			bulletDirection_ = { -0.5f, -0.5f };
-			bulletRotation_.z = 45.f * GameEngineMath::DegreeToRadian;
+			bulletDirection_ = { -0.5f, -0.4f };
+			bulletRotation_.z = 40.f * GameEngineMath::DegreeToRadian;
 			renderer_->ChangeAnimation("Shoot_DiagonalDown");
 			bLeft_ = true;
 		}
 		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
 		{
 			bulletSpawnParentLocation_->SetLocation(BULLET_RIGHT_OFFSET, 0.0f);
-			bulletDirection_ = { 0.5f, -0.5f };
-			bulletRotation_.z = -45.f * GameEngineMath::DegreeToRadian;
+			bulletDirection_ = { 0.5f, -0.4f };
+			bulletRotation_.z = -40.f * GameEngineMath::DegreeToRadian;
 			renderer_->ChangeAnimation("Shoot_DiagonalDown");
 			bLeft_ = false;
 		}

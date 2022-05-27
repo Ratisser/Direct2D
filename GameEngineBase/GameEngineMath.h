@@ -43,7 +43,7 @@ public:
 		return DirectX::XMVector3Dot(_Left.DirectVector, _Right.DirectVector).m128_f32[0];
 	}
 
-	// 정사형
+	// 정사영
 	static float Dot3DToLen(float4 _Left, float4 _Right)
 	{
 		_Right.Normalize3D();
