@@ -381,6 +381,8 @@ void Flower::updateGatlingIdle(float _deltaTime)
 
 		eSeedColor seedColor = static_cast<eSeedColor>(random.RandomInt(0, 2));
 
+		//seedColor = eSeedColor::BLUE;
+
 		switch (seedColor)
 		{
 		case Flower::eSeedColor::BLUE:

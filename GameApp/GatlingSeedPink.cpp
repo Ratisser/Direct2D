@@ -11,6 +11,7 @@ GatlingSeedPink::GatlingSeedPink()
 	, seedRenderer_(nullptr)
 	, vineRenderer_(nullptr)
 	, collision_(nullptr)
+	, timeCounter_(0.0f)
 {
 
 }
@@ -40,7 +41,7 @@ void GatlingSeedPink::Start()
 	collision_->SetCollisionGroup(eCollisionGroup::MonsterProjectile);
 	collision_->SetCollisionType(eCollisionType::Rect);
 	collision_->SetScale(40.f);
-	collision_->SetLocationY(50.f);
+	collision_->SetLocationY(30.f);
 
 	state_.CreateState(MakeState(GatlingSeedPink, Fall));
 	state_.CreateState(MakeState(GatlingSeedPink, Landing));
@@ -61,7 +62,7 @@ void GatlingSeedPink::OnHit()
 {
 	MonsterBase::OnHit();
 
-	if (hp_ < 0)
+	if (hp_ <= 0)
 	{
 		collision_->Off();
 		state_ << "Death";
@@ -109,6 +110,7 @@ void GatlingSeedPink::updateGrowUp(float _deltaTime)
 		renderer_->On();
 		collision_->SetCollisionGroup(eCollisionGroup::Monster);
 		collision_->On();
+		state_ << "Idle";
 	}
 
 	if (seedRenderer_->GetCurrentAnimation()->IsEnd_)
@@ -127,6 +129,14 @@ void GatlingSeedPink::updateIdle(float _deltaTime)
 	if (seedRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		seedRenderer_->Off();
+	}
+
+	timeCounter_ += _deltaTime;
+
+	if (renderer_->GetCurrentAnimation()->CurFrame_ == 1 && timeCounter_ > 0.05f)
+	{
+		GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_plant_chomper.wav");
+		timeCounter_ = 0.0f;
 	}
 }
 

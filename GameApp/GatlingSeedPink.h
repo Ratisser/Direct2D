@@ -51,5 +51,7 @@ private:
 	GameEngineImageRenderer* vineRenderer_;
 
 	GameEngineCollision* collision_;
+
+	float timeCounter_;
 };
 

@@ -33,6 +33,9 @@ private:
 	void startGrowUp(float _deltaTime);
 	void updateGrowUp(float _deltaTime);
 
+	void startSpawn(float _deltaTime);
+	void updateSpawn(float _deltaTime);
+
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
@@ -42,6 +45,7 @@ private:
 private:
 	const int HP = 2;
 	const float FALL_SPEED = -200.f;
+	const float MOVE_SPEED = 200.f;
 
 private:
 	GameEngineFSM state_;
@@ -49,6 +53,11 @@ private:
 	GameEngineImageRenderer* seedRenderer_;
 	GameEngineImageRenderer* vineRenderer_;
 
-	GameEngineCollision* collision_;
-};
+	GameEngineTransformComponent* vineTransform_;
 
+	GameEngineCollision* collision_;
+
+	float4 direction_;
+
+	float timeCounter_;
+};
