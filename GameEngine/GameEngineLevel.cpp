@@ -325,6 +325,28 @@ void GameEngineLevel::SetBulletTime(float _ratio, float _effectTime)
 	bulletTime_ = _effectTime;
 }
 
+void GameEngineLevel::DebugRectOff()
+{
+	for (GameEngineRenderer* renderer : allRenderer_)
+	{
+		if (renderer->IsDebug())
+		{
+			renderer->Off();
+		}
+	}
+}
+
+void GameEngineLevel::DebugRectOn()
+{
+	for (GameEngineRenderer* renderer : allRenderer_)
+	{
+		if (renderer->IsDebug())
+		{
+			renderer->On();
+		}
+	}
+}
+
 void GameEngineLevel::init()
 {
 	mainCamera_ = CreateActor<GameEngineCamera>("MainCamera");

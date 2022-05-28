@@ -50,6 +50,9 @@ public:
 
 	void SetBulletTime(float _ratio, float _effectTime);
 
+	void DebugRectOff();
+	void DebugRectOn();
+
 public:
 	static bool PostProcess_;
 

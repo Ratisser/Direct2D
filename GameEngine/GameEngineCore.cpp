@@ -36,7 +36,7 @@ void GameEngineCore::EngineInitialize()
 	GameEngineCollision::init();
 
 	GameEngineSoundManager::GetInstance().Initialize();
-	GameEngineInput::GetInstance();
+	GameEngineInput::GetInstance().CreateKey("I", 'I');
 }
 
 
@@ -190,6 +190,23 @@ void GameEngineCore::MainLoop()
 	GameEngineTime::GetInst().TimeCheck();
 	GameEngineSoundManager::GetInstance().Update();
 	GameEngineInput::GetInstance().update();
+
+	if (GameEngineInput::GetInstance().IsKeyDown("I"))
+	{
+		if (nullptr != currentLevel_)
+		{
+			static bool bOnOffSwitch = true;
+			if (bOnOffSwitch)
+			{
+				currentLevel_->DebugRectOn();
+			}
+			else
+			{
+				currentLevel_->DebugRectOff();
+			}
+			bOnOffSwitch = !bOnOffSwitch;
+		}
+	}
 
 	if (nullptr != nextLevel_)
 	{

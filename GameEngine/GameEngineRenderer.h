@@ -25,12 +25,18 @@ public:
 	void SetBlender(const std::string& _blenderName);
 	void Render();
 
+	void SetDebug(bool _bDebug) { bDebug_ = _bDebug; }
+	bool IsDebug() { return bDebug_; }
+
 	inline GameEngineTexture* GetCurrentTexture() { return CurTexture_; }
 
 public:
 	GameEngineShaderResHelper ShaderHelper_;
+
 protected:
 	GameEngineRenderingPipeline* pipe_;
 	GameEngineTexture* CurTexture_;
+
+	bool bDebug_;
 };
 

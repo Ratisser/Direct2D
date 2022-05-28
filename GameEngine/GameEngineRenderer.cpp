@@ -10,6 +10,7 @@
 GameEngineRenderer::GameEngineRenderer()
 	: pipe_(nullptr)
 	, CurTexture_(nullptr)
+	, bDebug_(false)
 {
 
 }

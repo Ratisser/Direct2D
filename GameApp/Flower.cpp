@@ -26,6 +26,7 @@ Flower::Flower()
 	, gatlingLoopSound_(nullptr)
 	, timeCounter_(0.0f)
 	, gatlingSeedSpawnTime_(0.0f)
+	, bPurpleSeedSpawn_(false)
 {
 
 }
@@ -364,6 +365,8 @@ void Flower::startGatlingIdle(float _deltaTime)
 {
 	renderer_->ChangeAnimation("GatlingIdle");
 	gatlingLoopSound_->Play();
+
+	bPurpleSeedSpawn_ = false;
 }
 
 void Flower::updateGatlingIdle(float _deltaTime)
@@ -392,6 +395,19 @@ void Flower::updateGatlingIdle(float _deltaTime)
 		}
 			break;
 		case Flower::eSeedColor::PURPLE:
+		{
+			if (!bPurpleSeedSpawn_)
+			{
+				GatlingSeedPurple* gs = level_->CreateActor<GatlingSeedPurple>();
+				gs->GetTransform()->SetWorldLocation(x, -50.0f, 0.1f);
+				bPurpleSeedSpawn_ = true;
+			}
+			else
+			{
+				GatlingSeedBlue* gs = level_->CreateActor<GatlingSeedBlue>();
+				gs->GetTransform()->SetWorldLocation(x, -50.0f, 0.1f);
+			}
+		}
 			break;
 		case Flower::eSeedColor::PINK:
 		{
@@ -407,8 +423,6 @@ void Flower::updateGatlingIdle(float _deltaTime)
 
 	if (timeCounter_ > 0.1f)
 	{
-		
-		
 		bool bFire = random.RandomBool();
 
 		if (bFire)
@@ -424,8 +438,6 @@ void Flower::updateGatlingIdle(float _deltaTime)
 			timeCounter_ = 0.05f;
 		}
 	}
-
-
 
 	if (gatlingLoopSound_->IsPlaying() == false)
 	{

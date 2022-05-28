@@ -167,6 +167,9 @@
     <ClCompile Include="GatlingSeedPurple.cpp">
       <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
     </ClCompile>
+    <ClCompile Include="MiniFlowerBullet.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -415,6 +418,9 @@
       <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
     </ClInclude>
     <ClInclude Include="GatlingSeedPurple.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniFlowerBullet.h">
       <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
     </ClInclude>
   </ItemGroup>

@@ -36,14 +36,23 @@ private:
 	void startSpawn(float _deltaTime);
 	void updateSpawn(float _deltaTime);
 
+	void startFlyUp(float _deltaTime);
+	void updateFlyUp(float _deltaTime);
+
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
+
+	void startFire(float _deltaTime);
+	void updateFire(float _deltaTime);
+
+	void startFireEnd(float _deltaTime);
+	void updateFireEnd(float _deltaTime);
 
 	void startDeath(float _deltaTime);
 	void updateDeath(float _deltaTime);
 
 private:
-	const int HP = 4;
+	const int HP = 5;
 	const float FALL_SPEED = -200.f;
 	const float MOVE_SPEED = 200.f;
 
@@ -58,6 +67,8 @@ private:
 	GameEngineCollision* collision_;
 
 	float4 direction_;
+	float4 prevLocation_;
+	float4 nextLocation_;
 
 	float timeCounter_;
 };

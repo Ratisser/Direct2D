@@ -97,5 +97,7 @@ private:
 
 	float timeCounter_;
 	float gatlingSeedSpawnTime_;
+
+	bool bPurpleSeedSpawn_;
 };
 

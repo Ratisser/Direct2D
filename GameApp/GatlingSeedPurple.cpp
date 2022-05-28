@@ -30,16 +30,18 @@ void GatlingSeedPurple::Start()
 {
 	SetHP(HP);
 	seedRenderer_ = CreateTransformComponent<GameEngineImageRenderer>();
-	seedRenderer_->CreateAnimationFolder("Seed_Blue", 0.0416f);
-	seedRenderer_->CreateAnimationFolder("SeedGrow_Blue", 0.0416f, false);
+	seedRenderer_->CreateAnimationFolder("Seed_Purple", 0.0416f);
+	seedRenderer_->CreateAnimationFolder("SeedGrow_Purple", 0.0416f, false);
 	seedRenderer_->CreateAnimationFolder("VineGrowBurst", 0.0416f, false);
-	seedRenderer_->ChangeAnimation("Seed_Blue");
+	seedRenderer_->ChangeAnimation("Seed_Purple");
 
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>();
-	renderer_->CreateAnimationFolder("VenusSpawn", 0.0416f, false);
-	renderer_->CreateAnimationFolder("VenusLoop", 0.067f);
-	renderer_->CreateAnimationFolder("VenusDeath", 0.0416f, false);
-	renderer_->ChangeAnimation("VenusSpawn");
+	renderer_->CreateAnimationFolder("MiniFlowerSpawn", 0.0416f, false);
+	renderer_->CreateAnimationFolder("MiniFlowerFly", 0.067f);
+	renderer_->CreateAnimationFolder("MiniFlowerDeath", 0.0416f, false);
+	renderer_->CreateAnimationFolder("MiniFlowerSpit", 0.0416f, false);
+	renderer_->CreateAnimationFolderReverse("MiniFlowerSpitReverse", "MiniFlowerSpit", 0.0416f, false);
+	renderer_->ChangeAnimation("MiniFlowerSpawn");
 	renderer_->SetPivot(eImagePivot::CENTER);
 	renderer_->Off();
 	pushHitEffectRenderer(renderer_);
@@ -61,8 +63,11 @@ void GatlingSeedPurple::Start()
 	state_.CreateState(MakeState(GatlingSeedPurple, Fall));
 	state_.CreateState(MakeState(GatlingSeedPurple, Landing));
 	state_.CreateState(MakeState(GatlingSeedPurple, GrowUp));
+	state_.CreateState(MakeState(GatlingSeedPurple, FlyUp));
 	state_.CreateState(MakeState(GatlingSeedPurple, Spawn));
 	state_.CreateState(MakeState(GatlingSeedPurple, Idle));
+	state_.CreateState(MakeState(GatlingSeedPurple, Fire));
+	state_.CreateState(MakeState(GatlingSeedPurple, FireEnd));
 	state_.CreateState(MakeState(GatlingSeedPurple, Death));
 	state_ << "Fall";
 }
@@ -87,7 +92,7 @@ void GatlingSeedPurple::OnHit()
 
 void GatlingSeedPurple::startFall(float _deltaTime)
 {
-	seedRenderer_->ChangeAnimation("Seed_Blue");
+	seedRenderer_->ChangeAnimation("Seed_Purple");
 }
 
 void GatlingSeedPurple::updateFall(float _deltaTime)
@@ -104,7 +109,7 @@ void GatlingSeedPurple::updateFall(float _deltaTime)
 
 void GatlingSeedPurple::startLanding(float _deltaTime)
 {
-	seedRenderer_->ChangeAnimation("SeedGrow_Blue");
+	seedRenderer_->ChangeAnimation("SeedGrow_Purple");
 }
 
 void GatlingSeedPurple::updateLanding(float _deltaTime)
@@ -161,27 +166,59 @@ void GatlingSeedPurple::updateSpawn(float _deltaTime)
 
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
+		state_ << "FlyUp";
+	}
+}
+
+void GatlingSeedPurple::startFlyUp(float _deltaTime)
+{
+	renderer_->ChangeAnimation("MiniFlowerFly");
+	collision_->On();
+	collision_->SetLocation(0.0f, 0.0f);
+	collision_->SetScale(60.f);
+
+	prevLocation_ = transform_->GetWorldLocation();
+	nextLocation_ = prevLocation_;
+	nextLocation_.y = -100;
+	timeCounter_ = 0.0f;
+}
+
+void GatlingSeedPurple::updateFlyUp(float _deltaTime)
+{
+	if (seedRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		seedRenderer_->Off();
+	}
+
+	if (vineRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		vineRenderer_->Off();
+	}
+
+	if (state_.GetTime() < 1.0f)
+	{
+		transform_->SetWorldLocation(GameEngineMath::Lerp(prevLocation_, nextLocation_, state_.GetTime(), 1.0f));
+	}
+
+	if (state_.GetTime() >= 1.0f)
+	{
+		transform_->SetWorldLocation(GameEngineMath::Lerp(nextLocation_, float4(500.f, -100, nextLocation_.z), state_.GetTime() - 1.0f, 1.0f));
+	}
+
+	if (state_.GetTime() > 2.0f)
+	{
 		state_ << "Idle";
 	}
 }
 
 void GatlingSeedPurple::startIdle(float _deltaTime)
 {
-	renderer_->ChangeAnimation("VenusLoop");
-	collision_->On();
-	collision_->SetLocation(0.0f, 0.0f);
-	collision_->SetScale(60.f);
+	renderer_->ChangeAnimation("MiniFlowerFly");
 }
 
 void GatlingSeedPurple::updateIdle(float _deltaTime)
 {
 	timeCounter_ += _deltaTime;
-
-	if (renderer_->GetCurrentAnimation()->CurFrame_ == 3 && timeCounter_ > 0.07f)
-	{
-		GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_venus_a_chomp.wav");
-		timeCounter_ = 0.0f;
-	}
 
 	if (seedRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
@@ -193,37 +230,43 @@ void GatlingSeedPurple::updateIdle(float _deltaTime)
 		vineRenderer_->Off();
 	}
 
-	transform_->AddLocation(direction_ * MOVE_SPEED * _deltaTime);
+	transform_->SetLocationX(sinf(timeCounter_) * 300.f + 500.f);
 
-	if (state_.GetTime() < 1.0f)
+	if (state_.GetTime() > 4.0f)
 	{
-		GameEngineActor* player = level_->GetLevel<FlowerLevel>()->GetPlayer();
-		float4 playerLocation = player->GetTransform()->GetWorldLocation();
-		playerLocation.y += 50.f;
-		float4 venusLocation = transform_->GetWorldLocation();
-
-		if (playerLocation.x < venusLocation.x)
-		{
-			float4 destDirection = playerLocation - venusLocation;
-			destDirection.Normalize3D();
-
-			if (abs(destDirection.y - direction_.y) > 0.001f)
-			{
-				renderer_->AddRotation(0.0f, 0.0f, -destDirection.y * 3.0f * _deltaTime);
-				direction_ = float4::RotateZRadian(direction_, -destDirection.y * 3.0f * _deltaTime);
-			}
-		}
+		state_ << "Fire";
 	}
+}
 
-	if (state_.GetTime() > 5.0f)
+void GatlingSeedPurple::startFire(float _deltaTime)
+{
+	renderer_->ChangeAnimation("MiniFlowerSpit");
+}
+
+void GatlingSeedPurple::updateFire(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
-		Release();
+		state_ << "FireEnd";
+	}
+}
+
+void GatlingSeedPurple::startFireEnd(float _deltaTime)
+{
+	renderer_->ChangeAnimation("MiniFlowerSpitReverse");
+}
+
+void GatlingSeedPurple::updateFireEnd(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "Idle";
 	}
 }
 
 void GatlingSeedPurple::startDeath(float _deltaTime)
 {
-	renderer_->ChangeAnimation("VenusDeath");
+	renderer_->ChangeAnimation("MiniFlowerDeath");
 	renderer_->SetPivot(eImagePivot::CENTER);
 }
 
