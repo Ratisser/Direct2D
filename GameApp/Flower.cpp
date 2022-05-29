@@ -16,6 +16,7 @@
 
 Flower::Flower()
 	: renderer_(nullptr)
+	, CreateObjectEffect_(nullptr)
 	, nextState_(0)
 	, bodyTransform_(nullptr)
 	, headCollision_(nullptr)
@@ -100,11 +101,24 @@ void Flower::initRendererAndAnimation()
 	renderer_->CreateAnimationFolder("GatlingIdle", 0.0416f, true);
 	renderer_->CreateAnimationFolder("GatlingEnd", 0.0416f, false);
 
+	renderer_->CreateAnimationFolder("CreateObjectBegin", 0.0416f, false);
+	renderer_->CreateAnimationFolder("CreateObjectIdle", 0.0416f);
+	renderer_->CreateAnimationFolder("CreateObjectRelease", 0.0416f, false);
+	renderer_->CreateAnimationFolder("CreateObjectReleaseIdle", 0.0416f);
+	renderer_->CreateAnimationFolder("CreateObjectEnd", 0.0416f, false);
+
+
 	renderer_->SetPivot(eImagePivot::BOTTOM_RIGHT);
 	renderer_->ChangeAnimation("FlowerIntro");
 
 	pushHitEffectRenderer(renderer_);
 	
+
+	CreateObjectEffect_ = CreateTransformComponent<GameEngineImageRenderer>();
+	CreateObjectEffect_->SetPivot(eImagePivot::CENTER);
+	CreateObjectEffect_->CreateAnimationFolder("CreateObjectEffect", 0.033f, false);
+	CreateObjectEffect_->ChangeAnimation("CreateObejctEffect");
+	CreateObjectEffect_->Off();
 }
 
 void Flower::initCollision()
@@ -163,6 +177,12 @@ void Flower::initState()
 	state_.CreateState(MakeState(Flower, GatlingBegin));
 	state_.CreateState(MakeState(Flower, GatlingIdle));
 	state_.CreateState(MakeState(Flower, GatlingEnd));
+	state_.CreateState(MakeState(Flower, BoomerangBegin));
+	state_.CreateState(MakeState(Flower, BoomerangAttack));
+	state_.CreateState(MakeState(Flower, BoomerangEnd));
+	state_.CreateState(MakeState(Flower, AcornBegin));
+	state_.CreateState(MakeState(Flower, AcornAttack));
+	state_.CreateState(MakeState(Flower, AcornEnd));
 
 	state_ << "Intro";
 }
@@ -233,7 +253,7 @@ void Flower::updateIdle(float _deltaTime)
 			state_ << "GatlingBegin";
 			break;
 		case Flower::eAttackState::SUMMON_OBEJCT:
-
+			state_ << "BoomerangBegin";
 			break;
 		default:
 			break;
@@ -466,26 +486,50 @@ void Flower::updateGatlingEnd(float _deltaTime)
 	}
 }
 
-void Flower::startSummonObjectBegin(float _deltaTime)
+void Flower::startBoomerangBegin(float _deltaTime)
 {
 }
 
-void Flower::updateSummonObjectBegin(float _deltaTime)
+void Flower::updateBoomerangBegin(float _deltaTime)
 {
 }
 
-void Flower::startSummonObjectAttack(float _deltaTime)
+void Flower::startBoomerangAttack(float _deltaTime)
 {
 }
 
-void Flower::updateSummonObjectAttack(float _deltaTime)
+void Flower::updateBoomerangAttack(float _deltaTime)
 {
 }
 
-void Flower::startSummonObjectEnd(float _deltaTime)
+void Flower::startBoomerangEnd(float _deltaTime)
 {
 }
 
-void Flower::updateSummonObjectEnd(float _deltaTime)
+void Flower::updateBoomerangEnd(float _deltaTime)
+{
+}
+
+void Flower::startAcornBegin(float _deltaTime)
+{
+}
+
+void Flower::updateAcornBegin(float _deltaTime)
+{
+}
+
+void Flower::startAcornAttack(float _deltaTime)
+{
+}
+
+void Flower::updateAcornAttack(float _deltaTime)
+{
+}
+
+void Flower::startAcornEnd(float _deltaTime)
+{
+}
+
+void Flower::updateAcornEnd(float _deltaTime)
 {
 }

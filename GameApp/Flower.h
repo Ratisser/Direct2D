@@ -60,12 +60,19 @@ private:
 	void startGatlingEnd(float _deltaTime);
 	void updateGatlingEnd(float _deltaTime);
 
-	void startSummonObjectBegin(float _deltaTime);
-	void updateSummonObjectBegin(float _deltaTime);
-	void startSummonObjectAttack(float _deltaTime);
-	void updateSummonObjectAttack(float _deltaTime);
-	void startSummonObjectEnd(float _deltaTime);
-	void updateSummonObjectEnd(float _deltaTime);
+	void startBoomerangBegin(float _deltaTime);
+	void updateBoomerangBegin(float _deltaTime);
+	void startBoomerangAttack(float _deltaTime);
+	void updateBoomerangAttack(float _deltaTime);
+	void startBoomerangEnd(float _deltaTime);
+	void updateBoomerangEnd(float _deltaTime);
+
+	void startAcornBegin(float _deltaTime);
+	void updateAcornBegin(float _deltaTime);
+	void startAcornAttack(float _deltaTime);
+	void updateAcornAttack(float _deltaTime);
+	void startAcornEnd(float _deltaTime);
+	void updateAcornEnd(float _deltaTime);
 
 #pragma endregion
 
@@ -83,6 +90,7 @@ private:
 
 	GameEngineTransformComponent* bodyTransform_;
 	GameEngineImageRenderer* renderer_;
+	GameEngineImageRenderer* CreateObjectEffect_;
 
 	GameEngineCollision* headCollision_;
 	GameEngineCollision* handCollision_;
