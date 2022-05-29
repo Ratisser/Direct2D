@@ -102,24 +102,24 @@ void WorldMapPlayer::initCollision()
 	collisionRight_->SetCollisionType(eCollisionType::Rect);
 	collisionRight_->SetLocation(10.0f, 20.0f, 0.0f);
 
-#ifdef _DEBUG
-	GameEngineRenderer* newRenderer;
-	newRenderer = CreateTransformComponent<GameEngineRenderer>(collisionUp_);
-	newRenderer->SetRenderingPipeline("DebugRect");
-	newRenderer->SetLocationZ(-1.0f);
-
-	newRenderer = CreateTransformComponent<GameEngineRenderer>(collisionDown_);
-	newRenderer->SetRenderingPipeline("DebugRect");
-	newRenderer->SetLocationZ(-1.0f);
-
-	newRenderer = CreateTransformComponent<GameEngineRenderer>(collisionLeft_);
-	newRenderer->SetRenderingPipeline("DebugRect");
-	newRenderer->SetLocationZ(-1.0f);
-
-	newRenderer = CreateTransformComponent<GameEngineRenderer>(collisionRight_);
-	newRenderer->SetRenderingPipeline("DebugRect");
-	newRenderer->SetLocationZ(-1.0f);
-#endif
+//#ifdef _DEBUG
+//	GameEngineRenderer* newRenderer;
+//	newRenderer = CreateTransformComponent<GameEngineRenderer>(collisionUp_);
+//	newRenderer->SetRenderingPipeline("DebugRect");
+//	newRenderer->SetLocationZ(-1.0f);
+//
+//	newRenderer = CreateTransformComponent<GameEngineRenderer>(collisionDown_);
+//	newRenderer->SetRenderingPipeline("DebugRect");
+//	newRenderer->SetLocationZ(-1.0f);
+//
+//	newRenderer = CreateTransformComponent<GameEngineRenderer>(collisionLeft_);
+//	newRenderer->SetRenderingPipeline("DebugRect");
+//	newRenderer->SetLocationZ(-1.0f);
+//
+//	newRenderer = CreateTransformComponent<GameEngineRenderer>(collisionRight_);
+//	newRenderer->SetRenderingPipeline("DebugRect");
+//	newRenderer->SetLocationZ(-1.0f);
+//#endif
 }
 
 void WorldMapPlayer::initState()

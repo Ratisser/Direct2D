@@ -65,10 +65,10 @@ void TutorialMap::Start()
 	exitDoor_->SetScale(180.f, 300.f, 1.0f);
 	exitDoor_->SetLocation(5760.f, -558.f, 0.0f);
 
-#ifdef _DEBUG
-	GameEngineRenderer* debugRect = CreateTransformComponent<GameEngineRenderer>(exitDoor_);
-	debugRect->SetRenderingPipeline("DebugRect");
-#endif // _DEBUG
+//#ifdef _DEBUG
+//	GameEngineRenderer* debugRect = CreateTransformComponent<GameEngineRenderer>(exitDoor_);
+//	debugRect->SetRenderingPipeline("DebugRect");
+//#endif // _DEBUG
 
 }
 

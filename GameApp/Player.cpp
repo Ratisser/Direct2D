@@ -294,33 +294,33 @@ void Player::initCollision()
 	//headCollision_->SetLocation(0.0f, 145.0f, 0.0f);
 	//headCollision_->SetScale(2.0f);
 
-#ifdef _DEBUG
-	GameEngineRenderer* newRenderer;
-	newRenderer = CreateTransformComponent<GameEngineRenderer>(bottomCenterCollision_);
-	newRenderer->SetRenderingPipeline("DebugRect");
-	newRenderer->SetLocationZ(-1.0f);
-
-	newRenderer = CreateTransformComponent<GameEngineRenderer>(groundCheckCollision_);
-	newRenderer->SetRenderingPipeline("DebugRect");
-	newRenderer->SetLocationZ(-1.0f);
-
-	newRenderer = CreateTransformComponent<GameEngineRenderer>(leftSideCollision_);
-	newRenderer->SetRenderingPipeline("DebugRect");
-	newRenderer->SetLocationZ(-1.0f);
-
-	newRenderer = CreateTransformComponent<GameEngineRenderer>(rightSideCollision_);
-	newRenderer->SetRenderingPipeline("DebugRect");
-	newRenderer->SetLocationZ(-1.0f);
-
-	newRenderer = CreateTransformComponent<GameEngineRenderer>(headCollision_);
-	newRenderer->SetRenderingPipeline("DebugRect");
-	newRenderer->SetLocationZ(-1.0f);
-
-	newRenderer = CreateTransformComponent<GameEngineRenderer>(collider_);
-	newRenderer->SetRenderingPipeline("DebugRect");
-	newRenderer->SetLocationZ(-2.0f);
-	newRenderer->SetScale(1.05f);
-#endif
+//#ifdef _DEBUG
+//	GameEngineRenderer* newRenderer;
+//	newRenderer = CreateTransformComponent<GameEngineRenderer>(bottomCenterCollision_);
+//	newRenderer->SetRenderingPipeline("DebugRect");
+//	newRenderer->SetLocationZ(-1.0f);
+//
+//	newRenderer = CreateTransformComponent<GameEngineRenderer>(groundCheckCollision_);
+//	newRenderer->SetRenderingPipeline("DebugRect");
+//	newRenderer->SetLocationZ(-1.0f);
+//
+//	newRenderer = CreateTransformComponent<GameEngineRenderer>(leftSideCollision_);
+//	newRenderer->SetRenderingPipeline("DebugRect");
+//	newRenderer->SetLocationZ(-1.0f);
+//
+//	newRenderer = CreateTransformComponent<GameEngineRenderer>(rightSideCollision_);
+//	newRenderer->SetRenderingPipeline("DebugRect");
+//	newRenderer->SetLocationZ(-1.0f);
+//
+//	newRenderer = CreateTransformComponent<GameEngineRenderer>(headCollision_);
+//	newRenderer->SetRenderingPipeline("DebugRect");
+//	newRenderer->SetLocationZ(-1.0f);
+//
+//	newRenderer = CreateTransformComponent<GameEngineRenderer>(collider_);
+//	newRenderer->SetRenderingPipeline("DebugRect");
+//	newRenderer->SetLocationZ(-2.0f);
+//	newRenderer->SetScale(1.05f);
+//#endif
 }
 
 void Player::initState()

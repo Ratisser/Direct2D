@@ -294,11 +294,11 @@ void Devil::initCollision()
 	//test->SetLocation(400.f, -400.f);
 
 
-#ifdef _DEBUG
-	GameEngineRenderer* debugRect = CreateTransformComponent<GameEngineRenderer>(headCollision_);
-	debugRect->SetRenderingPipeline("DebugRect");
-	debugRect->SetLocationZ(-1.0f);
-#endif // _DEBUG
+//#ifdef _DEBUG
+//	GameEngineRenderer* debugRect = CreateTransformComponent<GameEngineRenderer>(headCollision_);
+//	debugRect->SetRenderingPipeline("DebugRect");
+//	debugRect->SetLocationZ(-1.0f);
+//#endif // _DEBUG
 
 
 }
