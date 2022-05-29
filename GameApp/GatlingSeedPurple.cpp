@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "FlowerLevel.h"
 #include "Player.h"
+#include "MiniFlowerBullet.h"
 
 
 GatlingSeedPurple::GatlingSeedPurple()
@@ -15,7 +16,6 @@ GatlingSeedPurple::GatlingSeedPurple()
 	, vineRenderer_(nullptr)
 	, collision_(nullptr)
 	, vineTransform_(nullptr)
-	, direction_(float4::LEFT)
 	, timeCounter_(0.0f)
 {
 
@@ -254,6 +254,16 @@ void GatlingSeedPurple::updateFire(float _deltaTime)
 void GatlingSeedPurple::startFireEnd(float _deltaTime)
 {
 	renderer_->ChangeAnimation("MiniFlowerSpitReverse");
+
+	Player* player = level_->GetLevel<FlowerLevel>()->GetPlayer();
+	float4 direciton = player->GetTransform()->GetWorldLocation() - transform_->GetWorldLocation();
+	direciton.Normalize3D();
+	direciton.z = 0.0f;
+
+	MiniFlowerBullet* newBullet = level_->CreateActor<MiniFlowerBullet>();
+	newBullet->GetTransform()->SetLocation(transform_->GetWorldLocation());
+	newBullet->GetTransform()->AddLocation(0.0f, 0.0f, -0.01f);
+	newBullet->Initialize(direciton);
 }
 
 void GatlingSeedPurple::updateFireEnd(float _deltaTime)

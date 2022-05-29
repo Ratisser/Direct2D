@@ -66,7 +66,6 @@ private:
 
 	GameEngineCollision* collision_;
 
-	float4 direction_;
 	float4 prevLocation_;
 	float4 nextLocation_;
 

@@ -45,7 +45,7 @@ private:
 private:
 	const int HP = 2;
 	const float FALL_SPEED = -200.f;
-	const float MOVE_SPEED = 200.f;
+	const float MOVE_SPEED = 170.f;
 
 private:
 	GameEngineFSM state_;
