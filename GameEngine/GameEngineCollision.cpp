@@ -7,6 +7,8 @@
 std::function<bool(GameEngineCollision&, GameEngineCollision&)>
 GameEngineCollision::collisionCheckFunction_[static_cast<int>(eCollisionType::MAX)][static_cast<int>(eCollisionType::MAX)];
 
+bool GameEngineCollision::DisplayRect = true;
+
 GameEngineCollision::GameEngineCollision()
 	: collisionGroup_(0)
 	, collisionType_(eCollisionType::MAX)
@@ -41,7 +43,7 @@ void GameEngineCollision::Start()
 	}
 	GameEngineRenderer* debugRect = actor_->CreateTransformComponent<GameEngineRenderer>(this);
 	debugRect->SetRenderingPipeline("DebugRect");
-	debugRect->SetDebug(true);
+	debugRect->SetDebug(DisplayRect);
 #endif
 }
 

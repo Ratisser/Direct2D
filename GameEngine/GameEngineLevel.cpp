@@ -12,6 +12,7 @@
 #include <GameEngine\GameEngineWindow.h>
 #include <GameEngine\GameEngineRenderTargetManager.h>
 #include "GameEngineShaderResHelper.h"
+#include "GameEngineCollision.h"
 
 bool GameEngineLevel::PostProcess_ = true;
 
@@ -327,6 +328,7 @@ void GameEngineLevel::SetBulletTime(float _ratio, float _effectTime)
 
 void GameEngineLevel::DebugRectOff()
 {
+	GameEngineCollision::DisplayRect = false;
 	for (GameEngineRenderer* renderer : allRenderer_)
 	{
 		if (renderer->IsDebug())
@@ -338,6 +340,7 @@ void GameEngineLevel::DebugRectOff()
 
 void GameEngineLevel::DebugRectOn()
 {
+	GameEngineCollision::DisplayRect = true;
 	for (GameEngineRenderer* renderer : allRenderer_)
 	{
 		if (renderer->IsDebug())

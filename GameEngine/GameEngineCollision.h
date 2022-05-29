@@ -14,6 +14,9 @@ class GameEngineCollision : public GameEngineTransformComponent
 {
 	friend GameEngineCore;
 	friend GameEngineLevel;
+
+	static bool DisplayRect;
+
 public:
 	GameEngineCollision();
 	~GameEngineCollision();
