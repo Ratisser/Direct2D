@@ -74,10 +74,11 @@ private:
 	void startAcornEnd(float _deltaTime);
 	void updateAcornEnd(float _deltaTime);
 
+
 #pragma endregion
 
 private:
-	enum class eAttackState { FACE_ATTACK_HIGH = 1, FACE_ATTACK_LOW, GATLING, SUMMON_OBEJCT, MAX_COUNT };
+	enum class eAttackState { FACE_ATTACK_HIGH = 1, FACE_ATTACK_LOW, GATLING, SUMMON_OBJECT, MAX_COUNT };
 	enum class eSeedColor { BLUE = 0, PURPLE, PINK, MAX_COUNT };
 private:
 	const int HP = 300;

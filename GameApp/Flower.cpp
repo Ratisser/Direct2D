@@ -104,7 +104,8 @@ void Flower::initRendererAndAnimation()
 	renderer_->CreateAnimationFolder("CreateObjectBegin", 0.0416f, false);
 	renderer_->CreateAnimationFolder("CreateObjectIdle", 0.0416f);
 	renderer_->CreateAnimationFolder("CreateObjectRelease", 0.0416f, false);
-	renderer_->CreateAnimationFolder("CreateObjectReleaseIdle", 0.0416f);
+	renderer_->CreateAnimationFolder("CreateObjectReleaseIdle", 0.0678f);
+	renderer_->CreateAnimationFolderReverse("CreateObjectReleaseReverse", "CreateObjectRelease", 0.0416f, false);
 	renderer_->CreateAnimationFolder("CreateObjectEnd", 0.0416f, false);
 
 
@@ -117,7 +118,7 @@ void Flower::initRendererAndAnimation()
 	CreateObjectEffect_ = CreateTransformComponent<GameEngineImageRenderer>();
 	CreateObjectEffect_->SetPivot(eImagePivot::CENTER);
 	CreateObjectEffect_->CreateAnimationFolder("CreateObjectEffect", 0.033f, false);
-	CreateObjectEffect_->ChangeAnimation("CreateObejctEffect");
+	CreateObjectEffect_->ChangeAnimation("CreateObjectEffect");
 	CreateObjectEffect_->Off();
 }
 
@@ -167,16 +168,20 @@ void Flower::initCollision()
 void Flower::initState()
 {
 	state_.CreateState(MakeState(Flower, Intro));
+
 	state_.CreateState(MakeStateWithEnd(Flower, Idle));
+
 	state_.CreateState(MakeState(Flower, FaceAttackHighBegin));
 	state_.CreateState(MakeState(Flower, FaceAttackHighIdle));
 	state_.CreateState(MakeState(Flower, FaceAttackHighEnd));
 	state_.CreateState(MakeState(Flower, FaceAttackLowBegin));
 	state_.CreateState(MakeState(Flower, FaceAttackLowIdle));
 	state_.CreateState(MakeState(Flower, FaceAttackLowEnd));
+
 	state_.CreateState(MakeState(Flower, GatlingBegin));
 	state_.CreateState(MakeState(Flower, GatlingIdle));
 	state_.CreateState(MakeState(Flower, GatlingEnd));
+
 	state_.CreateState(MakeState(Flower, BoomerangBegin));
 	state_.CreateState(MakeState(Flower, BoomerangAttack));
 	state_.CreateState(MakeState(Flower, BoomerangEnd));
@@ -252,7 +257,7 @@ void Flower::updateIdle(float _deltaTime)
 		case Flower::eAttackState::GATLING:
 			state_ << "GatlingBegin";
 			break;
-		case Flower::eAttackState::SUMMON_OBEJCT:
+		case Flower::eAttackState::SUMMON_OBJECT:
 			state_ << "BoomerangBegin";
 			break;
 		default:
@@ -488,48 +493,95 @@ void Flower::updateGatlingEnd(float _deltaTime)
 
 void Flower::startBoomerangBegin(float _deltaTime)
 {
+	renderer_->ChangeAnimation("CreateObjectBegin");
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_pot_hands_start.wav");
 }
 
 void Flower::updateBoomerangBegin(float _deltaTime)
 {
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		renderer_->ChangeAnimation("CreateObjectIdle");
+	}
+
+	if (state_.GetTime() > 0.5f)
+	{
+		state_ << "BoomerangAttack";
+	}
 }
 
 void Flower::startBoomerangAttack(float _deltaTime)
 {
+	renderer_->ChangeAnimation("CreateObjectRelease");
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_pot_hands_open.wav");
 }
 
 void Flower::updateBoomerangAttack(float _deltaTime)
 {
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		renderer_->ChangeAnimation("CreateObjectReleaseIdle");
+	}
+
+	if (state_.GetTime() > 1.0f)
+	{
+		state_ << "BoomerangEnd";
+	}
 }
 
 void Flower::startBoomerangEnd(float _deltaTime)
 {
+	renderer_->ChangeAnimation("CreateObjectReleaseReverse");
 }
 
 void Flower::updateBoomerangEnd(float _deltaTime)
 {
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "AcornBegin";
+	}
 }
 
 void Flower::startAcornBegin(float _deltaTime)
 {
+	renderer_->ChangeAnimation("CreateObjectIdle");
 }
 
 void Flower::updateAcornBegin(float _deltaTime)
 {
+	if (state_.GetTime() > 1.0f)
+	{
+		state_ << "AcornAttack";
+	}
 }
 
 void Flower::startAcornAttack(float _deltaTime)
 {
+	renderer_->ChangeAnimation("CreateObjectRelease");
 }
 
 void Flower::updateAcornAttack(float _deltaTime)
 {
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		renderer_->ChangeAnimation("CreateObjectReleaseIdle");
+	}
+
+	if (state_.GetTime() > 2.5f)
+	{
+		state_ << "AcornEnd";
+	}
 }
 
 void Flower::startAcornEnd(float _deltaTime)
 {
+	renderer_->ChangeAnimation("CreateObjectEnd");
 }
 
 void Flower::updateAcornEnd(float _deltaTime)
 {
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "Idle";
+	}
 }
