@@ -115,11 +115,12 @@ void Flower::initRendererAndAnimation()
 	pushHitEffectRenderer(renderer_);
 	
 
-	CreateObjectEffect_ = CreateTransformComponent<GameEngineImageRenderer>();
+	CreateObjectEffect_ = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
 	CreateObjectEffect_->SetPivot(eImagePivot::CENTER);
 	CreateObjectEffect_->CreateAnimationFolder("CreateObjectEffect", 0.033f, false);
 	CreateObjectEffect_->ChangeAnimation("CreateObjectEffect");
 	CreateObjectEffect_->Off();
+	CreateObjectEffect_->SetWorldLocation(1000.f, -360.f, -0.5f);
 }
 
 void Flower::initCollision()
@@ -521,6 +522,13 @@ void Flower::updateBoomerangAttack(float _deltaTime)
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		renderer_->ChangeAnimation("CreateObjectReleaseIdle");
+		CreateObjectEffect_->ChangeAnimation("CreateObjectEffect", true);
+		CreateObjectEffect_->On();
+	}
+
+	if (CreateObjectEffect_->GetCurrentAnimation()->IsEnd_)
+	{
+		CreateObjectEffect_->Off();
 	}
 
 	if (state_.GetTime() > 1.0f)
@@ -558,6 +566,7 @@ void Flower::updateAcornBegin(float _deltaTime)
 void Flower::startAcornAttack(float _deltaTime)
 {
 	renderer_->ChangeAnimation("CreateObjectRelease");
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_pot_hands_open.wav");
 }
 
 void Flower::updateAcornAttack(float _deltaTime)
@@ -565,6 +574,13 @@ void Flower::updateAcornAttack(float _deltaTime)
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		renderer_->ChangeAnimation("CreateObjectReleaseIdle");
+		CreateObjectEffect_->ChangeAnimation("CreateObjectEffect", true);
+		CreateObjectEffect_->On();
+	}
+
+	if (CreateObjectEffect_->GetCurrentAnimation()->IsEnd_)
+	{
+		CreateObjectEffect_->Off();
 	}
 
 	if (state_.GetTime() > 2.5f)
