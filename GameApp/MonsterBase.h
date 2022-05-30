@@ -9,12 +9,11 @@ class MonsterBase : public GameEngineActor
 public:
 	MonsterBase(); 
 	~MonsterBase();
-
 	MonsterBase(const MonsterBase& _other) = delete; 
 	MonsterBase(MonsterBase&& _other) = delete; 
-
 	MonsterBase& operator=(const MonsterBase& _other) = delete;
 	MonsterBase& operator=(const MonsterBase&& _other) = delete;
+
 public:
 	virtual void Update(float _deltaTime);
 	virtual void OnHit();

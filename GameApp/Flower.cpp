@@ -13,6 +13,7 @@
 #include "GatlingSeedBlue.h"
 #include "GatlingSeedPink.h"
 #include "GatlingSeedPurple.h"
+#include <GameApp\Boomerang.h>
 
 Flower::Flower()
 	: renderer_(nullptr)
@@ -521,6 +522,7 @@ void Flower::updateBoomerangAttack(float _deltaTime)
 {
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
+		level_->CreateActor<Boomerang>();
 		renderer_->ChangeAnimation("CreateObjectReleaseIdle");
 		CreateObjectEffect_->ChangeAnimation("CreateObjectEffect", true);
 		CreateObjectEffect_->On();
