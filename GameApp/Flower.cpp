@@ -18,14 +18,15 @@
 
 Flower::Flower()
 	: renderer_(nullptr)
-	, CreateObjectEffect_(nullptr)
+	, createObjectEffect_(nullptr)
 	, nextState_(0)
 	, bodyTransform_(nullptr)
 	, headCollision_(nullptr)
 	, handCollision_(nullptr)
 	, bodyCollision_(nullptr)
-	, FaceAttackHighCollision_(nullptr)
-	, FaceAttackLowCollision_(nullptr)
+	, vineCollision_(nullptr)
+	, faceAttackHighCollision_(nullptr)
+	, faceAttackLowCollision_(nullptr)
 	, gatlingLoopSound_(nullptr)
 	, timeCounter_(0.0f)
 	, gatlingSeedSpawnTime_(0.0f)
@@ -145,17 +146,17 @@ void Flower::initRendererAndAnimation()
 	
 	vineRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(vineTransform_);
 	vineRenderer_->CreateAnimationFolder("Ivy_Main", 0.0416f, false);
-	vineRenderer_->CreateAnimationFolder("Ivy_MainIdle", 0.0678f);
+	vineRenderer_->CreateAnimationFolder("Ivy_MainIdle", 0.1f);
 	vineRenderer_->SetPivot(eImagePivot::BOTTOM_RIGHT);
 	vineRenderer_->ChangeAnimation("Ivy_Main");
 	vineRenderer_->Off();
 
-	CreateObjectEffect_ = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
-	CreateObjectEffect_->SetPivot(eImagePivot::CENTER);
-	CreateObjectEffect_->CreateAnimationFolder("CreateObjectEffect", 0.033f, false);
-	CreateObjectEffect_->ChangeAnimation("CreateObjectEffect");
-	CreateObjectEffect_->Off();
-	CreateObjectEffect_->SetWorldLocation(1000.f, -360.f, -0.5f);
+	createObjectEffect_ = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
+	createObjectEffect_->SetPivot(eImagePivot::CENTER);
+	createObjectEffect_->CreateAnimationFolder("CreateObjectEffect", 0.033f, false);
+	createObjectEffect_->ChangeAnimation("CreateObjectEffect");
+	createObjectEffect_->Off();
+	createObjectEffect_->SetWorldLocation(1000.f, -360.f, -0.5f);
 }
 
 void Flower::initCollision()
@@ -186,19 +187,25 @@ void Flower::initCollision()
 	handCollision_->SetCollisionType(eCollisionType::Rect);
 	handCollision_->Off();
 
-	FaceAttackHighCollision_ = CreateTransformComponent<GameEngineCollision>(nullptr);
-	FaceAttackHighCollision_->SetScale(900.f, 280.f);
-	FaceAttackHighCollision_->SetLocation(625.f, -300.f);
-	FaceAttackHighCollision_->SetCollisionGroup(eCollisionGroup::Monster);
-	FaceAttackHighCollision_->SetCollisionType(eCollisionType::Rect);
-	FaceAttackHighCollision_->Off();
+	faceAttackHighCollision_ = CreateTransformComponent<GameEngineCollision>(nullptr);
+	faceAttackHighCollision_->SetScale(950.f, 280.f);
+	faceAttackHighCollision_->SetLocation(625.f, -300.f);
+	faceAttackHighCollision_->SetCollisionGroup(eCollisionGroup::Monster);
+	faceAttackHighCollision_->SetCollisionType(eCollisionType::Rect);
+	faceAttackHighCollision_->Off();
 
-	FaceAttackLowCollision_ = CreateTransformComponent<GameEngineCollision>(nullptr);
-	FaceAttackLowCollision_->SetScale(900.f, 280.f);
-	FaceAttackLowCollision_->SetLocation(625.f, -630.f);
-	FaceAttackLowCollision_->SetCollisionGroup(eCollisionGroup::Monster);
-	FaceAttackLowCollision_->SetCollisionType(eCollisionType::Rect);
-	FaceAttackLowCollision_->Off();
+	faceAttackLowCollision_ = CreateTransformComponent<GameEngineCollision>(nullptr);
+	faceAttackLowCollision_->SetScale(950.f, 280.f);
+	faceAttackLowCollision_->SetLocation(625.f, -630.f);
+	faceAttackLowCollision_->SetCollisionGroup(eCollisionGroup::Monster);
+	faceAttackLowCollision_->SetCollisionType(eCollisionType::Rect);
+	faceAttackLowCollision_->Off();
+
+	vineCollision_ = CreateTransformComponent<GameEngineCollision>(vineRenderer_);
+	vineCollision_->SetCollisionGroup(eCollisionGroup::Monster);
+	vineCollision_->SetCollisionType(eCollisionType::Rect);
+	vineCollision_->SetLocationY(-100.0f / 235.f);
+	vineCollision_->Off();
 }
 
 void Flower::initState()
@@ -339,7 +346,7 @@ void Flower::startFaceAttackHighIdle(float _deltaTime)
 	renderer_->ChangeAnimation("FaceAttackHighIdle");
 	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_top_laser_attack_hold_loop.wav");
 
-	FaceAttackHighCollision_->On();
+	faceAttackHighCollision_->On();
 	headCollision_->Off();
 }
 
@@ -347,7 +354,7 @@ void Flower::updateFaceAttackHighIdle(float _deltaTime)
 {
 	if (state_.GetTime() > 1.0f)
 	{
-		FaceAttackHighCollision_->Off();
+		faceAttackHighCollision_->Off();
 		headCollision_->On();
 		state_ << "FaceAttackHighEnd";
 	}
@@ -388,7 +395,7 @@ void Flower::startFaceAttackLowIdle(float _deltaTime)
 {
 	renderer_->ChangeAnimation("FaceAttackLowIdle");
 	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_top_laser_attack_hold_loop.wav");
-	FaceAttackLowCollision_->On();
+	faceAttackLowCollision_->On();
 	headCollision_->Off();
 }
 
@@ -396,7 +403,7 @@ void Flower::updateFaceAttackLowIdle(float _deltaTime)
 {
 	if (state_.GetTime() > 1.0f)
 	{
-		FaceAttackLowCollision_->Off();
+		faceAttackLowCollision_->Off();
 		headCollision_->On();
 		state_ << "FaceAttackLowEnd";
 	}
@@ -568,13 +575,13 @@ void Flower::updateBoomerangAttack(float _deltaTime)
 	{
 		level_->CreateActor<Boomerang>();
 		renderer_->ChangeAnimation("CreateObjectReleaseIdle");
-		CreateObjectEffect_->ChangeAnimation("CreateObjectEffect", true);
-		CreateObjectEffect_->On();
+		createObjectEffect_->ChangeAnimation("CreateObjectEffect", true);
+		createObjectEffect_->On();
 	}
 
-	if (CreateObjectEffect_->GetCurrentAnimation()->IsEnd_)
+	if (createObjectEffect_->GetCurrentAnimation()->IsEnd_)
 	{
-		CreateObjectEffect_->Off();
+		createObjectEffect_->Off();
 	}
 
 	if (state_.GetTime() > 1.0f)
@@ -623,13 +630,13 @@ void Flower::updateAcornAttack(float _deltaTime)
 		level_->CreateActor<Acorn>();
 		level_->CreateActor<Acorn>();
 		renderer_->ChangeAnimation("CreateObjectReleaseIdle");
-		CreateObjectEffect_->ChangeAnimation("CreateObjectEffect", true);
-		CreateObjectEffect_->On();
+		createObjectEffect_->ChangeAnimation("CreateObjectEffect", true);
+		createObjectEffect_->On();
 	}
 
-	if (CreateObjectEffect_->GetCurrentAnimation()->IsEnd_)
+	if (createObjectEffect_->GetCurrentAnimation()->IsEnd_)
 	{
-		CreateObjectEffect_->Off();
+		createObjectEffect_->Off();
 	}
 
 	if (state_.GetTime() > 2.5f)
@@ -691,6 +698,7 @@ void Flower::updatePhase2Intro2(float _deltaTime)
 	{
 		renderer_->ChangeAnimation("FlowerFinalIntro4");
 		vineRenderer_->On();
+		vineCollision_->On();
 	}
 
 	if (vineRenderer_->GetCurrentAnimation()->IsEnd_)

@@ -106,7 +106,7 @@ private:
 	enum class eSeedColor { BLUE = 0, PURPLE, PINK, MAX_COUNT };
 private:
 	const int HP = 300;
-	const float ACTION_DELAY = 5.0f;
+	const float ACTION_DELAY = 4.0f;
 
 	const float4 MISSILE_SPAWN_LOCATION = { 1125.f, -160.f, -0.2f };
 
@@ -116,15 +116,16 @@ private:
 	GameEngineTransformComponent* bodyTransform_;
 	GameEngineTransformComponent* vineTransform_;
 	GameEngineImageRenderer* renderer_;
-	GameEngineImageRenderer* CreateObjectEffect_;
+	GameEngineImageRenderer* createObjectEffect_;
 	GameEngineImageRenderer* vineRenderer_;
 
 	GameEngineCollision* headCollision_;
 	GameEngineCollision* handCollision_;
 	GameEngineCollision* bodyCollision_;
 
-	GameEngineCollision* FaceAttackHighCollision_;
-	GameEngineCollision* FaceAttackLowCollision_;
+	GameEngineCollision* faceAttackHighCollision_;
+	GameEngineCollision* faceAttackLowCollision_;
+	GameEngineCollision* vineCollision_;
 
 	std::unique_ptr<GameEngineSoundPlayer> gatlingLoopSound_;
 
