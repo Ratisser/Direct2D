@@ -567,7 +567,7 @@ void DevilPhaseTwo::updateDeath(float _deltaTime)
 	float x = random.RandomFloat(400.f, 1000.f);
 	float y = -random.RandomFloat(4000.f, 4600.f);
 
-	if (timeCounter_ > 0.3f)
+	if (timeCounter_ > 0.2f)
 	{
 		Explosion* newExplosion = level_->CreateActor<Explosion>();
 		newExplosion->GetTransform()->SetWorldLocationXY(x, y);

@@ -31,7 +31,7 @@ private:
 	void initState();
 
 private:
-#pragma region State
+#pragma region Phase1
 	void startIntro(float _deltaTime);
 	void updateIntro(float _deltaTime);
 
@@ -77,12 +77,36 @@ private:
 
 #pragma endregion
 
+#pragma region Phase2
+	void startPhase2Intro(float _deltaTime);
+	void updatePhase2Intro(float _deltaTime);
+
+	void startPhase2Intro2(float _deltaTime);
+	void updatePhase2Intro2(float _deltaTime);
+
+	void startPhase2Intro3(float _deltaTime);
+	void updatePhase2Intro3(float _deltaTime);
+
+	void startPhase2Idle(float _deltaTime);
+	void updatePhase2Idle(float _deltaTime);
+
+	void startSpitBegin(float _deltaTime);
+	void updateSpitBegin(float _deltaTime);
+
+	void startSpitEnd(float _deltaTime);
+	void updateSpitEnd(float _deltaTime);
+
+	void startKnockOut(float _deltaTime);
+	void updateKnockOut(float _deltaTime);
+#pragma endregion
+
+
 private:
 	enum class eAttackState { FACE_ATTACK_HIGH = 1, FACE_ATTACK_LOW, GATLING, SUMMON_OBJECT, MAX_COUNT };
 	enum class eSeedColor { BLUE = 0, PURPLE, PINK, MAX_COUNT };
 private:
 	const int HP = 300;
-	const float ACTION_DELAY = 3.0f;
+	const float ACTION_DELAY = 5.0f;
 
 	const float4 MISSILE_SPAWN_LOCATION = { 1125.f, -160.f, -0.2f };
 
@@ -90,8 +114,10 @@ private:
 	GameEngineFSM state_;
 
 	GameEngineTransformComponent* bodyTransform_;
+	GameEngineTransformComponent* vineTransform_;
 	GameEngineImageRenderer* renderer_;
 	GameEngineImageRenderer* CreateObjectEffect_;
+	GameEngineImageRenderer* vineRenderer_;
 
 	GameEngineCollision* headCollision_;
 	GameEngineCollision* handCollision_;

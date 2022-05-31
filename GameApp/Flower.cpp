@@ -30,6 +30,8 @@ Flower::Flower()
 	, timeCounter_(0.0f)
 	, gatlingSeedSpawnTime_(0.0f)
 	, bPurpleSeedSpawn_(false)
+	, vineRenderer_(nullptr)
+	, vineTransform_(nullptr)
 {
 
 }
@@ -64,6 +66,11 @@ void Flower::Update(float _deltaTime)
 		}
 	}
 
+	if (GameEngineInput::GetInstance().IsKeyDown("L"))
+	{
+		SubtractHP(50);
+	}
+
 	state_.Update(_deltaTime);
 
 	GameEngineLevelControlWindow* controlWindow = GameEngineGUI::GetInst()->FindGUIWindowConvert<GameEngineLevelControlWindow>("LevelControlWindow");
@@ -76,15 +83,23 @@ void Flower::Update(float _deltaTime)
 void Flower::OnHit()
 {
 	MonsterBase::OnHit();
+
+	if (hp_ <= 0)
+	{
+		state_ << "KnockOut";
+	}
 }
 
 void Flower::initInput()
 {
+	GameEngineInput::GetInstance().CreateKey("L", 'L');
 }
 
 void Flower::initTransform()
 {
 	bodyTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
+	vineTransform_ = CreateTransformComponent<GameEngineTransformComponent>(nullptr);
+	vineTransform_->SetLocation(950.f, -720.f, 1.01f);
 }
 
 void Flower::initRendererAndAnimation()
@@ -110,12 +125,30 @@ void Flower::initRendererAndAnimation()
 	renderer_->CreateAnimationFolderReverse("CreateObjectReleaseReverse", "CreateObjectRelease", 0.0416f, false);
 	renderer_->CreateAnimationFolder("CreateObjectEnd", 0.0416f, false);
 
+	renderer_->CreateAnimationFolder("FlowerFinalIntro1", 0.0416f, false);
+	renderer_->CreateAnimationFolder("FlowerFinalIntro2", 0.0416f, true);
+	renderer_->CreateAnimationFolder("FlowerFinalIntro3", 0.0416f, false);
+	renderer_->CreateAnimationFolder("FlowerFinalIntro4", 0.0416f, true);
+	renderer_->CreateAnimationFolder("FlowerFinalIntro5", 0.0416f, false);
+
+	renderer_->CreateAnimationFolder("FlowerFinal_Idle", 0.0416f);
+
+	renderer_->CreateAnimationFolder("FlowerFinalSpitBegin", 0.0416f, false);
+	renderer_->CreateAnimationFolder("FlowerFinalSpitEnd", 0.0416f, false);
+
+	renderer_->CreateAnimationFolder("FlowerDeath", 0.0416f, true);
 
 	renderer_->SetPivot(eImagePivot::BOTTOM_RIGHT);
 	renderer_->ChangeAnimation("FlowerIntro");
 
 	pushHitEffectRenderer(renderer_);
 	
+	vineRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(vineTransform_);
+	vineRenderer_->CreateAnimationFolder("Ivy_Main", 0.0416f, false);
+	vineRenderer_->CreateAnimationFolder("Ivy_MainIdle", 0.0678f);
+	vineRenderer_->SetPivot(eImagePivot::BOTTOM_RIGHT);
+	vineRenderer_->ChangeAnimation("Ivy_Main");
+	vineRenderer_->Off();
 
 	CreateObjectEffect_ = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
 	CreateObjectEffect_->SetPivot(eImagePivot::CENTER);
@@ -192,6 +225,15 @@ void Flower::initState()
 	state_.CreateState(MakeState(Flower, AcornAttack));
 	state_.CreateState(MakeState(Flower, AcornEnd));
 
+	// Phase2
+	state_.CreateState(MakeState(Flower, Phase2Intro));
+	state_.CreateState(MakeState(Flower, Phase2Intro2));
+	state_.CreateState(MakeState(Flower, Phase2Intro3));
+	state_.CreateState(MakeState(Flower, Phase2Idle));
+	state_.CreateState(MakeState(Flower, SpitBegin));
+	state_.CreateState(MakeState(Flower, SpitEnd));
+	state_.CreateState(MakeState(Flower, KnockOut));
+
 	state_ << "Intro";
 }
 
@@ -237,7 +279,8 @@ void Flower::updateIdle(float _deltaTime)
 	{
 		if (hp_ <= 150)
 		{
-			// phase 2
+			state_ << "Phase2Intro";
+			return;
 		}
 
 		GameEngineRandom random;
@@ -606,4 +649,125 @@ void Flower::updateAcornEnd(float _deltaTime)
 	{
 		state_ << "Idle";
 	}
+}
+
+void Flower::startPhase2Intro(float _deltaTime)
+{
+	renderer_->ChangeAnimation("FlowerFinalIntro1");
+
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_man_phaseOneTwo_transition.wav");
+}
+
+void Flower::updatePhase2Intro(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		renderer_->ChangeAnimation("FlowerFinalIntro2");
+	}
+
+	if (state_.GetTime() > 1.0f)
+	{
+		state_ << "Phase2Intro2";
+	}
+}
+
+void Flower::startPhase2Intro2(float _deltaTime)
+{
+	renderer_->ChangeAnimation("FlowerFinalIntro3");
+}
+
+void Flower::updatePhase2Intro2(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->CurFrame_ == 7)
+	{
+		renderer_->GetCurrentAnimation()->InterTime_ = 0.5f;
+	}
+	else
+	{
+		renderer_->GetCurrentAnimation()->InterTime_ = 0.0416f;
+	}
+
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		renderer_->ChangeAnimation("FlowerFinalIntro4");
+		vineRenderer_->On();
+	}
+
+	if (vineRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		vineRenderer_->ChangeAnimation("Ivy_MainIdle");
+	}
+
+	if (state_.GetTime() > 2.0f)
+	{
+		state_ << "Phase2Intro3";
+	}
+}
+
+void Flower::startPhase2Intro3(float _deltaTime)
+{
+	renderer_->ChangeAnimation("FlowerFinalIntro5");
+	headCollision_->AddLocation(0.0f, -100.f);
+}
+
+void Flower::updatePhase2Intro3(float _deltaTime)
+{
+	if (vineRenderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		vineRenderer_->ChangeAnimation("Ivy_MainIdle");
+	}
+
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "Phase2Idle";
+	}
+}
+
+void Flower::startPhase2Idle(float _deltaTime)
+{
+	renderer_->ChangeAnimation("FlowerFinal_Idle");
+}
+
+void Flower::updatePhase2Idle(float _deltaTime)
+{
+	if (state_.GetTime() > 5.0f)
+	{
+		state_ << "SpitBegin";
+	}
+}
+
+void Flower::startSpitBegin(float _deltaTime)
+{
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_phase2_spit_projectile.wav");
+	renderer_->ChangeAnimation("FlowerFinalSpitBegin");
+}
+
+void Flower::updateSpitBegin(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "SpitEnd";
+	}
+}
+
+void Flower::startSpitEnd(float _deltaTime)
+{
+	renderer_->ChangeAnimation("FlowerFinalSpitEnd");
+}
+
+void Flower::updateSpitEnd(float _deltaTime)
+{
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		state_ << "Phase2Idle";
+	}
+}
+
+void Flower::startKnockOut(float _deltaTime)
+{
+	renderer_->ChangeAnimation("FlowerDeath");
+}
+
+void Flower::updateKnockOut(float _deltaTime)
+{
 }
