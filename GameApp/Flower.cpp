@@ -14,6 +14,7 @@
 #include "GatlingSeedPink.h"
 #include "GatlingSeedPurple.h"
 #include <GameApp\Boomerang.h>
+#include "Acorn.h"
 
 Flower::Flower()
 	: renderer_(nullptr)
@@ -575,6 +576,9 @@ void Flower::updateAcornAttack(float _deltaTime)
 {
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
+		level_->CreateActor<Acorn>();
+		level_->CreateActor<Acorn>();
+		level_->CreateActor<Acorn>();
 		renderer_->ChangeAnimation("CreateObjectReleaseIdle");
 		CreateObjectEffect_->ChangeAnimation("CreateObjectEffect", true);
 		CreateObjectEffect_->On();

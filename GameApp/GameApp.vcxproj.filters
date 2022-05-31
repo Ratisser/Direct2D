@@ -173,6 +173,9 @@
     <ClCompile Include="Boomerang.cpp">
       <Filter>01.GameObject\03.Level\FlowerLevel\CreateObject</Filter>
     </ClCompile>
+    <ClCompile Include="Acorn.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel\CreateObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -430,6 +433,9 @@
       <Filter>01.GameObject\03.Level\FlowerLevel\Gatling</Filter>
     </ClInclude>
     <ClInclude Include="Boomerang.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel\CreateObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Acorn.h">
       <Filter>01.GameObject\03.Level\FlowerLevel\CreateObject</Filter>
     </ClInclude>
   </ItemGroup>

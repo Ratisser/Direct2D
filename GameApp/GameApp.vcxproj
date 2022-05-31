@@ -175,6 +175,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Acorn.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Appmain.cpp" />
     <ClCompile Include="Axe.cpp">
       <SubType>
@@ -397,6 +401,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Acorn.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Axe.h">
       <SubType>
       </SubType>

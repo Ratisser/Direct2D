@@ -7,7 +7,7 @@ class GameEngineImageRenderer;
 class MonsterBase : public GameEngineActor
 {
 public:
-	MonsterBase(); 
+	MonsterBase();
 	~MonsterBase();
 	MonsterBase(const MonsterBase& _other) = delete; 
 	MonsterBase(MonsterBase&& _other) = delete; 
