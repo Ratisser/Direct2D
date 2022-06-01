@@ -86,9 +86,17 @@ void Acorn::startFly(float _deltaTime)
 	direction_ = playerLocation - acornLocation;
 	direction_.Normalize3D();
 
-	effect_->AddRotation(0.0f, 0.0f, acos(direction_.x * -1.f));
-	renderer_->AddRotation(0.0f, 0.0f, acos(direction_.x * -1.f));
-	
+	if (acornLocation.y - playerLocation.y < 0)
+	{
+		effect_->AddRotation(0.0f, 0.0f, -acos(direction_.x * -1.f));
+		renderer_->AddRotation(0.0f, 0.0f, -acos(direction_.x * -1.f));
+	}
+	else
+	{
+		effect_->AddRotation(0.0f, 0.0f, acos(direction_.x * -1.f));
+		renderer_->AddRotation(0.0f, 0.0f, acos(direction_.x * -1.f));
+	}
+
 	renderer_->ChangeAnimation("AcornFly");
 
 	effectTransform_->AddLocation(direction_ * -100.f);
