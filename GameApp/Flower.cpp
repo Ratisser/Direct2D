@@ -15,6 +15,7 @@
 #include "GatlingSeedPurple.h"
 #include <GameApp\Boomerang.h>
 #include "Acorn.h"
+#include <GameApp\Pollen.h>
 
 Flower::Flower()
 	: renderer_(nullptr)
@@ -704,6 +705,7 @@ void Flower::updatePhase2Intro2(float _deltaTime)
 	if (vineRenderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		vineRenderer_->ChangeAnimation("Ivy_MainIdle");
+		GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_intro_vinegrow.wav");
 	}
 
 	if (state_.GetTime() > 2.0f)
@@ -760,6 +762,7 @@ void Flower::updateSpitBegin(float _deltaTime)
 
 void Flower::startSpitEnd(float _deltaTime)
 {
+	level_->CreateActor<Pollen>();
 	renderer_->ChangeAnimation("FlowerFinalSpitEnd");
 }
 
