@@ -38,6 +38,11 @@ void FlowerLevel::LevelChangeEndEvent()
 	}
 
 	bgmPlayer_->Stop();
+
+	for (FlowerPlatform* p : platforms_)
+	{
+		p->DeactivateVinePattern();
+	}
 }
 
 void FlowerLevel::LevelChangeStartEvent()
@@ -67,13 +72,16 @@ void FlowerLevel::LevelStart()
 	{
 		FlowerPlatform* fp = CreateActor<FlowerPlatform>();
 		fp->GetTransform()->SetWorldLocation(200.f, -530.f, 1.5f);
+		platforms_.push_back(fp);
 
 		fp = CreateActor<FlowerPlatform>();
 		fp->GetTransform()->SetWorldLocation(450.f, -530.f, 1.5f);
 		fp->SetPlatformMoveFactor(-1.0f);
+		platforms_.push_back(fp);
 
 		fp = CreateActor<FlowerPlatform>();
 		fp->GetTransform()->SetWorldLocation(700.f, -530.f, 1.5f);
+		platforms_.push_back(fp);
 	}
 
 
@@ -120,4 +128,12 @@ Flower* FlowerLevel::GetFlower()
 		return nullptr;
 	}
 	return flower_;
+}
+
+void FlowerLevel::EnterPhase2()
+{
+	for (FlowerPlatform* p : platforms_)
+	{
+		p->ActivateVinePattern();
+	}
 }

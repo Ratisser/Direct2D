@@ -3,6 +3,7 @@
 
 #include <GameEngineBase\GameEngineRandom.h>
 #include <GameEngineBase\GameEngineSoundPlayer.h>
+#include <GameEngine\GameEngineCore.h>
 #include <GameEngine\GameEngineImageRenderer.h>
 #include <GameEngine\GameEngineCollision.h>
 #include <GameEngine\GameEngineInput.h>
@@ -16,6 +17,10 @@
 #include <GameApp\Boomerang.h>
 #include "Acorn.h"
 #include <GameApp\Pollen.h>
+#include <GameApp\Knockout.h>
+#include <GameApp\Explosion.h>
+#include <GameApp\FadeOut.h>
+#include <GameApp\FlowerLevel.h>
 
 Flower::Flower()
 	: renderer_(nullptr)
@@ -34,6 +39,7 @@ Flower::Flower()
 	, bPurpleSeedSpawn_(false)
 	, vineRenderer_(nullptr)
 	, vineTransform_(nullptr)
+	, fadeOutDelay_(4.45f)
 {
 
 }
@@ -85,9 +91,10 @@ void Flower::Update(float _deltaTime)
 void Flower::OnHit()
 {
 	MonsterBase::OnHit();
-
+	
 	if (hp_ <= 0)
 	{
+		headCollision_->Off();
 		state_ << "KnockOut";
 	}
 }
@@ -247,7 +254,7 @@ void Flower::initState()
 
 void Flower::startIntro(float _deltaTime)
 {
-	
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_announcer_0001_a.wav");
 }
 
 void Flower::updateIntro(float _deltaTime)
@@ -261,6 +268,7 @@ void Flower::updateIntro(float _deltaTime)
 
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
+		GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_level_announcer_0002_e.wav");
 		state_ << "Idle";
 	}
 }
@@ -729,6 +737,7 @@ void Flower::updatePhase2Intro3(float _deltaTime)
 
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
+		level_->GetLevel<FlowerLevel>()->EnterPhase2();
 		state_ << "Phase2Idle";
 	}
 }
@@ -776,9 +785,46 @@ void Flower::updateSpitEnd(float _deltaTime)
 
 void Flower::startKnockOut(float _deltaTime)
 {
+	level_->CreateActor<Knockout>();
+
+	GameEngineSoundManager& sm = GameEngineSoundManager::GetInstance();
+	sm.PlaySoundByName("sfx_level_announcer_knockout_0004.wav");
+	sm.PlaySoundByName("sfx_level_knockout_boom_01.wav");
+	sm.PlaySoundByName("sfx_level_knockout_bell.wav");
+	sm.PlaySoundByName("sfx_flower_phase2_death.wav");
+
+	level_->SetBulletTime(0.2f, 2.0f);
+
 	renderer_->ChangeAnimation("FlowerDeath");
+
+	fadeOutDelay_ = 4.45f;
+	timeCounter_ = 0.0f;
 }
 
 void Flower::updateKnockOut(float _deltaTime)
 {
+	fadeOutDelay_ -= _deltaTime;
+	timeCounter_ += _deltaTime;
+
+	GameEngineRandom random;
+	float x = random.RandomFloat(900, 1200.f);
+	float y = -random.RandomFloat(300, 1000.f);
+
+	if (timeCounter_ > 0.3f)
+	{
+		Explosion* newExplosion = level_->CreateActor<Explosion>();
+		newExplosion->GetTransform()->SetWorldLocationXY(x, y);
+		timeCounter_ = 0.0f;
+	}
+
+	if (fadeOutDelay_ < 0.0f)
+	{
+		fadeOutDelay_ = 100.f;
+		level_->CreateActor<FadeOut>();
+	}
+
+	if (state_.GetTime() > 5.f)
+	{
+		GameEngineCore::ChangeLevel("WorldLevel");
+	}
 }

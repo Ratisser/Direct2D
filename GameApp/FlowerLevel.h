@@ -4,6 +4,7 @@
 
 class Player;
 class Flower;
+class FlowerPlatform;
 class FlowerLevel : public GameEngineLevel
 {
 public:
@@ -27,11 +28,13 @@ public:
 	Player* GetPlayer();
 	Flower* GetFlower();
 
+	void EnterPhase2();
+
 private:
 	Player* player_;
 	Flower* flower_;
-
-
+	
+	std::vector<FlowerPlatform*> platforms_;
 	std::unique_ptr<GameEngineSoundPlayer> bgmPlayer_;
 };
 
