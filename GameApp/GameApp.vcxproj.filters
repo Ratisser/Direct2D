@@ -176,6 +176,9 @@
     <ClCompile Include="Acorn.cpp">
       <Filter>01.GameObject\03.Level\FlowerLevel\CreateObject</Filter>
     </ClCompile>
+    <ClCompile Include="Pollen.cpp">
+      <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -437,6 +440,9 @@
     </ClInclude>
     <ClInclude Include="Acorn.h">
       <Filter>01.GameObject\03.Level\FlowerLevel\CreateObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Pollen.h">
+      <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
