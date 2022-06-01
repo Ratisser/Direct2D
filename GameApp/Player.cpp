@@ -183,6 +183,12 @@ void Player::SetCineState(const std::string& _cinematicStateName)
 	cinematicState_ << _cinematicStateName;
 }
 
+void Player::SetInvincible(float _invincibleTime)
+{
+	bInvincible_ = true;
+	invincibleTime_ = _invincibleTime;
+}
+
 void Player::initRendererAndAnimation()
 {
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
@@ -1916,6 +1922,8 @@ void Player::updateParry(float _deltaTime)
 			parryEffectLocation = transform_->GetWorldLocation() + (parryEffectLocation.operator/({ 2.0f, 2.0f, 2.0f, 2.0f }));
 			parryEffect->GetTransform()->SetLocation(parryEffectLocation);
 
+			SetInvincible(1.0f);
+
 			bGround_ = true;
 			bParryJump_ = true;
 			normalState_ << "Jump";
@@ -1939,6 +1947,8 @@ void Player::updateParry(float _deltaTime)
 			float4 parryEffectLocation = parryObject->GetTransform()->GetWorldLocation() - transform_->GetWorldLocation();
 			parryEffectLocation = transform_->GetWorldLocation() + (parryEffectLocation.operator/({ 2.0f, 2.0f, 2.0f, 2.0f }));
 			parryEffect->GetTransform()->SetLocation(parryEffectLocation);
+
+			SetInvincible(1.0f);
 
 			bGround_ = true;
 			bParryJump_ = true;

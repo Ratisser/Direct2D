@@ -34,6 +34,8 @@ public:
 
 	void SetCineState(const std::string& _cinematicStateName);
 
+	void SetInvincible(float _invincibleTime);
+
 private:
 	void initRendererAndAnimation();
 	void initInput();
