@@ -179,6 +179,21 @@
     <ClCompile Include="Pollen.cpp">
       <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
     </ClCompile>
+    <ClCompile Include="DashDust.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="HitFX.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="LandDust.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="EXDust.cpp">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -443,6 +458,21 @@
     </ClInclude>
     <ClInclude Include="Pollen.h">
       <Filter>01.GameObject\03.Level\FlowerLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="DashDust.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="HitFX.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="LandDust.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="EXDust.h">
+      <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

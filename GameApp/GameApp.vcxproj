@@ -192,6 +192,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="DashDust.cpp" />
     <ClCompile Include="Demon.cpp">
       <SubType>
       </SubType>
@@ -232,6 +233,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Dust.cpp" />
     <ClCompile Include="EndingActor.cpp">
       <SubType>
       </SubType>
@@ -240,6 +242,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EXDust.cpp" />
     <ClCompile Include="Explosion.cpp">
       <SubType>
       </SubType>
@@ -285,6 +288,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="HitFX.cpp" />
     <ClCompile Include="Hourglass.cpp">
       <SubType>
       </SubType>
@@ -293,6 +297,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="LandDust.cpp" />
     <ClCompile Include="LoadingLevel.cpp">
       <SubType>
       </SubType>
@@ -422,6 +427,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CustomVertex.h" />
+    <ClInclude Include="DashDust.h" />
     <ClInclude Include="Demon.h">
       <SubType>
       </SubType>
@@ -462,6 +468,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Dust.h" />
     <ClInclude Include="eCollisionGroup.h" />
     <ClInclude Include="EndingActor.h">
       <SubType>
@@ -472,6 +479,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="eOrbType.h" />
+    <ClInclude Include="EXDust.h" />
     <ClInclude Include="Explosion.h">
       <SubType>
       </SubType>
@@ -517,6 +525,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="HitFX.h" />
     <ClInclude Include="Hourglass.h">
       <SubType>
       </SubType>
@@ -525,6 +534,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="LandDust.h" />
     <ClInclude Include="LoadingLevel.h">
       <SubType>
       </SubType>

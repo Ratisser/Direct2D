@@ -113,6 +113,9 @@ private:
 	void startParry(float _deltaTime);
 	void updateParry(float _deltaTime);
 	void endParry(float _deltaTime);
+
+	void startEX(float _deltaTime);
+	void updateEX(float _deltaTime);
 #pragma endregion
 
 // Cinematic state can controlled by other objects
@@ -142,6 +145,7 @@ private:
 	const float SHOOT_DELAY = 0.12f;
 	const float INVINCIBLE_TIME = 2.0f;
 	const float BLINK_DELAY = 0.1f;
+	const float DUST_SPAWN_DLEAY = 0.05f;
 
 	const float BULLET_UP_OFFSET = 110.f;
 	const float BULLET_DOWN_OFFSET = -10.f;
@@ -164,6 +168,7 @@ private:
 	GameEngineFSM cinematicState_;
 	GameEngineImageRenderer* renderer_;
 	GameEngineImageRenderer* fireStartRenderer_;
+	GameEngineImageRenderer* hpRenderer_;
 	GameEngineCollision* collider_;
 
 	GameEngineCollision* bottomCenterCollision_;
@@ -181,6 +186,8 @@ private:
 	float4 bulletDirection_;
 	float4 bulletRotation_;
 
+	int hp_;
+
 	bool bLeft_;
 
 	bool bGround_;
@@ -197,6 +204,7 @@ private:
 	float shootDelay_;
 	float invincibleTime_;
 	float blinkTime_;
+	float dustSpawnDelay_;
 
 	float timeCounter_;
 };

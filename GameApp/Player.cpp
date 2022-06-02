@@ -18,11 +18,16 @@
 #include "ParryObjectBase.h"
 #include <GameEngineBase\GameEngineRandom.h>
 #include <GameApp\ParryEffect.h>
+#include <GameApp\HitFX.h>
+#include <GameApp\DashDust.h>
+#include <GameApp\LandDust.h>
+#include <GameApp\Dust.h>
 
 Player::Player()
 	: collider_(nullptr)
 	, renderer_(nullptr)
 	, fireStartRenderer_(nullptr)
+	, hpRenderer_(nullptr)
 	, bLeft_(false)
 	, bCanDash_(false)
 	, bGround_(false)
@@ -49,6 +54,8 @@ Player::Player()
 	, bulletRotation_(float4::ZERO)
 	, timeCounter_(0.0f)
 	, bParryJump_(false)
+	, hp_(3)
+	, dustSpawnDelay_(0.0f)
 {
 
 }
@@ -140,6 +147,11 @@ void Player::Update(float _deltaTime)
 	else
 	{
 		renderer_->SetFlip(false, false);
+	}
+
+	if (hp_ >= 0 && hp_ < 4)
+	{
+		hpRenderer_->ChangeAnimation("HP" + std::to_string(hp_));
 	}
 }
 
@@ -245,6 +257,17 @@ void Player::initRendererAndAnimation()
 	fireStartRenderer_->ChangeAnimation("Peashot_Spawn");
 	fireStartRenderer_->SetLocationZ(1.f);
 	fireStartRenderer_->Off();
+
+	GameEngineTransformComponent* hpTransform = CreateTransformComponent<GameEngineTransformComponent>(level_->GetMainCameraActor()->GetTransform());
+	hpTransform->SetLocation(-630.f, -350.f, -4.0f);
+	hpRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(hpTransform);
+	hpRenderer_->CreateAnimationFolder("HP0", 0.0416f, false);
+	hpRenderer_->CreateAnimationFolder("HP1", 0.12f);
+	hpRenderer_->CreateAnimationFolder("HP2", 0.0416f, false);
+	hpRenderer_->CreateAnimationFolder("HP3", 0.0416f, false);
+	hpRenderer_->SetPivot(eImagePivot::BOTTOM_LEFT);
+	
+	hpRenderer_->ChangeAnimation("HP3");
 }
 
 void Player::initInput()
@@ -559,6 +582,9 @@ void Player::startDamagedState(float _deltaTime)
 	renderer_->ChangeAnimation("Hit_Ground");
 
 	playHitSound();
+	hp_--;
+
+	level_->CreateActor<HitFX>()->GetTransform()->SetLocation(transform_->GetWorldLocation());
 }
 
 void Player::updateDamagedState(float _deltaTime)
@@ -762,6 +788,13 @@ void Player::updateRun(float _deltaTime)
 {
 	addGravity(_deltaTime);
 
+	dustSpawnDelay_ -= _deltaTime;
+	if (dustSpawnDelay_ < 0.0f && (renderer_->GetCurrentAnimation()->CurFrame_ == 5 || renderer_->GetCurrentAnimation()->CurFrame_ == 15))
+	{
+		level_->CreateActor<Dust>()->GetTransform()->SetLocation(transform_->GetWorldLocation());
+		dustSpawnDelay_ = DUST_SPAWN_DLEAY;
+	}
+
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		normalState_ << "Dash";
@@ -925,6 +958,7 @@ void Player::updateJump(float _deltaTime)
 				bCanJump_ = true;
 				bCanDash_ = true;
 				playLandingSound();
+				level_->CreateActor<LandDust>()->GetTransform()->SetLocation(transform_->GetWorldLocation());
 				normalState_ << "Idle";
 			}
 			else
@@ -1098,6 +1132,7 @@ void Player::updateDownJump(float _deltaTime)
 			bCanJump_ = true;
 			bCanDash_ = true;
 			playLandingSound();
+			level_->CreateActor<LandDust>()->GetTransform()->SetLocation(transform_->GetWorldLocation());
 			normalState_ << "Idle";
 			return;
 		}
@@ -1143,6 +1178,8 @@ void Player::startDash(float _deltaTime)
 	int soundNumber = random.RandomInt(1, 3);
 	std::string soundName = "sfx_player_dash_0" + std::to_string(soundNumber) + ".wav";
 	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+
+	level_->CreateActor<DashDust>()->GetTransform()->SetLocation(transform_->GetWorldLocation());
 }
 
 void Player::updateDash(float _deltaTime)
@@ -1777,6 +1814,13 @@ void Player::updateShootWhileRunning(float _deltaTime)
 {
 	addGravity(_deltaTime);
 
+	dustSpawnDelay_ -= _deltaTime;
+	if (dustSpawnDelay_ < 0.0f && (renderer_->GetCurrentAnimation()->CurFrame_ == 5 || renderer_->GetCurrentAnimation()->CurFrame_ == 15))
+	{
+		level_->CreateActor<Dust>()->GetTransform()->SetLocation(transform_->GetWorldLocation());
+		dustSpawnDelay_ = DUST_SPAWN_DLEAY;
+	}
+
 	if (GameEngineInput::GetInstance().IsKeyDown("LShift") && bCanDash_)
 	{
 		normalState_ << "Dash";
@@ -2111,6 +2155,14 @@ void Player::updateParry(float _deltaTime)
 void Player::endParry(float _deltaTime)
 {
 	collider_->SetScale(70.f);
+}
+
+void Player::startEX(float _deltaTime)
+{
+}
+
+void Player::updateEX(float _deltaTime)
+{
 }
 
 void Player::startCinematicIdle(float _deltaTime)
