@@ -100,7 +100,7 @@ void GatlingSeedPink::updateLanding(float _deltaTime)
 void GatlingSeedPink::startGrowUp(float _deltaTime)
 {
 	seedRenderer_->ChangeAnimation("VineGrowBurst");
-
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_plant_chomper.wav");
 }
 
 void GatlingSeedPink::updateGrowUp(float _deltaTime)
@@ -135,7 +135,6 @@ void GatlingSeedPink::updateIdle(float _deltaTime)
 
 	if (renderer_->GetCurrentAnimation()->CurFrame_ == 1 && timeCounter_ > 0.05f)
 	{
-		GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_flower_plant_chomper.wav");
 		timeCounter_ = 0.0f;
 	}
 }
