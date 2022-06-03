@@ -37,7 +37,7 @@ void PeashotEx::Start()
 	bulletTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
 
 	bulletRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(bulletTransform_);
-	bulletRenderer_->SetLocationZ(-5.0f);
+	bulletRenderer_->SetLocationZ(-6.0f);
 
 	bulletRenderer_->CreateAnimationFolder("PeaEX_Spawn", 0.0416f, false);
 	bulletRenderer_->CreateAnimationFolder("PeaEX_Loop");
