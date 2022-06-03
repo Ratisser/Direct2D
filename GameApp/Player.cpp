@@ -274,7 +274,7 @@ void Player::initRendererAndAnimation()
 	fireStartRenderer_->Off();
 
 	GameEngineTransformComponent* hpTransform = CreateTransformComponent<GameEngineTransformComponent>(level_->GetMainCameraActor()->GetTransform());
-	hpTransform->SetLocation(-620.f, -340.f, -10.0f);
+	hpTransform->SetLocation(-620.f, -345.f, -10.0f);
 	hpRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(hpTransform);
 	hpRenderer_->CreateAnimationFolder("HP0", 0.0416f, false);
 	hpRenderer_->CreateAnimationFolder("HP1", 0.12f);
@@ -289,7 +289,7 @@ void Player::initRendererAndAnimation()
 		GameEngineImageRenderer* sp = CreateTransformComponent<GameEngineImageRenderer>(hpTransform);
 		sp->CreateAnimationFolder("SuperMeter", 1.0f);
 		sp->ChangeAnimation("SuperMeter");
-		sp->SetLocationX(100.f + 19 * i);
+		sp->SetLocationX(95.f + 19 * i);
 		sp->Off();
 
 		superMeters_.push_back(sp);
