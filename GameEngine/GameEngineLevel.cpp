@@ -302,7 +302,7 @@ bool GameEngineLevel::IsFreeCamera()
 
 GameEngineCamera* GameEngineLevel::GetMainCameraActor()
 {
-	return mainCamera_;
+	return mainCameraBackup_;
 }
 
 GameEngineCamera* GameEngineLevel::GetFreeCameraActor()

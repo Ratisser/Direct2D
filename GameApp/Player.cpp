@@ -61,6 +61,7 @@ Player::Player()
 	, hp_(3)
 	, superMeterCount_(0)
 	, dustSpawnDelay_(0.0f)
+	, superMeterGauge_(0)
 {
 
 }
@@ -216,6 +217,24 @@ void Player::SetInvincible(float _invincibleTime)
 	invincibleTime_ = _invincibleTime;
 }
 
+void Player::AddSuperGauge()
+{
+	superMeterGauge_++;
+
+	if (superMeterGauge_ >= 20)
+	{
+		superMeterGauge_ = 0;
+		if (superMeterCount_ < 5)
+		{
+			superMeterCount_++;
+		}
+		GameEngineRandom random;
+		int soundNumber = random.RandomInt(1, 2);
+		std::string soundName = "sfx_player_parry_power_increment_p" + std::to_string(soundNumber) + ".wav";
+		GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+	}
+}
+
 void Player::initRendererAndAnimation()
 {
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(GetTransform());
@@ -274,7 +293,7 @@ void Player::initRendererAndAnimation()
 	fireStartRenderer_->Off();
 
 	GameEngineTransformComponent* hpTransform = CreateTransformComponent<GameEngineTransformComponent>(level_->GetMainCameraActor()->GetTransform());
-	hpTransform->SetLocation(-620.f, -345.f, -10.0f);
+	hpTransform->SetLocation(-620.f, -345.f, -40.0f);
 	hpRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(hpTransform);
 	hpRenderer_->CreateAnimationFolder("HP0", 0.0416f, false);
 	hpRenderer_->CreateAnimationFolder("HP1", 0.12f);
@@ -471,6 +490,11 @@ void Player::playParrySound()
 	int soundNumber = random.RandomInt(1, 2);
 	std::string soundName = "sfx_player_parry_power_up_hit_0" + std::to_string(soundNumber) + ".wav";
 	GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
+
+	if (superMeterCount_ >= 5)
+	{
+		GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_parry_slap_01.wav");
+	}
 }
 
 void Player::startNormalState(float _deltaTime)
@@ -528,7 +552,7 @@ void Player::updateNormalState(float _deltaTime)
 		return;
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyPress("V") && superMeterCount_ > 0 
+	if (GameEngineInput::GetInstance().IsKeyPress("V") && superMeterCount_ > 0
 		&& normalState_.GetCurrentStateName() != "Dash" && normalState_.GetCurrentStateName() != "EX")
 	{
 		fireLoopSound_->Stop();
@@ -608,11 +632,11 @@ void Player::updateShootState(float _deltaTime)
 	{
 		Peashot* newShot = level_->CreateActor<Peashot>("Pea");
 		newShot->GetTransform()->SetLocation(bulletSpawnLocation_->GetWorldLocation());
-		newShot->InitBullet(bLeft_, bulletDirection_, bulletRotation_);
+		newShot->InitBullet(bLeft_, bulletDirection_, bulletRotation_, this);
 		shootDelay_ = SHOOT_DELAY;
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyPress("V") && superMeterCount_ > 0 
+	if (GameEngineInput::GetInstance().IsKeyPress("V") && superMeterCount_ > 0
 		&& normalState_.GetCurrentStateName() != "Dash" && normalState_.GetCurrentStateName() != "EX")
 	{
 		fireLoopSound_->Stop();
@@ -2007,7 +2031,6 @@ void Player::updateParry(float _deltaTime)
 			parryObject->Parry();
 
 			level_->SetBulletTime(0.01f, 0.2f);
-			playParrySound();
 
 			GameEngineActor* parryEffect = level_->CreateActor<ParryEffect>();
 			float4 parryEffectLocation = parryObject->GetTransform()->GetWorldLocation() - transform_->GetWorldLocation();
@@ -2020,6 +2043,8 @@ void Player::updateParry(float _deltaTime)
 			{
 				superMeterCount_++;
 			}
+
+			playParrySound();
 
 			bGround_ = true;
 			bParryJump_ = true;
@@ -2038,7 +2063,6 @@ void Player::updateParry(float _deltaTime)
 			parryObject->Parry();
 
 			level_->SetBulletTime(0.01f, 0.2f);
-			playParrySound();
 
 			GameEngineActor* parryEffect = level_->CreateActor<ParryEffect>();
 			float4 parryEffectLocation = parryObject->GetTransform()->GetWorldLocation() - transform_->GetWorldLocation();
@@ -2050,6 +2074,8 @@ void Player::updateParry(float _deltaTime)
 			{
 				superMeterCount_++;
 			}
+
+			playParrySound();
 
 			bGround_ = true;
 			bParryJump_ = true;

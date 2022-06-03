@@ -7,6 +7,7 @@
 
 #include "MonsterBase.h"
 #include "Map.h"
+#include "Player.h"
 
 Peashot::Peashot()
 	: direction_(float4::RIGHT)
@@ -16,6 +17,7 @@ Peashot::Peashot()
 	, bulletTransform_(nullptr)
 	, collision_(nullptr)
 	, bLeft_(false)
+	, player_(nullptr)
 {
 
 }
@@ -76,11 +78,12 @@ void Peashot::Update(float _deltaTime)
 	}
 }
 
-void Peashot::InitBullet(bool _bLeft, const float4& _direction, const float4& _rotation)
+void Peashot::InitBullet(bool _bLeft, const float4& _direction, const float4& _rotation, Player* _player)
 {
 	direction_ = _direction;
 	rotation_ = _rotation;
 	bLeft_ = _bLeft;
+	player_ = _player;
 }
 
 void Peashot::startIdle(float _deltaTime)
@@ -108,6 +111,11 @@ void Peashot::updateIdle(float _deltaTime)
 		{
 			monster->SubtractHP(1);
 			monster->OnHit();
+
+			if (nullptr != player_)
+			{
+				player_->AddSuperGauge();
+			}
 		}
 
 		state_ << "Pop";
@@ -122,6 +130,11 @@ void Peashot::updateIdle(float _deltaTime)
 		{
 			monster->SubtractHP(1);
 			monster->OnHit();
+
+			if (nullptr != player_)
+			{
+				player_->AddSuperGauge();
+			}
 		}
 
 		state_ << "Pop";

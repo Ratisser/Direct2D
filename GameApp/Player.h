@@ -36,6 +36,8 @@ public:
 
 	void SetInvincible(float _invincibleTime);
 
+	void AddSuperGauge();
+
 private:
 	void initRendererAndAnimation();
 	void initInput();
@@ -190,6 +192,7 @@ private:
 
 	int hp_;
 	int superMeterCount_;
+	int superMeterGauge_;
 
 	bool bLeft_;
 	bool bUpOrDown_;

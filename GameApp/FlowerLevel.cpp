@@ -66,7 +66,7 @@ void FlowerLevel::LevelChangeStartEvent()
 void FlowerLevel::LevelStart()
 {
 	GetMainCameraComponent()->SetProjectionMode(ProjectionMode::Orthographic);
-	mainCameraBackup_->GetTransform()->SetLocation(0.0f, -360.f, -100.f);
+	mainCameraBackup_->GetTransform()->SetLocation(0.0f, -360.f, -300.f);
 	CreateActor<FlowerMap>("FlowerMap");
 
 	{

@@ -6,6 +6,7 @@
 class GameEngineImageRenderer;
 class GameEngineRenderer;
 class GameEngineCollision;
+class Player;
 class Peashot : public GameEngineActor
 {
 public:
@@ -21,7 +22,7 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 public:
-	void InitBullet(bool _bLeft, const float4& _direction, const float4& _rotation);
+	void InitBullet(bool _bLeft, const float4& _direction, const float4& _rotation, Player* _player);
 
 private:
 	void startIdle(float _deltaTime);
@@ -35,6 +36,7 @@ private:
 	const float LIFE_TIME = 1.0f;
 
 private:
+	Player* player_;
 	GameEngineImageRenderer* bulletRenderer_;
 	GameEngineTransformComponent* bulletTransform_;
 	GameEngineCollision* collision_;
