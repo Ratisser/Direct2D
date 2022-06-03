@@ -22,6 +22,8 @@
 #include <GameApp\DashDust.h>
 #include <GameApp\LandDust.h>
 #include <GameApp\Dust.h>
+#include <GameApp\EXDust.h>
+#include "PeashotEx.h"
 
 Player::Player()
 	: collider_(nullptr)
@@ -29,6 +31,8 @@ Player::Player()
 	, fireStartRenderer_(nullptr)
 	, hpRenderer_(nullptr)
 	, bLeft_(false)
+	, bUpOrDown_(false)
+	, bUp_(false)
 	, bCanDash_(false)
 	, bGround_(false)
 	, bottomCenterCollision_(nullptr)
@@ -232,17 +236,17 @@ void Player::initRendererAndAnimation()
 	renderer_->CreateAnimationFolder("Shoot_DiagonalUp");
 	renderer_->CreateAnimationFolder("Shoot_DiagonalDown");
 
-	renderer_->CreateAnimationFolder("SSAir_Straight");
-	renderer_->CreateAnimationFolder("SSAir_Up");
-	renderer_->CreateAnimationFolder("SSAir_Down");
-	renderer_->CreateAnimationFolder("SSAir_DiagonalUp");
-	renderer_->CreateAnimationFolder("SSAir_DiagonalDown");
+	renderer_->CreateAnimationFolder("SSAir_Straight", 0.0416f, false);
+	renderer_->CreateAnimationFolder("SSAir_Up", 0.0416f, false);
+	renderer_->CreateAnimationFolder("SSAir_Down", 0.0416f, false);
+	renderer_->CreateAnimationFolder("SSAir_DiagonalUp", 0.0416f, false);
+	renderer_->CreateAnimationFolder("SSAir_DiagonalDown", 0.0416f, false);
 
-	renderer_->CreateAnimationFolder("SSGround_Straight");
-	renderer_->CreateAnimationFolder("SSGround_Up");
-	renderer_->CreateAnimationFolder("SSGround_Down");
-	renderer_->CreateAnimationFolder("SSGround_DiagonalUp");
-	renderer_->CreateAnimationFolder("SSGround_DiagonalDown");
+	renderer_->CreateAnimationFolder("SSGround_Straight", 0.0416f, false);
+	renderer_->CreateAnimationFolder("SSGround_Up", 0.0416f, false);
+	renderer_->CreateAnimationFolder("SSGround_Down", 0.0416f, false);
+	renderer_->CreateAnimationFolder("SSGround_DiagonalUp", 0.0416f, false);
+	renderer_->CreateAnimationFolder("SSGround_DiagonalDown", 0.0416f, false);
 
 	renderer_->CreateAnimationFolder("Duck_Shoot");
 
@@ -266,7 +270,7 @@ void Player::initRendererAndAnimation()
 	hpRenderer_->CreateAnimationFolder("HP2", 0.0416f, false);
 	hpRenderer_->CreateAnimationFolder("HP3", 0.0416f, false);
 	hpRenderer_->SetPivot(eImagePivot::BOTTOM_LEFT);
-	
+
 	hpRenderer_->ChangeAnimation("HP3");
 }
 
@@ -281,6 +285,7 @@ void Player::initInput()
 	GameEngineInput::GetInstance().CreateKey("Z", 'Z');
 	GameEngineInput::GetInstance().CreateKey("C", 'C');
 	GameEngineInput::GetInstance().CreateKey("X", 'X');
+	GameEngineInput::GetInstance().CreateKey("V", 'V');
 	GameEngineInput::GetInstance().CreateKey("LShift", VK_LSHIFT);
 
 	GameEngineInput::GetInstance().CreateKey("P", 'P');
@@ -375,6 +380,7 @@ void Player::initState()
 	normalState_.CreateState("ShootWhileDucking", std::bind(&Player::startShootWhileDucking, this, std::placeholders::_1), std::bind(&Player::updateShootWhileDucking, this, std::placeholders::_1));
 	normalState_.CreateState("ShootWhileRunning", std::bind(&Player::startShootWhileRunning, this, std::placeholders::_1), std::bind(&Player::updateShootWhileRunning, this, std::placeholders::_1));
 	normalState_.CreateState("Parry", std::bind(&Player::startParry, this, std::placeholders::_1), std::bind(&Player::updateParry, this, std::placeholders::_1), std::bind(&Player::endParry, this, std::placeholders::_1));
+	normalState_.CreateState(MakeState(Player, EX));
 
 	cinematicState_.CreateState("Idle", std::bind(&Player::startCinematicIdle, this, std::placeholders::_1), std::bind(&Player::updateCinematicIdle, this, std::placeholders::_1));
 	cinematicState_.CreateState("DevilPhaseOneEndFalling", std::bind(&Player::startDevilPhaseOneEndFalling, this, std::placeholders::_1), std::bind(&Player::updateDevilPhaseOneEndFalling, this, std::placeholders::_1));
@@ -494,10 +500,17 @@ void Player::updateNormalState(float _deltaTime)
 		}
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyPress("X") && normalState_.GetCurrentStateName() != "Dash")
+	if (GameEngineInput::GetInstance().IsKeyPress("X") && normalState_.GetCurrentStateName() != "Dash" && normalState_.GetCurrentStateName() != "EX")
 	{
 		state_ << "ShootState";
 		return;
+	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("V") && normalState_.GetCurrentStateName() != "Dash" && normalState_.GetCurrentStateName() != "EX")
+	{
+		fireLoopSound_->Stop();
+		fireStartRenderer_->Off();
+		normalState_ << "EX";
 	}
 
 	normalState_.Update(_deltaTime);
@@ -574,6 +587,15 @@ void Player::updateShootState(float _deltaTime)
 		newShot->InitBullet(bLeft_, bulletDirection_, bulletRotation_);
 		shootDelay_ = SHOOT_DELAY;
 	}
+
+	if (GameEngineInput::GetInstance().IsKeyPress("V") && normalState_.GetCurrentStateName() != "Dash" && normalState_.GetCurrentStateName() != "EX")
+	{
+		fireLoopSound_->Stop();
+		fireStartRenderer_->Off();
+		normalState_ << "EX";
+		state_ << "NormalState";
+	}
+
 	normalState_.Update(_deltaTime);
 }
 
@@ -2159,10 +2181,226 @@ void Player::endParry(float _deltaTime)
 
 void Player::startEX(float _deltaTime)
 {
+	GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_ex_forward_ground_01.wav");
+	bUpOrDown_ = false;
+
+	if (GameEngineInput::GetInstance().IsKeyPress("Up"))
+	{
+		bUp_ = true;
+		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+		{
+			bulletSpawnParentLocation_->SetLocation(BULLET_LEFT_OFFSET, BULLET_DIAGONALUP_OFFSET);
+			bulletDirection_ = { -0.5f, 0.5f };
+			bulletRotation_.z = -45.f * GameEngineMath::DegreeToRadian;
+
+			if (bGround_)
+			{
+				renderer_->ChangeAnimation("SSGround_DiagonalUp");
+			}
+			else
+			{
+				renderer_->ChangeAnimation("SSAir_DiagonalUp");
+			}
+			bLeft_ = true;
+		}
+		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+		{
+			bulletSpawnParentLocation_->SetLocation(BULLET_RIGHT_OFFSET, BULLET_DIAGONALUP_OFFSET);
+			bulletDirection_ = { 0.5f, 0.5f };
+			bulletRotation_.z = 45.f * GameEngineMath::DegreeToRadian;
+
+			if (bGround_)
+			{
+				renderer_->ChangeAnimation("SSGround_DiagonalUp");
+			}
+			else
+			{
+				renderer_->ChangeAnimation("SSAir_DiagonalUp");
+			}
+
+			bLeft_ = false;
+		}
+		else
+		{
+			if (bLeft_)
+			{
+				bulletSpawnParentLocation_->SetLocation(BULLET_LEFTUP_OFFSET, BULLET_UP_OFFSET);
+				bulletDirection_ = float4::UP;
+				bulletRotation_.z = -90.f * GameEngineMath::DegreeToRadian;
+			}
+			else
+			{
+				bulletSpawnParentLocation_->SetLocation(BULLET_RIGHTUP_OFFSET, BULLET_UP_OFFSET);
+				bulletDirection_ = float4::UP;
+				bulletRotation_.z = 90.f * GameEngineMath::DegreeToRadian;
+			}
+
+			if (bGround_)
+			{
+				renderer_->ChangeAnimation("SSGround_Up");
+			}
+			else
+			{
+				renderer_->ChangeAnimation("SSAir_Up");
+			}
+			bUpOrDown_ = true;
+		}
+	}
+	else if (GameEngineInput::GetInstance().IsKeyPress("Down"))
+	{
+		bUp_ = false;
+		if (GameEngineInput::GetInstance().IsKeyPress("Left"))
+		{
+			bulletSpawnParentLocation_->SetLocation(BULLET_LEFT_OFFSET, 0.0f);
+			bulletDirection_ = { -0.5f, -0.5f };
+			bulletRotation_.z = 45.f * GameEngineMath::DegreeToRadian;
+
+			if (bGround_)
+			{
+				renderer_->ChangeAnimation("SSGround_DiagonalDown");
+			}
+			else
+			{
+				renderer_->ChangeAnimation("SSAir_DiagonalDown");
+			}
+			bLeft_ = true;
+		}
+		else if (GameEngineInput::GetInstance().IsKeyPress("Right"))
+		{
+			bulletSpawnParentLocation_->SetLocation(BULLET_RIGHT_OFFSET, 0.0f);
+			bulletDirection_ = { 0.5f, -0.5f };
+			bulletRotation_.z = -45.f * GameEngineMath::DegreeToRadian;
+
+			if (bGround_)
+			{
+				renderer_->ChangeAnimation("SSGround_DiagonalDown");
+			}
+			else
+			{
+				renderer_->ChangeAnimation("SSAir_DiagonalDown");
+			}
+			bLeft_ = false;
+		}
+		else
+		{
+			if (bLeft_)
+			{
+				bulletSpawnParentLocation_->SetLocation(BULLET_LEFTUP_OFFSET, BULLET_DOWN_OFFSET);
+				bulletDirection_ = float4::DOWN;
+				bulletRotation_.z = 90 * GameEngineMath::DegreeToRadian;
+			}
+			else
+			{
+				bulletSpawnParentLocation_->SetLocation(BULLET_RIGHTUP_OFFSET, BULLET_DOWN_OFFSET);
+				bulletDirection_ = float4::DOWN;
+				bulletRotation_.z = -90.f * GameEngineMath::DegreeToRadian;
+			}
+
+			if (bGround_)
+			{
+				renderer_->ChangeAnimation("SSGround_Down");
+			}
+			else
+			{
+				renderer_->ChangeAnimation("SSAir_Down");
+			}
+			bUpOrDown_ = true;
+		}
+	}
+	else
+	{
+		if (bGround_)
+		{
+			renderer_->ChangeAnimation("SSGround_Straight");
+		}
+		else
+		{
+			renderer_->ChangeAnimation("SSAir_Straight");
+		}
+
+		if (bLeft_)
+		{
+			bulletSpawnParentLocation_->SetLocation(BULLET_LEFT_OFFSET, BULLET_STRAIGHT_OFFSET);
+			bulletDirection_ = float4::LEFT;
+			bulletRotation_ = float4::ZERO;
+		}
+		else
+		{
+			bulletSpawnParentLocation_->SetLocation(BULLET_RIGHT_OFFSET, BULLET_STRAIGHT_OFFSET);
+			bulletDirection_ = float4::RIGHT;
+			bulletRotation_ = float4::ZERO;
+		}
+	}
 }
 
 void Player::updateEX(float _deltaTime)
 {
+	if (renderer_->GetCurrentAnimation()->CurFrame_ > 4)
+	{
+		if (normalState_.GetTime() < 10.f)
+		{
+			float x = 0.0f;
+			if (bUpOrDown_ && bUp_ == false)
+			{
+				if (bLeft_)
+				{
+					x = -50.f;
+				}
+				else
+				{
+					x = 50.f;
+				}
+			}
+			else if (bUpOrDown_ && bUp_ == true)
+			{
+				if (bLeft_)
+				{
+					x = 50.f;
+				}
+				else
+				{
+					x = -50.f;
+				}
+			}
+
+			EXDust* dust = level_->CreateActor<EXDust>();
+			dust->GetTransform()->SetLocation(transform_->GetWorldLocation() + float4(x, 60.f));
+			dust->Initialize(bLeft_, bulletRotation_.z);
+
+			PeashotEx* newShot = level_->CreateActor<PeashotEx>("PeashotEX");
+			newShot->GetTransform()->SetLocation(bulletSpawnLocation_->GetWorldLocation());
+			newShot->InitBullet(bLeft_, bulletDirection_, bulletRotation_);
+
+
+			normalState_.SetTime(100.f);
+		}
+
+		if (!bUpOrDown_)
+		{
+			if (bLeft_)
+			{
+				if (float4::BLACK != Map::GetColor(rightSideCollision_))
+				{
+					transform_->AddLocation(150.f * _deltaTime, 0.0f);
+				}
+
+			}
+			else
+			{
+				if (float4::BLACK != Map::GetColor(leftSideCollision_))
+				{
+					transform_->AddLocation(-150.f * _deltaTime, 0.0f);
+				}
+			}
+		}
+	}
+
+
+
+	if (renderer_->GetCurrentAnimation()->IsEnd_)
+	{
+		normalState_ << "Idle";
+	}
 }
 
 void Player::startCinematicIdle(float _deltaTime)

@@ -194,6 +194,9 @@
     <ClCompile Include="EXDust.cpp">
       <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="PeashotEx.cpp">
+      <Filter>01.GameObject\02.GlobalActor\PlayerWeapon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -473,6 +476,9 @@
     </ClInclude>
     <ClInclude Include="EXDust.h">
       <Filter>01.GameObject\02.GlobalActor\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="PeashotEx.h">
+      <Filter>01.GameObject\02.GlobalActor\PlayerWeapon</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

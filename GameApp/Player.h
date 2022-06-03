@@ -189,6 +189,8 @@ private:
 	int hp_;
 
 	bool bLeft_;
+	bool bUpOrDown_;
+	bool bUp_;
 
 	bool bGround_;
 	bool bCanJump_;

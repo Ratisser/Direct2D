@@ -28,6 +28,7 @@ void Dust::Start()
 	renderer_->ChangeAnimation("DustA");
 }
 
+
 void Dust::Update(float _deltaTime)
 {
 	if (renderer_->GetCurrentAnimation()->IsEnd_)

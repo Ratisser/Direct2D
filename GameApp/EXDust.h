@@ -20,10 +20,12 @@ public:
 	virtual void Update(float _deltaTime) override;
 
 public:
-	void Initialize(bool bLeft_, float _rotZAxis);
+	void Initialize(bool _bLeft, float _rotZAxis);
 
 private:
 	GameEngineImageRenderer* renderer_;
 	GameEngineTransformComponent* childTransform_;
+
+	bool bLeft_;
 };
 

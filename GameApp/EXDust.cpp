@@ -32,12 +32,23 @@ void EXDust::Start()
 
 void EXDust::Update(float _deltaTime)
 {
+	if (bLeft_)
+	{
+		renderer_->SetFlip(true, false);
+	}
+	else
+	{
+		renderer_->SetFlip(false, false);
+	}
+
 	if (renderer_->GetCurrentAnimation()->IsEnd_)
 	{
 		Release();
 	}
 }
 
-void EXDust::Initialize(bool bLeft_, float _rotZAxis)
+void EXDust::Initialize(bool _bLeft, float _rotZAxis)
 {
+	bLeft_ = _bLeft;
+	childTransform_->AddRotation(0.0f, 0.0f, _rotZAxis);
 }

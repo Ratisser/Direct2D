@@ -346,6 +346,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PeashotEx.cpp" />
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
@@ -584,6 +585,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PeashotEx.h" />
     <ClInclude Include="Player.h">
       <SubType>
       </SubType>
