@@ -59,6 +59,7 @@ Player::Player()
 	, timeCounter_(0.0f)
 	, bParryJump_(false)
 	, hp_(3)
+	, superMeterCount_(0)
 	, dustSpawnDelay_(0.0f)
 {
 
@@ -156,6 +157,16 @@ void Player::Update(float _deltaTime)
 	if (hp_ >= 0 && hp_ < 4)
 	{
 		hpRenderer_->ChangeAnimation("HP" + std::to_string(hp_));
+	}
+
+	for (GameEngineImageRenderer* r : superMeters_)
+	{
+		r->Off();
+	}
+
+	for (size_t i = 0; i < superMeterCount_; i++)
+	{
+		superMeters_[i]->On();
 	}
 }
 
@@ -263,7 +274,7 @@ void Player::initRendererAndAnimation()
 	fireStartRenderer_->Off();
 
 	GameEngineTransformComponent* hpTransform = CreateTransformComponent<GameEngineTransformComponent>(level_->GetMainCameraActor()->GetTransform());
-	hpTransform->SetLocation(-630.f, -350.f, -4.0f);
+	hpTransform->SetLocation(-620.f, -340.f, -10.0f);
 	hpRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(hpTransform);
 	hpRenderer_->CreateAnimationFolder("HP0", 0.0416f, false);
 	hpRenderer_->CreateAnimationFolder("HP1", 0.12f);
@@ -272,6 +283,17 @@ void Player::initRendererAndAnimation()
 	hpRenderer_->SetPivot(eImagePivot::BOTTOM_LEFT);
 
 	hpRenderer_->ChangeAnimation("HP3");
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		GameEngineImageRenderer* sp = CreateTransformComponent<GameEngineImageRenderer>(hpTransform);
+		sp->CreateAnimationFolder("SuperMeter", 1.0f);
+		sp->ChangeAnimation("SuperMeter");
+		sp->SetLocationX(100.f + 19 * i);
+		sp->Off();
+
+		superMeters_.push_back(sp);
+	}
 }
 
 void Player::initInput()
@@ -506,10 +528,12 @@ void Player::updateNormalState(float _deltaTime)
 		return;
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyPress("V") && normalState_.GetCurrentStateName() != "Dash" && normalState_.GetCurrentStateName() != "EX")
+	if (GameEngineInput::GetInstance().IsKeyPress("V") && superMeterCount_ > 0 
+		&& normalState_.GetCurrentStateName() != "Dash" && normalState_.GetCurrentStateName() != "EX")
 	{
 		fireLoopSound_->Stop();
 		fireStartRenderer_->Off();
+		superMeterCount_--;
 		normalState_ << "EX";
 	}
 
@@ -588,10 +612,12 @@ void Player::updateShootState(float _deltaTime)
 		shootDelay_ = SHOOT_DELAY;
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyPress("V") && normalState_.GetCurrentStateName() != "Dash" && normalState_.GetCurrentStateName() != "EX")
+	if (GameEngineInput::GetInstance().IsKeyPress("V") && superMeterCount_ > 0 
+		&& normalState_.GetCurrentStateName() != "Dash" && normalState_.GetCurrentStateName() != "EX")
 	{
 		fireLoopSound_->Stop();
 		fireStartRenderer_->Off();
+		superMeterCount_--;
 		normalState_ << "EX";
 		state_ << "NormalState";
 	}
@@ -1990,6 +2016,11 @@ void Player::updateParry(float _deltaTime)
 
 			SetInvincible(1.0f);
 
+			if (superMeterCount_ < 5)
+			{
+				superMeterCount_++;
+			}
+
 			bGround_ = true;
 			bParryJump_ = true;
 			normalState_ << "Jump";
@@ -2015,6 +2046,10 @@ void Player::updateParry(float _deltaTime)
 			parryEffect->GetTransform()->SetLocation(parryEffectLocation);
 
 			SetInvincible(1.0f);
+			if (superMeterCount_ < 5)
+			{
+				superMeterCount_++;
+			}
 
 			bGround_ = true;
 			bParryJump_ = true;

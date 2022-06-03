@@ -183,10 +183,13 @@ private:
 
 	std::unique_ptr<GameEngineSoundPlayer> fireLoopSound_;
 
+	std::vector<GameEngineImageRenderer*> superMeters_;
+
 	float4 bulletDirection_;
 	float4 bulletRotation_;
 
 	int hp_;
+	int superMeterCount_;
 
 	bool bLeft_;
 	bool bUpOrDown_;
