@@ -293,7 +293,18 @@ void Player::initRendererAndAnimation()
 	fireStartRenderer_->Off();
 
 	GameEngineTransformComponent* hpTransform = CreateTransformComponent<GameEngineTransformComponent>(level_->GetMainCameraActor()->GetTransform());
-	hpTransform->SetLocation(-620.f, -345.f, -40.0f);
+	if (level_->GetName() == "FlowerLevel")
+	{
+		hpTransform->SetWorldLocation(0.0f, 0.0f, level_->GetMainCameraActor()->GetTransform()->GetWorldLocation().z + 0.0001f);
+		hpTransform->SetLocationX(-620.f);
+		hpTransform->SetLocationY(-345.f);
+	}
+	else
+	{
+		hpTransform->SetLocation(-620.f, -345.f, -10.f);
+	}
+
+
 	hpRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(hpTransform);
 	hpRenderer_->CreateAnimationFolder("HP0", 0.0416f, false);
 	hpRenderer_->CreateAnimationFolder("HP1", 0.12f);
@@ -302,6 +313,7 @@ void Player::initRendererAndAnimation()
 	hpRenderer_->SetPivot(eImagePivot::BOTTOM_LEFT);
 
 	hpRenderer_->ChangeAnimation("HP3");
+	hpRenderer_->On();
 
 	for (size_t i = 0; i < 5; i++)
 	{
@@ -493,7 +505,7 @@ void Player::playParrySound()
 
 	if (superMeterCount_ >= 5)
 	{
-		GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_parry_slap_01.wav");
+		GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_parry_power_up_full.wav");
 	}
 }
 

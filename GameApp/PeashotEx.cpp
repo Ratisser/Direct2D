@@ -37,7 +37,7 @@ void PeashotEx::Start()
 	bulletTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
 
 	bulletRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(bulletTransform_);
-	bulletRenderer_->SetLocationZ(-2.0f);
+	bulletRenderer_->SetLocationZ(-5.0f);
 
 	bulletRenderer_->CreateAnimationFolder("PeaEX_Spawn", 0.0416f, false);
 	bulletRenderer_->CreateAnimationFolder("PeaEX_Loop");
@@ -45,10 +45,10 @@ void PeashotEx::Start()
 	bulletRenderer_->SetPivot(eImagePivot::CENTER);
 	bulletRenderer_->ChangeAnimation("PeaEX_Spawn");
 
-	collision_ = CreateTransformComponent<GameEngineCollision>(bulletRenderer_);
+	collision_ = CreateTransformComponent<GameEngineCollision>(bulletTransform_);
 	collision_->SetCollisionGroup(eCollisionGroup::PlayerBullet);
 	collision_->SetCollisionType(eCollisionType::Rect);
-	collision_->SetScale(0.5f, 0.8f);
+	collision_->SetScale(150.f, 150.f);
 }
 
 void PeashotEx::Update(float _deltaTime)
@@ -104,13 +104,14 @@ void PeashotEx::updateIdle(float _deltaTime)
 
 	bulletTransform_->AddLocation(direction_ * BULLET_SPEED * _deltaTime);
 
-	if (state_.GetTime() > 0)
+
+	GameEngineCollision* monsterCollision = collision_->IsCollideOne(eCollisionGroup::Monster);
+	if (nullptr != monsterCollision)
 	{
-		GameEngineCollision* monsterCollision = collision_->IsCollideOne(eCollisionGroup::Monster);
-		if (nullptr != monsterCollision)
+		MonsterBase* monster = dynamic_cast<MonsterBase*>(monsterCollision->GetActor());
+		if (nullptr != monster)
 		{
-			MonsterBase* monster = dynamic_cast<MonsterBase*>(monsterCollision->GetActor());
-			if (nullptr != monster)
+			if (state_.GetTime() > 0)
 			{
 				monster->SubtractHP(DAMAGE);
 				monster->OnHit();
@@ -122,24 +123,23 @@ void PeashotEx::updateIdle(float _deltaTime)
 				GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 
 				state_.SetTime(-0.1f);
-			}
 
-			if (hp_ <= 0)
-			{
-				state_ << "Pop";
-				return;
+				if (hp_ <= 0)
+				{
+					state_ << "Pop";
+					return;
+				}
 			}
 		}
-
 	}
 
-	if (state_.GetTime() > 0)
+	monsterCollision = collision_->IsCollideOne(eCollisionGroup::MonsterHitBox);
+	if (nullptr != monsterCollision)
 	{
-		GameEngineCollision* monsterCollision = collision_->IsCollideOne(eCollisionGroup::MonsterHitBox);
-		if (nullptr != monsterCollision)
+		MonsterBase* monster = dynamic_cast<MonsterBase*>(monsterCollision->GetActor());
+		if (nullptr != monster)
 		{
-			MonsterBase* monster = dynamic_cast<MonsterBase*>(monsterCollision->GetActor());
-			if (nullptr != monster)
+			if (state_.GetTime() > 0)
 			{
 				monster->SubtractHP(DAMAGE);
 				monster->OnHit();
@@ -150,16 +150,17 @@ void PeashotEx::updateIdle(float _deltaTime)
 				std::string soundName = "sfx_player_weapon_peashoot_ex_impact_0" + std::to_string(soundNumber) + ".wav";
 				GameEngineSoundManager::GetInstance().PlaySoundByName(soundName);
 
-				state_.SetTime(-0.2f);
-			}
+				state_.SetTime(-0.1f);
 
-			if (hp_ <= 0)
-			{
-				state_ << "Pop";
-				return;
+				if (hp_ <= 0)
+				{
+					state_ << "Pop";
+					return;
+				}
 			}
 		}
 	}
+
 
 
 	if (float4::BLACK == Map::GetColor(collision_))

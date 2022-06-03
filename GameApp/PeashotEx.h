@@ -36,7 +36,7 @@ private:
 private:
 	const float BULLET_SPEED = 1000.f;
 	const int DAMAGE = 4;
-	const float LIFE_TIME = 1.0f;
+	const float LIFE_TIME = 2.0f;
 
 private:
 	GameEngineImageRenderer* bulletRenderer_;
