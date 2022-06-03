@@ -24,6 +24,9 @@ public:
 	void InitBullet(bool _bLeft, const float4& _direction, const float4& _rotation);
 
 private:
+	void startSpawn(float _deltaTime);
+	void updateSpawn(float _deltaTime);
+
 	void startIdle(float _deltaTime);
 	void updateIdle(float _deltaTime);
 
@@ -31,8 +34,9 @@ private:
 	void updatePop(float _deltaTime);
 
 private:
-	float BULLET_SPEED = 2500.f;
-	float LIFE_TIME = 1.0f;
+	const float BULLET_SPEED = 1000.f;
+	const int DAMAGE = 4;
+	const float LIFE_TIME = 1.0f;
 
 private:
 	GameEngineImageRenderer* bulletRenderer_;
@@ -44,5 +48,7 @@ private:
 	float lifeTime_;
 
 	bool bLeft_;
+
+	int hp_;
 };
 

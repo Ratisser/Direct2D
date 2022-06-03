@@ -9,6 +9,7 @@
 EXDust::EXDust()
 	: renderer_(nullptr)
 	, childTransform_(nullptr)
+	, bLeft_(false)
 {
 
 }
@@ -22,6 +23,7 @@ void EXDust::Start()
 {
 	childTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
 	childTransform_->SetLocationY(20.f);
+	childTransform_->SetLocationZ(-0.4f);
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(childTransform_);
 	renderer_->CreateAnimationFolder("SSDustA", 0.0416f, false);
 	renderer_->SetLocationZ(0.01f);

@@ -215,9 +215,9 @@ void GatlingSeedBlue::updateIdle(float _deltaTime)
 		}
 	}
 
-	if (state_.GetTime() > 10.0f)
+	if (state_.GetTime() > 5.0f)
 	{
-		Release();
+		state_ << "Death";
 	}
 }
 
