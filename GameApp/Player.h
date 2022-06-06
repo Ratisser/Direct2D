@@ -11,10 +11,8 @@ class Player : public GameEngineActor
 public:
 	Player();
 	~Player();
-
 	Player(const Player& _other) = delete;
 	Player(Player&& _other) = delete;
-
 	Player& operator=(const Player& _other) = delete;
 	Player& operator=(const Player&& _other) = delete;
 

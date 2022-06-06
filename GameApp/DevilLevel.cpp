@@ -225,6 +225,7 @@ void DevilLevel::updatePhaseTwo(float _deltaTime)
 	{
 		mainCamera_->GetTransform()->SetLocationX(640.f + (playerPos.x / 8.9f));
 		mainCamera_->GetTransform()->SetLocationY(365.f + PHASE_TWO_BOTTOM + (playerPos.y - PHASE_TWO_BOTTOM) / 7.5454f);
+		mainCamera_->GetTransform()->SetLocationZ(-100.f);
 	}
 }
 
@@ -247,6 +248,7 @@ void DevilLevel::updatePhaseThree(float _deltaTime)
 	{
 		mainCamera_->GetTransform()->SetLocationX(640.f + (playerPos.x / 8.9f));
 		mainCamera_->GetTransform()->SetLocationY(365.f + PHASE_TWO_BOTTOM + (playerPos.y - PHASE_TWO_BOTTOM) / 7.5454f);
+		mainCamera_->GetTransform()->SetLocationZ(-100.f);
 	}
 }
 
@@ -269,5 +271,6 @@ void DevilLevel::updatePhaseFour(float _deltaTime)
 	{
 		mainCamera_->GetTransform()->SetLocationX(640.f + (playerPos.x / 8.9f));
 		mainCamera_->GetTransform()->SetLocationY(365.f + PHASE_TWO_BOTTOM + (playerPos.y - PHASE_TWO_BOTTOM) / 7.5454f);
+		mainCamera_->GetTransform()->SetLocationZ(-100.f);
 	}
 }

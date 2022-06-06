@@ -30,14 +30,15 @@ PeashotEx::~PeashotEx()
 void PeashotEx::Start()
 {
 	state_.CreateState(MakeState(PeashotEx, Spawn));
-	state_.CreateState("Idle", std::bind(&PeashotEx::startIdle, this, std::placeholders::_1), std::bind(&PeashotEx::updateIdle, this, std::placeholders::_1));
-	state_.CreateState("Pop", std::bind(&PeashotEx::startPop, this, std::placeholders::_1), std::bind(&PeashotEx::updatePop, this, std::placeholders::_1));
+	state_.CreateState(MakeState(PeashotEx, Pop));
+	state_.CreateState(MakeState(PeashotEx, Idle));
 	state_.ChangeState("Idle");
 
 	bulletTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
+	bulletTransform_->SetLocationZ(-5.0f);
 
 	bulletRenderer_ = CreateTransformComponent<GameEngineImageRenderer>(bulletTransform_);
-	bulletRenderer_->SetLocationZ(-6.0f);
+	
 
 	bulletRenderer_->CreateAnimationFolder("PeaEX_Spawn", 0.0416f, false);
 	bulletRenderer_->CreateAnimationFolder("PeaEX_Loop");
@@ -77,7 +78,6 @@ void PeashotEx::InitBullet(bool _bLeft, const float4& _direction, const float4& 
 void PeashotEx::startSpawn(float _deltaTime)
 {
 	bulletRenderer_->ChangeAnimation("PeaEX_Spawn");
-	transform_->SetLocationZ(-3.0f);
 }
 
 void PeashotEx::updateSpawn(float _deltaTime)

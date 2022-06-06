@@ -2442,6 +2442,7 @@ void Player::updateEX(float _deltaTime)
 
 			PeashotEx* newShot = level_->CreateActor<PeashotEx>("PeashotEX");
 			newShot->GetTransform()->SetLocation(bulletSpawnLocation_->GetWorldLocation());
+			newShot->GetTransform()->AddLocation(0.0f, 0.0f, -0.6f);
 			newShot->InitBullet(bLeft_, bulletDirection_, bulletRotation_);
 
 
