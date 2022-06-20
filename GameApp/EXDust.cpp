@@ -23,10 +23,10 @@ void EXDust::Start()
 {
 	childTransform_ = CreateTransformComponent<GameEngineTransformComponent>();
 	childTransform_->SetLocationY(20.f);
-	childTransform_->SetLocationZ(-0.5f);
+	childTransform_->SetLocationZ(0.0001f);
 	renderer_ = CreateTransformComponent<GameEngineImageRenderer>(childTransform_);
 	renderer_->CreateAnimationFolder("SSDustA", 0.0416f, false);
-	renderer_->SetLocationZ(0.01f);
+	renderer_->SetLocationZ(0.001f);
 	renderer_->SetPivot(eImagePivot::CENTER);
 
 	renderer_->ChangeAnimation("SSDustA");
@@ -53,5 +53,5 @@ void EXDust::Initialize(bool _bLeft, float _rotZAxis)
 {
 	bLeft_ = _bLeft;
 	childTransform_->AddRotation(0.0f, 0.0f, _rotZAxis);
-	childTransform_->AddLocation(0.0f, 0.0f, -0.001f);
+	childTransform_->AddLocation(0.0f, 0.0f);
 }

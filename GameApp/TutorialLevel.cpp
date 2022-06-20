@@ -7,6 +7,7 @@
 
 #include "ParryObjectTutorial.h"
 #include <GameApp\FadeIn.h>
+#include <GameApp\TutorialTarget.h>
 
 
 TutorialLevel::TutorialLevel()
@@ -54,6 +55,8 @@ void TutorialLevel::LevelStart()
 
 	parry = CreateActor<ParryObjectTutorial>();
 	parry->GetTransform()->SetLocation(4192.f, -370.f, 0.0f);
+
+	CreateActor<TutorialTarget>();
 }
 
 void TutorialLevel::LevelUpdate(float _deltaTime)
@@ -61,6 +64,7 @@ void TutorialLevel::LevelUpdate(float _deltaTime)
 	float4 pl = player_->GetTransform()->GetLocation();
 	mainCamera_->GetTransform()->SetLocation(pl.x, pl.y);
 	mainCamera_->GetTransform()->SetLocationY(-475.f);
+	mainCamera_->GetTransform()->SetLocationZ(-10.f);
 
 	if (!bgmPlayer_->IsPlaying())
 	{

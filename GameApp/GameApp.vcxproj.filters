@@ -197,6 +197,9 @@
     <ClCompile Include="PeashotEx.cpp">
       <Filter>01.GameObject\02.GlobalActor\PlayerWeapon</Filter>
     </ClCompile>
+    <ClCompile Include="TutorialTarget.cpp">
+      <Filter>01.GameObject\03.Level\TutorialLevel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="01.GameObject">
@@ -479,6 +482,9 @@
     </ClInclude>
     <ClInclude Include="PeashotEx.h">
       <Filter>01.GameObject\02.GlobalActor\PlayerWeapon</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialTarget.h">
+      <Filter>01.GameObject\03.Level\TutorialLevel</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

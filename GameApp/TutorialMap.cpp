@@ -42,21 +42,14 @@ void TutorialMap::Start()
 		GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
 		r->SetTexture("tutorial_room_back_layer_0001.png");
 		r->SetScale(1280.f, 720.f);
-		r->SetLocationZ(4.0f);
+		r->SetLocationZ(20.f);
 	}
 
 	{
 		GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
 		r->SetTexture("tutorial_room_front_layer_0001.png", false);
 		r->SetScale(1280.f, 720.f);
-		r->SetLocationZ(-5.0f);
-	}
-
-	{
-		GameEngineImageRenderer* r = CreateTransformComponent<GameEngineImageRenderer>(level_->GetMainCameraActor()->GetTransform());
-		r->SetTexture("tutorial_room_front_layer_0001.png", false);
-		r->SetScale(1280.f, 720.f);
-		r->SetLocationZ(-5.0f);
+		r->SetLocationZ(0.1f);
 	}
 
 	exitDoor_ = CreateTransformComponent<GameEngineCollision>(nullptr);

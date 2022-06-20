@@ -71,7 +71,7 @@ void GameEngineLevelControlWindow::OnGUI()
 		{
 			cameraPos = camera->GetWorldLocation();
 		}
-		ImGui::Text("World Mouse by FC X, Y : %d, %d", mousePos.ix() + cameraPos.ix(), mousePos.iy() + cameraPos.iy());
+		//ImGui::Text("World Mouse by FC X, Y : %d, %d", mousePos.ix() + cameraPos.ix(), mousePos.iy() + cameraPos.iy());
 		ImGui::NextColumn();
 	}
 
