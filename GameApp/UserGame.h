@@ -13,7 +13,7 @@ public:
 
 public:
 	virtual float4 StartWindowPos() {
-		return { 0, 0 };
+		return { 150, 100 };
 	}
 	virtual float4 StartWindowSize() {
 		return { 1280, 720 };

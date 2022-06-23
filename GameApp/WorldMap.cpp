@@ -23,7 +23,8 @@ void WorldMap::Start()
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
 	ImageRenderer->SetTexture("WorldMap_PixelCheck.png", true);
 	float4 textureSize = ImageRenderer->GetCurrentTexture()->GetTextureSize();
-	ImageRenderer->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 5.f);
+	ImageRenderer->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, -3.f);
+	ImageRenderer->SetColor({ 1.0f, 1.0f, 1.0f, 0.7f });
 	ImageRenderer->Off();
 
 	{
@@ -45,10 +46,10 @@ void WorldMap::Update(float _deltaTime)
 {
 	if (GameEngineInput::GetInstance().IsKeyDown("P"))
 	{
-		GameEngineCore::ChangeLevel("DevilLevel");
+		//GameEngineCore::ChangeLevel("DevilLevel");
 	}
 
-	if (GameEngineInput::GetInstance().IsKeyDown("O"))
+	if (GameEngineInput::GetInstance().IsKeyDown("P"))
 	{
 	
 		if (ImageRenderer->IsUpdate())

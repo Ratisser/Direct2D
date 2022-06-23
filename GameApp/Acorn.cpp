@@ -18,7 +18,7 @@ Acorn::Acorn()
 	, velocity_(0.0f)
 {
 	RefCount++;
-	delay_ = RefCount * 0.5f + 1.0f;
+	delay_ = RefCount * 0.5f;
 	height_ = -160.f - RefCount * 100.f;
 }
 

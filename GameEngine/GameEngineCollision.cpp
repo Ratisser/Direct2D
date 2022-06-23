@@ -43,6 +43,7 @@ void GameEngineCollision::Start()
 	}
 	GameEngineRenderer* debugRect = actor_->CreateTransformComponent<GameEngineRenderer>(this);
 	debugRect->SetRenderingPipeline("DebugRect");
+	debugRect->SetLocationZ(-0.001f);
 	debugRect->SetDebug(true);
 	if (!DisplayRect)
 	{

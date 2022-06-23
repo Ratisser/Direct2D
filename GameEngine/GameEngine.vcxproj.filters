@@ -28,26 +28,11 @@
     <Filter Include="Object">
       <UniqueIdentifier>{ddd6831f-407f-4378-b635-0b23f4ea6a00}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Componenets">
-      <UniqueIdentifier>{6f77b1a3-570f-4088-9e43-96914d4b2783}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Componenets\Transform">
-      <UniqueIdentifier>{bfff0c05-2fdb-4de7-a5a9-3e330dfab4a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor">
       <UniqueIdentifier>{e3cef78b-46cc-489d-b9ea-b71a667be8f4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Level">
       <UniqueIdentifier>{c03c7f3a-bceb-4a47-95a5-1430bef19182}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Componenets\Camera">
-      <UniqueIdentifier>{e2f6c9b4-ee3e-4937-bbc4-58b7064bf8ae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Componenets\Rendering">
-      <UniqueIdentifier>{664d6363-d489-4c36-acde-7e71c0871fe7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Componenets\Abstract">
-      <UniqueIdentifier>{dca4b00b-0be9-4fa7-82d6-bda79c7b42b8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Actor\SubActor">
       <UniqueIdentifier>{c886ad4c-e0ae-40c7-b79f-421085d61864}</UniqueIdentifier>
@@ -103,9 +88,6 @@
     <Filter Include="Resources\02Texture\Blender">
       <UniqueIdentifier>{f3c1a460-45ec-4236-aa19-3ebddb844db7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Componenets\Collision">
-      <UniqueIdentifier>{c02a6a69-8942-4f62-95d2-2dd30688c285}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources\01Shader\EngineShader">
       <UniqueIdentifier>{294255ed-de5b-4872-8c99-8734068044fd}</UniqueIdentifier>
     </Filter>
@@ -126,6 +108,24 @@
     </Filter>
     <Filter Include="Object\PostProcess\EngineEffect">
       <UniqueIdentifier>{7f10edaa-f90f-40e3-af14-e75418dc320d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Components">
+      <UniqueIdentifier>{6f77b1a3-570f-4088-9e43-96914d4b2783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Components\Transform">
+      <UniqueIdentifier>{bfff0c05-2fdb-4de7-a5a9-3e330dfab4a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Components\Camera">
+      <UniqueIdentifier>{e2f6c9b4-ee3e-4937-bbc4-58b7064bf8ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Components\Rendering">
+      <UniqueIdentifier>{664d6363-d489-4c36-acde-7e71c0871fe7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Components\Abstract">
+      <UniqueIdentifier>{dca4b00b-0be9-4fa7-82d6-bda79c7b42b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Components\Collision">
+      <UniqueIdentifier>{c02a6a69-8942-4f62-95d2-2dd30688c285}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -151,13 +151,13 @@
       <Filter>Object\Level</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineCameraComponent.h">
-      <Filter>Object\Componenets\Camera</Filter>
+      <Filter>Object\Components\Camera</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineRenderer.h">
-      <Filter>Object\Componenets\Rendering</Filter>
+      <Filter>Object\Components\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineComponent.h">
-      <Filter>Object\Componenets\Abstract</Filter>
+      <Filter>Object\Components\Abstract</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineActor.h">
       <Filter>Object\Actor</Filter>
@@ -244,10 +244,10 @@
       <Filter>Resources\01Shader\ShaderResources\ShaderResrouceHelper\SettingData</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineTransformComponent.h">
-      <Filter>Object\Componenets\Transform</Filter>
+      <Filter>Object\Components\Transform</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineImageRenderer.h">
-      <Filter>Object\Componenets\Rendering</Filter>
+      <Filter>Object\Components\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineFolderTexture.h">
       <Filter>Resources\02Texture\Texture</Filter>
@@ -256,13 +256,13 @@
       <Filter>Resources\02Texture\Texture</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineCollision.h">
-      <Filter>Object\Componenets\Collision</Filter>
+      <Filter>Object\Components\Collision</Filter>
     </ClInclude>
     <ClInclude Include="eCollisionType.h">
-      <Filter>Object\Componenets\Collision</Filter>
+      <Filter>Object\Components\Collision</Filter>
     </ClInclude>
     <ClInclude Include="eImagePivot.h">
-      <Filter>Object\Componenets\Rendering</Filter>
+      <Filter>Object\Components\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineWindow.h">
       <Filter>Core&amp;Window</Filter>
@@ -321,13 +321,13 @@
       <Filter>Object\Level</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineCameraComponent.cpp">
-      <Filter>Object\Componenets\Camera</Filter>
+      <Filter>Object\Components\Camera</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRenderer.cpp">
-      <Filter>Object\Componenets\Rendering</Filter>
+      <Filter>Object\Components\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineComponent.cpp">
-      <Filter>Object\Componenets\Abstract</Filter>
+      <Filter>Object\Components\Abstract</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineActor.cpp">
       <Filter>Object\Actor</Filter>
@@ -411,10 +411,10 @@
       <Filter>Resources\01Shader\ShaderResources\ShaderResrouceHelper\SettingData</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineTransformComponent.cpp">
-      <Filter>Object\Componenets\Transform</Filter>
+      <Filter>Object\Components\Transform</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineImageRenderer.cpp">
-      <Filter>Object\Componenets\Rendering</Filter>
+      <Filter>Object\Components\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineFolderTexture.cpp">
       <Filter>Resources\02Texture\Texture</Filter>
@@ -423,7 +423,7 @@
       <Filter>Resources\02Texture\Texture</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineCollision.cpp">
-      <Filter>Object\Componenets\Collision</Filter>
+      <Filter>Object\Components\Collision</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineCore.cpp">
       <Filter>Core&amp;Window</Filter>

@@ -75,7 +75,7 @@ void GameEngineLevelControlWindow::OnGUI()
 		ImGui::NextColumn();
 	}
 
-	ImGui::Text("LevelSelect");
+	ImGui::Text("SelectLevel");
 	ImGui::NextColumn();
 
 

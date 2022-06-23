@@ -54,7 +54,7 @@ void TutorialTarget::OnHit()
 	if (hp_ < 1)
 	{
 		Explosion* explosion = level_->CreateActor<Explosion>();
-		explosion->GetTransform()->SetLocation(transform_->GetWorldLocation() + float4(0.0f, -150.f, 0.0f));
+		explosion->GetTransform()->SetLocation(transform_->GetWorldLocation() + float4(0.0f, -250.f, 0.0f));
 		GameEngineSoundManager::GetInstance().PlaySoundByName("sfx_player_plane_shmup_bomb_explode_01.wav");
 		Release();
 	}

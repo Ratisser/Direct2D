@@ -29,7 +29,8 @@ void TutorialMap::Start()
 	ImageRenderer = CreateTransformComponent<GameEngineImageRenderer>(nullptr);
 	ImageRenderer->SetTexture("TutorialScene_Background_PixelCheck.png", true);
 	float4 textureSize = ImageRenderer->GetCurrentTexture()->GetTextureSize();
-	ImageRenderer->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, 3.f);
+	ImageRenderer->SetLocation(textureSize.x / 2.f, -textureSize.y / 2.f, -3.f);
+	ImageRenderer->SetColor({ 1.0f, 1.0f, 1.0f, 0.7f });
 	ImageRenderer->Off();
 
 	{
@@ -88,7 +89,7 @@ void TutorialMap::Update(float _deltaTime)
 
 	if (GameEngineInput::GetInstance().IsKeyDown("P"))
 	{
-		GameEngineCore::ChangeLevel("WorldLevel");
+		//GameEngineCore::ChangeLevel("WorldLevel");
 		if (ImageRenderer->IsUpdate())
 		{
 			ImageRenderer->Off();
