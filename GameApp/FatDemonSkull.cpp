@@ -41,7 +41,7 @@ void FatDemonSkull::Start()
 	renderer_->SetPivot(eImagePivot::CENTER);
 	renderer_->CreateAnimationFolder("SpawnFatDemonSkull", 0.034f, false);
 	renderer_->CreateAnimationFolder("FatDemonSkull");
-	renderer_->CreateAnimationFolder("SpawnFatDemonSkullParry", 0.034, false);
+	renderer_->CreateAnimationFolder("SpawnFatDemonSkullParry", 0.034f, false);
 	renderer_->CreateAnimationFolder("FatDemonSkullParry");
 
 	if (bParryObject_)

@@ -328,7 +328,7 @@ void GameEngineLevel::SetBulletTime(float _ratio, float _effectTime)
 
 void GameEngineLevel::DebugRectOff()
 {
-	GameEngineCollision::DisplayRect = false;
+	GameEngineCollision::DisplayDebugRect = false;
 	for (GameEngineRenderer* renderer : allRenderer_)
 	{
 		if (renderer->IsDebug())
@@ -340,7 +340,7 @@ void GameEngineLevel::DebugRectOff()
 
 void GameEngineLevel::DebugRectOn()
 {
-	GameEngineCollision::DisplayRect = true;
+	GameEngineCollision::DisplayDebugRect = true;
 	for (GameEngineRenderer* renderer : allRenderer_)
 	{
 		if (renderer->IsDebug())

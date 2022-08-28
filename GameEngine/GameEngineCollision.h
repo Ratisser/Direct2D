@@ -16,7 +16,7 @@ class GameEngineCollision : public GameEngineTransformComponent
 	friend GameEngineLevel;
 
 private:
-	static bool DisplayRect;
+	static bool DisplayDebugRect;
 
 public:
 	GameEngineCollision();

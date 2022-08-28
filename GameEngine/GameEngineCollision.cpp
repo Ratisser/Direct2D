@@ -7,7 +7,7 @@
 std::function<bool(GameEngineCollision&, GameEngineCollision&)>
 GameEngineCollision::collisionCheckFunction_[static_cast<int>(eCollisionType::MAX)][static_cast<int>(eCollisionType::MAX)];
 
-bool GameEngineCollision::DisplayRect = true;
+bool GameEngineCollision::DisplayDebugRect = true;
 
 GameEngineCollision::GameEngineCollision()
 	: collisionGroup_(0)
