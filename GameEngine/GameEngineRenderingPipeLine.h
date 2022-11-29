@@ -20,22 +20,22 @@ class GameEngineRenderingPipeline : public GameEngineObjectNameBase
 {
 private:	// member Var
 	// IA1
-	GameEngineVertexBuffer* VertexBuffer_;
+	GameEngineVertexBuffer* vertexBuffer_;
 	// IA1
-	GameEngineVertexShader* InputLayOutVertexShader_;
+	GameEngineVertexShader* inputLayOutVertexShader_;
 	// VS
-	GameEngineVertexShader* VertexShader_;
+	GameEngineVertexShader* vertexShader_;
 	// IA2
-	GameEngineIndexBuffer* IndexBuffer_;
+	GameEngineIndexBuffer* indexBuffer_;
 	// IA2
-	D3D11_PRIMITIVE_TOPOLOGY Topology_;
+	D3D11_PRIMITIVE_TOPOLOGY topology_;
 	// RS
-	GameEngineRasterizer* Rasterizer_;
+	GameEngineRasterizer* rasterizer_;
 	// PS
-	GameEnginePixelShader* PixelShader_;
+	GameEnginePixelShader* pixelShader_;
 	// OM
-	GameEngineRenderTarget* RenderTarget_;
-	GameEngineBlender* Blender_;
+	GameEngineRenderTarget* renderTarget_;
+	GameEngineBlender* blender_;
 
 public:
 	void SetInputAssembler1VertexBufferSetting(const std::string& _Name);

@@ -19,15 +19,15 @@
 #include "GameEngineWindow.h"
 
 GameEngineRenderingPipeline::GameEngineRenderingPipeline() // default constructer 디폴트 생성자
-	: VertexBuffer_(nullptr)
-	, InputLayOutVertexShader_(nullptr)
-	, VertexShader_(nullptr)
-	, IndexBuffer_(nullptr)
-	, PixelShader_(nullptr)
-	, Rasterizer_(nullptr)
-	, RenderTarget_(nullptr)
-	, Blender_(nullptr)
-	, Topology_(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+	: vertexBuffer_(nullptr)
+	, inputLayOutVertexShader_(nullptr)
+	, vertexShader_(nullptr)
+	, indexBuffer_(nullptr)
+	, pixelShader_(nullptr)
+	, rasterizer_(nullptr)
+	, renderTarget_(nullptr)
+	, blender_(nullptr)
+	, topology_(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
 }
 
@@ -38,9 +38,9 @@ GameEngineRenderingPipeline::~GameEngineRenderingPipeline() // default destructe
 
 void GameEngineRenderingPipeline::SetInputAssembler1VertexBufferSetting(const std::string& _Name)
 {
-	VertexBuffer_ = GameEngineVertexBufferManager::GetInst().Find(_Name);
+	vertexBuffer_ = GameEngineVertexBufferManager::GetInst().Find(_Name);
 
-	if (nullptr == VertexBuffer_)
+	if (nullptr == vertexBuffer_)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 버퍼를 세팅하려고 했습니다.");
 		return;
@@ -50,9 +50,9 @@ void GameEngineRenderingPipeline::SetInputAssembler1VertexBufferSetting(const st
 
 void GameEngineRenderingPipeline::SetInputAssembler1InputLayOutSetting(const std::string& _Name) 
 {
-	InputLayOutVertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
+	inputLayOutVertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
 
-	if (nullptr == InputLayOutVertexShader_)
+	if (nullptr == inputLayOutVertexShader_)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 버퍼를 세팅하려고 했습니다.");
 		return;
@@ -61,9 +61,9 @@ void GameEngineRenderingPipeline::SetInputAssembler1InputLayOutSetting(const std
 
 void GameEngineRenderingPipeline::SetInputAssembler2IndexBufferSetting(const std::string& _Name) 
 {
-	IndexBuffer_ = GameEngineIndexBufferManager::GetInst().Find(_Name);
+	indexBuffer_ = GameEngineIndexBufferManager::GetInst().Find(_Name);
 
-	if (nullptr == IndexBuffer_)
+	if (nullptr == indexBuffer_)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 버퍼를 세팅하려고 했습니다.");
 		return;
@@ -72,15 +72,15 @@ void GameEngineRenderingPipeline::SetInputAssembler2IndexBufferSetting(const std
 
 void GameEngineRenderingPipeline::SetInputAssembler2TopologySetting(D3D11_PRIMITIVE_TOPOLOGY _Topology) 
 {
-	Topology_ = _Topology;
+	topology_ = _Topology;
 }
 
 
 void GameEngineRenderingPipeline::SetVertexShader(const std::string& _Name)
 {
-	VertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
+	vertexShader_ = GameEngineVertexShaderManager::GetInst().Find(_Name);
 
-	if (nullptr == VertexShader_)
+	if (nullptr == vertexShader_)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
 		return;
@@ -91,9 +91,9 @@ void GameEngineRenderingPipeline::SetVertexShader(const std::string& _Name)
 
 void GameEngineRenderingPipeline::SetRasterizer(const std::string& _Name) 
 {
-	Rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
+	rasterizer_ = GameEngineRasterizerManager::GetInst().Find(_Name);
 
-	if (nullptr == Rasterizer_)
+	if (nullptr == rasterizer_)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 레이터라이저 세팅을 세팅하려고 했습니다.");
 		return;
@@ -102,9 +102,9 @@ void GameEngineRenderingPipeline::SetRasterizer(const std::string& _Name)
 
 void GameEngineRenderingPipeline::SetPixelShader(const std::string& _Name) 
 {
-	PixelShader_ = GameEnginePixelShaderManager::GetInst().Find(_Name);
+	pixelShader_ = GameEnginePixelShaderManager::GetInst().Find(_Name);
 
-	if (nullptr == PixelShader_)
+	if (nullptr == pixelShader_)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 픽셀 쉐이더를 세팅을 세팅하려고 했습니다.");
 		return;
@@ -113,9 +113,9 @@ void GameEngineRenderingPipeline::SetPixelShader(const std::string& _Name)
 
 void GameEngineRenderingPipeline::SetOutputMergerBlend(const std::string& _Name) 
 {
-	Blender_ = GameEngineBlenderManager::GetInst().Find(_Name);
+	blender_ = GameEngineBlenderManager::GetInst().Find(_Name);
 
-	if (nullptr == Blender_)
+	if (nullptr == blender_)
 	{
 		GameEngineDebug::MsgBoxError("존재하지 않는 블렌드를 세팅을 세팅하려고 했습니다.");
 		return;
@@ -124,46 +124,46 @@ void GameEngineRenderingPipeline::SetOutputMergerBlend(const std::string& _Name)
 
 GameEngineVertexShader* GameEngineRenderingPipeline::GetVertexShader() const
 {
-	return VertexShader_;
+	return vertexShader_;
 }
 
 GameEnginePixelShader* GameEngineRenderingPipeline::GetPixelShader() const
 {
-	return PixelShader_;
+	return pixelShader_;
 }
 
 void GameEngineRenderingPipeline::InputAssembler1() 
 {
-	VertexBuffer_->Setting();
-	InputLayOutVertexShader_->InputLayOutSetting();
+	vertexBuffer_->Setting();
+	inputLayOutVertexShader_->InputLayOutSetting();
 }
 
 void GameEngineRenderingPipeline::InputAssembler2() 
 {
-	IndexBuffer_->Setting();
-	GameEngineDevice::GetContext()->IASetPrimitiveTopology(Topology_);
+	indexBuffer_->Setting();
+	GameEngineDevice::GetContext()->IASetPrimitiveTopology(topology_);
 }
 
 void GameEngineRenderingPipeline::VertexShader() 
 {
-	VertexShader_->Setting();
+	vertexShader_->Setting();
 }
 
 void GameEngineRenderingPipeline::Rasterizer()
 {
-	Rasterizer_->Setting();
-	Rasterizer_->SettingViewPort();
+	rasterizer_->Setting();
+	rasterizer_->SettingViewPort();
 }
 
 
 void GameEngineRenderingPipeline::PixelShader()
 {
-	PixelShader_->Setting();
+	pixelShader_->Setting();
 }
 
 void GameEngineRenderingPipeline::OutputMerger()
 {
-	Blender_->Setting();
+	blender_->Setting();
 }
 
 void GameEngineRenderingPipeline::RenderingPipeLineSetting()
@@ -184,7 +184,7 @@ void GameEngineRenderingPipeline::RenderingPipeLineSetting()
 
 void GameEngineRenderingPipeline::Reset()
 {
-	Blender_->Reset();
+	blender_->Reset();
 	GameEngineDevice::GetContext()->OMSetDepthStencilState(nullptr, 0);
 }
 
@@ -192,7 +192,7 @@ void GameEngineRenderingPipeline::Rendering()
 {
 	RenderingPipeLineSetting();
 
-	GameEngineDevice::GetContext()->DrawIndexed(IndexBuffer_->GetIndexCount(), 0, 0);
+	GameEngineDevice::GetContext()->DrawIndexed(indexBuffer_->GetIndexCount(), 0, 0);
 }
 
 

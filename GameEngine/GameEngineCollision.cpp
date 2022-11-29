@@ -45,7 +45,7 @@ void GameEngineCollision::Start()
 	debugRect->SetRenderingPipeline("DebugRect");
 	debugRect->SetLocationZ(-0.001f);
 	debugRect->SetDebug(true);
-	if (!DisplayRect)
+	if (!DisplayDebugRect)
 	{
 		debugRect->Off();
 	}
@@ -67,6 +67,11 @@ GameEngineCollision* GameEngineCollision::IsCollideOne(int _group)
 
 	for (GameEngineCollision* collision : collisionGroup)
 	{
+		if (collision == this)
+		{
+			continue;
+		}
+
 		if (collision->IsUpdate() == false)
 		{
 			continue;
